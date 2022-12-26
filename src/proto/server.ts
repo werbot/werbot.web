@@ -760,7 +760,7 @@ export interface ListServersShareForUser_Request {
     /**
      * @generated from protobuf field: string user_id = 4;
      */
-    user_id: string;
+    user_id: string; // @gotags: query:"user_id" params:"user_id"
 }
 /**
  * @generated from protobuf message server.ListServersShareForUser.Response
@@ -1603,7 +1603,7 @@ class ListServersShareForUser_Request$Type extends MessageType<ListServersShareF
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
         ]);
     }
 }

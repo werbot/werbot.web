@@ -238,7 +238,7 @@ export interface UpdateSubscription_Request {
     /**
      * @generated from protobuf field: string subscription_id = 1;
      */
-    subscription_id: string; // @gotags: query:"user_id" params:"user_id"
+    subscription_id: string; // @gotags: query:"subscription_id" params:"subscription_id"
     /**
      * @generated from protobuf field: string customer_id = 2;
      */
@@ -291,7 +291,7 @@ export interface DeleteSubscription_Request {
     /**
      * @generated from protobuf field: string subscription_id = 1;
      */
-    subscription_id: string; // @gotags: query:"user_id" params:"user_id"
+    subscription_id: string; // @gotags: query:"subscription_id" params:"subscription_id"
 }
 /**
  * @generated from protobuf message subscription.DeleteSubscription.Response
@@ -370,7 +370,7 @@ export interface Plan_Request {
     /**
      * @generated from protobuf field: string plan_id = 1;
      */
-    plan_id: string; // @gotags: query:"user_id" params:"user_id"
+    plan_id: string; // @gotags: query:"plan_id" params:"plan_id"
 }
 /**
  * @generated from protobuf message subscription.Plan.Response
@@ -457,7 +457,7 @@ export interface UpdatePlan_Request {
     /**
      * @generated from protobuf field: string plan_id = 1;
      */
-    plan_id: string; // @gotags: query:"user_id" params:"user_id"
+    plan_id: string; // @gotags: query:"plan_id" params:"plan_id"
     /**
      * @generated from protobuf field: int32 cost = 2;
      */
