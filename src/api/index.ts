@@ -45,7 +45,7 @@ axios.interceptors.response.use(
   (error: any) => {
     NProgress.done();
 
-    if (error.response.data.message === "Your token has been revoked") {
+    if (error.response.data.message === "token has been revoked") {
       useAuthStore().resetStore();
       window.location.reload();
     }
