@@ -26,7 +26,8 @@ axios.interceptors.request.use(
 
     const access_token = getStorage("access_token");
     if (access_token) {
-      config.headers.Authorization = `Bearer ${access_token}`;
+      //config.headers.Authorization = `Bearer ${access_token}`;
+      config.headers["Authorization"] = `Bearer ${access_token}`;
     }
 
     return config;
@@ -65,8 +66,8 @@ const refreshAuthLogic = (failedRequest) =>
   useAuthStore()
     .refreshToken()
     .then((res) => {
-      failedRequest.response.config.headers["Authorization"] =
-        "Bearer " + getStorage("access_token");
+      const access_token = getStorage("access_token");
+      failedRequest.response.config.headers["Authorization"] = `Bearer ${access_token}`;
     });
 
 createAuthRefreshInterceptor(axios, refreshAuthLogic);

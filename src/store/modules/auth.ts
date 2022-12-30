@@ -52,13 +52,20 @@ export const useAuthStore = defineStore("auth", {
             setStorage("refresh_token", res.data.refresh_token);
             this.getProfile();
           }
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            this.resetStore();
+          } else {
+            console.log(err.response);
+          }
         });
     },
 
     async logout() {
       if (this.loggedIn) {
-        await postLogout().then((err) => {
-          console.log(err);
+        await postLogout().catch((err) => {
+          console.log(err.response);
         });
       }
       this.resetStore();
