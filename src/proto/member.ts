@@ -8,26 +8,6 @@ import { BoolValue } from "./google/protobuf/wrappers";
 import { Timestamp } from "./google/protobuf/timestamp";
 import { RoleUser } from "./user/user";
 /**
- * -----------------------------------------------------
- * use in API in body request
- *
- * @generated from protobuf message member.Activity_Request
- */
-export interface Activity_Request {
-    /**
-     * @generated from protobuf field: string owner_id = 1;
-     */
-    owner_id: string; // @gotags: query:"owner_id"
-    /**
-     * @generated from protobuf field: string project_id = 2;
-     */
-    project_id: string; // @gotags: query:"project_id"
-    /**
-     * @generated from protobuf field: string name = 3;
-     */
-    name: string;
-}
-/**
  * rpc ListProjectMembers
  *
  * @generated from protobuf message member.ListProjectMembers
@@ -328,11 +308,11 @@ export interface UsersWithoutProject_Request {
     /**
      * @generated from protobuf field: string owner_id = 1;
      */
-    owner_id: string;
+    owner_id: string; // @gotags: query:"owner_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string;
+    project_id: string; // @gotags: query:"project_id"
     /**
      * @generated from protobuf field: string name = 3;
      */
@@ -899,20 +879,6 @@ export interface UsersByName_Response_SearchUsersResult {
     email: string;
 }
 // @generated message type with reflection information, may provide speed optimized methods
-class Activity_Request$Type extends MessageType<Activity_Request> {
-    constructor() {
-        super("member.Activity_Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.Activity_Request
- */
-export const Activity_Request = new Activity_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class ListProjectMembers$Type extends MessageType<ListProjectMembers> {
     constructor() {
         super("member.ListProjectMembers", []);
@@ -1189,8 +1155,8 @@ export const UsersWithoutProject = new UsersWithoutProject$Type();
 class UsersWithoutProject_Request$Type extends MessageType<UsersWithoutProject_Request> {
     constructor() {
         super("member.UsersWithoutProject.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
