@@ -99,10 +99,10 @@ import { showMessage } from "@/utils/message";
 
 import {
   getServerMembers,
-  updateServerMemberStatus,
+  updateServerMemberActive,
   deleteServerMember,
 } from "@/api/member/server";
-import { UpdateServerMemberStatus_Request, DeleteServerMember_Request } from "@proto/member";
+import { UpdateServerMember_Request, DeleteServerMember_Request } from "@proto/member";
 
 const { proxy } = getCurrentInstance();
 const route = useRoute();
@@ -166,18 +166,20 @@ onMounted(() => {
 });
 
 const changeMemberActive = async (index: number, online: boolean) => {
-  const status = !online;
-  data.value.members[Number(index)].active = status;
+  const active = !online;
+  data.value.members[Number(index)].active = active;
 
-  await updateServerMemberStatus(<UpdateServerMemberStatus_Request>{
+  await updateServerMemberActive(<UpdateServerMember_Request>{
     owner_id: proxy.$authStore.hasUserID,
     project_id: props.projectId,
     member_id: data.value.members[Number(index)].member_id,
     server_id: props.serverId,
-    status: status,
+    setting: {
+      active: active,
+    },
   })
     .then((res) => {
-      if (!status) {
+      if (!active) {
         showMessage(res.data.message, "connextWarning");
       } else {
         showMessage(res.data.message);

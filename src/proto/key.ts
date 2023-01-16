@@ -6,16 +6,16 @@ import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
- * rpc ListPublicKeys
+ * rpc ListKeys
  *
- * @generated from protobuf message key.ListPublicKeys
+ * @generated from protobuf message key.ListKeys
  */
-export interface ListPublicKeys {
+export interface ListKeys {
 }
 /**
- * @generated from protobuf message key.ListPublicKeys.Request
+ * @generated from protobuf message key.ListKeys.Request
  */
-export interface ListPublicKeys_Request {
+export interface ListKeys_Request {
     /**
      * @generated from protobuf field: int32 limit = 1;
      */
@@ -34,29 +34,29 @@ export interface ListPublicKeys_Request {
     query: string;
 }
 /**
- * @generated from protobuf message key.ListPublicKeys.Response
+ * @generated from protobuf message key.ListKeys.Response
  */
-export interface ListPublicKeys_Response {
+export interface ListKeys_Response {
     /**
      * @generated from protobuf field: int32 total = 1;
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated key.PublicKey.Response public_keys = 3;
+     * @generated from protobuf field: repeated key.Key.Response public_keys = 3;
      */
-    public_keys: PublicKey_Response[];
+    public_keys: Key_Response[];
 }
 /**
- * rpc PublicKey
+ * rpc Key
  *
- * @generated from protobuf message key.PublicKey
+ * @generated from protobuf message key.Key
  */
-export interface PublicKey {
+export interface Key {
 }
 /**
- * @generated from protobuf message key.PublicKey.Request
+ * @generated from protobuf message key.Key.Request
  */
-export interface PublicKey_Request {
+export interface Key_Request {
     /**
      * @generated from protobuf field: string key_id = 1;
      */
@@ -67,9 +67,9 @@ export interface PublicKey_Request {
     user_id: string; // @gotags: query:"user_id" params:"user_id"
 }
 /**
- * @generated from protobuf message key.PublicKey.Response
+ * @generated from protobuf message key.Key.Response
  */
-export interface PublicKey_Response {
+export interface Key_Response {
     /**
      * @generated from protobuf field: string key_id = 1;
      */
@@ -104,16 +104,16 @@ export interface PublicKey_Response {
     created?: Timestamp;
 }
 /**
- * rpc AddPublicKey
+ * rpc AddKey
  *
- * @generated from protobuf message key.AddPublicKey
+ * @generated from protobuf message key.AddKey
  */
-export interface AddPublicKey {
+export interface AddKey {
 }
 /**
- * @generated from protobuf message key.AddPublicKey.Request
+ * @generated from protobuf message key.AddKey.Request
  */
-export interface AddPublicKey_Request {
+export interface AddKey_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
@@ -128,25 +128,25 @@ export interface AddPublicKey_Request {
     key: string;
 }
 /**
- * @generated from protobuf message key.AddPublicKey.Response
+ * @generated from protobuf message key.AddKey.Response
  */
-export interface AddPublicKey_Response {
+export interface AddKey_Response {
     /**
      * @generated from protobuf field: string key_id = 1;
      */
     key_id: string;
 }
 /**
- * rpc UpdatePublicKey
+ * rpc UpdateKey
  *
- * @generated from protobuf message key.UpdatePublicKey
+ * @generated from protobuf message key.UpdateKey
  */
-export interface UpdatePublicKey {
+export interface UpdateKey {
 }
 /**
- * @generated from protobuf message key.UpdatePublicKey.Request
+ * @generated from protobuf message key.UpdateKey.Request
  */
-export interface UpdatePublicKey_Request {
+export interface UpdateKey_Request {
     /**
      * @generated from protobuf field: string key_id = 1;
      */
@@ -165,23 +165,21 @@ export interface UpdatePublicKey_Request {
     key: string; // @gotags: query:"key" params:"key";
 }
 /**
- * @generated from protobuf message key.UpdatePublicKey.Response
+ * @generated from protobuf message key.UpdateKey.Response
  */
-export interface UpdatePublicKey_Response {
+export interface UpdateKey_Response {
 }
-// -----------------------------------------------------
-
 /**
- * rpc DeletePublicKey
+ * rpc DeleteKey
  *
- * @generated from protobuf message key.DeletePublicKey
+ * @generated from protobuf message key.DeleteKey
  */
-export interface DeletePublicKey {
+export interface DeleteKey {
 }
 /**
- * @generated from protobuf message key.DeletePublicKey.Request
+ * @generated from protobuf message key.DeleteKey.Request
  */
-export interface DeletePublicKey_Request {
+export interface DeleteKey_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
@@ -192,9 +190,9 @@ export interface DeletePublicKey_Request {
     key_id: string; // @gotags: query:"key_id" params:"key_id"
 }
 /**
- * @generated from protobuf message key.DeletePublicKey.Response
+ * @generated from protobuf message key.DeleteKey.Response
  */
-export interface DeletePublicKey_Response {
+export interface DeleteKey_Response {
 }
 /**
  * rpc GenerateSSHKey
@@ -244,32 +242,36 @@ export interface GenerateSSHKey_Response {
  */
 export enum KeyType {
     /**
-     * @generated from protobuf enum value: KEY_TYPE_UNSPECIFIED = 0;
+     * @generated from protobuf enum value: unspecified = 0;
      */
-    UNSPECIFIED = 0,
+    unspecified = 0,
     /**
-     * @generated from protobuf enum value: KEY_TYPE_ED25519 = 1;
+     * @generated from protobuf enum value: ed25519 = 1;
      */
-    ED25519 = 1,
+    ed25519 = 1,
     /**
-     * @generated from protobuf enum value: KEY_TYPE_RSA = 2;
+     * @generated from protobuf enum value: ecdsa = 2;
      */
-    RSA = 2
+    ecdsa = 2,
+    /**
+     * @generated from protobuf enum value: rsa = 3;
+     */
+    rsa = 3
 }
 // @generated message type with reflection information, may provide speed optimized methods
-class ListPublicKeys$Type extends MessageType<ListPublicKeys> {
+class ListKeys$Type extends MessageType<ListKeys> {
     constructor() {
-        super("key.ListPublicKeys", []);
+        super("key.ListKeys", []);
     }
 }
 /**
- * @generated MessageType for protobuf message key.ListPublicKeys
+ * @generated MessageType for protobuf message key.ListKeys
  */
-export const ListPublicKeys = new ListPublicKeys$Type();
+export const ListKeys = new ListKeys$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListPublicKeys_Request$Type extends MessageType<ListPublicKeys_Request> {
+class ListKeys_Request$Type extends MessageType<ListKeys_Request> {
     constructor() {
-        super("key.ListPublicKeys.Request", [
+        super("key.ListKeys.Request", [
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
@@ -278,49 +280,49 @@ class ListPublicKeys_Request$Type extends MessageType<ListPublicKeys_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message key.ListPublicKeys.Request
+ * @generated MessageType for protobuf message key.ListKeys.Request
  */
-export const ListPublicKeys_Request = new ListPublicKeys_Request$Type();
+export const ListKeys_Request = new ListKeys_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListPublicKeys_Response$Type extends MessageType<ListPublicKeys_Response> {
+class ListKeys_Response$Type extends MessageType<ListKeys_Response> {
     constructor() {
-        super("key.ListPublicKeys.Response", [
+        super("key.ListKeys.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "public_keys", kind: "message", localName: "public_keys", repeat: 1 /*RepeatType.PACKED*/, T: () => PublicKey_Response }
+            { no: 3, name: "public_keys", kind: "message", localName: "public_keys", repeat: 1 /*RepeatType.PACKED*/, T: () => Key_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message key.ListPublicKeys.Response
+ * @generated MessageType for protobuf message key.ListKeys.Response
  */
-export const ListPublicKeys_Response = new ListPublicKeys_Response$Type();
+export const ListKeys_Response = new ListKeys_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class PublicKey$Type extends MessageType<PublicKey> {
+class Key$Type extends MessageType<Key> {
     constructor() {
-        super("key.PublicKey", []);
+        super("key.Key", []);
     }
 }
 /**
- * @generated MessageType for protobuf message key.PublicKey
+ * @generated MessageType for protobuf message key.Key
  */
-export const PublicKey = new PublicKey$Type();
+export const Key = new Key$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class PublicKey_Request$Type extends MessageType<PublicKey_Request> {
+class Key_Request$Type extends MessageType<Key_Request> {
     constructor() {
-        super("key.PublicKey.Request", [
+        super("key.Key.Request", [
             { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message key.PublicKey.Request
+ * @generated MessageType for protobuf message key.Key.Request
  */
-export const PublicKey_Request = new PublicKey_Request$Type();
+export const Key_Request = new Key_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class PublicKey_Response$Type extends MessageType<PublicKey_Response> {
+class Key_Response$Type extends MessageType<Key_Response> {
     constructor() {
-        super("key.PublicKey.Response", [
+        super("key.Key.Response", [
             { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/ },
@@ -333,23 +335,23 @@ class PublicKey_Response$Type extends MessageType<PublicKey_Response> {
     }
 }
 /**
- * @generated MessageType for protobuf message key.PublicKey.Response
+ * @generated MessageType for protobuf message key.Key.Response
  */
-export const PublicKey_Response = new PublicKey_Response$Type();
+export const Key_Response = new Key_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddPublicKey$Type extends MessageType<AddPublicKey> {
+class AddKey$Type extends MessageType<AddKey> {
     constructor() {
-        super("key.AddPublicKey", []);
+        super("key.AddKey", []);
     }
 }
 /**
- * @generated MessageType for protobuf message key.AddPublicKey
+ * @generated MessageType for protobuf message key.AddKey
  */
-export const AddPublicKey = new AddPublicKey$Type();
+export const AddKey = new AddKey$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddPublicKey_Request$Type extends MessageType<AddPublicKey_Request> {
+class AddKey_Request$Type extends MessageType<AddKey_Request> {
     constructor() {
-        super("key.AddPublicKey.Request", [
+        super("key.AddKey.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
             { no: 3, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "128" } } } }
@@ -357,35 +359,35 @@ class AddPublicKey_Request$Type extends MessageType<AddPublicKey_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message key.AddPublicKey.Request
+ * @generated MessageType for protobuf message key.AddKey.Request
  */
-export const AddPublicKey_Request = new AddPublicKey_Request$Type();
+export const AddKey_Request = new AddKey_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddPublicKey_Response$Type extends MessageType<AddPublicKey_Response> {
+class AddKey_Response$Type extends MessageType<AddKey_Response> {
     constructor() {
-        super("key.AddPublicKey.Response", [
+        super("key.AddKey.Response", [
             { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message key.AddPublicKey.Response
+ * @generated MessageType for protobuf message key.AddKey.Response
  */
-export const AddPublicKey_Response = new AddPublicKey_Response$Type();
+export const AddKey_Response = new AddKey_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdatePublicKey$Type extends MessageType<UpdatePublicKey> {
+class UpdateKey$Type extends MessageType<UpdateKey> {
     constructor() {
-        super("key.UpdatePublicKey", []);
+        super("key.UpdateKey", []);
     }
 }
 /**
- * @generated MessageType for protobuf message key.UpdatePublicKey
+ * @generated MessageType for protobuf message key.UpdateKey
  */
-export const UpdatePublicKey = new UpdatePublicKey$Type();
+export const UpdateKey = new UpdateKey$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdatePublicKey_Request$Type extends MessageType<UpdatePublicKey_Request> {
+class UpdateKey_Request$Type extends MessageType<UpdateKey_Request> {
     constructor() {
-        super("key.UpdatePublicKey.Request", [
+        super("key.UpdateKey.Request", [
             { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
@@ -394,52 +396,52 @@ class UpdatePublicKey_Request$Type extends MessageType<UpdatePublicKey_Request> 
     }
 }
 /**
- * @generated MessageType for protobuf message key.UpdatePublicKey.Request
+ * @generated MessageType for protobuf message key.UpdateKey.Request
  */
-export const UpdatePublicKey_Request = new UpdatePublicKey_Request$Type();
+export const UpdateKey_Request = new UpdateKey_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdatePublicKey_Response$Type extends MessageType<UpdatePublicKey_Response> {
+class UpdateKey_Response$Type extends MessageType<UpdateKey_Response> {
     constructor() {
-        super("key.UpdatePublicKey.Response", []);
+        super("key.UpdateKey.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message key.UpdatePublicKey.Response
+ * @generated MessageType for protobuf message key.UpdateKey.Response
  */
-export const UpdatePublicKey_Response = new UpdatePublicKey_Response$Type();
+export const UpdateKey_Response = new UpdateKey_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeletePublicKey$Type extends MessageType<DeletePublicKey> {
+class DeleteKey$Type extends MessageType<DeleteKey> {
     constructor() {
-        super("key.DeletePublicKey", []);
+        super("key.DeleteKey", []);
     }
 }
 /**
- * @generated MessageType for protobuf message key.DeletePublicKey
+ * @generated MessageType for protobuf message key.DeleteKey
  */
-export const DeletePublicKey = new DeletePublicKey$Type();
+export const DeleteKey = new DeleteKey$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeletePublicKey_Request$Type extends MessageType<DeletePublicKey_Request> {
+class DeleteKey_Request$Type extends MessageType<DeleteKey_Request> {
     constructor() {
-        super("key.DeletePublicKey.Request", [
+        super("key.DeleteKey.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message key.DeletePublicKey.Request
+ * @generated MessageType for protobuf message key.DeleteKey.Request
  */
-export const DeletePublicKey_Request = new DeletePublicKey_Request$Type();
+export const DeleteKey_Request = new DeleteKey_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeletePublicKey_Response$Type extends MessageType<DeletePublicKey_Response> {
+class DeleteKey_Response$Type extends MessageType<DeleteKey_Response> {
     constructor() {
-        super("key.DeletePublicKey.Response", []);
+        super("key.DeleteKey.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message key.DeletePublicKey.Response
+ * @generated MessageType for protobuf message key.DeleteKey.Response
  */
-export const DeletePublicKey_Response = new DeletePublicKey_Response$Type();
+export const DeleteKey_Response = new DeleteKey_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GenerateSSHKey$Type extends MessageType<GenerateSSHKey> {
     constructor() {
@@ -454,7 +456,7 @@ export const GenerateSSHKey = new GenerateSSHKey$Type();
 class GenerateSSHKey_Request$Type extends MessageType<GenerateSSHKey_Request> {
     constructor() {
         super("key.GenerateSSHKey.Request", [
-            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType, "KEY_TYPE_"] }
+            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType] }
         ]);
     }
 }
@@ -466,7 +468,7 @@ export const GenerateSSHKey_Request = new GenerateSSHKey_Request$Type();
 class GenerateSSHKey_Response$Type extends MessageType<GenerateSSHKey_Response> {
     constructor() {
         super("key.GenerateSSHKey.Response", [
-            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType, "KEY_TYPE_"] },
+            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType] },
             { no: 2, name: "uuid", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "passphrase", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "public", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
@@ -482,10 +484,10 @@ export const GenerateSSHKey_Response = new GenerateSSHKey_Response$Type();
  * @generated ServiceType for protobuf service key.KeyHandlers
  */
 export const KeyHandlers = new ServiceType("key.KeyHandlers", [
-    { name: "ListPublicKeys", options: {}, I: ListPublicKeys_Request, O: ListPublicKeys_Response },
-    { name: "PublicKey", options: {}, I: PublicKey_Request, O: PublicKey_Response },
-    { name: "AddPublicKey", options: {}, I: AddPublicKey_Request, O: AddPublicKey_Response },
-    { name: "UpdatePublicKey", options: {}, I: UpdatePublicKey_Request, O: UpdatePublicKey_Response },
-    { name: "DeletePublicKey", options: {}, I: DeletePublicKey_Request, O: DeletePublicKey_Response },
+    { name: "ListKeys", options: {}, I: ListKeys_Request, O: ListKeys_Response },
+    { name: "Key", options: {}, I: Key_Request, O: Key_Response },
+    { name: "AddKey", options: {}, I: AddKey_Request, O: AddKey_Response },
+    { name: "UpdateKey", options: {}, I: UpdateKey_Request, O: UpdateKey_Response },
+    { name: "DeleteKey", options: {}, I: DeleteKey_Request, O: DeleteKey_Response },
     { name: "GenerateSSHKey", options: {}, I: GenerateSSHKey_Request, O: GenerateSSHKey_Response }
 ]);

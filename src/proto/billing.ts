@@ -29,6 +29,109 @@ export interface PackageDimensions {
     width: number;
 }
 /**
+ * rpc Product
+ *
+ * @generated from protobuf message billing.Product
+ */
+export interface Product {
+}
+/**
+ * @generated from protobuf message billing.Product.Request
+ */
+export interface Product_Request {
+    /**
+     * @generated from protobuf field: string product_id = 1;
+     */
+    product_id: string;
+}
+/**
+ * @generated from protobuf message billing.Product.Response
+ */
+export interface Product_Response {
+    /**
+     * @generated from protobuf field: bool active = 1;
+     */
+    active: boolean;
+    /**
+     * @generated from protobuf field: repeated string attributes = 2;
+     */
+    attributes: string[];
+    /**
+     * @generated from protobuf field: string caption = 3;
+     */
+    caption: string;
+    /**
+     * @generated from protobuf field: int32 created = 4;
+     */
+    created: number;
+    /**
+     * @generated from protobuf field: string deactivate_on = 5;
+     */
+    deactivate_on: string;
+    /**
+     * @generated from protobuf field: bool deleted = 6;
+     */
+    deleted: boolean;
+    /**
+     * @generated from protobuf field: string description = 7;
+     */
+    description: string;
+    /**
+     * @generated from protobuf field: string id = 8;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: repeated string images = 9;
+     */
+    images: string[];
+    /**
+     * @generated from protobuf field: bool livemode = 10;
+     */
+    livemode: boolean;
+    /**
+     * @generated from protobuf field: map<string, string> metadata = 11;
+     */
+    metadata: {
+        [key: string]: string;
+    };
+    /**
+     * @generated from protobuf field: string name = 12;
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: string object = 13;
+     */
+    object: string;
+    /**
+     * @generated from protobuf field: billing.PackageDimensions package_dimensions = 14;
+     */
+    package_dimensions?: PackageDimensions;
+    /**
+     * @generated from protobuf field: bool shippable = 15;
+     */
+    shippable: boolean;
+    /**
+     * @generated from protobuf field: string statement_descriptor = 16;
+     */
+    statement_descriptor: string;
+    /**
+     * @generated from protobuf field: string type = 17;
+     */
+    type: string;
+    /**
+     * @generated from protobuf field: string unit_label = 18;
+     */
+    unit_label: string;
+    /**
+     * @generated from protobuf field: int32 updated = 19;
+     */
+    updated: number;
+    /**
+     * @generated from protobuf field: string url = 20;
+     */
+    url: string;
+}
+/**
  * rpc UpdateProduct
  *
  * @generated from protobuf message billing.UpdateProduct
@@ -40,39 +143,43 @@ export interface UpdateProduct {
  */
 export interface UpdateProduct_Request {
     /**
-     * @generated from protobuf field: bool plan_name = 1;
+     * @generated from protobuf field: string product_id = 1;
+     */
+    product_id: string;
+    /**
+     * @generated from protobuf field: bool plan_name = 2;
      */
     plan_name: boolean;
     /**
-     * @generated from protobuf field: repeated string attributes = 2;
+     * @generated from protobuf field: repeated string attributes = 3;
      */
     attributes: string[];
     /**
-     * @generated from protobuf field: string caption = 3;
+     * @generated from protobuf field: string caption = 4;
      */
     caption: string;
     /**
-     * @generated from protobuf field: string deactivate_on = 4;
+     * @generated from protobuf field: string deactivate_on = 5;
      */
     deactivate_on: string;
     /**
-     * @generated from protobuf field: string description = 5;
+     * @generated from protobuf field: string description = 6;
      */
     description: string;
     /**
-     * @generated from protobuf field: string id = 6;
+     * @generated from protobuf field: string id = 7;
      */
     id: string;
     /**
-     * @generated from protobuf field: repeated string images = 7;
+     * @generated from protobuf field: repeated string images = 8;
      */
     images: string[];
     /**
-     * @generated from protobuf field: string name = 8;
+     * @generated from protobuf field: string name = 9;
      */
     name: string;
     /**
-     * @generated from protobuf field: billing.PackageDimensions package_dimensions = 9;
+     * @generated from protobuf field: billing.PackageDimensions package_dimensions = 10;
      */
     package_dimensions?: PackageDimensions;
     /**
@@ -121,6 +228,59 @@ class PackageDimensions$Type extends MessageType<PackageDimensions> {
  */
 export const PackageDimensions = new PackageDimensions$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class Product$Type extends MessageType<Product> {
+    constructor() {
+        super("billing.Product", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message billing.Product
+ */
+export const Product = new Product$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Product_Request$Type extends MessageType<Product_Request> {
+    constructor() {
+        super("billing.Product.Request", [
+            { no: 1, name: "product_id", kind: "scalar", localName: "product_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message billing.Product.Request
+ */
+export const Product_Request = new Product_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Product_Response$Type extends MessageType<Product_Response> {
+    constructor() {
+        super("billing.Product.Response", [
+            { no: 1, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "attributes", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "caption", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "created", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 5, name: "deactivate_on", kind: "scalar", localName: "deactivate_on", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "deleted", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 7, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "images", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 10, name: "livemode", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 11, name: "metadata", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 9 /*ScalarType.STRING*/ } },
+            { no: 12, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 13, name: "object", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 14, name: "package_dimensions", kind: "message", localName: "package_dimensions", T: () => PackageDimensions },
+            { no: 15, name: "shippable", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 16, name: "statement_descriptor", kind: "scalar", localName: "statement_descriptor", T: 9 /*ScalarType.STRING*/ },
+            { no: 17, name: "type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 18, name: "unit_label", kind: "scalar", localName: "unit_label", T: 9 /*ScalarType.STRING*/ },
+            { no: 19, name: "updated", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 20, name: "url", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message billing.Product.Response
+ */
+export const Product_Response = new Product_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class UpdateProduct$Type extends MessageType<UpdateProduct> {
     constructor() {
         super("billing.UpdateProduct", []);
@@ -134,15 +294,16 @@ export const UpdateProduct = new UpdateProduct$Type();
 class UpdateProduct_Request$Type extends MessageType<UpdateProduct_Request> {
     constructor() {
         super("billing.UpdateProduct.Request", [
-            { no: 1, name: "plan_name", kind: "scalar", localName: "plan_name", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "attributes", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "caption", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "deactivate_on", kind: "scalar", localName: "deactivate_on", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "images", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 9, name: "package_dimensions", kind: "message", localName: "package_dimensions", T: () => PackageDimensions },
+            { no: 1, name: "product_id", kind: "scalar", localName: "product_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "plan_name", kind: "scalar", localName: "plan_name", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "attributes", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "caption", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "deactivate_on", kind: "scalar", localName: "deactivate_on", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "images", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 10, name: "package_dimensions", kind: "message", localName: "package_dimensions", T: () => PackageDimensions },
             { no: 11, name: "shippable", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 12, name: "statement_descriptor", kind: "scalar", localName: "statement_descriptor", T: 9 /*ScalarType.STRING*/ },
             { no: 13, name: "tax_code", kind: "scalar", localName: "tax_code", T: 9 /*ScalarType.STRING*/ },
@@ -170,5 +331,6 @@ export const UpdateProduct_Response = new UpdateProduct_Response$Type();
  * @generated ServiceType for protobuf service billing.BillingHandlers
  */
 export const BillingHandlers = new ServiceType("billing.BillingHandlers", [
+    { name: "Product", options: {}, I: Product_Request, O: Product_Response },
     { name: "UpdateProduct", options: {}, I: UpdateProduct_Request, O: UpdateProduct_Response }
 ]);

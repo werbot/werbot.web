@@ -5,7 +5,6 @@ import {
   AddProjectMember_Request,
   UpdateProjectMember_Request,
   DeleteProjectMember_Request,
-  UpdateProjectMemberStatus_Request,
   UsersWithoutProject_Request,
   ListProjectMembersInvite_Request,
   AddProjectMemberInvite_Request,
@@ -42,7 +41,7 @@ const updateProjectMember = async (data: UpdateProjectMember_Request) =>
 const deleteProjectMember = async (data: DeleteProjectMember_Request) =>
   http("DELETE", URL.project_members, { params: data });
 
-const updateProjectMemberStatus = async (data: UpdateProjectMemberStatus_Request) =>
+const updateProjectMemberStatus = async (data: UpdateProjectMember_Request) =>
   http("PATCH", URL.project_members + "/active", { data: data });
 
 const getUsersWithoutProject = async (data: UsersWithoutProject_Request) =>

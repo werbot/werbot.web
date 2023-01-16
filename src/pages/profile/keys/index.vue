@@ -75,7 +75,7 @@ import { SvgIcon, Modal, Pagination } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getKeys, deleteKey } from "@/api/key";
-import { DeletePublicKey_Request } from "@proto/key";
+import { DeleteKey_Request } from "@proto/key";
 
 const { proxy } = getCurrentInstance();
 const data: any = ref({});
@@ -93,7 +93,7 @@ const closeModal = () => {
 };
 
 const removeKey = async (id: number) => {
-  await deleteKey(<DeletePublicKey_Request>{
+  await deleteKey(<DeleteKey_Request>{
     user_id: proxy.$authStore.hasUserID,
     key_id: data.value.public_keys[id].key_id,
   }).then((res) => {

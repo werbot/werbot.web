@@ -6,48 +6,6 @@ import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
- * @generated from protobuf message user.UserParameters
- */
-export interface UserParameters {
-    /**
-     * @generated from protobuf field: string user_name = 1;
-     */
-    user_name: string;
-    /**
-     * @generated from protobuf field: string user_id = 2;
-     */
-    user_id: string;
-    /**
-     * @generated from protobuf field: user.RoleUser roles = 3;
-     */
-    roles: RoleUser;
-    /**
-     * @generated from protobuf field: string sub = 4;
-     */
-    sub: string;
-}
-/**
- * @generated from protobuf message user.AuthUserInfo
- */
-export interface AuthUserInfo {
-    /**
-     * @generated from protobuf field: string user_id = 1;
-     */
-    user_id: string;
-    /**
-     * @generated from protobuf field: string name = 2;
-     */
-    name: string;
-    /**
-     * @generated from protobuf field: string email = 3;
-     */
-    email: string;
-    /**
-     * @generated from protobuf field: user.RoleUser user_role = 4;
-     */
-    user_role: RoleUser;
-}
-/**
  * rpc ListUsers
  *
  * @generated from protobuf message user.ListUsers
@@ -154,9 +112,9 @@ export interface User_Response {
      */
     confirmed: boolean;
     /**
-     * @generated from protobuf field: user.RoleUser role = 7;
+     * @generated from protobuf field: user.Role role = 7;
      */
-    role: RoleUser;
+    role: Role;
     /**
      * @generated from protobuf field: string password = 8;
      */
@@ -231,6 +189,40 @@ export interface UpdateUser_Request {
      */
     user_id: string;
     /**
+     * @generated from protobuf oneof: setting
+     */
+    setting: {
+        oneofKind: "info";
+        /**
+         * @generated from protobuf field: user.UpdateUser.Info info = 2;
+         */
+        info: UpdateUser_Info;
+    } | {
+        oneofKind: "enabled";
+        /**
+         * @generated from protobuf field: bool enabled = 3;
+         */
+        enabled: boolean;
+    } | {
+        oneofKind: "confirmed";
+        /**
+         * @generated from protobuf field: bool confirmed = 4;
+         */
+        confirmed: boolean;
+    } | {
+        oneofKind: undefined;
+    };
+}
+/**
+ * @generated from protobuf message user.UpdateUser.Response
+ */
+export interface UpdateUser_Response {
+}
+/**
+ * @generated from protobuf message user.UpdateUser.Info
+ */
+export interface UpdateUser_Info {
+    /**
      * @generated from protobuf field: string name = 2;
      */
     name: string;
@@ -250,11 +242,6 @@ export interface UpdateUser_Request {
      * @generated from protobuf field: bool confirmed = 6;
      */
     confirmed: boolean;
-}
-/**
- * @generated from protobuf message user.UpdateUser.Response
- */
-export interface UpdateUser_Response {
 }
 // -----------------------------------------------------
 
@@ -310,73 +297,6 @@ export interface DeleteUser_Response {
     token: string;
 }
 /**
- * rpc SignIn
- *
- * @generated from protobuf message user.SignIn
- */
-export interface SignIn {
-}
-/**
- * @generated from protobuf message user.SignIn.Request
- */
-export interface SignIn_Request {
-    /**
-     * @generated from protobuf field: string email = 2;
-     */
-    email: string;
-    /**
-     * @generated from protobuf field: string password = 3;
-     */
-    password: string;
-}
-/**
- * rpc ResetPassword
- *
- * @generated from protobuf message user.ResetPassword
- */
-export interface ResetPassword {
-}
-/**
- * @generated from protobuf message user.ResetPassword.Request
- */
-export interface ResetPassword_Request {
-    /**
-     * @generated from protobuf oneof: request
-     */
-    request: {
-        oneofKind: "email";
-        /**
-         * @generated from protobuf field: string email = 1;
-         */
-        email: string;
-    } | {
-        oneofKind: "password";
-        /**
-         * @generated from protobuf field: string password = 2;
-         */
-        password: string;
-    } | {
-        oneofKind: undefined;
-    };
-    /**
-     * @generated from protobuf field: string token = 3;
-     */
-    token: string;
-}
-/**
- * @generated from protobuf message user.ResetPassword.Response
- */
-export interface ResetPassword_Response {
-    /**
-     * @generated from protobuf field: string message = 1;
-     */
-    message: string;
-    /**
-     * @generated from protobuf field: string token = 2;
-     */
-    token: string;
-}
-/**
  * rpc UpdatePassword
  *
  * @generated from protobuf message user.UpdatePassword
@@ -410,56 +330,26 @@ export interface UpdatePassword_Response {
     message: string;
 }
 /**
- * @generated from protobuf enum user.RoleUser
+ * @generated from protobuf enum user.Role
  */
-export enum RoleUser {
+export enum Role {
     /**
-     * @generated from protobuf enum value: ROLE_USER_UNSPECIFIED = 0;
+     * @generated from protobuf enum value: role_unspecified = 0;
      */
-    ROLE_USER_UNSPECIFIED = 0,
+    role_unspecified = 0,
     /**
-     * @generated from protobuf enum value: USER = 1;
+     * @generated from protobuf enum value: user = 1;
      */
-    USER = 1,
+    user = 1,
     /**
-     * @generated from protobuf enum value: MANAGER = 2;
+     * @generated from protobuf enum value: manager = 2;
      */
-    MANAGER = 2,
+    manager = 2,
     /**
-     * @generated from protobuf enum value: ADMIN = 3;
+     * @generated from protobuf enum value: admin = 3;
      */
-    ADMIN = 3
+    admin = 3
 }
-// @generated message type with reflection information, may provide speed optimized methods
-class UserParameters$Type extends MessageType<UserParameters> {
-    constructor() {
-        super("user.UserParameters", [
-            { no: 1, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "roles", kind: "enum", T: () => ["user.RoleUser", RoleUser] },
-            { no: 4, name: "sub", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message user.UserParameters
- */
-export const UserParameters = new UserParameters$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AuthUserInfo$Type extends MessageType<AuthUserInfo> {
-    constructor() {
-        super("user.AuthUserInfo", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "user_role", kind: "enum", localName: "user_role", T: () => ["user.RoleUser", RoleUser] }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message user.AuthUserInfo
- */
-export const AuthUserInfo = new AuthUserInfo$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListUsers$Type extends MessageType<ListUsers> {
     constructor() {
@@ -545,7 +435,7 @@ class User_Response$Type extends MessageType<User_Response> {
             { no: 4, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 6, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 7, name: "role", kind: "enum", T: () => ["user.RoleUser", RoleUser] },
+            { no: 7, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 8, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "last_active", kind: "message", localName: "last_active", T: () => Timestamp },
             { no: 10, name: "register_date", kind: "message", localName: "register_date", T: () => Timestamp }
@@ -609,12 +499,10 @@ export const UpdateUser = new UpdateUser$Type();
 class UpdateUser_Request$Type extends MessageType<UpdateUser_Request> {
     constructor() {
         super("user.UpdateUser.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } }, "user.sql_name": "id" } },
-            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$", ignoreEmpty: true } }, "user.sql_name": "name" } },
-            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } }, "user.sql_name": "email" } },
-            { no: 4, name: "fio", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "5" } }, "user.sql_name": "fio" } },
-            { no: 5, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/, options: { "user.sql_name": "enabled" } },
-            { no: 6, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/, options: { "user.sql_name": "confirmed" } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
+            { no: 2, name: "info", kind: "message", oneof: "setting", T: () => UpdateUser_Info },
+            { no: 3, name: "enabled", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ },
+            { no: 4, name: "confirmed", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
@@ -633,6 +521,22 @@ class UpdateUser_Response$Type extends MessageType<UpdateUser_Response> {
  */
 export const UpdateUser_Response = new UpdateUser_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class UpdateUser_Info$Type extends MessageType<UpdateUser_Info> {
+    constructor() {
+        super("user.UpdateUser.Info", [
+            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$", ignoreEmpty: true } } } },
+            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
+            { no: 4, name: "fio", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "5" } } } },
+            { no: 5, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message user.UpdateUser.Info
+ */
+export const UpdateUser_Info = new UpdateUser_Info$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class DeleteUser$Type extends MessageType<DeleteUser> {
     constructor() {
         super("user.DeleteUser", []);
@@ -646,9 +550,9 @@ export const DeleteUser = new DeleteUser$Type();
 class DeleteUser_Request$Type extends MessageType<DeleteUser_Request> {
     constructor() {
         super("user.DeleteUser.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "token", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
+            { no: 3, name: "token", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
         ]);
     }
 }
@@ -671,66 +575,6 @@ class DeleteUser_Response$Type extends MessageType<DeleteUser_Response> {
  */
 export const DeleteUser_Response = new DeleteUser_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class SignIn$Type extends MessageType<SignIn> {
-    constructor() {
-        super("user.SignIn", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message user.SignIn
- */
-export const SignIn = new SignIn$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class SignIn_Request$Type extends MessageType<SignIn_Request> {
-    constructor() {
-        super("user.SignIn.Request", [
-            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 3, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message user.SignIn.Request
- */
-export const SignIn_Request = new SignIn_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class ResetPassword$Type extends MessageType<ResetPassword> {
-    constructor() {
-        super("user.ResetPassword", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message user.ResetPassword
- */
-export const ResetPassword = new ResetPassword$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class ResetPassword_Request$Type extends MessageType<ResetPassword_Request> {
-    constructor() {
-        super("user.ResetPassword.Request", [
-            { no: 1, name: "email", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
-            { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message user.ResetPassword.Request
- */
-export const ResetPassword_Request = new ResetPassword_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class ResetPassword_Response$Type extends MessageType<ResetPassword_Response> {
-    constructor() {
-        super("user.ResetPassword.Response", [
-            { no: 1, name: "message", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message user.ResetPassword.Response
- */
-export const ResetPassword_Response = new ResetPassword_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class UpdatePassword$Type extends MessageType<UpdatePassword> {
     constructor() {
         super("user.UpdatePassword", []);
@@ -744,9 +588,9 @@ export const UpdatePassword = new UpdatePassword$Type();
 class UpdatePassword_Request$Type extends MessageType<UpdatePassword_Request> {
     constructor() {
         super("user.UpdatePassword.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "old_password", kind: "scalar", localName: "old_password", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "new_password", kind: "scalar", localName: "new_password", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "old_password", kind: "scalar", localName: "old_password", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
+            { no: 3, name: "new_password", kind: "scalar", localName: "new_password", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } }
         ]);
     }
 }
@@ -775,7 +619,5 @@ export const UserHandlers = new ServiceType("user.UserHandlers", [
     { name: "AddUser", options: {}, I: AddUser_Request, O: AddUser_Response },
     { name: "UpdateUser", options: {}, I: UpdateUser_Request, O: UpdateUser_Response },
     { name: "DeleteUser", options: {}, I: DeleteUser_Request, O: DeleteUser_Response },
-    { name: "SignIn", options: {}, I: SignIn_Request, O: User_Response },
-    { name: "ResetPassword", options: {}, I: ResetPassword_Request, O: ResetPassword_Response },
     { name: "UpdatePassword", options: {}, I: UpdatePassword_Request, O: UpdatePassword_Response }
 ]);

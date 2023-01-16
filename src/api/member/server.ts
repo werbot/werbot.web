@@ -5,7 +5,6 @@ import {
   AddServerMember_Request,
   UpdateServerMember_Request,
   DeleteServerMember_Request,
-  UpdateServerMemberStatus_Request,
   MembersWithoutServer_Request,
 } from "@proto/member";
 
@@ -41,7 +40,7 @@ const updateServerMember = async (data: UpdateServerMember_Request) =>
 const deleteServerMember = async (data: DeleteServerMember_Request) =>
   http("DELETE", URL.server_members, { params: data });
 
-const updateServerMemberStatus = async (data: UpdateServerMemberStatus_Request) =>
+const updateServerMemberActive = async (data: UpdateServerMember_Request) =>
   http("PATCH", URL.server_members + "/active", { data: data });
 
   const getMembersWithoutServer = async (data: MembersWithoutServer_Request) =>
@@ -53,6 +52,6 @@ export {
   postServerMember,
   updateServerMember,
   deleteServerMember,
-  updateServerMemberStatus,
+  updateServerMemberActive,
   getMembersWithoutServer,
 };

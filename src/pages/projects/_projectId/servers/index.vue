@@ -153,7 +153,7 @@ import { showMessage } from "@/utils/message";
 
 import { getAddressType } from "@/utils/network";
 import { getServers, updateServerStatus } from "@/api/server";
-import { UpdateServerActiveStatus_Request } from "@proto/server";
+import { UpdateServer_Request } from "@proto/server";
 
 const { proxy } = getCurrentInstance();
 const route = useRoute();
@@ -181,16 +181,19 @@ onMounted(() => {
 });
 
 const changeServerActive = async (index: number, online: boolean) => {
-  const status = !online;
-  data.value.servers[Number(index)].active = status;
+  const active = !online;
+  data.value.servers[Number(index)].active = active;
 
-  await updateServerStatus(<UpdateServerActiveStatus_Request>{
+  await updateServerStatus(<UpdateServer_Request>{
     user_id: proxy.$authStore.hasUserID,
     server_id: data.value.servers[Number(index)].server_id,
-    status: status,
+    project_id: props.projectId,
+    setting: {
+      active: active,
+    }
   })
     .then((res) => {
-      if (!status) {
+      if (!active) {
         showMessage(res.data.message, "connextWarning");
       } else {
         showMessage(res.data.message);

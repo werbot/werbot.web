@@ -79,15 +79,9 @@ export interface IpMask {
      */
     end_ip: string;
 }
-/**
- * @generated from protobuf message firewall.CountryCode
- */
-export interface CountryCode {
-    /**
-     * @generated from protobuf field: string code = 1;
-     */
-    code: string;
-}
+// end global messages
+// -----------------------------------------------------
+
 /**
  * rpc ServerFirewall
  *
@@ -186,9 +180,9 @@ export interface AddServerFirewall_Request {
     } | {
         oneofKind: "country";
         /**
-         * @generated from protobuf field: firewall.CountryCode country = 5;
+         * @generated from protobuf field: string country = 5;
          */
-        country: CountryCode;
+        country: string;
     } | {
         oneofKind: undefined;
     };
@@ -277,70 +271,150 @@ export interface UpdateAccessPolicy_Request {
 export interface UpdateAccessPolicy_Response {
 }
 /**
- * rpc CheckIPAccess
+ * rpc IPAccess
  *
- * @generated from protobuf message firewall.CheckIPAccess
+ * @generated from protobuf message firewall.IPAccess
  */
-export interface CheckIPAccess {
+export interface IPAccess {
 }
 /**
- * @generated from protobuf message firewall.CheckIPAccess.Request
+ * @generated from protobuf message firewall.IPAccess.Request
  */
-export interface CheckIPAccess_Request {
+export interface IPAccess_Request {
     /**
      * @generated from protobuf field: string client_ip = 1;
      */
     client_ip: string;
 }
 /**
- * @generated from protobuf message firewall.CheckIPAccess.Response
+ * @generated from protobuf message firewall.IPAccess.Response
  */
-export interface CheckIPAccess_Response {
-    /**
-     * @generated from protobuf field: bool access = 1;
-     */
-    access: boolean;
-    /**
-     * @generated from protobuf field: string country = 2;
-     */
-    country: string;
+export interface IPAccess_Response {
 }
 /**
- * rpc CheckServerAccess
+ * rpc ServerAccess
  *
- * @generated from protobuf message firewall.CheckServerAccess
+ * @generated from protobuf message firewall.ServerAccess
  */
-export interface CheckServerAccess {
+export interface ServerAccess {
 }
 /**
- * @generated from protobuf message firewall.CheckServerAccess.Request
+ * @generated from protobuf message firewall.ServerAccess.Request
  */
-export interface CheckServerAccess_Request {
+export interface ServerAccess_Request {
     /**
-     * @generated from protobuf field: string client_ip = 1;
+     * @generated from protobuf field: string user_id = 1;
      */
-    client_ip: string;
+    user_id: string;
     /**
-     * @generated from protobuf field: string country = 2;
+     * @generated from protobuf field: string server_id = 2;
      */
-    country: string;
+    server_id: string;
     /**
-     * @generated from protobuf field: string account_id = 3;
+     * @generated from protobuf field: string member_ip = 3;
      */
-    account_id: string;
+    member_ip: string;
+}
+/**
+ * @generated from protobuf message firewall.ServerAccess.Response
+ */
+export interface ServerAccess_Response {
+}
+/**
+ * rpc ServerAccessUser
+ *
+ * @generated from protobuf message firewall.ServerAccessUser
+ */
+export interface ServerAccessUser {
+}
+/**
+ * @generated from protobuf message firewall.ServerAccessUser.Request
+ */
+export interface ServerAccessUser_Request {
     /**
-     * @generated from protobuf field: string user_id = 4;
+     * @generated from protobuf field: string server_id = 1;
+     */
+    server_id: string;
+    /**
+     * @generated from protobuf field: string user_id = 2;
      */
     user_id: string;
 }
 /**
- * @generated from protobuf message firewall.CheckServerAccess.Response
+ * @generated from protobuf message firewall.ServerAccessUser.Response
  */
-export interface CheckServerAccess_Response {
+export interface ServerAccessUser_Response {
+}
+/**
+ * rpc ServerAccessTime
+ *
+ * @generated from protobuf message firewall.ServerAccessTime
+ */
+export interface ServerAccessTime {
+}
+/**
+ * @generated from protobuf message firewall.ServerAccessTime.Request
+ */
+export interface ServerAccessTime_Request {
     /**
-     * @generated from protobuf field: bool access = 1;
+     * @generated from protobuf field: string server_id = 1;
      */
-    access: boolean;
+    server_id: string;
+}
+/**
+ * @generated from protobuf message firewall.ServerAccessTime.Response
+ */
+export interface ServerAccessTime_Response {
+}
+/**
+ * rpc ServerAccessIP
+ *
+ * @generated from protobuf message firewall.ServerAccessIP
+ */
+export interface ServerAccessIP {
+}
+/**
+ * @generated from protobuf message firewall.ServerAccessIP.Request
+ */
+export interface ServerAccessIP_Request {
+    /**
+     * @generated from protobuf field: string server_id = 1;
+     */
+    server_id: string;
+    /**
+     * @generated from protobuf field: string member_ip = 2;
+     */
+    member_ip: string;
+}
+/**
+ * @generated from protobuf message firewall.ServerAccessIP.Response
+ */
+export interface ServerAccessIP_Response {
+}
+/**
+ * rpc ServerAccessCountry
+ *
+ * @generated from protobuf message firewall.ServerAccessCountry
+ */
+export interface ServerAccessCountry {
+}
+/**
+ * @generated from protobuf message firewall.ServerAccessCountry.Request
+ */
+export interface ServerAccessCountry_Request {
+    /**
+     * @generated from protobuf field: string server_id = 1;
+     */
+    server_id: string;
+    /**
+     * @generated from protobuf field: string member_ip = 2;
+     */
+    member_ip: string;
+}
+/**
+ * @generated from protobuf message firewall.ServerAccessCountry.Response
+ */
+export interface ServerAccessCountry_Response {
 }
 /**
  * @generated from protobuf enum firewall.Rules
@@ -416,18 +490,6 @@ class IpMask$Type extends MessageType<IpMask> {
  * @generated MessageType for protobuf message firewall.IpMask
  */
 export const IpMask = new IpMask$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class CountryCode$Type extends MessageType<CountryCode> {
-    constructor() {
-        super("firewall.CountryCode", [
-            { no: 1, name: "code", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message firewall.CountryCode
- */
-export const CountryCode = new CountryCode$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ServerFirewall$Type extends MessageType<ServerFirewall> {
     constructor() {
@@ -509,7 +571,7 @@ class AddServerFirewall_Request$Type extends MessageType<AddServerFirewall_Reque
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 4, name: "ip", kind: "message", oneof: "record", T: () => IpMask },
-            { no: 5, name: "country", kind: "message", oneof: "record", T: () => CountryCode }
+            { no: 5, name: "country", kind: "scalar", oneof: "record", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -602,85 +664,214 @@ class UpdateAccessPolicy_Response$Type extends MessageType<UpdateAccessPolicy_Re
  */
 export const UpdateAccessPolicy_Response = new UpdateAccessPolicy_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CheckIPAccess$Type extends MessageType<CheckIPAccess> {
+class IPAccess$Type extends MessageType<IPAccess> {
     constructor() {
-        super("firewall.CheckIPAccess", []);
+        super("firewall.IPAccess", []);
     }
 }
 /**
- * @generated MessageType for protobuf message firewall.CheckIPAccess
+ * @generated MessageType for protobuf message firewall.IPAccess
  */
-export const CheckIPAccess = new CheckIPAccess$Type();
+export const IPAccess = new IPAccess$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CheckIPAccess_Request$Type extends MessageType<CheckIPAccess_Request> {
+class IPAccess_Request$Type extends MessageType<IPAccess_Request> {
     constructor() {
-        super("firewall.CheckIPAccess.Request", [
-            { no: 1, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/ }
+        super("firewall.IPAccess.Request", [
+            { no: 1, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message firewall.CheckIPAccess.Request
+ * @generated MessageType for protobuf message firewall.IPAccess.Request
  */
-export const CheckIPAccess_Request = new CheckIPAccess_Request$Type();
+export const IPAccess_Request = new IPAccess_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CheckIPAccess_Response$Type extends MessageType<CheckIPAccess_Response> {
+class IPAccess_Response$Type extends MessageType<IPAccess_Response> {
     constructor() {
-        super("firewall.CheckIPAccess.Response", [
-            { no: 1, name: "access", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "country", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        super("firewall.IPAccess.Response", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.IPAccess.Response
+ */
+export const IPAccess_Response = new IPAccess_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccess$Type extends MessageType<ServerAccess> {
+    constructor() {
+        super("firewall.ServerAccess", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccess
+ */
+export const ServerAccess = new ServerAccess$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccess_Request$Type extends MessageType<ServerAccess_Request> {
+    constructor() {
+        super("firewall.ServerAccess.Request", [
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message firewall.CheckIPAccess.Response
+ * @generated MessageType for protobuf message firewall.ServerAccess.Request
  */
-export const CheckIPAccess_Response = new CheckIPAccess_Response$Type();
+export const ServerAccess_Request = new ServerAccess_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CheckServerAccess$Type extends MessageType<CheckServerAccess> {
+class ServerAccess_Response$Type extends MessageType<ServerAccess_Response> {
     constructor() {
-        super("firewall.CheckServerAccess", []);
+        super("firewall.ServerAccess.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message firewall.CheckServerAccess
+ * @generated MessageType for protobuf message firewall.ServerAccess.Response
  */
-export const CheckServerAccess = new CheckServerAccess$Type();
+export const ServerAccess_Response = new ServerAccess_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CheckServerAccess_Request$Type extends MessageType<CheckServerAccess_Request> {
+class ServerAccessUser$Type extends MessageType<ServerAccessUser> {
     constructor() {
-        super("firewall.CheckServerAccess.Request", [
-            { no: 1, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "country", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ }
+        super("firewall.ServerAccessUser", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessUser
+ */
+export const ServerAccessUser = new ServerAccessUser$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessUser_Request$Type extends MessageType<ServerAccessUser_Request> {
+    constructor() {
+        super("firewall.ServerAccessUser.Request", [
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message firewall.CheckServerAccess.Request
+ * @generated MessageType for protobuf message firewall.ServerAccessUser.Request
  */
-export const CheckServerAccess_Request = new CheckServerAccess_Request$Type();
+export const ServerAccessUser_Request = new ServerAccessUser_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CheckServerAccess_Response$Type extends MessageType<CheckServerAccess_Response> {
+class ServerAccessUser_Response$Type extends MessageType<ServerAccessUser_Response> {
     constructor() {
-        super("firewall.CheckServerAccess.Response", [
-            { no: 1, name: "access", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        super("firewall.ServerAccessUser.Response", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessUser.Response
+ */
+export const ServerAccessUser_Response = new ServerAccessUser_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessTime$Type extends MessageType<ServerAccessTime> {
+    constructor() {
+        super("firewall.ServerAccessTime", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessTime
+ */
+export const ServerAccessTime = new ServerAccessTime$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessTime_Request$Type extends MessageType<ServerAccessTime_Request> {
+    constructor() {
+        super("firewall.ServerAccessTime.Request", [
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message firewall.CheckServerAccess.Response
+ * @generated MessageType for protobuf message firewall.ServerAccessTime.Request
  */
-export const CheckServerAccess_Response = new CheckServerAccess_Response$Type();
+export const ServerAccessTime_Request = new ServerAccessTime_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessTime_Response$Type extends MessageType<ServerAccessTime_Response> {
+    constructor() {
+        super("firewall.ServerAccessTime.Response", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessTime.Response
+ */
+export const ServerAccessTime_Response = new ServerAccessTime_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessIP$Type extends MessageType<ServerAccessIP> {
+    constructor() {
+        super("firewall.ServerAccessIP", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessIP
+ */
+export const ServerAccessIP = new ServerAccessIP$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessIP_Request$Type extends MessageType<ServerAccessIP_Request> {
+    constructor() {
+        super("firewall.ServerAccessIP.Request", [
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessIP.Request
+ */
+export const ServerAccessIP_Request = new ServerAccessIP_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessIP_Response$Type extends MessageType<ServerAccessIP_Response> {
+    constructor() {
+        super("firewall.ServerAccessIP.Response", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessIP.Response
+ */
+export const ServerAccessIP_Response = new ServerAccessIP_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessCountry$Type extends MessageType<ServerAccessCountry> {
+    constructor() {
+        super("firewall.ServerAccessCountry", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessCountry
+ */
+export const ServerAccessCountry = new ServerAccessCountry$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessCountry_Request$Type extends MessageType<ServerAccessCountry_Request> {
+    constructor() {
+        super("firewall.ServerAccessCountry.Request", [
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessCountry.Request
+ */
+export const ServerAccessCountry_Request = new ServerAccessCountry_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccessCountry_Response$Type extends MessageType<ServerAccessCountry_Response> {
+    constructor() {
+        super("firewall.ServerAccessCountry.Response", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.ServerAccessCountry.Response
+ */
+export const ServerAccessCountry_Response = new ServerAccessCountry_Response$Type();
 /**
  * @generated ServiceType for protobuf service firewall.FirewallHandlers
  */
 export const FirewallHandlers = new ServiceType("firewall.FirewallHandlers", [
+    { name: "IPAccess", options: {}, I: IPAccess_Request, O: IPAccess_Response },
     { name: "ServerFirewall", options: {}, I: ServerFirewall_Request, O: ServerFirewall_Response },
     { name: "AddServerFirewall", options: {}, I: AddServerFirewall_Request, O: AddServerFirewall_Response },
     { name: "DeleteServerFirewall", options: {}, I: DeleteServerFirewall_Request, O: DeleteServerFirewall_Response },
     { name: "UpdateAccessPolicy", options: {}, I: UpdateAccessPolicy_Request, O: UpdateAccessPolicy_Response },
-    { name: "CheckIPAccess", options: {}, I: CheckIPAccess_Request, O: CheckIPAccess_Response },
-    { name: "CheckServerAccess", options: {}, I: CheckServerAccess_Request, O: CheckServerAccess_Response }
+    { name: "ServerAccess", options: {}, I: ServerAccess_Request, O: ServerAccess_Response },
+    { name: "ServerAccessUser", options: {}, I: ServerAccessUser_Request, O: ServerAccessUser_Response },
+    { name: "ServerAccessTime", options: {}, I: ServerAccessTime_Request, O: ServerAccessTime_Response },
+    { name: "ServerAccessIP", options: {}, I: ServerAccessIP_Request, O: ServerAccessIP_Response },
+    { name: "ServerAccessCountry", options: {}, I: ServerAccessCountry_Request, O: ServerAccessCountry_Response }
 ]);

@@ -187,25 +187,25 @@ export interface DeleteProject_Request {
 export interface DeleteProject_Response {
 }
 /**
- * rpc ProjectAPIByID
+ * rpc Keys
  *
- * @generated from protobuf message project.ProjectAPIByID
+ * @generated from protobuf message project.Keys
  */
-export interface ProjectAPIByID {
+export interface Keys {
 }
 /**
- * @generated from protobuf message project.ProjectAPIByID.Request
+ * @generated from protobuf message project.Keys.Request
  */
-export interface ProjectAPIByID_Request {
+export interface Keys_Request {
     /**
      * @generated from protobuf field: string project_id = 1;
      */
     project_id: string; // @gotags: query:"project_id"
 }
 /**
- * @generated from protobuf message project.ProjectAPIByID.Response
+ * @generated from protobuf message project.Keys.Response
  */
-export interface ProjectAPIByID_Response {
+export interface Keys_Response {
     /**
      * @generated from protobuf field: string api_key = 1;
      */
@@ -402,31 +402,31 @@ class DeleteProject_Response$Type extends MessageType<DeleteProject_Response> {
  */
 export const DeleteProject_Response = new DeleteProject_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ProjectAPIByID$Type extends MessageType<ProjectAPIByID> {
+class Keys$Type extends MessageType<Keys> {
     constructor() {
-        super("project.ProjectAPIByID", []);
+        super("project.Keys", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectAPIByID
+ * @generated MessageType for protobuf message project.Keys
  */
-export const ProjectAPIByID = new ProjectAPIByID$Type();
+export const Keys = new Keys$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ProjectAPIByID_Request$Type extends MessageType<ProjectAPIByID_Request> {
+class Keys_Request$Type extends MessageType<Keys_Request> {
     constructor() {
-        super("project.ProjectAPIByID.Request", [
+        super("project.Keys.Request", [
             { no: 1, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectAPIByID.Request
+ * @generated MessageType for protobuf message project.Keys.Request
  */
-export const ProjectAPIByID_Request = new ProjectAPIByID_Request$Type();
+export const Keys_Request = new Keys_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ProjectAPIByID_Response$Type extends MessageType<ProjectAPIByID_Response> {
+class Keys_Response$Type extends MessageType<Keys_Response> {
     constructor() {
-        super("project.ProjectAPIByID.Response", [
+        super("project.Keys.Response", [
             { no: 1, name: "api_key", kind: "scalar", localName: "api_key", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "api_secret", kind: "scalar", localName: "api_secret", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "api_online", kind: "scalar", localName: "api_online", T: 8 /*ScalarType.BOOL*/ }
@@ -434,9 +434,9 @@ class ProjectAPIByID_Response$Type extends MessageType<ProjectAPIByID_Response> 
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectAPIByID.Response
+ * @generated MessageType for protobuf message project.Keys.Response
  */
-export const ProjectAPIByID_Response = new ProjectAPIByID_Response$Type();
+export const Keys_Response = new Keys_Response$Type();
 /**
  * @generated ServiceType for protobuf service project.ProjectHandlers
  */
@@ -446,5 +446,5 @@ export const ProjectHandlers = new ServiceType("project.ProjectHandlers", [
     { name: "AddProject", options: {}, I: AddProject_Request, O: AddProject_Response },
     { name: "UpdateProject", options: {}, I: UpdateProject_Request, O: UpdateProject_Response },
     { name: "DeleteProject", options: {}, I: DeleteProject_Request, O: DeleteProject_Response },
-    { name: "ProjectAPIByID", options: {}, I: ProjectAPIByID_Request, O: ProjectAPIByID_Response }
+    { name: "Keys", options: {}, I: Keys_Request, O: Keys_Response }
 ]);

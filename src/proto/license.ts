@@ -6,12 +6,27 @@ import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
- * -----------------------------------------------------
- * global messages
+ * rpc License
  *
- * @generated from protobuf message license.LicenseInfo
+ * @generated from protobuf message license.License
  */
-export interface LicenseInfo {
+export interface License {
+}
+/**
+ * @generated from protobuf message license.License.Request
+ */
+export interface License_Request {
+    /**
+     * string license = 1 [(validate.rules).string.pattern = '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$']; // @gotags: query:"license" params:"license"
+     *
+     * @generated from protobuf field: bytes license = 1;
+     */
+    license: Uint8Array;
+}
+/**
+ * @generated from protobuf message license.License.Response
+ */
+export interface License_Response {
     /**
      * @generated from protobuf field: int32 version = 1;
      */
@@ -45,194 +60,20 @@ export interface LicenseInfo {
      */
     expires_at?: Timestamp;
     /**
-     * @generated from protobuf field: license.LicenseInfo.Limits limits = 9;
+     * @generated from protobuf field: map<string, int32> limits = 9;
      */
-    limits?: LicenseInfo_Limits;
-}
-/**
- * @generated from protobuf message license.LicenseInfo.Limits
- */
-export interface LicenseInfo_Limits {
+    limits: {
+        [key: string]: number;
+    };
     /**
-     * @generated from protobuf field: int32 companies = 1;
-     */
-    companies: number;
-    /**
-     * @generated from protobuf field: int32 servers = 2;
-     */
-    servers: number;
-    /**
-     * @generated from protobuf field: int32 users = 3;
-     */
-    users: number;
-    /**
-     * @generated from protobuf field: repeated string modules = 4;
+     * @generated from protobuf field: repeated string modules = 10;
      */
     modules: string[];
-}
-/**
- * rpc AddLicense
- *
- * @generated from protobuf message license.AddLicense
- */
-export interface AddLicense {
-}
-/**
- * @generated from protobuf message license.AddLicense.Request
- */
-export interface AddLicense_Request {
     /**
-     * @generated from protobuf field: string ip = 1;
-     */
-    ip: string;
-    /**
-     * @generated from protobuf field: string customer = 2;
-     */
-    customer: string;
-    /**
-     * @generated from protobuf field: string subscriber = 3;
-     */
-    subscriber: string;
-    /**
-     * @generated from protobuf field: string token = 4;
-     */
-    token: string;
-}
-/**
- * @generated from protobuf message license.AddLicense.Response
- */
-export interface AddLicense_Response {
-    /**
-     * @generated from protobuf field: bytes license = 1;
-     */
-    license: Uint8Array;
-}
-/**
- * rpc License
- *
- * @generated from protobuf message license.License
- */
-export interface License {
-}
-/**
- * @generated from protobuf message license.License.Request
- */
-export interface License_Request {
-    /**
-     * @generated from protobuf field: string License = 1 [json_name = "License"];
-     */
-    License: string; // @gotags: query:"license" params:"license"
-}
-/**
- * @generated from protobuf message license.License.Response
- */
-export interface License_Response {
-    /**
-     * @generated from protobuf field: license.LicenseInfo license = 1;
-     */
-    license?: LicenseInfo;
-    /**
-     * @generated from protobuf field: bool expired = 2;
+     * @generated from protobuf field: bool expired = 11;
      */
     expired: boolean;
 }
-/**
- * rpc LicenseExpired
- *
- * @generated from protobuf message license.LicenseExpired
- */
-export interface LicenseExpired {
-}
-/**
- * @generated from protobuf message license.LicenseExpired.Request
- */
-export interface LicenseExpired_Request {
-    /**
-     * @generated from protobuf field: bytes license = 1;
-     */
-    license: Uint8Array;
-}
-/**
- * @generated from protobuf message license.LicenseExpired.Response
- */
-export interface LicenseExpired_Response {
-    /**
-     * @generated from protobuf field: bool status = 1;
-     */
-    status: boolean;
-}
-// @generated message type with reflection information, may provide speed optimized methods
-class LicenseInfo$Type extends MessageType<LicenseInfo> {
-    constructor() {
-        super("license.LicenseInfo", [
-            { no: 1, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "issued", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "customer", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "subscriber", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "ip", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "issued_at", kind: "message", localName: "issued_at", T: () => Timestamp },
-            { no: 8, name: "expires_at", kind: "message", localName: "expires_at", T: () => Timestamp },
-            { no: 9, name: "limits", kind: "message", T: () => LicenseInfo_Limits }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message license.LicenseInfo
- */
-export const LicenseInfo = new LicenseInfo$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class LicenseInfo_Limits$Type extends MessageType<LicenseInfo_Limits> {
-    constructor() {
-        super("license.LicenseInfo.Limits", [
-            { no: 1, name: "companies", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "servers", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "users", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 4, name: "modules", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message license.LicenseInfo.Limits
- */
-export const LicenseInfo_Limits = new LicenseInfo_Limits$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AddLicense$Type extends MessageType<AddLicense> {
-    constructor() {
-        super("license.AddLicense", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message license.AddLicense
- */
-export const AddLicense = new AddLicense$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AddLicense_Request$Type extends MessageType<AddLicense_Request> {
-    constructor() {
-        super("license.AddLicense.Request", [
-            { no: 1, name: "ip", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } },
-            { no: 2, name: "customer", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 3, name: "subscriber", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 4, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { len: "32", pattern: "^[a-z0-9]+$", ignoreEmpty: true } } } }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message license.AddLicense.Request
- */
-export const AddLicense_Request = new AddLicense_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AddLicense_Response$Type extends MessageType<AddLicense_Response> {
-    constructor() {
-        super("license.AddLicense.Response", [
-            { no: 1, name: "license", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message license.AddLicense.Response
- */
-export const AddLicense_Response = new AddLicense_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class License$Type extends MessageType<License> {
     constructor() {
@@ -247,7 +88,7 @@ export const License = new License$Type();
 class License_Request$Type extends MessageType<License_Request> {
     constructor() {
         super("license.License.Request", [
-            { no: 1, name: "License", kind: "scalar", localName: "License", jsonName: "License", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$" } } } }
+            { no: 1, name: "license", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }
@@ -259,8 +100,17 @@ export const License_Request = new License_Request$Type();
 class License_Response$Type extends MessageType<License_Response> {
     constructor() {
         super("license.License.Response", [
-            { no: 1, name: "license", kind: "message", T: () => LicenseInfo },
-            { no: 2, name: "expired", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 1, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "issued", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "customer", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "subscriber", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "ip", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "issued_at", kind: "message", localName: "issued_at", T: () => Timestamp },
+            { no: 8, name: "expires_at", kind: "message", localName: "expires_at", T: () => Timestamp },
+            { no: 9, name: "limits", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 5 /*ScalarType.INT32*/ } },
+            { no: 10, name: "modules", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
+            { no: 11, name: "expired", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
@@ -268,45 +118,9 @@ class License_Response$Type extends MessageType<License_Response> {
  * @generated MessageType for protobuf message license.License.Response
  */
 export const License_Response = new License_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class LicenseExpired$Type extends MessageType<LicenseExpired> {
-    constructor() {
-        super("license.LicenseExpired", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message license.LicenseExpired
- */
-export const LicenseExpired = new LicenseExpired$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class LicenseExpired_Request$Type extends MessageType<LicenseExpired_Request> {
-    constructor() {
-        super("license.LicenseExpired.Request", [
-            { no: 1, name: "license", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message license.LicenseExpired.Request
- */
-export const LicenseExpired_Request = new LicenseExpired_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class LicenseExpired_Response$Type extends MessageType<LicenseExpired_Response> {
-    constructor() {
-        super("license.LicenseExpired.Response", [
-            { no: 1, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message license.LicenseExpired.Response
- */
-export const LicenseExpired_Response = new LicenseExpired_Response$Type();
 /**
  * @generated ServiceType for protobuf service license.LicenseHandlers
  */
 export const LicenseHandlers = new ServiceType("license.LicenseHandlers", [
-    { name: "AddLicense", options: {}, I: AddLicense_Request, O: AddLicense_Response },
-    { name: "License", options: {}, I: License_Request, O: License_Response },
-    { name: "LicenseExpired", options: {}, I: LicenseExpired_Request, O: LicenseExpired_Response }
+    { name: "License", options: {}, I: License_Request, O: License_Response }
 ]);

@@ -4,9 +4,8 @@
 // @ts-nocheck
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { BoolValue } from "./google/protobuf/wrappers";
 import { Timestamp } from "./google/protobuf/timestamp";
-import { RoleUser } from "./user/user";
+import { Role } from "./user/user";
 /**
  * rpc ListProjectMembers
  *
@@ -105,9 +104,9 @@ export interface ProjectMember_Response {
      */
     user_name: string;
     /**
-     * @generated from protobuf field: user.RoleUser role = 8;
+     * @generated from protobuf field: user.Role role = 8;
      */
-    role: RoleUser;
+    role: Role;
     /**
      * @generated from protobuf field: bool active = 9;
      */
@@ -147,11 +146,11 @@ export interface AddProjectMember_Request {
     /**
      * @generated from protobuf field: string user_id = 3;
      */
-    user_id: string;
+    user_id: string; // @gotags: query:"user_id"
     /**
-     * @generated from protobuf field: user.RoleUser role = 4;
+     * @generated from protobuf field: user.Role role = 4;
      */
-    role: RoleUser;
+    role: Role;
     /**
      * @generated from protobuf field: bool active = 5;
      */
@@ -190,13 +189,23 @@ export interface UpdateProjectMember_Request {
      */
     member_id: string; // @gotags: query:"member_id"
     /**
-     * @generated from protobuf field: user.RoleUser role = 4;
+     * @generated from protobuf oneof: setting
      */
-    role: RoleUser;
-    /**
-     * @generated from protobuf field: bool active = 5;
-     */
-    active: boolean;
+    setting: {
+        oneofKind: "role";
+        /**
+         * @generated from protobuf field: user.Role role = 4;
+         */
+        role: Role;
+    } | {
+        oneofKind: "active";
+        /**
+         * @generated from protobuf field: bool active = 5;
+         */
+        active: boolean;
+    } | {
+        oneofKind: undefined;
+    };
 }
 /**
  * @generated from protobuf message member.UpdateProjectMember.Response
@@ -231,68 +240,6 @@ export interface DeleteProjectMember_Request {
  * @generated from protobuf message member.DeleteProjectMember.Response
  */
 export interface DeleteProjectMember_Response {
-}
-/**
- * rpc UpdateProjectMemberStatus
- *
- * @generated from protobuf message member.UpdateProjectMemberStatus
- */
-export interface UpdateProjectMemberStatus {
-}
-/**
- * @generated from protobuf message member.UpdateProjectMemberStatus.Request
- */
-export interface UpdateProjectMemberStatus_Request {
-    /**
-     * @generated from protobuf field: string owner_id = 1;
-     */
-    owner_id: string; // @gotags: query:"owner_id"
-    /**
-     * @generated from protobuf field: string project_id = 2;
-     */
-    project_id: string; // @gotags: query:"project_id"
-    /**
-     * @generated from protobuf field: string member_id = 3;
-     */
-    member_id: string; // @gotags: query:"member_id"
-    /**
-     * @generated from protobuf field: bool status = 4;
-     */
-    status: boolean;
-}
-/**
- * @generated from protobuf message member.UpdateProjectMemberStatus.Response
- */
-export interface UpdateProjectMemberStatus_Response {
-}
-/**
- * rpc MemberByID
- *
- * @generated from protobuf message member.MemberByID
- */
-export interface MemberByID {
-}
-/**
- * @generated from protobuf message member.MemberByID.Request
- */
-export interface MemberByID_Request {
-    /**
-     * @generated from protobuf field: string user_id = 1;
-     */
-    user_id: string;
-    /**
-     * @generated from protobuf field: string project_id = 2;
-     */
-    project_id: string;
-}
-/**
- * @generated from protobuf message member.MemberByID.Response
- */
-export interface MemberByID_Response {
-    /**
-     * @generated from protobuf field: google.protobuf.BoolValue status = 1;
-     */
-    status?: BoolValue;
 }
 /**
  * rpc UsersWithoutProject
@@ -345,16 +292,16 @@ export interface UsersWithoutProject_Response_User {
     email: string;
 }
 /**
- * rpc ListProjectMembersInvite
+ * rpc ListMembersInvite
  *
- * @generated from protobuf message member.ListProjectMembersInvite
+ * @generated from protobuf message member.ListMembersInvite
  */
-export interface ListProjectMembersInvite {
+export interface ListMembersInvite {
 }
 /**
- * @generated from protobuf message member.ListProjectMembersInvite.Request
+ * @generated from protobuf message member.ListMembersInvite.Request
  */
-export interface ListProjectMembersInvite_Request {
+export interface ListMembersInvite_Request {
     /**
      * @generated from protobuf field: int32 limit = 1;
      */
@@ -377,22 +324,22 @@ export interface ListProjectMembersInvite_Request {
     project_id: string; // @gotags: query:"project_id"
 }
 /**
- * @generated from protobuf message member.ListProjectMembersInvite.Response
+ * @generated from protobuf message member.ListMembersInvite.Response
  */
-export interface ListProjectMembersInvite_Response {
+export interface ListMembersInvite_Response {
     /**
      * @generated from protobuf field: int32 total = 1;
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated member.ListProjectMembersInvite.Invites invites = 2;
+     * @generated from protobuf field: repeated member.ListMembersInvite.Invites invites = 2;
      */
-    invites: ListProjectMembersInvite_Invites[];
+    invites: ListMembersInvite_Invites[];
 }
 /**
- * @generated from protobuf message member.ListProjectMembersInvite.Invites
+ * @generated from protobuf message member.ListMembersInvite.Invites
  */
-export interface ListProjectMembersInvite_Invites {
+export interface ListMembersInvite_Invites {
     /**
      * @generated from protobuf field: string id = 1;
      */
@@ -419,16 +366,16 @@ export interface ListProjectMembersInvite_Invites {
     status: string;
 }
 /**
- * rpc AddProjectMemberInvite
+ * rpc AddMemberInvite
  *
- * @generated from protobuf message member.AddProjectMemberInvite
+ * @generated from protobuf message member.AddMemberInvite
  */
-export interface AddProjectMemberInvite {
+export interface AddMemberInvite {
 }
 /**
- * @generated from protobuf message member.AddProjectMemberInvite.Request
+ * @generated from protobuf message member.AddMemberInvite.Request
  */
-export interface AddProjectMemberInvite_Request {
+export interface AddMemberInvite_Request {
     /**
      * @generated from protobuf field: string owner_id = 1;
      */
@@ -451,25 +398,25 @@ export interface AddProjectMemberInvite_Request {
     email: string; // @gotags: query:"email"
 }
 /**
- * @generated from protobuf message member.AddProjectMemberInvite.Response
+ * @generated from protobuf message member.AddMemberInvite.Response
  */
-export interface AddProjectMemberInvite_Response {
+export interface AddMemberInvite_Response {
     /**
      * @generated from protobuf field: string invite = 1;
      */
     invite: string;
 }
 /**
- * rpc DeleteProjectMemberInvite
+ * rpc DeleteMemberInvite
  *
- * @generated from protobuf message member.DeleteProjectMemberInvite
+ * @generated from protobuf message member.DeleteMemberInvite
  */
-export interface DeleteProjectMemberInvite {
+export interface DeleteMemberInvite {
 }
 /**
- * @generated from protobuf message member.DeleteProjectMemberInvite.Request
+ * @generated from protobuf message member.DeleteMemberInvite.Request
  */
-export interface DeleteProjectMemberInvite_Request {
+export interface DeleteMemberInvite_Request {
     /**
      * @generated from protobuf field: string owner_id = 1;
      */
@@ -484,21 +431,21 @@ export interface DeleteProjectMemberInvite_Request {
     invite_id: string; // @gotags: query:"invite_id"
 }
 /**
- * @generated from protobuf message member.DeleteProjectMemberInvite.Response
+ * @generated from protobuf message member.DeleteMemberInvite.Response
  */
-export interface DeleteProjectMemberInvite_Response {
+export interface DeleteMemberInvite_Response {
 }
 /**
- * rpc ProjectMemberInviteActivate
+ * rpc MemberInviteActivate
  *
- * @generated from protobuf message member.ProjectMemberInviteActivate
+ * @generated from protobuf message member.MemberInviteActivate
  */
-export interface ProjectMemberInviteActivate {
+export interface MemberInviteActivate {
 }
 /**
- * @generated from protobuf message member.ProjectMemberInviteActivate.Request
+ * @generated from protobuf message member.MemberInviteActivate.Request
  */
-export interface ProjectMemberInviteActivate_Request {
+export interface MemberInviteActivate_Request {
     /**
      * @generated from protobuf field: string invite = 1;
      */
@@ -509,9 +456,9 @@ export interface ProjectMemberInviteActivate_Request {
     user_id: string; // @gotags: query:"user_id"
 }
 /**
- * @generated from protobuf message member.ProjectMemberInviteActivate.Response
+ * @generated from protobuf message member.MemberInviteActivate.Response
  */
-export interface ProjectMemberInviteActivate_Response {
+export interface MemberInviteActivate_Response {
     /**
      * @generated from protobuf field: string project_id = 1;
      */
@@ -619,9 +566,9 @@ export interface ServerMember_Response {
      */
     email: string;
     /**
-     * @generated from protobuf field: user.RoleUser role = 5;
+     * @generated from protobuf field: user.Role role = 5;
      */
-    role: RoleUser;
+    role: Role;
     /**
      * @generated from protobuf field: bool active = 6;
      */
@@ -704,9 +651,23 @@ export interface UpdateServerMember_Request {
      */
     member_id: string;
     /**
-     * @generated from protobuf field: bool active = 5;
+     * @generated from protobuf oneof: setting
      */
-    active: boolean;
+    setting: {
+        oneofKind: "active";
+        /**
+         * @generated from protobuf field: bool active = 5;
+         */
+        active: boolean;
+    } | {
+        oneofKind: "online";
+        /**
+         * @generated from protobuf field: bool online = 6;
+         */
+        online: boolean;
+    } | {
+        oneofKind: undefined;
+    };
 }
 /**
  * @generated from protobuf message member.UpdateServerMember.Response
@@ -745,43 +706,6 @@ export interface DeleteServerMember_Request {
  * @generated from protobuf message member.DeleteServerMember.Response
  */
 export interface DeleteServerMember_Response {
-}
-/**
- * rpc UpdateServerMemberStatus
- *
- * @generated from protobuf message member.UpdateServerMemberStatus
- */
-export interface UpdateServerMemberStatus {
-}
-/**
- * @generated from protobuf message member.UpdateServerMemberStatus.Request
- */
-export interface UpdateServerMemberStatus_Request {
-    /**
-     * @generated from protobuf field: string owner_id = 1;
-     */
-    owner_id: string; // @gotags: query:"owner_id"
-    /**
-     * @generated from protobuf field: string project_id = 2;
-     */
-    project_id: string; // @gotags: query:"project_id"
-    /**
-     * @generated from protobuf field: string member_id = 3;
-     */
-    member_id: string; // @gotags: query:"member_id"
-    /**
-     * @generated from protobuf field: string server_id = 4;
-     */
-    server_id: string; // @gotags: query:"server_id"
-    /**
-     * @generated from protobuf field: bool status = 5;
-     */
-    status: boolean;
-}
-/**
- * @generated from protobuf message member.UpdateServerMemberStatus.Response
- */
-export interface UpdateServerMemberStatus_Response {
 }
 /**
  * rpc MembersWithoutServer
@@ -835,48 +759,6 @@ export interface MembersWithoutServer_Response {
      * @generated from protobuf field: repeated member.ServerMember.Response members = 2;
      */
     members: ServerMember_Response[];
-}
-/**
- * rpc UsersByName
- *
- * @generated from protobuf message member.UsersByName
- */
-export interface UsersByName {
-}
-/**
- * @generated from protobuf message member.UsersByName.Request
- */
-export interface UsersByName_Request {
-    /**
-     * @generated from protobuf field: string name = 1;
-     */
-    name: string;
-}
-/**
- * @generated from protobuf message member.UsersByName.Response
- */
-export interface UsersByName_Response {
-    /**
-     * @generated from protobuf field: repeated member.UsersByName.Response.SearchUsersResult users = 2;
-     */
-    users: UsersByName_Response_SearchUsersResult[];
-}
-/**
- * @generated from protobuf message member.UsersByName.Response.SearchUsersResult
- */
-export interface UsersByName_Response_SearchUsersResult {
-    /**
-     * @generated from protobuf field: string member_id = 1;
-     */
-    member_id: string;
-    /**
-     * @generated from protobuf field: string member_name = 2;
-     */
-    member_name: string;
-    /**
-     * @generated from protobuf field: string email = 3;
-     */
-    email: string;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class ListProjectMembers$Type extends MessageType<ListProjectMembers> {
@@ -932,7 +814,7 @@ class ProjectMember_Request$Type extends MessageType<ProjectMember_Request> {
         super("member.ProjectMember.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
         ]);
     }
 }
@@ -951,7 +833,7 @@ class ProjectMember_Response$Type extends MessageType<ProjectMember_Response> {
             { no: 5, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "role", kind: "enum", T: () => ["user.RoleUser", RoleUser] },
+            { no: 8, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 9, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 10, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 11, name: "servers_count", kind: "scalar", localName: "servers_count", T: 5 /*ScalarType.INT32*/ },
@@ -980,7 +862,7 @@ class AddProjectMember_Request$Type extends MessageType<AddProjectMember_Request
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "role", kind: "enum", T: () => ["user.RoleUser", RoleUser] },
+            { no: 4, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 5, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
@@ -1018,8 +900,8 @@ class UpdateProjectMember_Request$Type extends MessageType<UpdateProjectMember_R
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "role", kind: "enum", T: () => ["user.RoleUser", RoleUser] },
-            { no: 5, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 4, name: "role", kind: "enum", oneof: "setting", T: () => ["user.Role", Role] },
+            { no: 5, name: "active", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
@@ -1072,76 +954,6 @@ class DeleteProjectMember_Response$Type extends MessageType<DeleteProjectMember_
  */
 export const DeleteProjectMember_Response = new DeleteProjectMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateProjectMemberStatus$Type extends MessageType<UpdateProjectMemberStatus> {
-    constructor() {
-        super("member.UpdateProjectMemberStatus", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UpdateProjectMemberStatus
- */
-export const UpdateProjectMemberStatus = new UpdateProjectMemberStatus$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateProjectMemberStatus_Request$Type extends MessageType<UpdateProjectMemberStatus_Request> {
-    constructor() {
-        super("member.UpdateProjectMemberStatus.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UpdateProjectMemberStatus.Request
- */
-export const UpdateProjectMemberStatus_Request = new UpdateProjectMemberStatus_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateProjectMemberStatus_Response$Type extends MessageType<UpdateProjectMemberStatus_Response> {
-    constructor() {
-        super("member.UpdateProjectMemberStatus.Response", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UpdateProjectMemberStatus.Response
- */
-export const UpdateProjectMemberStatus_Response = new UpdateProjectMemberStatus_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class MemberByID$Type extends MessageType<MemberByID> {
-    constructor() {
-        super("member.MemberByID", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.MemberByID
- */
-export const MemberByID = new MemberByID$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class MemberByID_Request$Type extends MessageType<MemberByID_Request> {
-    constructor() {
-        super("member.MemberByID.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.MemberByID.Request
- */
-export const MemberByID_Request = new MemberByID_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class MemberByID_Response$Type extends MessageType<MemberByID_Response> {
-    constructor() {
-        super("member.MemberByID.Response", [
-            { no: 1, name: "status", kind: "message", T: () => BoolValue }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.MemberByID.Response
- */
-export const MemberByID_Response = new MemberByID_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class UsersWithoutProject$Type extends MessageType<UsersWithoutProject> {
     constructor() {
         super("member.UsersWithoutProject", []);
@@ -1192,19 +1004,19 @@ class UsersWithoutProject_Response_User$Type extends MessageType<UsersWithoutPro
  */
 export const UsersWithoutProject_Response_User = new UsersWithoutProject_Response_User$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListProjectMembersInvite$Type extends MessageType<ListProjectMembersInvite> {
+class ListMembersInvite$Type extends MessageType<ListMembersInvite> {
     constructor() {
-        super("member.ListProjectMembersInvite", []);
+        super("member.ListMembersInvite", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ListProjectMembersInvite
+ * @generated MessageType for protobuf message member.ListMembersInvite
  */
-export const ListProjectMembersInvite = new ListProjectMembersInvite$Type();
+export const ListMembersInvite = new ListMembersInvite$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListProjectMembersInvite_Request$Type extends MessageType<ListProjectMembersInvite_Request> {
+class ListMembersInvite_Request$Type extends MessageType<ListMembersInvite_Request> {
     constructor() {
-        super("member.ListProjectMembersInvite.Request", [
+        super("member.ListMembersInvite.Request", [
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
@@ -1214,26 +1026,26 @@ class ListProjectMembersInvite_Request$Type extends MessageType<ListProjectMembe
     }
 }
 /**
- * @generated MessageType for protobuf message member.ListProjectMembersInvite.Request
+ * @generated MessageType for protobuf message member.ListMembersInvite.Request
  */
-export const ListProjectMembersInvite_Request = new ListProjectMembersInvite_Request$Type();
+export const ListMembersInvite_Request = new ListMembersInvite_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListProjectMembersInvite_Response$Type extends MessageType<ListProjectMembersInvite_Response> {
+class ListMembersInvite_Response$Type extends MessageType<ListMembersInvite_Response> {
     constructor() {
-        super("member.ListProjectMembersInvite.Response", [
+        super("member.ListMembersInvite.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "invites", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListProjectMembersInvite_Invites }
+            { no: 2, name: "invites", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListMembersInvite_Invites }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ListProjectMembersInvite.Response
+ * @generated MessageType for protobuf message member.ListMembersInvite.Response
  */
-export const ListProjectMembersInvite_Response = new ListProjectMembersInvite_Response$Type();
+export const ListMembersInvite_Response = new ListMembersInvite_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListProjectMembersInvite_Invites$Type extends MessageType<ListProjectMembersInvite_Invites> {
+class ListMembersInvite_Invites$Type extends MessageType<ListMembersInvite_Invites> {
     constructor() {
-        super("member.ListProjectMembersInvite.Invites", [
+        super("member.ListMembersInvite.Invites", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -1244,23 +1056,23 @@ class ListProjectMembersInvite_Invites$Type extends MessageType<ListProjectMembe
     }
 }
 /**
- * @generated MessageType for protobuf message member.ListProjectMembersInvite.Invites
+ * @generated MessageType for protobuf message member.ListMembersInvite.Invites
  */
-export const ListProjectMembersInvite_Invites = new ListProjectMembersInvite_Invites$Type();
+export const ListMembersInvite_Invites = new ListMembersInvite_Invites$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddProjectMemberInvite$Type extends MessageType<AddProjectMemberInvite> {
+class AddMemberInvite$Type extends MessageType<AddMemberInvite> {
     constructor() {
-        super("member.AddProjectMemberInvite", []);
+        super("member.AddMemberInvite", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddProjectMemberInvite
+ * @generated MessageType for protobuf message member.AddMemberInvite
  */
-export const AddProjectMemberInvite = new AddProjectMemberInvite$Type();
+export const AddMemberInvite = new AddMemberInvite$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddProjectMemberInvite_Request$Type extends MessageType<AddProjectMemberInvite_Request> {
+class AddMemberInvite_Request$Type extends MessageType<AddMemberInvite_Request> {
     constructor() {
-        super("member.AddProjectMemberInvite.Request", [
+        super("member.AddMemberInvite.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
@@ -1270,35 +1082,35 @@ class AddProjectMemberInvite_Request$Type extends MessageType<AddProjectMemberIn
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddProjectMemberInvite.Request
+ * @generated MessageType for protobuf message member.AddMemberInvite.Request
  */
-export const AddProjectMemberInvite_Request = new AddProjectMemberInvite_Request$Type();
+export const AddMemberInvite_Request = new AddMemberInvite_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddProjectMemberInvite_Response$Type extends MessageType<AddProjectMemberInvite_Response> {
+class AddMemberInvite_Response$Type extends MessageType<AddMemberInvite_Response> {
     constructor() {
-        super("member.AddProjectMemberInvite.Response", [
+        super("member.AddMemberInvite.Response", [
             { no: 1, name: "invite", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddProjectMemberInvite.Response
+ * @generated MessageType for protobuf message member.AddMemberInvite.Response
  */
-export const AddProjectMemberInvite_Response = new AddProjectMemberInvite_Response$Type();
+export const AddMemberInvite_Response = new AddMemberInvite_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeleteProjectMemberInvite$Type extends MessageType<DeleteProjectMemberInvite> {
+class DeleteMemberInvite$Type extends MessageType<DeleteMemberInvite> {
     constructor() {
-        super("member.DeleteProjectMemberInvite", []);
+        super("member.DeleteMemberInvite", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteProjectMemberInvite
+ * @generated MessageType for protobuf message member.DeleteMemberInvite
  */
-export const DeleteProjectMemberInvite = new DeleteProjectMemberInvite$Type();
+export const DeleteMemberInvite = new DeleteMemberInvite$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeleteProjectMemberInvite_Request$Type extends MessageType<DeleteProjectMemberInvite_Request> {
+class DeleteMemberInvite_Request$Type extends MessageType<DeleteMemberInvite_Request> {
     constructor() {
-        super("member.DeleteProjectMemberInvite.Request", [
+        super("member.DeleteMemberInvite.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "invite_id", kind: "scalar", localName: "invite_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
@@ -1306,55 +1118,55 @@ class DeleteProjectMemberInvite_Request$Type extends MessageType<DeleteProjectMe
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteProjectMemberInvite.Request
+ * @generated MessageType for protobuf message member.DeleteMemberInvite.Request
  */
-export const DeleteProjectMemberInvite_Request = new DeleteProjectMemberInvite_Request$Type();
+export const DeleteMemberInvite_Request = new DeleteMemberInvite_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeleteProjectMemberInvite_Response$Type extends MessageType<DeleteProjectMemberInvite_Response> {
+class DeleteMemberInvite_Response$Type extends MessageType<DeleteMemberInvite_Response> {
     constructor() {
-        super("member.DeleteProjectMemberInvite.Response", []);
+        super("member.DeleteMemberInvite.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteProjectMemberInvite.Response
+ * @generated MessageType for protobuf message member.DeleteMemberInvite.Response
  */
-export const DeleteProjectMemberInvite_Response = new DeleteProjectMemberInvite_Response$Type();
+export const DeleteMemberInvite_Response = new DeleteMemberInvite_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ProjectMemberInviteActivate$Type extends MessageType<ProjectMemberInviteActivate> {
+class MemberInviteActivate$Type extends MessageType<MemberInviteActivate> {
     constructor() {
-        super("member.ProjectMemberInviteActivate", []);
+        super("member.MemberInviteActivate", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMemberInviteActivate
+ * @generated MessageType for protobuf message member.MemberInviteActivate
  */
-export const ProjectMemberInviteActivate = new ProjectMemberInviteActivate$Type();
+export const MemberInviteActivate = new MemberInviteActivate$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ProjectMemberInviteActivate_Request$Type extends MessageType<ProjectMemberInviteActivate_Request> {
+class MemberInviteActivate_Request$Type extends MessageType<MemberInviteActivate_Request> {
     constructor() {
-        super("member.ProjectMemberInviteActivate.Request", [
+        super("member.MemberInviteActivate.Request", [
             { no: 1, name: "invite", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMemberInviteActivate.Request
+ * @generated MessageType for protobuf message member.MemberInviteActivate.Request
  */
-export const ProjectMemberInviteActivate_Request = new ProjectMemberInviteActivate_Request$Type();
+export const MemberInviteActivate_Request = new MemberInviteActivate_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ProjectMemberInviteActivate_Response$Type extends MessageType<ProjectMemberInviteActivate_Response> {
+class MemberInviteActivate_Response$Type extends MessageType<MemberInviteActivate_Response> {
     constructor() {
-        super("member.ProjectMemberInviteActivate.Response", [
+        super("member.MemberInviteActivate.Response", [
             { no: 1, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMemberInviteActivate.Response
+ * @generated MessageType for protobuf message member.MemberInviteActivate.Response
  */
-export const ProjectMemberInviteActivate_Response = new ProjectMemberInviteActivate_Response$Type();
+export const MemberInviteActivate_Response = new MemberInviteActivate_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListServerMembers$Type extends MessageType<ListServerMembers> {
     constructor() {
@@ -1428,7 +1240,7 @@ class ServerMember_Response$Type extends MessageType<ServerMember_Response> {
             { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "role", kind: "enum", T: () => ["user.RoleUser", RoleUser] },
+            { no: 5, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 6, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 7, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 8, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp }
@@ -1495,7 +1307,8 @@ class UpdateServerMember_Request$Type extends MessageType<UpdateServerMember_Req
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 4, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 5, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 5, name: "active", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "online", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
@@ -1549,42 +1362,6 @@ class DeleteServerMember_Response$Type extends MessageType<DeleteServerMember_Re
  */
 export const DeleteServerMember_Response = new DeleteServerMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerMemberStatus$Type extends MessageType<UpdateServerMemberStatus> {
-    constructor() {
-        super("member.UpdateServerMemberStatus", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UpdateServerMemberStatus
- */
-export const UpdateServerMemberStatus = new UpdateServerMemberStatus$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerMemberStatus_Request$Type extends MessageType<UpdateServerMemberStatus_Request> {
-    constructor() {
-        super("member.UpdateServerMemberStatus.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 5, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UpdateServerMemberStatus.Request
- */
-export const UpdateServerMemberStatus_Request = new UpdateServerMemberStatus_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerMemberStatus_Response$Type extends MessageType<UpdateServerMemberStatus_Response> {
-    constructor() {
-        super("member.UpdateServerMemberStatus.Response", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UpdateServerMemberStatus.Response
- */
-export const UpdateServerMemberStatus_Response = new UpdateServerMemberStatus_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class MembersWithoutServer$Type extends MessageType<MembersWithoutServer> {
     constructor() {
         super("member.MembersWithoutServer", []);
@@ -1625,54 +1402,6 @@ class MembersWithoutServer_Response$Type extends MessageType<MembersWithoutServe
  * @generated MessageType for protobuf message member.MembersWithoutServer.Response
  */
 export const MembersWithoutServer_Response = new MembersWithoutServer_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UsersByName$Type extends MessageType<UsersByName> {
-    constructor() {
-        super("member.UsersByName", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UsersByName
- */
-export const UsersByName = new UsersByName$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UsersByName_Request$Type extends MessageType<UsersByName_Request> {
-    constructor() {
-        super("member.UsersByName.Request", [
-            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UsersByName.Request
- */
-export const UsersByName_Request = new UsersByName_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UsersByName_Response$Type extends MessageType<UsersByName_Response> {
-    constructor() {
-        super("member.UsersByName.Response", [
-            { no: 2, name: "users", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UsersByName_Response_SearchUsersResult }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UsersByName.Response
- */
-export const UsersByName_Response = new UsersByName_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UsersByName_Response_SearchUsersResult$Type extends MessageType<UsersByName_Response_SearchUsersResult> {
-    constructor() {
-        super("member.UsersByName.Response.SearchUsersResult", [
-            { no: 1, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "member_name", kind: "scalar", localName: "member_name", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message member.UsersByName.Response.SearchUsersResult
- */
-export const UsersByName_Response_SearchUsersResult = new UsersByName_Response_SearchUsersResult$Type();
 /**
  * @generated ServiceType for protobuf service member.MemberHandlers
  */
@@ -1682,19 +1411,15 @@ export const MemberHandlers = new ServiceType("member.MemberHandlers", [
     { name: "AddProjectMember", options: {}, I: AddProjectMember_Request, O: AddProjectMember_Response },
     { name: "UpdateProjectMember", options: {}, I: UpdateProjectMember_Request, O: UpdateProjectMember_Response },
     { name: "DeleteProjectMember", options: {}, I: DeleteProjectMember_Request, O: DeleteProjectMember_Response },
-    { name: "UpdateProjectMemberStatus", options: {}, I: UpdateProjectMemberStatus_Request, O: UpdateProjectMemberStatus_Response },
     { name: "UsersWithoutProject", options: {}, I: UsersWithoutProject_Request, O: UsersWithoutProject_Response },
-    { name: "ListProjectMembersInvite", options: {}, I: ListProjectMembersInvite_Request, O: ListProjectMembersInvite_Response },
-    { name: "AddProjectMemberInvite", options: {}, I: AddProjectMemberInvite_Request, O: AddProjectMemberInvite_Response },
-    { name: "DeleteProjectMemberInvite", options: {}, I: DeleteProjectMemberInvite_Request, O: DeleteProjectMemberInvite_Response },
-    { name: "ProjectMemberInviteActivate", options: {}, I: ProjectMemberInviteActivate_Request, O: ProjectMemberInviteActivate_Response },
+    { name: "ListMembersInvite", options: {}, I: ListMembersInvite_Request, O: ListMembersInvite_Response },
+    { name: "AddMemberInvite", options: {}, I: AddMemberInvite_Request, O: AddMemberInvite_Response },
+    { name: "DeleteMemberInvite", options: {}, I: DeleteMemberInvite_Request, O: DeleteMemberInvite_Response },
+    { name: "MemberInviteActivate", options: {}, I: MemberInviteActivate_Request, O: MemberInviteActivate_Response },
     { name: "ListServerMembers", options: {}, I: ListServerMembers_Request, O: ListServerMembers_Response },
     { name: "ServerMember", options: {}, I: ServerMember_Request, O: ServerMember_Response },
     { name: "AddServerMember", options: {}, I: AddServerMember_Request, O: AddServerMember_Response },
     { name: "UpdateServerMember", options: {}, I: UpdateServerMember_Request, O: UpdateServerMember_Response },
     { name: "DeleteServerMember", options: {}, I: DeleteServerMember_Request, O: DeleteServerMember_Response },
-    { name: "UpdateServerMemberStatus", options: {}, I: UpdateServerMemberStatus_Request, O: UpdateServerMemberStatus_Response },
-    { name: "MembersWithoutServer", options: {}, I: MembersWithoutServer_Request, O: MembersWithoutServer_Response },
-    { name: "MemberByID", options: {}, I: MemberByID_Request, O: MemberByID_Response },
-    { name: "UsersByName", options: {}, I: UsersByName_Request, O: UsersByName_Response }
+    { name: "MembersWithoutServer", options: {}, I: MembersWithoutServer_Request, O: MembersWithoutServer_Response }
 ]);

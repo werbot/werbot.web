@@ -124,7 +124,7 @@ export interface Subscription_Request {
     /**
      * @generated from protobuf field: string subscription_id = 1;
      */
-    subscription_id: string;
+    subscription_id: string; // @gotags: query:"subscription_id" params:"subscription_id"
 }
 /**
  * @generated from protobuf message subscription.Subscription.Response
@@ -181,23 +181,23 @@ export interface AddSubscription_Request {
     /**
      * @generated from protobuf field: string subscription_id = 1;
      */
-    subscription_id: string;
+    subscription_id: string; // @gotags: query:"subscription_id" params:"subscription_id"
     /**
      * @generated from protobuf field: string customer_id = 2;
      */
-    customer_id: string;
+    customer_id: string; // @gotags: query:"customer_id" params:"customer_id"
     /**
      * @generated from protobuf field: string customer_name = 3;
      */
-    customer_name: string;
+    customer_name: string; // @gotags: query:"customer_name" params:"customer_name"
     /**
      * @generated from protobuf field: string plan_id = 4;
      */
-    plan_id: string;
+    plan_id: string; // @gotags: query:"plan_id" params:"plan_id"
     /**
      * @generated from protobuf field: string plan_name = 5;
      */
-    plan_name: string;
+    plan_name: string; // @gotags: query:"plan_name" params:"plan_name"
     /**
      * @generated from protobuf field: google.protobuf.Timestamp start_date = 6;
      */
@@ -242,19 +242,19 @@ export interface UpdateSubscription_Request {
     /**
      * @generated from protobuf field: string customer_id = 2;
      */
-    customer_id: string;
+    customer_id: string; // @gotags: query:"customer_id" params:"customer_id"
     /**
      * @generated from protobuf field: string customer_name = 3;
      */
-    customer_name: string;
+    customer_name: string; // @gotags: query:"customer_name" params:"customer_name"
     /**
      * @generated from protobuf field: string plan_id = 4;
      */
-    plan_id: string;
+    plan_id: string; // @gotags: query:"plan_id" params:"plan_id"
     /**
      * @generated from protobuf field: string plan_name = 5;
      */
-    plan_name: string;
+    plan_name: string; // @gotags: query:"plan_name" params:"plan_name"
     /**
      * @generated from protobuf field: google.protobuf.Timestamp start_date = 6;
      */
@@ -339,14 +339,14 @@ export interface ListPlans_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated subscription.ListPlans.Response.PlanInfo plans = 2;
+     * @generated from protobuf field: repeated subscription.ListPlans.PlanInfo plans = 2;
      */
-    plans: ListPlans_Response_PlanInfo[];
+    plans: ListPlans_PlanInfo[];
 }
 /**
- * @generated from protobuf message subscription.ListPlans.Response.PlanInfo
+ * @generated from protobuf message subscription.ListPlans.PlanInfo
  */
-export interface ListPlans_Response_PlanInfo {
+export interface ListPlans_PlanInfo {
     /**
      * @generated from protobuf field: int32 subscription_count = 1;
      */
@@ -606,7 +606,7 @@ export interface AddCustomer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string;
+    user_id: string; // @gotags: query:"user_id" params:"user_id"
     /**
      * @generated from protobuf field: string stripe_id = 2;
      */
@@ -635,7 +635,7 @@ export interface UpdateCustomer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string;
+    user_id: string; // @gotags: query:"user_id" params:"user_id"
     /**
      * @generated from protobuf field: string stripe_id = 2;
      */
@@ -668,16 +668,16 @@ export interface DeleteCustomer_Request {
 export interface DeleteCustomer_Response {
 }
 /**
- * rpc Changes
+ * rpc ListChanges
  *
- * @generated from protobuf message subscription.Changes
+ * @generated from protobuf message subscription.ListChanges
  */
-export interface Changes {
+export interface ListChanges {
 }
 /**
- * @generated from protobuf message subscription.Changes.Request
+ * @generated from protobuf message subscription.ListChanges.Request
  */
-export interface Changes_Request {
+export interface ListChanges_Request {
     /**
      * @generated from protobuf field: int32 limit = 1;
      */
@@ -696,22 +696,38 @@ export interface Changes_Request {
     query: string;
 }
 /**
- * @generated from protobuf message subscription.Changes.Response
+ * @generated from protobuf message subscription.ListChanges.Response
  */
-export interface Changes_Response {
+export interface ListChanges_Response {
     /**
      * @generated from protobuf field: int32 total = 1;
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated subscription.Changes.Response.Change change = 2;
+     * @generated from protobuf field: repeated subscription.Change.Request change = 2;
      */
-    change: Changes_Response_Change[];
+    change: Change_Request[];
 }
 /**
- * @generated from protobuf message subscription.Changes.Response.Change
+ * rpc Change
+ *
+ * @generated from protobuf message subscription.Change
  */
-export interface Changes_Response_Change {
+export interface Change {
+}
+/**
+ * @generated from protobuf message subscription.Change.Request
+ */
+export interface Change_Request {
+    /**
+     * @generated from protobuf field: string change_id = 1;
+     */
+    change_id: string; // @gotags: query:"change_id" params:"change_id"
+}
+/**
+ * @generated from protobuf message subscription.Change.Response
+ */
+export interface Change_Response {
     /**
      * @generated from protobuf field: string change_id = 1;
      */
@@ -730,16 +746,16 @@ export interface Changes_Response_Change {
     date?: Timestamp;
 }
 /**
- * rpc Invoices
+ * rpc ListInvoices
  *
- * @generated from protobuf message subscription.Invoices
+ * @generated from protobuf message subscription.ListInvoices
  */
-export interface Invoices {
+export interface ListInvoices {
 }
 /**
- * @generated from protobuf message subscription.Invoices.Request
+ * @generated from protobuf message subscription.ListInvoices.Request
  */
-export interface Invoices_Request {
+export interface ListInvoices_Request {
     /**
      * @generated from protobuf field: int32 limit = 1;
      */
@@ -758,22 +774,38 @@ export interface Invoices_Request {
     query: string;
 }
 /**
- * @generated from protobuf message subscription.Invoices.Response
+ * @generated from protobuf message subscription.ListInvoices.Response
  */
-export interface Invoices_Response {
+export interface ListInvoices_Response {
     /**
      * @generated from protobuf field: int32 total = 1;
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated subscription.Invoices.Response.Invoice invoice = 2;
+     * @generated from protobuf field: repeated subscription.Invoice.Response invoice = 2;
      */
-    invoice: Invoices_Response_Invoice[];
+    invoice: Invoice_Response[];
 }
 /**
- * @generated from protobuf message subscription.Invoices.Response.Invoice
+ * rpc Invoice
+ *
+ * @generated from protobuf message subscription.Invoice
  */
-export interface Invoices_Response_Invoice {
+export interface Invoice {
+}
+/**
+ * @generated from protobuf message subscription.Invoice.Request
+ */
+export interface Invoice_Request {
+    /**
+     * @generated from protobuf field: string invoice_id = 1;
+     */
+    invoice_id: string; // @gotags: query:"invoice_id" params:"invoice_id"
+}
+/**
+ * @generated from protobuf message subscription.Invoice.Response
+ */
+export interface Invoice_Response {
     /**
      * @generated from protobuf field: string invoice_id = 1;
      */
@@ -824,33 +856,37 @@ export interface Invoices_Response_Invoice {
  */
 export enum Sections {
     /**
-     * @generated from protobuf enum value: servers = 0;
+     * @generated from protobuf enum value: section_unspecified = 0;
      */
-    servers = 0,
+    section_unspecified = 0,
     /**
-     * @generated from protobuf enum value: members = 1;
+     * @generated from protobuf enum value: servers = 1;
      */
-    members = 1,
+    servers = 1,
     /**
-     * @generated from protobuf enum value: invites = 2;
+     * @generated from protobuf enum value: members = 2;
      */
-    invites = 2,
+    members = 2,
     /**
-     * @generated from protobuf enum value: ldap = 3;
+     * @generated from protobuf enum value: invites = 3;
      */
-    ldap = 3,
+    invites = 3,
     /**
-     * @generated from protobuf enum value: tasks = 4;
+     * @generated from protobuf enum value: ldap = 4;
      */
-    tasks = 4,
+    ldap = 4,
     /**
-     * @generated from protobuf enum value: security = 5;
+     * @generated from protobuf enum value: tasks = 5;
      */
-    security = 5,
+    tasks = 5,
     /**
-     * @generated from protobuf enum value: log_activities = 6;
+     * @generated from protobuf enum value: security = 6;
      */
-    log_activities = 6
+    security = 6,
+    /**
+     * @generated from protobuf enum value: log_activities = 7;
+     */
+    log_activities = 7
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class PlansLite$Type extends MessageType<PlansLite> {
@@ -939,7 +975,7 @@ export const Subscription = new Subscription$Type();
 class Subscription_Request$Type extends MessageType<Subscription_Request> {
     constructor() {
         super("subscription.Subscription.Request", [
-            { no: 1, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -981,11 +1017,11 @@ export const AddSubscription = new AddSubscription$Type();
 class AddSubscription_Request$Type extends MessageType<AddSubscription_Request> {
     constructor() {
         super("subscription.AddSubscription.Request", [
-            { no: 1, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "customer_id", kind: "scalar", localName: "customer_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "customer_name", kind: "scalar", localName: "customer_name", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "plan_name", kind: "scalar", localName: "plan_name", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "customer_id", kind: "scalar", localName: "customer_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "customer_name", kind: "scalar", localName: "customer_name", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 4, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 5, name: "plan_name", kind: "scalar", localName: "plan_name", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
             { no: 6, name: "start_date", kind: "message", localName: "start_date", T: () => Timestamp },
             { no: 7, name: "end_date", kind: "message", localName: "end_date", T: () => Timestamp },
             { no: 8, name: "state", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -1023,11 +1059,11 @@ export const UpdateSubscription = new UpdateSubscription$Type();
 class UpdateSubscription_Request$Type extends MessageType<UpdateSubscription_Request> {
     constructor() {
         super("subscription.UpdateSubscription.Request", [
-            { no: 1, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "customer_id", kind: "scalar", localName: "customer_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "customer_name", kind: "scalar", localName: "customer_name", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "plan_name", kind: "scalar", localName: "plan_name", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "customer_id", kind: "scalar", localName: "customer_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "customer_name", kind: "scalar", localName: "customer_name", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 4, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 5, name: "plan_name", kind: "scalar", localName: "plan_name", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
             { no: 6, name: "start_date", kind: "message", localName: "start_date", T: () => Timestamp },
             { no: 7, name: "end_date", kind: "message", localName: "end_date", T: () => Timestamp },
             { no: 8, name: "state", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -1063,7 +1099,7 @@ export const DeleteSubscription = new DeleteSubscription$Type();
 class DeleteSubscription_Request$Type extends MessageType<DeleteSubscription_Request> {
     constructor() {
         super("subscription.DeleteSubscription.Request", [
-            { no: 1, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1112,7 +1148,7 @@ class ListPlans_Response$Type extends MessageType<ListPlans_Response> {
     constructor() {
         super("subscription.ListPlans.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "plans", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListPlans_Response_PlanInfo }
+            { no: 2, name: "plans", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListPlans_PlanInfo }
         ]);
     }
 }
@@ -1121,18 +1157,18 @@ class ListPlans_Response$Type extends MessageType<ListPlans_Response> {
  */
 export const ListPlans_Response = new ListPlans_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListPlans_Response_PlanInfo$Type extends MessageType<ListPlans_Response_PlanInfo> {
+class ListPlans_PlanInfo$Type extends MessageType<ListPlans_PlanInfo> {
     constructor() {
-        super("subscription.ListPlans.Response.PlanInfo", [
+        super("subscription.ListPlans.PlanInfo", [
             { no: 1, name: "subscription_count", kind: "scalar", localName: "subscription_count", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "plan", kind: "message", T: () => Plan_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.ListPlans.Response.PlanInfo
+ * @generated MessageType for protobuf message subscription.ListPlans.PlanInfo
  */
-export const ListPlans_Response_PlanInfo = new ListPlans_Response_PlanInfo$Type();
+export const ListPlans_PlanInfo = new ListPlans_PlanInfo$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Plan$Type extends MessageType<Plan> {
     constructor() {
@@ -1147,7 +1183,7 @@ export const Plan = new Plan$Type();
 class Plan_Request$Type extends MessageType<Plan_Request> {
     constructor() {
         super("subscription.Plan.Request", [
-            { no: 1, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1196,7 +1232,7 @@ export const UpdatePlan = new UpdatePlan$Type();
 class UpdatePlan_Request$Type extends MessageType<UpdatePlan_Request> {
     constructor() {
         super("subscription.UpdatePlan.Request", [
-            { no: 1, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
+            { no: 1, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "cost", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "period", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -1280,7 +1316,7 @@ export const Customer = new Customer$Type();
 class Customer_Request$Type extends MessageType<Customer_Request> {
     constructor() {
         super("subscription.Customer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1315,7 +1351,7 @@ export const AddCustomer = new AddCustomer$Type();
 class AddCustomer_Request$Type extends MessageType<AddCustomer_Request> {
     constructor() {
         super("subscription.AddCustomer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "stripe_id", kind: "scalar", localName: "stripe_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -1350,7 +1386,7 @@ export const UpdateCustomer = new UpdateCustomer$Type();
 class UpdateCustomer_Request$Type extends MessageType<UpdateCustomer_Request> {
     constructor() {
         super("subscription.UpdateCustomer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "stripe_id", kind: "scalar", localName: "stripe_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -1383,7 +1419,7 @@ export const DeleteCustomer = new DeleteCustomer$Type();
 class DeleteCustomer_Request$Type extends MessageType<DeleteCustomer_Request> {
     constructor() {
         super("subscription.DeleteCustomer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1402,19 +1438,19 @@ class DeleteCustomer_Response$Type extends MessageType<DeleteCustomer_Response> 
  */
 export const DeleteCustomer_Response = new DeleteCustomer_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Changes$Type extends MessageType<Changes> {
+class ListChanges$Type extends MessageType<ListChanges> {
     constructor() {
-        super("subscription.Changes", []);
+        super("subscription.ListChanges", []);
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.Changes
+ * @generated MessageType for protobuf message subscription.ListChanges
  */
-export const Changes = new Changes$Type();
+export const ListChanges = new ListChanges$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Changes_Request$Type extends MessageType<Changes_Request> {
+class ListChanges_Request$Type extends MessageType<ListChanges_Request> {
     constructor() {
-        super("subscription.Changes.Request", [
+        super("subscription.ListChanges.Request", [
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
@@ -1423,26 +1459,48 @@ class Changes_Request$Type extends MessageType<Changes_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.Changes.Request
+ * @generated MessageType for protobuf message subscription.ListChanges.Request
  */
-export const Changes_Request = new Changes_Request$Type();
+export const ListChanges_Request = new ListChanges_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Changes_Response$Type extends MessageType<Changes_Response> {
+class ListChanges_Response$Type extends MessageType<ListChanges_Response> {
     constructor() {
-        super("subscription.Changes.Response", [
+        super("subscription.ListChanges.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "change", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Changes_Response_Change }
+            { no: 2, name: "change", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Change_Request }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.Changes.Response
+ * @generated MessageType for protobuf message subscription.ListChanges.Response
  */
-export const Changes_Response = new Changes_Response$Type();
+export const ListChanges_Response = new ListChanges_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Changes_Response_Change$Type extends MessageType<Changes_Response_Change> {
+class Change$Type extends MessageType<Change> {
     constructor() {
-        super("subscription.Changes.Response.Change", [
+        super("subscription.Change", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message subscription.Change
+ */
+export const Change = new Change$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Change_Request$Type extends MessageType<Change_Request> {
+    constructor() {
+        super("subscription.Change.Request", [
+            { no: 1, name: "change_id", kind: "scalar", localName: "change_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message subscription.Change.Request
+ */
+export const Change_Request = new Change_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Change_Response$Type extends MessageType<Change_Response> {
+    constructor() {
+        super("subscription.Change.Response", [
             { no: 1, name: "change_id", kind: "scalar", localName: "change_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/ },
@@ -1451,23 +1509,23 @@ class Changes_Response_Change$Type extends MessageType<Changes_Response_Change> 
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.Changes.Response.Change
+ * @generated MessageType for protobuf message subscription.Change.Response
  */
-export const Changes_Response_Change = new Changes_Response_Change$Type();
+export const Change_Response = new Change_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Invoices$Type extends MessageType<Invoices> {
+class ListInvoices$Type extends MessageType<ListInvoices> {
     constructor() {
-        super("subscription.Invoices", []);
+        super("subscription.ListInvoices", []);
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.Invoices
+ * @generated MessageType for protobuf message subscription.ListInvoices
  */
-export const Invoices = new Invoices$Type();
+export const ListInvoices = new ListInvoices$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Invoices_Request$Type extends MessageType<Invoices_Request> {
+class ListInvoices_Request$Type extends MessageType<ListInvoices_Request> {
     constructor() {
-        super("subscription.Invoices.Request", [
+        super("subscription.ListInvoices.Request", [
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
@@ -1476,26 +1534,48 @@ class Invoices_Request$Type extends MessageType<Invoices_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.Invoices.Request
+ * @generated MessageType for protobuf message subscription.ListInvoices.Request
  */
-export const Invoices_Request = new Invoices_Request$Type();
+export const ListInvoices_Request = new ListInvoices_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Invoices_Response$Type extends MessageType<Invoices_Response> {
+class ListInvoices_Response$Type extends MessageType<ListInvoices_Response> {
     constructor() {
-        super("subscription.Invoices.Response", [
+        super("subscription.ListInvoices.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "invoice", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Invoices_Response_Invoice }
+            { no: 2, name: "invoice", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Invoice_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.Invoices.Response
+ * @generated MessageType for protobuf message subscription.ListInvoices.Response
  */
-export const Invoices_Response = new Invoices_Response$Type();
+export const ListInvoices_Response = new ListInvoices_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class Invoices_Response_Invoice$Type extends MessageType<Invoices_Response_Invoice> {
+class Invoice$Type extends MessageType<Invoice> {
     constructor() {
-        super("subscription.Invoices.Response.Invoice", [
+        super("subscription.Invoice", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message subscription.Invoice
+ */
+export const Invoice = new Invoice$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Invoice_Request$Type extends MessageType<Invoice_Request> {
+    constructor() {
+        super("subscription.Invoice.Request", [
+            { no: 1, name: "invoice_id", kind: "scalar", localName: "invoice_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message subscription.Invoice.Request
+ */
+export const Invoice_Request = new Invoice_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Invoice_Response$Type extends MessageType<Invoice_Response> {
+    constructor() {
+        super("subscription.Invoice.Response", [
             { no: 1, name: "invoice_id", kind: "scalar", localName: "invoice_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "subscription_id", kind: "scalar", localName: "subscription_id", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "plan_id", kind: "scalar", localName: "plan_id", T: 9 /*ScalarType.STRING*/ },
@@ -1511,9 +1591,9 @@ class Invoices_Response_Invoice$Type extends MessageType<Invoices_Response_Invoi
     }
 }
 /**
- * @generated MessageType for protobuf message subscription.Invoices.Response.Invoice
+ * @generated MessageType for protobuf message subscription.Invoice.Response
  */
-export const Invoices_Response_Invoice = new Invoices_Response_Invoice$Type();
+export const Invoice_Response = new Invoice_Response$Type();
 /**
  * @generated ServiceType for protobuf service subscription.SubscriptionHandlers
  */
@@ -1531,6 +1611,8 @@ export const SubscriptionHandlers = new ServiceType("subscription.SubscriptionHa
     { name: "AddCustomer", options: {}, I: AddCustomer_Request, O: AddCustomer_Response },
     { name: "UpdateCustomer", options: {}, I: UpdateCustomer_Request, O: UpdateCustomer_Response },
     { name: "DeleteCustomer", options: {}, I: DeleteCustomer_Request, O: DeleteCustomer_Response },
-    { name: "Changes", options: {}, I: Changes_Request, O: Changes_Response },
-    { name: "Invoices", options: {}, I: Invoices_Request, O: Invoices_Response }
+    { name: "ListChanges", options: {}, I: ListChanges_Request, O: ListChanges_Response },
+    { name: "Change", options: {}, I: Change_Request, O: Change_Response },
+    { name: "ListInvoices", options: {}, I: ListInvoices_Request, O: ListInvoices_Response },
+    { name: "Invoice", options: {}, I: Invoice_Request, O: Invoice_Response }
 ]);

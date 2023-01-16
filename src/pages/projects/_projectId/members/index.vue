@@ -37,7 +37,7 @@
           <td>999</td>
           <td>999</td>
           <td class="flex items-center">
-            <Badge :name="RoleUser[item.role]" />
+            <Badge :name="Role[item.role]" />
           </td>
           <td>
             <div class="flex items-center">
@@ -79,8 +79,8 @@ import { SvgIcon, Pagination, Badge, Toggle, Tabs } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getProjectMembers, updateProjectMemberStatus } from "@/api/member/project";
-import { UpdateProjectMemberStatus_Request } from "@proto/member";
-import { RoleUser } from "@proto/user";
+import { UpdateProjectMember_Request } from "@proto/member";
+import { Role } from "@proto/user";
 
 const { proxy } = getCurrentInstance();
 const route = useRoute();
@@ -123,11 +123,13 @@ const changeMemberActive = async (index: number, online: boolean) => {
   const status = !online;
   data.value.members[Number(index)].active = status;
 
-  await updateProjectMemberStatus(<UpdateProjectMemberStatus_Request>{
+  await updateProjectMemberStatus(<UpdateProjectMember_Request>{
     owner_id: proxy.$authStore.hasUserID,
     project_id: props.projectId,
     member_id: data.value.members[Number(index)].member_id,
-    status: status,
+    setting: {
+      active: status,
+    },
   })
     .then((res) => {
       if (!status) {

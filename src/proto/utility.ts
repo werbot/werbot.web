@@ -7,32 +7,32 @@ import { MessageType } from "@protobuf-ts/runtime";
 /**
  * rpc GetInfo
  *
- * @generated from protobuf message utility.ListCountries
+ * @generated from protobuf message utility.Countries
  */
-export interface ListCountries {
+export interface Countries {
 }
 /**
- * @generated from protobuf message utility.ListCountries.Request
+ * @generated from protobuf message utility.Countries.Request
  */
-export interface ListCountries_Request {
+export interface Countries_Request {
     /**
      * @generated from protobuf field: string name = 1;
      */
     name: string;
 }
 /**
- * @generated from protobuf message utility.ListCountries.Response
+ * @generated from protobuf message utility.Countries.Response
  */
-export interface ListCountries_Response {
+export interface Countries_Response {
     /**
-     * @generated from protobuf field: repeated utility.ListCountries.Response.Country countries = 1;
+     * @generated from protobuf field: repeated utility.Countries.Country countries = 1;
      */
-    countries: ListCountries_Response_Country[];
+    countries: Countries_Country[];
 }
 /**
- * @generated from protobuf message utility.ListCountries.Response.Country
+ * @generated from protobuf message utility.Countries.Country
  */
-export interface ListCountries_Response_Country {
+export interface Countries_Country {
     /**
      * @generated from protobuf field: string code = 1;
      */
@@ -42,56 +42,121 @@ export interface ListCountries_Response_Country {
      */
     name: string;
 }
+/**
+ * rpc CountryByIP
+ *
+ * @generated from protobuf message utility.CountryByIP
+ */
+export interface CountryByIP {
+}
+/**
+ * @generated from protobuf message utility.CountryByIP.Request
+ */
+export interface CountryByIP_Request {
+    /**
+     * @generated from protobuf field: string ip = 1;
+     */
+    ip: string;
+}
+/**
+ * @generated from protobuf message utility.CountryByIP.Response
+ */
+export interface CountryByIP_Response {
+    /**
+     * @generated from protobuf field: string name = 1;
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: string code = 2;
+     */
+    code: string;
+}
 // @generated message type with reflection information, may provide speed optimized methods
-class ListCountries$Type extends MessageType<ListCountries> {
+class Countries$Type extends MessageType<Countries> {
     constructor() {
-        super("utility.ListCountries", []);
+        super("utility.Countries", []);
     }
 }
 /**
- * @generated MessageType for protobuf message utility.ListCountries
+ * @generated MessageType for protobuf message utility.Countries
  */
-export const ListCountries = new ListCountries$Type();
+export const Countries = new Countries$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListCountries_Request$Type extends MessageType<ListCountries_Request> {
+class Countries_Request$Type extends MessageType<Countries_Request> {
     constructor() {
-        super("utility.ListCountries.Request", [
+        super("utility.Countries.Request", [
             { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "2" } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message utility.ListCountries.Request
+ * @generated MessageType for protobuf message utility.Countries.Request
  */
-export const ListCountries_Request = new ListCountries_Request$Type();
+export const Countries_Request = new Countries_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListCountries_Response$Type extends MessageType<ListCountries_Response> {
+class Countries_Response$Type extends MessageType<Countries_Response> {
     constructor() {
-        super("utility.ListCountries.Response", [
-            { no: 1, name: "countries", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListCountries_Response_Country }
+        super("utility.Countries.Response", [
+            { no: 1, name: "countries", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Countries_Country }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message utility.ListCountries.Response
+ * @generated MessageType for protobuf message utility.Countries.Response
  */
-export const ListCountries_Response = new ListCountries_Response$Type();
+export const Countries_Response = new Countries_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListCountries_Response_Country$Type extends MessageType<ListCountries_Response_Country> {
+class Countries_Country$Type extends MessageType<Countries_Country> {
     constructor() {
-        super("utility.ListCountries.Response.Country", [
+        super("utility.Countries.Country", [
             { no: 1, name: "code", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message utility.ListCountries.Response.Country
+ * @generated MessageType for protobuf message utility.Countries.Country
  */
-export const ListCountries_Response_Country = new ListCountries_Response_Country$Type();
+export const Countries_Country = new Countries_Country$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class CountryByIP$Type extends MessageType<CountryByIP> {
+    constructor() {
+        super("utility.CountryByIP", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message utility.CountryByIP
+ */
+export const CountryByIP = new CountryByIP$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class CountryByIP_Request$Type extends MessageType<CountryByIP_Request> {
+    constructor() {
+        super("utility.CountryByIP.Request", [
+            { no: 1, name: "ip", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message utility.CountryByIP.Request
+ */
+export const CountryByIP_Request = new CountryByIP_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class CountryByIP_Response$Type extends MessageType<CountryByIP_Response> {
+    constructor() {
+        super("utility.CountryByIP.Response", [
+            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "code", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message utility.CountryByIP.Response
+ */
+export const CountryByIP_Response = new CountryByIP_Response$Type();
 /**
  * @generated ServiceType for protobuf service utility.UtilityHandlers
  */
 export const UtilityHandlers = new ServiceType("utility.UtilityHandlers", [
-    { name: "ListCountries", options: {}, I: ListCountries_Request, O: ListCountries_Response }
+    { name: "Countries", options: {}, I: Countries_Request, O: Countries_Response },
+    { name: "CountryByIP", options: {}, I: CountryByIP_Request, O: CountryByIP_Response }
 ]);

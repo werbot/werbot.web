@@ -5,7 +5,6 @@ import {
   AddServer_Request,
   UpdateServer_Request,
   DeleteServer_Request,
-  UpdateServerActiveStatus_Request,
   ServerNameByID_Request,
 } from "@proto/server";
 
@@ -33,7 +32,7 @@ const updateServer = async (data: UpdateServer_Request) =>
 const deleteServer = async (data: DeleteServer_Request) =>
   http("DELETE", URL.servers, { params: data });
 
-const updateServerStatus = async (data: UpdateServerActiveStatus_Request) =>
+const updateServerStatus = async (data: UpdateServer_Request) =>
   http("PATCH", URL.servers + "/active", { data: data });
 
 const serverNameByID = async (data: ServerNameByID_Request) =>

@@ -4,31 +4,31 @@
 // @ts-nocheck
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { RoleUser } from "./user/user";
+import { Role } from "./user/user";
 /**
- * rpc UserStatistics
+ * rpc UserMetrics
  *
- * @generated from protobuf message info.UserStatistics
+ * @generated from protobuf message info.UserMetrics
  */
-export interface UserStatistics {
+export interface UserMetrics {
 }
 /**
- * @generated from protobuf message info.UserStatistics.Request
+ * @generated from protobuf message info.UserMetrics.Request
  */
-export interface UserStatistics_Request {
+export interface UserMetrics_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
     user_id: string; // @gotags: query:"user_id" params:"user_id"
     /**
-     * @generated from protobuf field: user.RoleUser role = 2;
+     * @generated from protobuf field: user.Role role = 2;
      */
-    role: RoleUser;
+    role: Role;
 }
 /**
- * @generated from protobuf message info.UserStatistics.Response
+ * @generated from protobuf message info.UserMetrics.Response
  */
-export interface UserStatistics_Response {
+export interface UserMetrics_Response {
     /**
      * @generated from protobuf field: int32 users = 1;
      */
@@ -43,32 +43,32 @@ export interface UserStatistics_Response {
     servers: number;
 }
 // @generated message type with reflection information, may provide speed optimized methods
-class UserStatistics$Type extends MessageType<UserStatistics> {
+class UserMetrics$Type extends MessageType<UserMetrics> {
     constructor() {
-        super("info.UserStatistics", []);
+        super("info.UserMetrics", []);
     }
 }
 /**
- * @generated MessageType for protobuf message info.UserStatistics
+ * @generated MessageType for protobuf message info.UserMetrics
  */
-export const UserStatistics = new UserStatistics$Type();
+export const UserMetrics = new UserMetrics$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UserStatistics_Request$Type extends MessageType<UserStatistics_Request> {
+class UserMetrics_Request$Type extends MessageType<UserMetrics_Request> {
     constructor() {
-        super("info.UserStatistics.Request", [
+        super("info.UserMetrics.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "role", kind: "enum", T: () => ["user.RoleUser", RoleUser] }
+            { no: 2, name: "role", kind: "enum", T: () => ["user.Role", Role] }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message info.UserStatistics.Request
+ * @generated MessageType for protobuf message info.UserMetrics.Request
  */
-export const UserStatistics_Request = new UserStatistics_Request$Type();
+export const UserMetrics_Request = new UserMetrics_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UserStatistics_Response$Type extends MessageType<UserStatistics_Response> {
+class UserMetrics_Response$Type extends MessageType<UserMetrics_Response> {
     constructor() {
-        super("info.UserStatistics.Response", [
+        super("info.UserMetrics.Response", [
             { no: 1, name: "users", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "projects", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "servers", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
@@ -76,12 +76,12 @@ class UserStatistics_Response$Type extends MessageType<UserStatistics_Response> 
     }
 }
 /**
- * @generated MessageType for protobuf message info.UserStatistics.Response
+ * @generated MessageType for protobuf message info.UserMetrics.Response
  */
-export const UserStatistics_Response = new UserStatistics_Response$Type();
+export const UserMetrics_Response = new UserMetrics_Response$Type();
 /**
  * @generated ServiceType for protobuf service info.InfoHandlers
  */
 export const InfoHandlers = new ServiceType("info.InfoHandlers", [
-    { name: "UserStatistics", options: {}, I: UserStatistics_Request, O: UserStatistics_Response }
+    { name: "UserMetrics", options: {}, I: UserMetrics_Request, O: UserMetrics_Response }
 ]);

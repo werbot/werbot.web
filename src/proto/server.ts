@@ -6,26 +6,6 @@ import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
- * -----------------------------------------------------
- * use in API in body request
- *
- * @generated from protobuf message server.ActivityRequest
- */
-export interface ActivityRequest {
-    /**
-     * @generated from protobuf field: string user_id = 1;
-     */
-    user_id: string; // @gotags: query:"user_id"
-    /**
-     * @generated from protobuf field: string project_id = 2;
-     */
-    project_id: string; // @gotags: query:"project_id"
-    /**
-     * @generated from protobuf field: server.ServerActivity.Response activity = 3;
-     */
-    activity?: ServerActivity_Response;
-}
-/**
  * rpc ListServers
  *
  * @generated from protobuf message server.ListServers
@@ -219,9 +199,9 @@ export interface AddServer_Request {
      */
     title: string;
     /**
-     * @generated from protobuf field: server.ServerAuth auth = 7;
+     * @generated from protobuf field: server.Auth auth = 7;
      */
-    auth: ServerAuth;
+    auth: Auth;
     /**
      * @generated from protobuf field: server.ServerScheme scheme = 8;
      */
@@ -268,8 +248,6 @@ export interface AddServer_Response {
      */
     key_public: string;
 }
-// -----------------------------------------------------
-
 /**
  * rpc UpdateServer
  *
@@ -286,50 +264,77 @@ export interface UpdateServer_Request {
      */
     user_id: string; // @gotags: query:"user_id" params:"user_id"
     /**
-     * @generated from protobuf field: string server_id = 2;
-     */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
-    /**
-     * @generated from protobuf field: string project_id = 3;
+     * @generated from protobuf field: string project_id = 2;
      */
     project_id: string; // @gotags: query:"project_id" params:"project_id"
     /**
-     * @generated from protobuf field: string address = 4;
+     * @generated from protobuf field: string server_id = 3;
      */
-    address: string; // @gotags: query:"address" params:"address"
+    server_id: string; // @gotags: query:"server_id" params:"server_id"
     /**
-     * @generated from protobuf field: int32 port = 5;
+     * @generated from protobuf oneof: setting
      */
-    port: number; // @gotags: query:"port" params:"port"
-    /**
-     * @generated from protobuf field: string login = 6;
-     */
-    login: string; // @gotags: query:"login" params:"login"
-    /**
-     * @generated from protobuf field: string title = 7;
-     */
-    title: string; // @gotags: query:"title" params:"title"
-    /**
-     * @generated from protobuf field: string private_description = 8;
-     */
-    private_description: string;
-    /**
-     * @generated from protobuf field: string public_description = 9;
-     */
-    public_description: string;
-    /**
-     * @generated from protobuf field: bool audit = 10;
-     */
-    audit: boolean;
-    /**
-     * @generated from protobuf field: bool active = 11;
-     */
-    active: boolean;
+    setting: {
+        oneofKind: "info";
+        /**
+         * @generated from protobuf field: server.UpdateServer.Info info = 4;
+         */
+        info: UpdateServer_Info;
+    } | {
+        oneofKind: "audit";
+        /**
+         * @generated from protobuf field: bool audit = 5;
+         */
+        audit: boolean;
+    } | {
+        oneofKind: "active";
+        /**
+         * @generated from protobuf field: bool active = 6;
+         */
+        active: boolean;
+    } | {
+        oneofKind: "online";
+        /**
+         * @generated from protobuf field: bool online = 7;
+         */
+        online: boolean;
+    } | {
+        oneofKind: undefined;
+    };
 }
 /**
  * @generated from protobuf message server.UpdateServer.Response
  */
 export interface UpdateServer_Response {
+}
+/**
+ * @generated from protobuf message server.UpdateServer.Info
+ */
+export interface UpdateServer_Info {
+    /**
+     * @generated from protobuf field: string address = 1;
+     */
+    address: string; // @gotags: query:"address" params:"address"
+    /**
+     * @generated from protobuf field: int32 port = 2;
+     */
+    port: number; // @gotags: query:"port" params:"port"
+    /**
+     * @generated from protobuf field: string login = 3;
+     */
+    login: string; // @gotags: query:"login" params:"login"
+    /**
+     * @generated from protobuf field: string title = 4;
+     */
+    title: string; // @gotags: query:"title" params:"title"
+    /**
+     * @generated from protobuf field: string private_description = 5;
+     */
+    private_description: string;
+    /**
+     * @generated from protobuf field: string public_description = 6;
+     */
+    public_description: string;
 }
 /**
  * rpc DeleteServer
@@ -361,64 +366,6 @@ export interface DeleteServer_Request {
 export interface DeleteServer_Response {
 }
 /**
- * rpc UpdateServerOnlineStatus
- *
- * @generated from protobuf message server.UpdateServerOnlineStatus
- */
-export interface UpdateServerOnlineStatus {
-}
-/**
- * @generated from protobuf message server.UpdateServerOnlineStatus.Request
- */
-export interface UpdateServerOnlineStatus_Request {
-    /**
-     * @generated from protobuf field: string user_id = 1;
-     */
-    user_id: string; // @gotags: query:"user_id"
-    /**
-     * @generated from protobuf field: string server_id = 2;
-     */
-    server_id: string; // @gotags: query:"server_id"
-    /**
-     * @generated from protobuf field: bool status = 3;
-     */
-    status: boolean;
-}
-/**
- * @generated from protobuf message server.UpdateServerOnlineStatus.Response
- */
-export interface UpdateServerOnlineStatus_Response {
-}
-/**
- * rpc UpdateServerActiveStatus
- *
- * @generated from protobuf message server.UpdateServerActiveStatus
- */
-export interface UpdateServerActiveStatus {
-}
-/**
- * @generated from protobuf message server.UpdateServerActiveStatus.Request
- */
-export interface UpdateServerActiveStatus_Request {
-    /**
-     * @generated from protobuf field: string user_id = 1;
-     */
-    user_id: string; // @gotags: query:"user_id"
-    /**
-     * @generated from protobuf field: string server_id = 2;
-     */
-    server_id: string;
-    /**
-     * @generated from protobuf field: bool status = 3;
-     */
-    status: boolean;
-}
-/**
- * @generated from protobuf message server.UpdateServerActiveStatus.Response
- */
-export interface UpdateServerActiveStatus_Response {
-}
-/**
  * rpc ServerAccess
  *
  * @generated from protobuf message server.ServerAccess
@@ -447,29 +394,48 @@ export interface ServerAccess_Request {
  */
 export interface ServerAccess_Response {
     /**
-     * @generated from protobuf field: server.ServerAuth auth = 1;
+     * @generated from protobuf field: server.Auth auth = 1;
      */
-    auth: ServerAuth;
+    auth: Auth;
     /**
-     * @generated from protobuf field: string password = 2;
+     * @generated from protobuf oneof: access
+     */
+    access: {
+        oneofKind: "password";
+        /**
+         * @generated from protobuf field: string password = 2;
+         */
+        password: string;
+    } | {
+        oneofKind: "key";
+        /**
+         * @generated from protobuf field: server.ServerAccess.Key key = 3;
+         */
+        key: ServerAccess_Key;
+    } | {
+        oneofKind: undefined;
+    };
+}
+/**
+ * @generated from protobuf message server.ServerAccess.Key
+ */
+export interface ServerAccess_Key {
+    /**
+     * @generated from protobuf field: string public = 1;
+     */
+    public: string;
+    /**
+     * @generated from protobuf field: string private = 2;
+     */
+    private: string;
+    /**
+     * @generated from protobuf field: string password = 3;
      */
     password: string;
     /**
-     * @generated from protobuf field: string public_key = 3;
+     * @generated from protobuf field: string fingeprint = 4;
      */
-    public_key: string;
-    /**
-     * @generated from protobuf field: string private_key = 4;
-     */
-    private_key: string;
-    /**
-     * @generated from protobuf field: string password_key = 5;
-     */
-    password_key: string;
-    /**
-     * @generated from protobuf field: string fingeprint_key = 6;
-     */
-    fingeprint_key: string;
+    fingeprint: string;
 }
 /**
  * rpc UpdateServerAccess
@@ -495,9 +461,9 @@ export interface UpdateServerAccess_Request {
      */
     server_id: string; // @gotags: query:"server_id"
     /**
-     * @generated from protobuf field: server.ServerAuth auth = 4;
+     * @generated from protobuf field: server.Auth auth = 4;
      */
-    auth: ServerAuth;
+    auth: Auth;
     /**
      * @generated from protobuf field: string password = 5;
      */
@@ -509,7 +475,7 @@ export interface UpdateServerAccess_Request {
     /**
      * @generated from protobuf field: string key_uuid = 7;
      */
-    key_uuid: string;
+    key_uuid: string; // temp uuid for new generate key
 }
 /**
  * @generated from protobuf message server.UpdateServerAccess.Response
@@ -538,7 +504,7 @@ export interface ServerActivity_Request {
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string;
+    server_id: string; // @gotags: query:"server_id"
 }
 /**
  * @generated from protobuf message server.ServerActivity.Response
@@ -595,7 +561,7 @@ export interface UpdateServerActivity_Request {
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string;
+    server_id: string; // @gotags: query:"server_id"
     /**
      * @generated from protobuf field: server.ServerActivity.Response activity = 4;
      */
@@ -607,74 +573,45 @@ export interface UpdateServerActivity_Request {
 export interface UpdateServerActivity_Response {
 }
 /**
- * rpc UpdateServerActive
+ * rpc UpdateHostKey
  *
- * @generated from protobuf message server.UpdateServerActive
+ * @generated from protobuf message server.UpdateHostKey
  */
-export interface UpdateServerActive {
+export interface UpdateHostKey {
 }
 /**
- * @generated from protobuf message server.UpdateServerActive.Request
+ * @generated from protobuf message server.UpdateHostKey.Request
  */
-export interface UpdateServerActive_Request {
-    /**
-     * @generated from protobuf field: string user_id = 1;
-     */
-    user_id: string; // @gotags: query:"user_id"
-    /**
-     * @generated from protobuf field: string server_id = 2;
-     */
-    server_id: string; // @gotags: query:"server_id"
-    /**
-     * @generated from protobuf field: bool status = 3;
-     */
-    status: boolean;
-}
-/**
- * @generated from protobuf message server.UpdateServerActive.Response
- */
-export interface UpdateServerActive_Response {
-}
-/**
- * rpc UpdateServerHostKey
- *
- * @generated from protobuf message server.UpdateServerHostKey
- */
-export interface UpdateServerHostKey {
-}
-/**
- * @generated from protobuf message server.UpdateServerHostKey.Request
- */
-export interface UpdateServerHostKey_Request {
+export interface UpdateHostKey_Request {
     /**
      * @generated from protobuf field: string server_id = 1;
      */
-    server_id: string;
+    server_id: string; // @gotags: query:"server_id"
     /**
      * @generated from protobuf field: bytes hostkey = 2;
      */
     hostkey: Uint8Array;
 }
 /**
- * @generated from protobuf message server.UpdateServerHostKey.Response
+ * @generated from protobuf message server.UpdateHostKey.Response
  */
-export interface UpdateServerHostKey_Response {
+export interface UpdateHostKey_Response {
 }
 /**
- * rpc AddServerSession
+ * rpc AddSession
  *
- * @generated from protobuf message server.AddServerSession
+ * @generated from protobuf message server.AddSession
  */
-export interface AddServerSession {
+export interface AddSession {
 }
 /**
- * @generated from protobuf message server.AddServerSession.Request
+ * @generated from protobuf message server.AddSession.Request
  */
-export interface AddServerSession_Request {
+export interface AddSession_Request {
     /**
      * @generated from protobuf field: string account_id = 1;
      */
-    account_id: string;
+    account_id: string; // @gotags: query:"account_id"
     /**
      * @generated from protobuf field: server.SessionStatus status = 2;
      */
@@ -687,15 +624,11 @@ export interface AddServerSession_Request {
      * @generated from protobuf field: string message = 4;
      */
     message: string;
-    /**
-     * @generated from protobuf field: string uuid = 5;
-     */
-    uuid: string;
 }
 /**
- * @generated from protobuf message server.AddServerSession.Response
+ * @generated from protobuf message server.AddSession.Response
  */
-export interface AddServerSession_Response {
+export interface AddSession_Response {
     /**
      * @generated from protobuf field: string session_id = 1;
      */
@@ -717,13 +650,13 @@ export interface ServerNameByID_Request {
      */
     user_id: string; // @gotags: query:"user_id" params:"user_id"
     /**
-     * @generated from protobuf field: string server_id = 2;
-     */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
-    /**
-     * @generated from protobuf field: string project_id = 3;
+     * @generated from protobuf field: string project_id = 2;
      */
     project_id: string; // @gotags: query:"project_id" params:"project_id"
+    /**
+     * @generated from protobuf field: string server_id = 3;
+     */
+    server_id: string; // @gotags: query:"server_id" params:"server_id"
 }
 /**
  * @generated from protobuf message server.ServerNameByID.Response
@@ -735,16 +668,16 @@ export interface ServerNameByID_Response {
     server_name: string;
 }
 /**
- * rpc ListServersShareForUser
+ * rpc ListShareServers
  *
- * @generated from protobuf message server.ListServersShareForUser
+ * @generated from protobuf message server.ListShareServers
  */
-export interface ListServersShareForUser {
+export interface ListShareServers {
 }
 /**
- * @generated from protobuf message server.ListServersShareForUser.Request
+ * @generated from protobuf message server.ListShareServers.Request
  */
-export interface ListServersShareForUser_Request {
+export interface ListShareServers_Request {
     /**
      * @generated from protobuf field: int32 limit = 1;
      */
@@ -763,22 +696,22 @@ export interface ListServersShareForUser_Request {
     user_id: string; // @gotags: query:"user_id" params:"user_id"
 }
 /**
- * @generated from protobuf message server.ListServersShareForUser.Response
+ * @generated from protobuf message server.ListShareServers.Response
  */
-export interface ListServersShareForUser_Response {
+export interface ListShareServers_Response {
     /**
      * @generated from protobuf field: int32 total = 1;
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated server.ListServersShareForUser.Response.SharedServer servers = 2;
+     * @generated from protobuf field: repeated server.ListShareServers.Response.SharedServer servers = 2;
      */
-    servers: ListServersShareForUser_Response_SharedServer[];
+    servers: ListShareServers_Response_SharedServer[];
 }
 /**
- * @generated from protobuf message server.ListServersShareForUser.Response.SharedServer
+ * @generated from protobuf message server.ListShareServers.Response.SharedServer
  */
-export interface ListServersShareForUser_Response_SharedServer {
+export interface ListShareServers_Response_SharedServer {
     /**
      * @generated from protobuf field: string user_login = 1;
      */
@@ -788,13 +721,13 @@ export interface ListServersShareForUser_Response_SharedServer {
      */
     project_login: string;
     /**
-     * @generated from protobuf field: string server_token = 3;
-     */
-    server_token: string;
-    /**
-     * @generated from protobuf field: string server_id = 4;
+     * @generated from protobuf field: string server_id = 3;
      */
     server_id: string;
+    /**
+     * @generated from protobuf field: string server_token = 4;
+     */
+    server_token: string;
     /**
      * @generated from protobuf field: bool server_online = 5;
      */
@@ -809,198 +742,288 @@ export interface ListServersShareForUser_Response_SharedServer {
     server_description: string;
 }
 /**
- * rpc AddServerShareForUser
+ * rpc AddShareServer
  *
- * @generated from protobuf message server.AddServerShareForUser
+ * @generated from protobuf message server.AddShareServer
  */
-export interface AddServerShareForUser {
+export interface AddShareServer {
 }
 /**
- * @generated from protobuf message server.AddServerShareForUser.Request
+ * @generated from protobuf message server.AddShareServer.Request
  */
-export interface AddServerShareForUser_Request {
+export interface AddShareServer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string;
+    user_id: string; // @gotags: query:"user_id" params:"user_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string;
+    project_id: string; // @gotags: query:"project_id" params:"project_id"
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string;
+    server_id: string; // @gotags: query:"server_id" params:"server_id"
 }
 /**
- * @generated from protobuf message server.AddServerShareForUser.Response
+ * @generated from protobuf message server.AddShareServer.Response
  */
-export interface AddServerShareForUser_Response {
+export interface AddShareServer_Response {
 }
 /**
- * rpc UpdateServerShareForUser
+ * rpc UpdateShareServer
  *
- * @generated from protobuf message server.UpdateServerShareForUser
+ * @generated from protobuf message server.UpdateShareServer
  */
-export interface UpdateServerShareForUser {
+export interface UpdateShareServer {
 }
 /**
- * @generated from protobuf message server.UpdateServerShareForUser.Request
+ * @generated from protobuf message server.UpdateShareServer.Request
  */
-export interface UpdateServerShareForUser_Request {
+export interface UpdateShareServer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string;
+    user_id: string; // @gotags: query:"user_id" params:"user_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string;
+    project_id: string; // @gotags: query:"project_id" params:"project_id"
     /**
      * @generated from protobuf field: string share_id = 3;
      */
-    share_id: string;
+    share_id: string; // @gotags: query:"share_id" params:"share_id"
 }
 /**
- * @generated from protobuf message server.UpdateServerShareForUser.Response
+ * @generated from protobuf message server.UpdateShareServer.Response
  */
-export interface UpdateServerShareForUser_Response {
+export interface UpdateShareServer_Response {
 }
 /**
- * rpc DeleteServerShareForUser
+ * rpc DeleteShareServer
  *
- * @generated from protobuf message server.DeleteServerShareForUser
+ * @generated from protobuf message server.DeleteShareServer
  */
-export interface DeleteServerShareForUser {
+export interface DeleteShareServer {
 }
 /**
- * @generated from protobuf message server.DeleteServerShareForUser.Request
+ * @generated from protobuf message server.DeleteShareServer.Request
  */
-export interface DeleteServerShareForUser_Request {
+export interface DeleteShareServer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string;
+    user_id: string; // @gotags: query:"user_id" params:"user_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string;
+    project_id: string; // @gotags: query:"project_id" params:"project_id"
     /**
      * @generated from protobuf field: string share_id = 3;
      */
-    share_id: string;
+    share_id: string; // @gotags: query:"share_id" params:"share_id"
 }
 /**
- * @generated from protobuf message server.DeleteServerShareForUser.Response
+ * @generated from protobuf message server.DeleteShareServer.Response
  */
-export interface DeleteServerShareForUser_Response {
+export interface DeleteShareServer_Response {
 }
 /**
- * @generated from protobuf enum server.ServerAuth
+ * @generated from protobuf enum server.Auth
  */
-export enum ServerAuth {
+export enum Auth {
     /**
-     * @generated from protobuf enum value: SERVER_UNSPECIFIED = 0;
+     * @generated from protobuf enum value: auth_unspecified = 0;
      */
-    SERVER_UNSPECIFIED = 0,
+    auth_unspecified = 0,
     /**
-     * @generated from protobuf enum value: PASSWORD = 1;
+     * @generated from protobuf enum value: password = 1;
      */
-    PASSWORD = 1,
+    password = 1,
     /**
-     * @generated from protobuf enum value: KEY = 2;
+     * @generated from protobuf enum value: key = 2;
      */
-    KEY = 2,
+    key = 2,
     /**
-     * @generated from protobuf enum value: AGENT = 3;
+     * @generated from protobuf enum value: agent = 3;
      */
-    AGENT = 3
+    agent = 3
 }
 /**
  * @generated from protobuf enum server.ServerScheme
  */
 export enum ServerScheme {
     /**
-     * @generated from protobuf enum value: SERVER_SCHEME_UNSPECIFIED = 0;
+     * @generated from protobuf enum value: server_unspecified = 0;
      */
-    SERVER_SCHEME_UNSPECIFIED = 0,
+    server_unspecified = 0,
     /**
-     * @generated from protobuf enum value: TCP = 1;
+     * @generated from protobuf enum value: tcp = 1;
      */
-    TCP = 1,
+    tcp = 1,
     /**
-     * @generated from protobuf enum value: UDP = 2;
+     * @generated from protobuf enum value: udp = 2;
      */
-    UDP = 2,
+    udp = 2,
     /**
-     * @generated from protobuf enum value: SSH = 3;
+     * @generated from protobuf enum value: ssh = 3;
      */
-    SSH = 3,
+    ssh = 3,
     /**
-     * @generated from protobuf enum value: TELNET = 4;
+     * @generated from protobuf enum value: telnet = 4;
      */
-    TELNET = 4,
+    telnet = 4
+}
+/**
+ * @generated from protobuf enum server.DatabaseScheme
+ */
+export enum DatabaseScheme {
     /**
-     * @generated from protobuf enum value: RDP = 5;
+     * @generated from protobuf enum value: database_unspecified = 0;
      */
-    RDP = 5
+    database_unspecified = 0,
+    /**
+     * @generated from protobuf enum value: mysql = 1;
+     */
+    mysql = 1,
+    /**
+     * @generated from protobuf enum value: postgres = 2;
+     */
+    postgres = 2,
+    /**
+     * @generated from protobuf enum value: redis = 3;
+     */
+    redis = 3,
+    /**
+     * @generated from protobuf enum value: mongodb = 4;
+     */
+    mongodb = 4,
+    /**
+     * @generated from protobuf enum value: elastic = 5;
+     */
+    elastic = 5,
+    /**
+     * @generated from protobuf enum value: dynamodb = 6;
+     */
+    dynamodb = 6,
+    /**
+     * @generated from protobuf enum value: cassandra = 7;
+     */
+    cassandra = 7,
+    /**
+     * @generated from protobuf enum value: sqlserver = 8;
+     */
+    sqlserver = 8,
+    /**
+     * @generated from protobuf enum value: snowflake = 9;
+     */
+    snowflake = 9
+}
+/**
+ * @generated from protobuf enum server.DesktopScheme
+ */
+export enum DesktopScheme {
+    /**
+     * @generated from protobuf enum value: desktop_unspecified = 0;
+     */
+    desktop_unspecified = 0,
+    /**
+     * @generated from protobuf enum value: rdp = 1;
+     */
+    rdp = 1,
+    /**
+     * @generated from protobuf enum value: vnc = 2;
+     */
+    vnc = 2
+}
+/**
+ * @generated from protobuf enum server.ContainersScheme
+ */
+export enum ContainersScheme {
+    /**
+     * @generated from protobuf enum value: containers_unspecified = 0;
+     */
+    containers_unspecified = 0,
+    /**
+     * @generated from protobuf enum value: docker = 1;
+     */
+    docker = 1,
+    /**
+     * @generated from protobuf enum value: k8s = 2;
+     */
+    k8s = 2
+}
+/**
+ * @generated from protobuf enum server.CloudsScheme
+ */
+export enum CloudsScheme {
+    /**
+     * @generated from protobuf enum value: clouds_unspecified = 0;
+     */
+    clouds_unspecified = 0,
+    /**
+     * @generated from protobuf enum value: aws = 1;
+     */
+    aws = 1,
+    /**
+     * @generated from protobuf enum value: google = 2;
+     */
+    google = 2,
+    /**
+     * @generated from protobuf enum value: azure = 3;
+     */
+    azure = 3,
+    /**
+     * @generated from protobuf enum value: do = 4;
+     */
+    do = 4,
+    /**
+     * @generated from protobuf enum value: hetzner = 5;
+     */
+    hetzner = 5
 }
 /**
  * @generated from protobuf enum server.SessionStatus
  */
 export enum SessionStatus {
     /**
-     * @generated from protobuf enum value: SESSION_STATUS_UNSPECIFIED = 0;
+     * @generated from protobuf enum value: session_unspecified = 0;
      */
-    SESSION_STATUS_UNSPECIFIED = 0,
+    session_unspecified = 0,
     /**
-     * @generated from protobuf enum value: OPENED = 1;
+     * @generated from protobuf enum value: opened = 1;
      */
-    OPENED = 1,
+    opened = 1,
     /**
-     * @generated from protobuf enum value: CLOSED = 2;
+     * @generated from protobuf enum value: closed = 2;
      */
-    CLOSED = 2
+    closed = 2
 }
 /**
- * @generated from protobuf enum server.UserType
+ * @generated from protobuf enum server.Type
  */
-export enum UserType {
+export enum Type {
     /**
-     * @generated from protobuf enum value: USER_TYPE_UNSPECIFIED = 0;
+     * @generated from protobuf enum value: type_unspecified = 0;
      */
-    USER_TYPE_UNSPECIFIED = 0,
+    type_unspecified = 0,
     /**
-     * @generated from protobuf enum value: HEALTHCHECK = 1;
+     * @generated from protobuf enum value: healthcheck = 1;
      */
-    HEALTHCHECK = 1,
+    healthcheck = 1,
     /**
-     * @generated from protobuf enum value: SHELL = 2;
+     * @generated from protobuf enum value: shell = 2;
      */
-    SHELL = 2,
+    shell = 2,
     /**
-     * @generated from protobuf enum value: BASTION = 3;
+     * @generated from protobuf enum value: bastion = 3;
      */
-    BASTION = 3,
+    bastion = 3,
     /**
-     * @generated from protobuf enum value: INVITE = 4;
+     * @generated from protobuf enum value: invite = 4;
      */
-    INVITE = 4
+    invite = 4
 }
-// @generated message type with reflection information, may provide speed optimized methods
-class ActivityRequest$Type extends MessageType<ActivityRequest> {
-    constructor() {
-        super("server.ActivityRequest", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "activity", kind: "message", T: () => ServerActivity_Response }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.ActivityRequest
- */
-export const ActivityRequest = new ActivityRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListServers$Type extends MessageType<ListServers> {
     constructor() {
@@ -1054,8 +1077,8 @@ class Server_Request$Type extends MessageType<Server_Request> {
     constructor() {
         super("server.Server.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1116,7 +1139,7 @@ class AddServer_Request$Type extends MessageType<AddServer_Request> {
             { no: 4, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "validate.rules": { int32: { lt: 65536, gte: 1 } } } },
             { no: 5, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
             { no: 6, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 7, name: "auth", kind: "enum", T: () => ["server.ServerAuth", ServerAuth], options: { "validate.rules": { enum: { definedOnly: true } } } },
+            { no: 7, name: "auth", kind: "enum", T: () => ["server.Auth", Auth], options: { "validate.rules": { enum: { definedOnly: true } } } },
             { no: 8, name: "scheme", kind: "enum", T: () => ["server.ServerScheme", ServerScheme], options: { "validate.rules": { enum: { definedOnly: true } } } },
             { no: 9, name: "audit", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 10, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
@@ -1160,16 +1183,12 @@ class UpdateServer_Request$Type extends MessageType<UpdateServer_Request> {
     constructor() {
         super("server.UpdateServer.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { address: true } } } },
-            { no: 5, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "validate.rules": { int32: { lt: 65536, gte: 1 } } } },
-            { no: 6, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 7, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 8, name: "private_description", kind: "scalar", localName: "private_description", T: 9 /*ScalarType.STRING*/ },
-            { no: 9, name: "public_description", kind: "scalar", localName: "public_description", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "audit", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 11, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 4, name: "info", kind: "message", oneof: "setting", T: () => UpdateServer_Info },
+            { no: 5, name: "audit", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "active", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ },
+            { no: 7, name: "online", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
@@ -1188,6 +1207,23 @@ class UpdateServer_Response$Type extends MessageType<UpdateServer_Response> {
  */
 export const UpdateServer_Response = new UpdateServer_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class UpdateServer_Info$Type extends MessageType<UpdateServer_Info> {
+    constructor() {
+        super("server.UpdateServer.Info", [
+            { no: 1, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { address: true } } } },
+            { no: 2, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "validate.rules": { int32: { lt: 65536, gte: 1 } } } },
+            { no: 3, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 5, name: "private_description", kind: "scalar", localName: "private_description", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "public_description", kind: "scalar", localName: "public_description", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message server.UpdateServer.Info
+ */
+export const UpdateServer_Info = new UpdateServer_Info$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class DeleteServer$Type extends MessageType<DeleteServer> {
     constructor() {
         super("server.DeleteServer", []);
@@ -1203,7 +1239,7 @@ class DeleteServer_Request$Type extends MessageType<DeleteServer_Request> {
         super("server.DeleteServer.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1222,74 +1258,6 @@ class DeleteServer_Response$Type extends MessageType<DeleteServer_Response> {
  */
 export const DeleteServer_Response = new DeleteServer_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerOnlineStatus$Type extends MessageType<UpdateServerOnlineStatus> {
-    constructor() {
-        super("server.UpdateServerOnlineStatus", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerOnlineStatus
- */
-export const UpdateServerOnlineStatus = new UpdateServerOnlineStatus$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerOnlineStatus_Request$Type extends MessageType<UpdateServerOnlineStatus_Request> {
-    constructor() {
-        super("server.UpdateServerOnlineStatus.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerOnlineStatus.Request
- */
-export const UpdateServerOnlineStatus_Request = new UpdateServerOnlineStatus_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerOnlineStatus_Response$Type extends MessageType<UpdateServerOnlineStatus_Response> {
-    constructor() {
-        super("server.UpdateServerOnlineStatus.Response", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerOnlineStatus.Response
- */
-export const UpdateServerOnlineStatus_Response = new UpdateServerOnlineStatus_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerActiveStatus$Type extends MessageType<UpdateServerActiveStatus> {
-    constructor() {
-        super("server.UpdateServerActiveStatus", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerActiveStatus
- */
-export const UpdateServerActiveStatus = new UpdateServerActiveStatus$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerActiveStatus_Request$Type extends MessageType<UpdateServerActiveStatus_Request> {
-    constructor() {
-        super("server.UpdateServerActiveStatus.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerActiveStatus.Request
- */
-export const UpdateServerActiveStatus_Request = new UpdateServerActiveStatus_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerActiveStatus_Response$Type extends MessageType<UpdateServerActiveStatus_Response> {
-    constructor() {
-        super("server.UpdateServerActiveStatus.Response", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerActiveStatus.Response
- */
-export const UpdateServerActiveStatus_Response = new UpdateServerActiveStatus_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class ServerAccess$Type extends MessageType<ServerAccess> {
     constructor() {
         super("server.ServerAccess", []);
@@ -1305,7 +1273,7 @@ class ServerAccess_Request$Type extends MessageType<ServerAccess_Request> {
         super("server.ServerAccess.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1317,12 +1285,9 @@ export const ServerAccess_Request = new ServerAccess_Request$Type();
 class ServerAccess_Response$Type extends MessageType<ServerAccess_Response> {
     constructor() {
         super("server.ServerAccess.Response", [
-            { no: 1, name: "auth", kind: "enum", T: () => ["server.ServerAuth", ServerAuth] },
-            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "public_key", kind: "scalar", localName: "public_key", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "private_key", kind: "scalar", localName: "private_key", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "password_key", kind: "scalar", localName: "password_key", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "fingeprint_key", kind: "scalar", localName: "fingeprint_key", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "auth", kind: "enum", T: () => ["server.Auth", Auth] },
+            { no: 2, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "key", kind: "message", oneof: "access", T: () => ServerAccess_Key }
         ]);
     }
 }
@@ -1330,6 +1295,21 @@ class ServerAccess_Response$Type extends MessageType<ServerAccess_Response> {
  * @generated MessageType for protobuf message server.ServerAccess.Response
  */
 export const ServerAccess_Response = new ServerAccess_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ServerAccess_Key$Type extends MessageType<ServerAccess_Key> {
+    constructor() {
+        super("server.ServerAccess.Key", [
+            { no: 1, name: "public", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "private", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "fingeprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message server.ServerAccess.Key
+ */
+export const ServerAccess_Key = new ServerAccess_Key$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateServerAccess$Type extends MessageType<UpdateServerAccess> {
     constructor() {
@@ -1346,8 +1326,8 @@ class UpdateServerAccess_Request$Type extends MessageType<UpdateServerAccess_Req
         super("server.UpdateServerAccess.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 4, name: "auth", kind: "enum", T: () => ["server.ServerAuth", ServerAuth] },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 4, name: "auth", kind: "enum", T: () => ["server.Auth", Auth] },
             { no: 5, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "public_key", kind: "scalar", localName: "public_key", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "key_uuid", kind: "scalar", localName: "key_uuid", T: 9 /*ScalarType.STRING*/ }
@@ -1384,7 +1364,7 @@ class ServerActivity_Request$Type extends MessageType<ServerActivity_Request> {
         super("server.ServerActivity.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1426,7 +1406,7 @@ class UpdateServerActivity_Request$Type extends MessageType<UpdateServerActivity
         super("server.UpdateServerActivity.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 4, name: "activity", kind: "message", T: () => ServerActivity_Response }
         ]);
     }
@@ -1446,110 +1426,75 @@ class UpdateServerActivity_Response$Type extends MessageType<UpdateServerActivit
  */
 export const UpdateServerActivity_Response = new UpdateServerActivity_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerActive$Type extends MessageType<UpdateServerActive> {
+class UpdateHostKey$Type extends MessageType<UpdateHostKey> {
     constructor() {
-        super("server.UpdateServerActive", []);
+        super("server.UpdateHostKey", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.UpdateServerActive
+ * @generated MessageType for protobuf message server.UpdateHostKey
  */
-export const UpdateServerActive = new UpdateServerActive$Type();
+export const UpdateHostKey = new UpdateHostKey$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerActive_Request$Type extends MessageType<UpdateServerActive_Request> {
+class UpdateHostKey_Request$Type extends MessageType<UpdateHostKey_Request> {
     constructor() {
-        super("server.UpdateServerActive.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerActive.Request
- */
-export const UpdateServerActive_Request = new UpdateServerActive_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerActive_Response$Type extends MessageType<UpdateServerActive_Response> {
-    constructor() {
-        super("server.UpdateServerActive.Response", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerActive.Response
- */
-export const UpdateServerActive_Response = new UpdateServerActive_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerHostKey$Type extends MessageType<UpdateServerHostKey> {
-    constructor() {
-        super("server.UpdateServerHostKey", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerHostKey
- */
-export const UpdateServerHostKey = new UpdateServerHostKey$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerHostKey_Request$Type extends MessageType<UpdateServerHostKey_Request> {
-    constructor() {
-        super("server.UpdateServerHostKey.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ },
+        super("server.UpdateHostKey.Request", [
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "hostkey", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message server.UpdateServerHostKey.Request
+ * @generated MessageType for protobuf message server.UpdateHostKey.Request
  */
-export const UpdateServerHostKey_Request = new UpdateServerHostKey_Request$Type();
+export const UpdateHostKey_Request = new UpdateHostKey_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerHostKey_Response$Type extends MessageType<UpdateServerHostKey_Response> {
+class UpdateHostKey_Response$Type extends MessageType<UpdateHostKey_Response> {
     constructor() {
-        super("server.UpdateServerHostKey.Response", []);
+        super("server.UpdateHostKey.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.UpdateServerHostKey.Response
+ * @generated MessageType for protobuf message server.UpdateHostKey.Response
  */
-export const UpdateServerHostKey_Response = new UpdateServerHostKey_Response$Type();
+export const UpdateHostKey_Response = new UpdateHostKey_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddServerSession$Type extends MessageType<AddServerSession> {
+class AddSession$Type extends MessageType<AddSession> {
     constructor() {
-        super("server.AddServerSession", []);
+        super("server.AddSession", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.AddServerSession
+ * @generated MessageType for protobuf message server.AddSession
  */
-export const AddServerSession = new AddServerSession$Type();
+export const AddSession = new AddSession$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddServerSession_Request$Type extends MessageType<AddServerSession_Request> {
+class AddSession_Request$Type extends MessageType<AddSession_Request> {
     constructor() {
-        super("server.AddServerSession.Request", [
-            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/ },
+        super("server.AddSession.Request", [
+            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "status", kind: "enum", T: () => ["server.SessionStatus", SessionStatus] },
             { no: 3, name: "created", kind: "message", T: () => Timestamp },
-            { no: 4, name: "message", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "uuid", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "message", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message server.AddServerSession.Request
+ * @generated MessageType for protobuf message server.AddSession.Request
  */
-export const AddServerSession_Request = new AddServerSession_Request$Type();
+export const AddSession_Request = new AddSession_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddServerSession_Response$Type extends MessageType<AddServerSession_Response> {
+class AddSession_Response$Type extends MessageType<AddSession_Response> {
     constructor() {
-        super("server.AddServerSession.Response", [
+        super("server.AddSession.Response", [
             { no: 1, name: "session_id", kind: "scalar", localName: "session_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message server.AddServerSession.Response
+ * @generated MessageType for protobuf message server.AddSession.Response
  */
-export const AddServerSession_Response = new AddServerSession_Response$Type();
+export const AddSession_Response = new AddSession_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ServerNameByID$Type extends MessageType<ServerNameByID> {
     constructor() {
@@ -1565,8 +1510,8 @@ class ServerNameByID_Request$Type extends MessageType<ServerNameByID_Request> {
     constructor() {
         super("server.ServerNameByID.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1587,19 +1532,19 @@ class ServerNameByID_Response$Type extends MessageType<ServerNameByID_Response> 
  */
 export const ServerNameByID_Response = new ServerNameByID_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListServersShareForUser$Type extends MessageType<ListServersShareForUser> {
+class ListShareServers$Type extends MessageType<ListShareServers> {
     constructor() {
-        super("server.ListServersShareForUser", []);
+        super("server.ListShareServers", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.ListServersShareForUser
+ * @generated MessageType for protobuf message server.ListShareServers
  */
-export const ListServersShareForUser = new ListServersShareForUser$Type();
+export const ListShareServers = new ListShareServers$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListServersShareForUser_Request$Type extends MessageType<ListServersShareForUser_Request> {
+class ListShareServers_Request$Type extends MessageType<ListShareServers_Request> {
     constructor() {
-        super("server.ListServersShareForUser.Request", [
+        super("server.ListShareServers.Request", [
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
@@ -1608,30 +1553,30 @@ class ListServersShareForUser_Request$Type extends MessageType<ListServersShareF
     }
 }
 /**
- * @generated MessageType for protobuf message server.ListServersShareForUser.Request
+ * @generated MessageType for protobuf message server.ListShareServers.Request
  */
-export const ListServersShareForUser_Request = new ListServersShareForUser_Request$Type();
+export const ListShareServers_Request = new ListShareServers_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListServersShareForUser_Response$Type extends MessageType<ListServersShareForUser_Response> {
+class ListShareServers_Response$Type extends MessageType<ListShareServers_Response> {
     constructor() {
-        super("server.ListServersShareForUser.Response", [
+        super("server.ListShareServers.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "servers", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListServersShareForUser_Response_SharedServer }
+            { no: 2, name: "servers", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListShareServers_Response_SharedServer }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message server.ListServersShareForUser.Response
+ * @generated MessageType for protobuf message server.ListShareServers.Response
  */
-export const ListServersShareForUser_Response = new ListServersShareForUser_Response$Type();
+export const ListShareServers_Response = new ListShareServers_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListServersShareForUser_Response_SharedServer$Type extends MessageType<ListServersShareForUser_Response_SharedServer> {
+class ListShareServers_Response_SharedServer$Type extends MessageType<ListShareServers_Response_SharedServer> {
     constructor() {
-        super("server.ListServersShareForUser.Response.SharedServer", [
+        super("server.ListShareServers.Response.SharedServer", [
             { no: 1, name: "user_login", kind: "scalar", localName: "user_login", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "project_login", kind: "scalar", localName: "project_login", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "server_token", kind: "scalar", localName: "server_token", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "server_token", kind: "scalar", localName: "server_token", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "server_online", kind: "scalar", localName: "server_online", T: 8 /*ScalarType.BOOL*/ },
             { no: 6, name: "server_title", kind: "scalar", localName: "server_title", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "server_description", kind: "scalar", localName: "server_description", T: 9 /*ScalarType.STRING*/ }
@@ -1639,111 +1584,111 @@ class ListServersShareForUser_Response_SharedServer$Type extends MessageType<Lis
     }
 }
 /**
- * @generated MessageType for protobuf message server.ListServersShareForUser.Response.SharedServer
+ * @generated MessageType for protobuf message server.ListShareServers.Response.SharedServer
  */
-export const ListServersShareForUser_Response_SharedServer = new ListServersShareForUser_Response_SharedServer$Type();
+export const ListShareServers_Response_SharedServer = new ListShareServers_Response_SharedServer$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddServerShareForUser$Type extends MessageType<AddServerShareForUser> {
+class AddShareServer$Type extends MessageType<AddShareServer> {
     constructor() {
-        super("server.AddServerShareForUser", []);
+        super("server.AddShareServer", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.AddServerShareForUser
+ * @generated MessageType for protobuf message server.AddShareServer
  */
-export const AddServerShareForUser = new AddServerShareForUser$Type();
+export const AddShareServer = new AddShareServer$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddServerShareForUser_Request$Type extends MessageType<AddServerShareForUser_Request> {
+class AddShareServer_Request$Type extends MessageType<AddShareServer_Request> {
     constructor() {
-        super("server.AddServerShareForUser.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ }
+        super("server.AddShareServer.Request", [
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message server.AddServerShareForUser.Request
+ * @generated MessageType for protobuf message server.AddShareServer.Request
  */
-export const AddServerShareForUser_Request = new AddServerShareForUser_Request$Type();
+export const AddShareServer_Request = new AddShareServer_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AddServerShareForUser_Response$Type extends MessageType<AddServerShareForUser_Response> {
+class AddShareServer_Response$Type extends MessageType<AddShareServer_Response> {
     constructor() {
-        super("server.AddServerShareForUser.Response", []);
+        super("server.AddShareServer.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.AddServerShareForUser.Response
+ * @generated MessageType for protobuf message server.AddShareServer.Response
  */
-export const AddServerShareForUser_Response = new AddServerShareForUser_Response$Type();
+export const AddShareServer_Response = new AddShareServer_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerShareForUser$Type extends MessageType<UpdateServerShareForUser> {
+class UpdateShareServer$Type extends MessageType<UpdateShareServer> {
     constructor() {
-        super("server.UpdateServerShareForUser", []);
+        super("server.UpdateShareServer", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.UpdateServerShareForUser
+ * @generated MessageType for protobuf message server.UpdateShareServer
  */
-export const UpdateServerShareForUser = new UpdateServerShareForUser$Type();
+export const UpdateShareServer = new UpdateShareServer$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerShareForUser_Request$Type extends MessageType<UpdateServerShareForUser_Request> {
+class UpdateShareServer_Request$Type extends MessageType<UpdateShareServer_Request> {
     constructor() {
-        super("server.UpdateServerShareForUser.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "share_id", kind: "scalar", localName: "share_id", T: 9 /*ScalarType.STRING*/ }
+        super("server.UpdateShareServer.Request", [
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "share_id", kind: "scalar", localName: "share_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message server.UpdateServerShareForUser.Request
+ * @generated MessageType for protobuf message server.UpdateShareServer.Request
  */
-export const UpdateServerShareForUser_Request = new UpdateServerShareForUser_Request$Type();
+export const UpdateShareServer_Request = new UpdateShareServer_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerShareForUser_Response$Type extends MessageType<UpdateServerShareForUser_Response> {
+class UpdateShareServer_Response$Type extends MessageType<UpdateShareServer_Response> {
     constructor() {
-        super("server.UpdateServerShareForUser.Response", []);
+        super("server.UpdateShareServer.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.UpdateServerShareForUser.Response
+ * @generated MessageType for protobuf message server.UpdateShareServer.Response
  */
-export const UpdateServerShareForUser_Response = new UpdateServerShareForUser_Response$Type();
+export const UpdateShareServer_Response = new UpdateShareServer_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeleteServerShareForUser$Type extends MessageType<DeleteServerShareForUser> {
+class DeleteShareServer$Type extends MessageType<DeleteShareServer> {
     constructor() {
-        super("server.DeleteServerShareForUser", []);
+        super("server.DeleteShareServer", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.DeleteServerShareForUser
+ * @generated MessageType for protobuf message server.DeleteShareServer
  */
-export const DeleteServerShareForUser = new DeleteServerShareForUser$Type();
+export const DeleteShareServer = new DeleteShareServer$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeleteServerShareForUser_Request$Type extends MessageType<DeleteServerShareForUser_Request> {
+class DeleteShareServer_Request$Type extends MessageType<DeleteShareServer_Request> {
     constructor() {
-        super("server.DeleteServerShareForUser.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "share_id", kind: "scalar", localName: "share_id", T: 9 /*ScalarType.STRING*/ }
+        super("server.DeleteShareServer.Request", [
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "share_id", kind: "scalar", localName: "share_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message server.DeleteServerShareForUser.Request
+ * @generated MessageType for protobuf message server.DeleteShareServer.Request
  */
-export const DeleteServerShareForUser_Request = new DeleteServerShareForUser_Request$Type();
+export const DeleteShareServer_Request = new DeleteShareServer_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class DeleteServerShareForUser_Response$Type extends MessageType<DeleteServerShareForUser_Response> {
+class DeleteShareServer_Response$Type extends MessageType<DeleteShareServer_Response> {
     constructor() {
-        super("server.DeleteServerShareForUser.Response", []);
+        super("server.DeleteShareServer.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message server.DeleteServerShareForUser.Response
+ * @generated MessageType for protobuf message server.DeleteShareServer.Response
  */
-export const DeleteServerShareForUser_Response = new DeleteServerShareForUser_Response$Type();
+export const DeleteShareServer_Response = new DeleteShareServer_Response$Type();
 /**
  * @generated ServiceType for protobuf service server.ServerHandlers
  */
@@ -1753,17 +1698,15 @@ export const ServerHandlers = new ServiceType("server.ServerHandlers", [
     { name: "AddServer", options: {}, I: AddServer_Request, O: AddServer_Response },
     { name: "UpdateServer", options: {}, I: UpdateServer_Request, O: UpdateServer_Response },
     { name: "DeleteServer", options: {}, I: DeleteServer_Request, O: DeleteServer_Response },
-    { name: "UpdateServerOnlineStatus", options: {}, I: UpdateServerOnlineStatus_Request, O: UpdateServerOnlineStatus_Response },
-    { name: "UpdateServerActiveStatus", options: {}, I: UpdateServerActiveStatus_Request, O: UpdateServerActiveStatus_Response },
     { name: "ServerAccess", options: {}, I: ServerAccess_Request, O: ServerAccess_Response },
     { name: "UpdateServerAccess", options: {}, I: UpdateServerAccess_Request, O: UpdateServerAccess_Response },
     { name: "ServerActivity", options: {}, I: ServerActivity_Request, O: ServerActivity_Response },
     { name: "UpdateServerActivity", options: {}, I: UpdateServerActivity_Request, O: UpdateServerActivity_Response },
-    { name: "UpdateServerHostKey", options: {}, I: UpdateServerHostKey_Request, O: UpdateServerHostKey_Response },
-    { name: "AddServerSession", options: {}, I: AddServerSession_Request, O: AddServerSession_Response },
-    { name: "ServerNameByID", options: {}, I: ServerNameByID_Request, O: ServerNameByID_Response },
-    { name: "ListServersShareForUser", options: {}, I: ListServersShareForUser_Request, O: ListServersShareForUser_Response },
-    { name: "AddServerShareForUser", options: {}, I: AddServerShareForUser_Request, O: AddServerShareForUser_Response },
-    { name: "UpdateServerShareForUser", options: {}, I: UpdateServerShareForUser_Request, O: UpdateServerShareForUser_Response },
-    { name: "DeleteServerShareForUser", options: {}, I: DeleteServerShareForUser_Request, O: DeleteServerShareForUser_Response }
+    { name: "ListShareServers", options: {}, I: ListShareServers_Request, O: ListShareServers_Response },
+    { name: "AddShareServer", options: {}, I: AddShareServer_Request, O: AddShareServer_Response },
+    { name: "UpdateShareServer", options: {}, I: UpdateShareServer_Request, O: UpdateShareServer_Response },
+    { name: "DeleteShareServer", options: {}, I: DeleteShareServer_Request, O: DeleteShareServer_Response },
+    { name: "UpdateHostKey", options: {}, I: UpdateHostKey_Request, O: UpdateHostKey_Response },
+    { name: "AddSession", options: {}, I: AddSession_Request, O: AddSession_Response },
+    { name: "ServerNameByID", options: {}, I: ServerNameByID_Request, O: ServerNameByID_Response }
 ]);
