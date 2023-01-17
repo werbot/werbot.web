@@ -197,6 +197,43 @@ export interface AddServerFirewall_Response {
     id: string;
 }
 /**
+ * rpc UpdateServerFirewall
+ *
+ * @generated from protobuf message firewall.UpdateServerFirewall
+ */
+export interface UpdateServerFirewall {
+}
+/**
+ * @generated from protobuf message firewall.UpdateServerFirewall.Request
+ */
+export interface UpdateServerFirewall_Request {
+    /**
+     * @generated from protobuf field: string user_id = 1;
+     */
+    user_id: string;
+    /**
+     * @generated from protobuf field: string project_id = 2;
+     */
+    project_id: string;
+    /**
+     * @generated from protobuf field: string server_id = 3;
+     */
+    server_id: string;
+    /**
+     * @generated from protobuf field: firewall.Rules rule = 4;
+     */
+    rule: Rules;
+    /**
+     * @generated from protobuf field: bool status = 5;
+     */
+    status: boolean;
+}
+/**
+ * @generated from protobuf message firewall.UpdateServerFirewall.Response
+ */
+export interface UpdateServerFirewall_Response {
+}
+/**
  * rpc DeleteServerFirewall
  *
  * @generated from protobuf message firewall.DeleteServerFirewall
@@ -232,43 +269,6 @@ export interface DeleteServerFirewall_Request {
  * @generated from protobuf message firewall.DeleteServerFirewall.Response
  */
 export interface DeleteServerFirewall_Response {
-}
-/**
- * rpc UpdateAccessPolicy
- *
- * @generated from protobuf message firewall.UpdateAccessPolicy
- */
-export interface UpdateAccessPolicy {
-}
-/**
- * @generated from protobuf message firewall.UpdateAccessPolicy.Request
- */
-export interface UpdateAccessPolicy_Request {
-    /**
-     * @generated from protobuf field: string user_id = 1;
-     */
-    user_id: string;
-    /**
-     * @generated from protobuf field: string project_id = 2;
-     */
-    project_id: string;
-    /**
-     * @generated from protobuf field: string server_id = 3;
-     */
-    server_id: string;
-    /**
-     * @generated from protobuf field: firewall.Rules rule = 4;
-     */
-    rule: Rules;
-    /**
-     * @generated from protobuf field: bool status = 5;
-     */
-    status: boolean;
-}
-/**
- * @generated from protobuf message firewall.UpdateAccessPolicy.Response
- */
-export interface UpdateAccessPolicy_Response {
 }
 /**
  * rpc IPAccess
@@ -592,6 +592,42 @@ class AddServerFirewall_Response$Type extends MessageType<AddServerFirewall_Resp
  */
 export const AddServerFirewall_Response = new AddServerFirewall_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class UpdateServerFirewall$Type extends MessageType<UpdateServerFirewall> {
+    constructor() {
+        super("firewall.UpdateServerFirewall", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.UpdateServerFirewall
+ */
+export const UpdateServerFirewall = new UpdateServerFirewall$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateServerFirewall_Request$Type extends MessageType<UpdateServerFirewall_Request> {
+    constructor() {
+        super("firewall.UpdateServerFirewall.Request", [
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 4, name: "rule", kind: "enum", T: () => ["firewall.Rules", Rules] },
+            { no: 5, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.UpdateServerFirewall.Request
+ */
+export const UpdateServerFirewall_Request = new UpdateServerFirewall_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateServerFirewall_Response$Type extends MessageType<UpdateServerFirewall_Response> {
+    constructor() {
+        super("firewall.UpdateServerFirewall.Response", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message firewall.UpdateServerFirewall.Response
+ */
+export const UpdateServerFirewall_Response = new UpdateServerFirewall_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class DeleteServerFirewall$Type extends MessageType<DeleteServerFirewall> {
     constructor() {
         super("firewall.DeleteServerFirewall", []);
@@ -627,42 +663,6 @@ class DeleteServerFirewall_Response$Type extends MessageType<DeleteServerFirewal
  * @generated MessageType for protobuf message firewall.DeleteServerFirewall.Response
  */
 export const DeleteServerFirewall_Response = new DeleteServerFirewall_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateAccessPolicy$Type extends MessageType<UpdateAccessPolicy> {
-    constructor() {
-        super("firewall.UpdateAccessPolicy", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message firewall.UpdateAccessPolicy
- */
-export const UpdateAccessPolicy = new UpdateAccessPolicy$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateAccessPolicy_Request$Type extends MessageType<UpdateAccessPolicy_Request> {
-    constructor() {
-        super("firewall.UpdateAccessPolicy.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "rule", kind: "enum", T: () => ["firewall.Rules", Rules] },
-            { no: 5, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message firewall.UpdateAccessPolicy.Request
- */
-export const UpdateAccessPolicy_Request = new UpdateAccessPolicy_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateAccessPolicy_Response$Type extends MessageType<UpdateAccessPolicy_Response> {
-    constructor() {
-        super("firewall.UpdateAccessPolicy.Response", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message firewall.UpdateAccessPolicy.Response
- */
-export const UpdateAccessPolicy_Response = new UpdateAccessPolicy_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class IPAccess$Type extends MessageType<IPAccess> {
     constructor() {
@@ -867,8 +867,8 @@ export const FirewallHandlers = new ServiceType("firewall.FirewallHandlers", [
     { name: "IPAccess", options: {}, I: IPAccess_Request, O: IPAccess_Response },
     { name: "ServerFirewall", options: {}, I: ServerFirewall_Request, O: ServerFirewall_Response },
     { name: "AddServerFirewall", options: {}, I: AddServerFirewall_Request, O: AddServerFirewall_Response },
+    { name: "UpdateServerFirewall", options: {}, I: UpdateServerFirewall_Request, O: UpdateServerFirewall_Response },
     { name: "DeleteServerFirewall", options: {}, I: DeleteServerFirewall_Request, O: DeleteServerFirewall_Response },
-    { name: "UpdateAccessPolicy", options: {}, I: UpdateAccessPolicy_Request, O: UpdateAccessPolicy_Response },
     { name: "ServerAccess", options: {}, I: ServerAccess_Request, O: ServerAccess_Response },
     { name: "ServerAccessUser", options: {}, I: ServerAccessUser_Request, O: ServerAccessUser_Response },
     { name: "ServerAccessTime", options: {}, I: ServerAccessTime_Request, O: ServerAccessTime_Response },

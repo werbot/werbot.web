@@ -6,13 +6,22 @@ import {
   UpdateServer_Request,
   DeleteServer_Request,
   ServerNameByID_Request,
+  ServerActivity_Request,
+  UpdateServerActivity_Request,
 } from "@proto/server";
+
+import {
+  ServerFirewall_Request,
+  AddServerFirewall_Request,
+  UpdateServerFirewall_Request,
+  DeleteServerFirewall_Request,
+} from "@proto/firewall";
 
 enum URL {
   servers = "v1/servers",
 }
 
-const getServers = async (user_id: string, project_id: string, data?: ListServers_Request) =>
+const servers = async (user_id: string, project_id: string, data?: ListServers_Request) =>
   http("GET", URL.servers, {
     params: {
       limit: data.limit,
@@ -22,9 +31,9 @@ const getServers = async (user_id: string, project_id: string, data?: ListServer
     },
   });
 
-const getServer = async (data: Server_Request) => http("GET", URL.servers, { params: data });
+const server = async (data: Server_Request) => http("GET", URL.servers, { params: data });
 
-const postServer = async (data: AddServer_Request) => http("POST", URL.servers, { data: data });
+const addServer = async (data: AddServer_Request) => http("POST", URL.servers, { data: data });
 
 const updateServer = async (data: UpdateServer_Request) =>
   http("PATCH", URL.servers, { data: data });
@@ -38,12 +47,40 @@ const updateServerStatus = async (data: UpdateServer_Request) =>
 const serverNameByID = async (data: ServerNameByID_Request) =>
   http("GET", URL.servers + "/name", { params: data });
 
+// activity section
+const activity = async (data: ServerActivity_Request) =>
+  http("GET", URL.servers + "/activity", { params: data });
+
+const updateActivity = async (data: UpdateServerActivity_Request) =>
+  http("PATCH", URL.servers + "/activity", { data: data });
+// ----
+
+// firewall section
+const firewall = async (data: ServerFirewall_Request) =>
+  http("GET", URL.servers + "/firewall", { params: data });
+
+const addFirewall = async (data: AddServerFirewall_Request) =>
+  http("POST", URL.servers + "/firewall", { data: data });
+
+const updateFirewall = async (data: UpdateServerFirewall_Request) =>
+  http("PATCH", URL.servers + "/firewall", { params: data });
+
+const deleteFirewall = async (data: DeleteServerFirewall_Request) =>
+  http("DELETE", URL.servers + "/firewall", { params: data });
+// ----
+
 export {
-  getServers,
-  getServer,
-  postServer,
+  servers,
+  server,
+  addServer,
   updateServer,
   deleteServer,
   updateServerStatus,
   serverNameByID,
+  activity,
+  updateActivity,
+  firewall,
+  addFirewall,
+  updateFirewall,
+  deleteFirewall,
 };

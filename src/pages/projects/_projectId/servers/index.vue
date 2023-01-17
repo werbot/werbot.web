@@ -152,7 +152,7 @@ import { SvgIcon, Pagination, Toggle, Badge } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getAddressType } from "@/utils/network";
-import { getServers, updateServerStatus } from "@/api/server";
+import { servers, updateServerStatus } from "@/api/server";
 import { UpdateServer_Request } from "@proto/server";
 
 const { proxy } = getCurrentInstance();
@@ -167,7 +167,7 @@ const getData = async (routeQuery: any) => {
     routeQuery.user_id = proxy.$authStore.hasUserID;
   }
   routeQuery.project_id = props.projectId;
-  await getServers(routeQuery.user_id, routeQuery.project_id, routeQuery).then((res) => {
+  await servers(routeQuery.user_id, routeQuery.project_id, routeQuery).then((res) => {
     data.value = res.data.result;
   });
 };
