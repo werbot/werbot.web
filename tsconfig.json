@@ -24,7 +24,7 @@
   "vueCompilerOptions": {
     "target": 3,
     "strictTemplates": true,
-    "experimentalDisableTemplateSupport": true
+    // "experimentalDisableTemplateSupport": true
   },
   "include": [
     "src/**/*.ts",

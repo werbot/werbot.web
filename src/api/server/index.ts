@@ -39,7 +39,7 @@ const updateServer = async (data: UpdateServer_Request) =>
   http("PATCH", URL.servers, { data: data });
 
 const deleteServer = async (data: DeleteServer_Request) =>
-  http("DELETE", URL.servers, { params: data });
+  http("DELETE", URL.servers, { data: data });
 
 const updateServerStatus = async (data: UpdateServer_Request) =>
   http("PATCH", URL.servers + "/active", { data: data });
@@ -63,10 +63,10 @@ const addFirewall = async (data: AddServerFirewall_Request) =>
   http("POST", URL.servers + "/firewall", { data: data });
 
 const updateFirewall = async (data: UpdateServerFirewall_Request) =>
-  http("PATCH", URL.servers + "/firewall", { params: data });
+  http("PATCH", URL.servers + "/firewall", { data: data });
 
 const deleteFirewall = async (data: DeleteServerFirewall_Request) =>
-  http("DELETE", URL.servers + "/firewall", { params: data });
+  http("DELETE", URL.servers + "/firewall", { data: data });
 // ----
 
 export {

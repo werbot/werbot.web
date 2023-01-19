@@ -4,7 +4,6 @@ import * as ipaddr from "ipaddr.js";
 
 export function getAddressType(addr: string): AddressType {
   //const hostnameRegex = "(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?"
-
   try {
     const parse_addr = ipaddr.parse(addr);
     const kind = parse_addr.kind();
