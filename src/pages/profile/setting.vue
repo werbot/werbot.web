@@ -12,12 +12,22 @@
             v-model.trim="data.email"
             :error="proxy.$errorStore.errors['email']"
             :disabled="loading"
+            class="flex-grow"
+          />
+        </div>
+
+        <div class="mb-5 flex flex-row">
+          <FormInput
+            name="Name"
+            v-model.trim="data.name"
+            :error="proxy.$errorStore.errors['name']"
+            :disabled="loading"
             class="mr-5 flex-grow"
           />
           <FormInput
-            name="Full name"
-            v-model.trim="data.fio"
-            :error="proxy.$errorStore.errors['fio']"
+            name="Surname"
+            v-model.trim="data.surname"
+            :error="proxy.$errorStore.errors['surname']"
             :disabled="loading"
             class="flex-grow"
           />
@@ -123,6 +133,7 @@ import {
   UpdateUser_Request,
   UpdatePassword_Request,
   DeleteUser_Request,
+  UpdateUser_Info,
 } from "@proto/user";
 import { FormInput } from "@/components";
 import { showMessage } from "@/utils/message";
@@ -134,8 +145,13 @@ const loading = ref(false);
 const onUpdateProfile = async () => {
   await updateUser(<UpdateUser_Request>{
     user_id: proxy.$authStore.hasUserID,
-    email: data.value.email,
-    fio: data.value.fio,
+    request: {
+      info: <UpdateUser_Info>{
+        email: data.value.email,
+        name: data.value.name,
+        surname: data.value.surname,
+      },
+    },
   })
     .then((res) => {
       showMessage(res.data.message);

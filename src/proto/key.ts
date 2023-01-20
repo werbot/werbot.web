@@ -79,9 +79,9 @@ export interface Key_Response {
      */
     user_id: string;
     /**
-     * @generated from protobuf field: string user_name = 3;
+     * @generated from protobuf field: string user_login = 3;
      */
-    user_name: string;
+    user_login: string;
     /**
      * @generated from protobuf field: string title = 4;
      */
@@ -325,7 +325,7 @@ class Key_Response$Type extends MessageType<Key_Response> {
         super("key.Key.Response", [
             { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "user_login", kind: "scalar", localName: "user_login", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },

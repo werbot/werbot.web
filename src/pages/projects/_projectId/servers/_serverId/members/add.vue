@@ -99,7 +99,7 @@ const getData = async (routeQuery: any) => {
     owner_id: routeQuery.owner_id,
     project_id: routeQuery.project_id,
     server_id: routeQuery.server_id,
-    name: "",
+    login: "",
   }).then((res) => {
     data.value = res.data.result;
   });

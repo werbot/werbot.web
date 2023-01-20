@@ -261,31 +261,31 @@ export interface UsersWithoutProject_Request {
      */
     project_id: string; // @gotags: query:"project_id"
     /**
-     * @generated from protobuf field: string name = 3;
+     * @generated from protobuf field: string login = 3;
      */
-    name: string;
+    login: string;
 }
 /**
  * @generated from protobuf message member.UsersWithoutProject.Response
  */
 export interface UsersWithoutProject_Response {
     /**
-     * @generated from protobuf field: repeated member.UsersWithoutProject.Response.User users = 1;
+     * @generated from protobuf field: repeated member.UsersWithoutProject.User users = 1;
      */
-    users: UsersWithoutProject_Response_User[];
+    users: UsersWithoutProject_User[];
 }
 /**
- * @generated from protobuf message member.UsersWithoutProject.Response.User
+ * @generated from protobuf message member.UsersWithoutProject.User
  */
-export interface UsersWithoutProject_Response_User {
+export interface UsersWithoutProject_User {
     /**
      * @generated from protobuf field: int32 user_id = 1;
      */
     user_id: number;
     /**
-     * @generated from protobuf field: string name = 2;
+     * @generated from protobuf field: string login = 2;
      */
-    name: string;
+    login: string;
     /**
      * @generated from protobuf field: string email = 3;
      */
@@ -558,9 +558,9 @@ export interface ServerMember_Response {
      */
     user_id: string;
     /**
-     * @generated from protobuf field: string user_name = 3;
+     * @generated from protobuf field: string user_login = 3;
      */
-    user_name: string;
+    user_login: string;
     /**
      * @generated from protobuf field: string email = 4;
      */
@@ -743,9 +743,9 @@ export interface MembersWithoutServer_Request {
      */
     server_id: string; // @gotags: query:"server_id"
     /**
-     * @generated from protobuf field: string name = 7;
+     * @generated from protobuf field: string login = 7;
      */
-    name: string;
+    login: string;
 }
 /**
  * @generated from protobuf message member.MembersWithoutServer.Response
@@ -969,7 +969,7 @@ class UsersWithoutProject_Request$Type extends MessageType<UsersWithoutProject_R
         super("member.UsersWithoutProject.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -981,7 +981,7 @@ export const UsersWithoutProject_Request = new UsersWithoutProject_Request$Type(
 class UsersWithoutProject_Response$Type extends MessageType<UsersWithoutProject_Response> {
     constructor() {
         super("member.UsersWithoutProject.Response", [
-            { no: 1, name: "users", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UsersWithoutProject_Response_User }
+            { no: 1, name: "users", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => UsersWithoutProject_User }
         ]);
     }
 }
@@ -990,19 +990,19 @@ class UsersWithoutProject_Response$Type extends MessageType<UsersWithoutProject_
  */
 export const UsersWithoutProject_Response = new UsersWithoutProject_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class UsersWithoutProject_Response_User$Type extends MessageType<UsersWithoutProject_Response_User> {
+class UsersWithoutProject_User$Type extends MessageType<UsersWithoutProject_User> {
     constructor() {
-        super("member.UsersWithoutProject.Response.User", [
+        super("member.UsersWithoutProject.User", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.UsersWithoutProject.Response.User
+ * @generated MessageType for protobuf message member.UsersWithoutProject.User
  */
-export const UsersWithoutProject_Response_User = new UsersWithoutProject_Response_User$Type();
+export const UsersWithoutProject_User = new UsersWithoutProject_User$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListMembersInvite$Type extends MessageType<ListMembersInvite> {
     constructor() {
@@ -1238,7 +1238,7 @@ class ServerMember_Response$Type extends MessageType<ServerMember_Response> {
         super("member.ServerMember.Response", [
             { no: 1, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "user_login", kind: "scalar", localName: "user_login", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 6, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
@@ -1381,7 +1381,7 @@ class MembersWithoutServer_Request$Type extends MessageType<MembersWithoutServer
             { no: 4, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 5, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 6, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 7, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 7, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

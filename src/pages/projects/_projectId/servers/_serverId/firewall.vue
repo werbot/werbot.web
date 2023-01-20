@@ -257,6 +257,22 @@ const create = async (record: any, rules: Rules) => {
 };
 
 const update = async (status: boolean, rules: Rules) => {
+  const active = !status;
+  switch (rules) {
+    case Rules.country:
+      country.value.wite_list = active;
+      status = country.value.wite_list;
+      break;
+
+    case Rules.ip:
+      network.value.wite_list = active;
+      status = network.value.wite_list;
+      break;
+
+    default:
+      return;
+  }
+
   await updateFirewall(<UpdateServerFirewall_Request>{
     project_id: props.projectId,
     server_id: props.serverId,

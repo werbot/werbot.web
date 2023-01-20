@@ -79,15 +79,19 @@ export interface Account_Response {
      */
     active: boolean;
     /**
-     * @generated from protobuf field: string user_fio = 4;
+     * @generated from protobuf field: string name = 4;
      */
-    user_fio: string;
+    name: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 5;
+     * @generated from protobuf field: string surname = 5;
+     */
+    surname: string;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 6;
      */
     last_activity?: Timestamp;
     /**
-     * @generated from protobuf field: string connection_login = 6;
+     * @generated from protobuf field: string connection_login = 7;
      */
     connection_login: string;
 }
@@ -155,20 +159,20 @@ export interface DeleteAccount_Request {
 export interface DeleteAccount_Response {
 }
 /**
- * rpc AccountIDByName
+ * rpc AccountIDByLogin
  *
- * @generated from protobuf message account.AccountIDByName
+ * @generated from protobuf message account.AccountIDByLogin
  */
-export interface AccountIDByName {
+export interface AccountIDByLogin {
 }
 /**
- * @generated from protobuf message account.AccountIDByName.Request
+ * @generated from protobuf message account.AccountIDByLogin.Request
  */
-export interface AccountIDByName_Request {
+export interface AccountIDByLogin_Request {
     /**
-     * @generated from protobuf field: string username = 1;
+     * @generated from protobuf field: string login = 1;
      */
-    username: string;
+    login: string;
     /**
      * @generated from protobuf field: string fingerprint = 2;
      */
@@ -179,9 +183,9 @@ export interface AccountIDByName_Request {
     client_ip: string;
 }
 /**
- * @generated from protobuf message account.AccountIDByName.Response
+ * @generated from protobuf message account.AccountIDByLogin.Response
  */
-export interface AccountIDByName_Response {
+export interface AccountIDByLogin_Response {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
@@ -354,9 +358,10 @@ class Account_Response$Type extends MessageType<Account_Response> {
             { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 3, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 4, name: "user_fio", kind: "scalar", localName: "user_fio", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp },
-            { no: 6, name: "connection_login", kind: "scalar", localName: "connection_login", T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp },
+            { no: 7, name: "connection_login", kind: "scalar", localName: "connection_login", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -461,41 +466,41 @@ class DeleteAccount_Response$Type extends MessageType<DeleteAccount_Response> {
  */
 export const DeleteAccount_Response = new DeleteAccount_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AccountIDByName$Type extends MessageType<AccountIDByName> {
+class AccountIDByLogin$Type extends MessageType<AccountIDByLogin> {
     constructor() {
-        super("account.AccountIDByName", []);
+        super("account.AccountIDByLogin", []);
     }
 }
 /**
- * @generated MessageType for protobuf message account.AccountIDByName
+ * @generated MessageType for protobuf message account.AccountIDByLogin
  */
-export const AccountIDByName = new AccountIDByName$Type();
+export const AccountIDByLogin = new AccountIDByLogin$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AccountIDByName_Request$Type extends MessageType<AccountIDByName_Request> {
+class AccountIDByLogin_Request$Type extends MessageType<AccountIDByLogin_Request> {
     constructor() {
-        super("account.AccountIDByName.Request", [
-            { no: 1, name: "username", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+        super("account.AccountIDByLogin.Request", [
+            { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message account.AccountIDByName.Request
+ * @generated MessageType for protobuf message account.AccountIDByLogin.Request
  */
-export const AccountIDByName_Request = new AccountIDByName_Request$Type();
+export const AccountIDByLogin_Request = new AccountIDByLogin_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AccountIDByName_Response$Type extends MessageType<AccountIDByName_Response> {
+class AccountIDByLogin_Response$Type extends MessageType<AccountIDByLogin_Response> {
     constructor() {
-        super("account.AccountIDByName.Response", [
+        super("account.AccountIDByLogin.Response", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message account.AccountIDByName.Response
+ * @generated MessageType for protobuf message account.AccountIDByLogin.Response
  */
-export const AccountIDByName_Response = new AccountIDByName_Response$Type();
+export const AccountIDByLogin_Response = new AccountIDByLogin_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateStatus$Type extends MessageType<UpdateStatus> {
     constructor() {
@@ -608,7 +613,7 @@ export const AccountHandlers = new ServiceType("account.AccountHandlers", [
     { name: "AddAccount", options: {}, I: AddAccount_Request, O: AddAccount_Response },
     { name: "UpdateAccount", options: {}, I: UpdateAccount_Request, O: UpdateAccount_Response },
     { name: "DeleteAccount", options: {}, I: DeleteAccount_Request, O: DeleteAccount_Response },
-    { name: "AccountIDByName", options: {}, I: AccountIDByName_Request, O: AccountIDByName_Response },
+    { name: "AccountIDByLogin", options: {}, I: AccountIDByLogin_Request, O: AccountIDByLogin_Response },
     { name: "UpdateStatus", options: {}, I: UpdateStatus_Request, O: UpdateStatus_Response },
     { name: "SessionAccount", options: {}, I: SessionAccount_Request, O: SessionAccount_Response },
     { name: "FindByTokenAccount", options: {}, I: FindByTokenAccount_Request, O: FindByTokenAccount_Response }

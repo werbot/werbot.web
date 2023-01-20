@@ -4,7 +4,6 @@
       type="checkbox"
       :id="`toggle_` + id"
       class="peer sr-only"
-      v-model="value"
       :checked="Boolean(value)"
       :disabled="disabled"
     />

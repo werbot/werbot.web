@@ -92,39 +92,43 @@ export interface User_Response {
      */
     user_id: string;
     /**
-     * @generated from protobuf field: string fio = 2;
+     * @generated from protobuf field: string login = 2;
      */
-    fio: string;
+    login: string;
     /**
      * @generated from protobuf field: string name = 3;
      */
     name: string;
     /**
-     * @generated from protobuf field: string email = 4;
+     * @generated from protobuf field: string surname = 4;
+     */
+    surname: string;
+    /**
+     * @generated from protobuf field: string email = 5;
      */
     email: string;
     /**
-     * @generated from protobuf field: bool enabled = 5;
+     * @generated from protobuf field: bool enabled = 6;
      */
     enabled: boolean;
     /**
-     * @generated from protobuf field: bool confirmed = 6;
+     * @generated from protobuf field: bool confirmed = 7;
      */
     confirmed: boolean;
     /**
-     * @generated from protobuf field: user.Role role = 7;
+     * @generated from protobuf field: user.Role role = 8;
      */
     role: Role;
     /**
-     * @generated from protobuf field: string password = 8;
+     * @generated from protobuf field: string password = 9;
      */
     password: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_active = 9;
+     * @generated from protobuf field: google.protobuf.Timestamp last_active = 10;
      */
     last_active?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp register_date = 10;
+     * @generated from protobuf field: google.protobuf.Timestamp register_date = 11;
      */
     register_date?: Timestamp;
 }
@@ -140,27 +144,31 @@ export interface AddUser {
  */
 export interface AddUser_Request {
     /**
-     * @generated from protobuf field: string name = 1;
+     * @generated from protobuf field: string login = 1;
      */
-    name: string;
+    login: string;
     /**
      * @generated from protobuf field: string email = 2;
      */
     email: string;
     /**
-     * @generated from protobuf field: string fio = 3;
+     * @generated from protobuf field: string name = 3;
      */
-    fio: string;
+    name: string;
     /**
-     * @generated from protobuf field: bool enabled = 4;
+     * @generated from protobuf field: string surname = 4;
+     */
+    surname: string;
+    /**
+     * @generated from protobuf field: bool enabled = 5;
      */
     enabled: boolean;
     /**
-     * @generated from protobuf field: bool confirmed = 5;
+     * @generated from protobuf field: bool confirmed = 6;
      */
     confirmed: boolean;
     /**
-     * @generated from protobuf field: string password = 6;
+     * @generated from protobuf field: string password = 7;
      */
     password: string;
 }
@@ -189,9 +197,9 @@ export interface UpdateUser_Request {
      */
     user_id: string;
     /**
-     * @generated from protobuf oneof: setting
+     * @generated from protobuf oneof: request
      */
-    setting: {
+    request: {
         oneofKind: "info";
         /**
          * @generated from protobuf field: user.UpdateUser.Info info = 2;
@@ -223,25 +231,21 @@ export interface UpdateUser_Response {
  */
 export interface UpdateUser_Info {
     /**
-     * @generated from protobuf field: string name = 2;
+     * @generated from protobuf field: string login = 1;
      */
-    name: string;
+    login: string;
     /**
-     * @generated from protobuf field: string email = 3;
+     * @generated from protobuf field: string email = 2;
      */
     email: string;
     /**
-     * @generated from protobuf field: string fio = 4;
+     * @generated from protobuf field: string name = 3;
      */
-    fio: string;
+    name: string;
     /**
-     * @generated from protobuf field: bool enabled = 5;
+     * @generated from protobuf field: string surname = 4;
      */
-    enabled: boolean;
-    /**
-     * @generated from protobuf field: bool confirmed = 6;
-     */
-    confirmed: boolean;
+    surname: string;
 }
 // -----------------------------------------------------
 
@@ -284,9 +288,9 @@ export interface DeleteUser_Request {
  */
 export interface DeleteUser_Response {
     /**
-     * @generated from protobuf field: string name = 1;
+     * @generated from protobuf field: string login = 1;
      */
-    name: string;
+    login: string;
     /**
      * @generated from protobuf field: string email = 2;
      */
@@ -430,15 +434,16 @@ class User_Response$Type extends MessageType<User_Response> {
     constructor() {
         super("user.User.Response", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "fio", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 6, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 7, name: "role", kind: "enum", T: () => ["user.Role", Role] },
-            { no: 8, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 9, name: "last_active", kind: "message", localName: "last_active", T: () => Timestamp },
-            { no: 10, name: "register_date", kind: "message", localName: "register_date", T: () => Timestamp }
+            { no: 4, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 7, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 8, name: "role", kind: "enum", T: () => ["user.Role", Role] },
+            { no: 9, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 10, name: "last_active", kind: "message", localName: "last_active", T: () => Timestamp },
+            { no: 11, name: "register_date", kind: "message", localName: "register_date", T: () => Timestamp }
         ]);
     }
 }
@@ -460,12 +465,13 @@ export const AddUser = new AddUser$Type();
 class AddUser_Request$Type extends MessageType<AddUser_Request> {
     constructor() {
         super("user.AddUser.Request", [
-            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { pattern: "^[a-z0-9]+$" } } } },
+            { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
             { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 3, name: "fio", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "5" } } } },
-            { no: 4, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 5, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 6, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } }
+            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 4, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 5, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 7, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } }
         ]);
     }
 }
@@ -500,9 +506,9 @@ class UpdateUser_Request$Type extends MessageType<UpdateUser_Request> {
     constructor() {
         super("user.UpdateUser.Request", [
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "info", kind: "message", oneof: "setting", T: () => UpdateUser_Info },
-            { no: 3, name: "enabled", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ },
-            { no: 4, name: "confirmed", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ }
+            { no: 2, name: "info", kind: "message", oneof: "request", T: () => UpdateUser_Info },
+            { no: 3, name: "enabled", kind: "scalar", oneof: "request", T: 8 /*ScalarType.BOOL*/ },
+            { no: 4, name: "confirmed", kind: "scalar", oneof: "request", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
@@ -524,11 +530,10 @@ export const UpdateUser_Response = new UpdateUser_Response$Type();
 class UpdateUser_Info$Type extends MessageType<UpdateUser_Info> {
     constructor() {
         super("user.UpdateUser.Info", [
-            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$", ignoreEmpty: true } } } },
-            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 4, name: "fio", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "5" } } } },
-            { no: 5, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 6, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$", ignoreEmpty: true } } } },
+            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
+            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 4, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } }
         ]);
     }
 }
@@ -564,7 +569,7 @@ export const DeleteUser_Request = new DeleteUser_Request$Type();
 class DeleteUser_Response$Type extends MessageType<DeleteUser_Response> {
     constructor() {
         super("user.DeleteUser.Response", [
-            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
