@@ -58,12 +58,11 @@ build: ## Building project
 .PHONY: package
 package: ## Building a docker container
 	$(msg) "$(GREEN)Building a docker container$(RESET)"
-	$(eval NEW_VERSION=$(shell read -p "Enter new release version (current version ${VERSION}): " enter ; echo $${enter}))
 	@cat ${ROOT_PATH}/.docker/Dockerfile > ${ROOT_PATH}/Dockerfile
 	@sed -i -E "s/_GIT_COMMIT_/${GIT_COMMIT}/g" ${ROOT_PATH}/Dockerfile
-	@sed -i -E "s/_VERSION_/${NEW_VERSION}/g" ${ROOT_PATH}/Dockerfile
+	@sed -i -E "s/_VERSION_/${VERSION}/g" ${ROOT_PATH}/Dockerfile
 	docker build -f ${ROOT_PATH}/Dockerfile -t ghcr.io/werbot/werbot.web:latest .
-	docker tag ghcr.io/werbot/werbot.web:latest ghcr.io/werbot/werbot.web:${NEW_VERSION}
+	docker tag ghcr.io/werbot/werbot.web:latest ghcr.io/werbot/werbot.web:${VERSION}
 	rm -rf ${ROOT_PATH}/dist
 	rm ${ROOT_PATH}/Dockerfile
 	docker image prune --filter "dangling=true" --force
@@ -74,7 +73,6 @@ package: ## Building a docker container
 .PHONY: push
 push: ## Submitting docker to the registry
 	$(msg) "$(GREEN)Submitting docker to the registry$(RESET)"
-	$(eval NEW_VERSION=$(shell read -p "Enter new release version (current version ${VERSION}): " enter ; echo $${enter}))
 	docker push ghcr.io/werbot/werbot.web:latest
 	docker push ghcr.io/werbot/werbot.web:${VERSION}
 #############################################################################
