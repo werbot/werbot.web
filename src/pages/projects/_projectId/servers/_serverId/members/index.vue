@@ -23,6 +23,7 @@
         <tr>
           <th class="w-12"></th>
           <th>Member</th>
+          <th>Login</th>
           <th class="w-40">Last activity</th>
           <th class="w-20">Activity</th>
           <th class="w-8"></th>
@@ -36,7 +37,8 @@
               <span class="dot bg-green-500"></span>
             </div>
           </td>
-          <td>{{ item.user_name }}</td>
+          <td>{{ item.user_name }} {{ item.user_surname }}</td>
+          <td>{{ item.user_login }}</td>
           <td>{{ toDate(item.last_activity) }}</td>
           <td>
             <div class="flex items-center">

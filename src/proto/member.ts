@@ -562,23 +562,31 @@ export interface ServerMember_Response {
      */
     user_login: string;
     /**
-     * @generated from protobuf field: string email = 4;
+     * @generated from protobuf field: string user_name = 4;
+     */
+    user_name: string;
+    /**
+     * @generated from protobuf field: string user_surname = 5;
+     */
+    user_surname: string;
+    /**
+     * @generated from protobuf field: string email = 6;
      */
     email: string;
     /**
-     * @generated from protobuf field: user.Role role = 5;
+     * @generated from protobuf field: user.Role role = 7;
      */
     role: Role;
     /**
-     * @generated from protobuf field: bool active = 6;
+     * @generated from protobuf field: bool active = 8;
      */
     active: boolean;
     /**
-     * @generated from protobuf field: bool online = 7;
+     * @generated from protobuf field: bool online = 9;
      */
     online: boolean;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 8;
+     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 10;
      */
     last_activity?: Timestamp;
 }
@@ -1239,11 +1247,13 @@ class ServerMember_Response$Type extends MessageType<ServerMember_Response> {
             { no: 1, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "user_login", kind: "scalar", localName: "user_login", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "role", kind: "enum", T: () => ["user.Role", Role] },
-            { no: 6, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 7, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 8, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp }
+            { no: 4, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "user_surname", kind: "scalar", localName: "user_surname", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "role", kind: "enum", T: () => ["user.Role", Role] },
+            { no: 8, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 9, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 10, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp }
         ]);
     }
 }
