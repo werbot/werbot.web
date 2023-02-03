@@ -61,13 +61,13 @@
           </td>
           <td>
             <div class="flex items-center">
-              <SvgIcon v-if="item.auth == 'key'" name="key" />
-              <SvgIcon v-else-if="item.auth == 'password'" name="password" />
+              <SvgIcon v-if="item.auth == 1" name="password" />
+              <SvgIcon v-else-if="item.auth == 2" name="key" />
               <SvgIcon v-else name="agent" />
             </div>
           </td>
           <td class="flex items-center">
-            <Badge :name="item.scheme" />
+            <Badge :name="ServerScheme[item.scheme]" />
           </td>
           <td>
             <div class="flex items-center">
@@ -153,7 +153,7 @@ import { showMessage } from "@/utils/message";
 
 import { getAddressType } from "@/utils/network";
 import { servers, updateServerStatus } from "@/api/server";
-import { UpdateServer_Request } from "@proto/server";
+import { ServerScheme, UpdateServer_Request } from "@proto/server";
 
 const { proxy } = getCurrentInstance();
 const route = useRoute();

@@ -83,29 +83,29 @@ export interface Server_Response {
      */
     project_id: string;
     /**
-     * @generated from protobuf field: string project_login = 3;
+     * @generated from protobuf field: string access_id = 3;
+     */
+    access_id: string;
+    /**
+     * @generated from protobuf field: string project_login = 4;
      */
     project_login: string;
     /**
-     * @generated from protobuf field: string address = 4;
+     * @generated from protobuf field: string address = 5;
      */
     address: string;
     /**
-     * @generated from protobuf field: int32 port = 5;
+     * @generated from protobuf field: int32 port = 6;
      */
     port: number;
     /**
-     * @generated from protobuf field: string token = 6;
+     * @generated from protobuf field: string token = 7;
      */
     token: string;
     /**
-     * @generated from protobuf field: string login = 7;
+     * @generated from protobuf field: string login = 8;
      */
     login: string;
-    /**
-     * @generated from protobuf field: string password = 8;
-     */
-    password: string;
     /**
      * @generated from protobuf field: string title = 9;
      */
@@ -119,47 +119,31 @@ export interface Server_Response {
      */
     online: boolean;
     /**
-     * @generated from protobuf field: string key_public = 12;
-     */
-    key_public: string;
-    /**
-     * @generated from protobuf field: string key_private = 13;
-     */
-    key_private: string;
-    /**
-     * @generated from protobuf field: string key_password = 14;
-     */
-    key_password: string;
-    /**
-     * @generated from protobuf field: string account_id = 15;
+     * @generated from protobuf field: string account_id = 12;
      */
     account_id: string;
     /**
-     * @generated from protobuf field: string auth = 16;
+     * @generated from protobuf field: server.Auth auth = 13;
      */
-    auth: string;
+    auth: Auth;
     /**
-     * @generated from protobuf field: string scheme = 17;
+     * @generated from protobuf field: server.ServerScheme scheme = 14;
      */
-    scheme: string;
+    scheme: ServerScheme;
     /**
-     * @generated from protobuf field: bytes host_key = 18;
+     * @generated from protobuf field: bytes host_key = 15;
      */
     host_key: Uint8Array;
     /**
-     * @generated from protobuf field: string private_description = 19;
+     * @generated from protobuf field: string description = 16;
      */
-    private_description: string;
+    description: string;
     /**
-     * @generated from protobuf field: string public_description = 20;
-     */
-    public_description: string;
-    /**
-     * @generated from protobuf field: bool active = 21;
+     * @generated from protobuf field: bool active = 17;
      */
     active: boolean;
     /**
-     * @generated from protobuf field: int32 count_members = 22;
+     * @generated from protobuf field: int32 count_members = 18;
      */
     count_members: number;
 }
@@ -191,49 +175,25 @@ export interface AddServer_Request {
      */
     port: number;
     /**
-     * @generated from protobuf field: string login = 5;
-     */
-    login: string;
-    /**
-     * @generated from protobuf field: string title = 6;
+     * @generated from protobuf field: string title = 5;
      */
     title: string;
     /**
-     * @generated from protobuf field: server.Auth auth = 7;
-     */
-    auth: Auth;
-    /**
-     * @generated from protobuf field: server.ServerScheme scheme = 8;
+     * @generated from protobuf field: server.ServerScheme scheme = 6;
      */
     scheme: ServerScheme;
     /**
-     * @generated from protobuf field: bool audit = 9;
+     * @generated from protobuf field: bool audit = 7;
      */
     audit: boolean;
     /**
-     * @generated from protobuf field: bool active = 10;
+     * @generated from protobuf field: bool active = 8;
      */
     active: boolean;
     /**
-     * @generated from protobuf field: string private_description = 11;
+     * @generated from protobuf field: string description = 9;
      */
-    private_description: string;
-    /**
-     * @generated from protobuf field: string public_description = 12;
-     */
-    public_description: string;
-    /**
-     * @generated from protobuf field: string password = 13;
-     */
-    password: string;
-    /**
-     * @generated from protobuf field: string public_key = 14;
-     */
-    public_key: string;
-    /**
-     * @generated from protobuf field: string key_uuid = 15;
-     */
-    key_uuid: string;
+    description: string;
 }
 /**
  * @generated from protobuf message server.AddServer.Response
@@ -243,10 +203,6 @@ export interface AddServer_Response {
      * @generated from protobuf field: string server_id = 1;
      */
     server_id: string;
-    /**
-     * @generated from protobuf field: string key_public = 2;
-     */
-    key_public: string;
 }
 /**
  * rpc UpdateServer
@@ -328,13 +284,9 @@ export interface UpdateServer_Info {
      */
     title: string; // @gotags: query:"title" params:"title"
     /**
-     * @generated from protobuf field: string private_description = 5;
+     * @generated from protobuf field: string description = 5;
      */
-    private_description: string;
-    /**
-     * @generated from protobuf field: string public_description = 6;
-     */
-    public_description: string;
+    description: string;
 }
 /**
  * rpc DeleteServer
@@ -398,18 +350,22 @@ export interface ServerAccess_Response {
      */
     auth: Auth;
     /**
+     * @generated from protobuf field: string login = 2;
+     */
+    login: string;
+    /**
      * @generated from protobuf oneof: access
      */
     access: {
         oneofKind: "password";
         /**
-         * @generated from protobuf field: string password = 2;
+         * @generated from protobuf field: string password = 3;
          */
         password: string;
     } | {
         oneofKind: "key";
         /**
-         * @generated from protobuf field: server.ServerAccess.Key key = 3;
+         * @generated from protobuf field: server.ServerAccess.Key key = 4;
          */
         key: ServerAccess_Key;
     } | {
@@ -438,6 +394,55 @@ export interface ServerAccess_Key {
     fingeprint: string;
 }
 /**
+ * rpc AddServerAccess
+ *
+ * @generated from protobuf message server.AddServerAccess
+ */
+export interface AddServerAccess {
+}
+/**
+ * @generated from protobuf message server.AddServerAccess.Request
+ */
+export interface AddServerAccess_Request {
+    /**
+     * @generated from protobuf field: string server_id = 1;
+     */
+    server_id: string; // @gotags: query:"server_id" params:"server_id"
+    /**
+     * @generated from protobuf field: string login = 2;
+     */
+    login: string; // @gotags: query:"login" params:"login"
+    /**
+     * @generated from protobuf oneof: access
+     */
+    access: {
+        oneofKind: "password";
+        /**
+         * @generated from protobuf field: string password = 3;
+         */
+        password: string;
+    } | {
+        oneofKind: "key_uuid";
+        /**
+         * @generated from protobuf field: string key_uuid = 4;
+         */
+        key_uuid: string;
+    } | {
+        oneofKind: undefined;
+    };
+}
+/**
+ * @generated from protobuf message server.AddServerAccess.Response
+ */
+export interface AddServerAccess_Response {
+    /**
+     * string key_public = 1;
+     *
+     * @generated from protobuf field: string fingeprint = 1;
+     */
+    fingeprint: string;
+}
+/**
  * rpc UpdateServerAccess
  *
  * @generated from protobuf message server.UpdateServerAccess
@@ -461,26 +466,41 @@ export interface UpdateServerAccess_Request {
      */
     server_id: string; // @gotags: query:"server_id"
     /**
-     * @generated from protobuf field: server.Auth auth = 4;
+     * @generated from protobuf oneof: access
      */
-    auth: Auth;
-    /**
-     * @generated from protobuf field: string password = 5;
-     */
-    password: string;
-    /**
-     * @generated from protobuf field: string public_key = 6;
-     */
-    public_key: string;
-    /**
-     * @generated from protobuf field: string key_uuid = 7;
-     */
-    key_uuid: string; // temp uuid for new generate key
+    access: {
+        oneofKind: "password";
+        /**
+         * @generated from protobuf field: string password = 5;
+         */
+        password: string;
+    } | {
+        oneofKind: "key";
+        /**
+         * @generated from protobuf field: server.UpdateServerAccess.Key key = 6;
+         */
+        key: UpdateServerAccess_Key;
+    } | {
+        oneofKind: undefined;
+    };
 }
 /**
  * @generated from protobuf message server.UpdateServerAccess.Response
  */
 export interface UpdateServerAccess_Response {
+}
+/**
+ * @generated from protobuf message server.UpdateServerAccess.Key
+ */
+export interface UpdateServerAccess_Key {
+    /**
+     * @generated from protobuf field: string public_key = 1;
+     */
+    public_key: string;
+    /**
+     * @generated from protobuf field: string key_uuid = 2;
+     */
+    key_uuid: string; // temp uuid for new generate key
 }
 /**
  * rpc ServerActivity
@@ -1092,26 +1112,22 @@ class Server_Response$Type extends MessageType<Server_Response> {
         super("server.Server.Response", [
             { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "project_login", kind: "scalar", localName: "project_login", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 6, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "access_id", kind: "scalar", localName: "access_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "project_login", kind: "scalar", localName: "project_login", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 7, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 10, name: "audit", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 11, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 12, name: "key_public", kind: "scalar", localName: "key_public", T: 9 /*ScalarType.STRING*/ },
-            { no: 13, name: "key_private", kind: "scalar", localName: "key_private", T: 9 /*ScalarType.STRING*/ },
-            { no: 14, name: "key_password", kind: "scalar", localName: "key_password", T: 9 /*ScalarType.STRING*/ },
-            { no: 15, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 16, name: "auth", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 17, name: "scheme", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 18, name: "host_key", kind: "scalar", localName: "host_key", T: 12 /*ScalarType.BYTES*/ },
-            { no: 19, name: "private_description", kind: "scalar", localName: "private_description", T: 9 /*ScalarType.STRING*/ },
-            { no: 20, name: "public_description", kind: "scalar", localName: "public_description", T: 9 /*ScalarType.STRING*/ },
-            { no: 21, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 22, name: "count_members", kind: "scalar", localName: "count_members", T: 5 /*ScalarType.INT32*/ }
+            { no: 12, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 13, name: "auth", kind: "enum", T: () => ["server.Auth", Auth] },
+            { no: 14, name: "scheme", kind: "enum", T: () => ["server.ServerScheme", ServerScheme] },
+            { no: 15, name: "host_key", kind: "scalar", localName: "host_key", T: 12 /*ScalarType.BYTES*/ },
+            { no: 16, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 17, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 18, name: "count_members", kind: "scalar", localName: "count_members", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }
@@ -1137,17 +1153,11 @@ class AddServer_Request$Type extends MessageType<AddServer_Request> {
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { address: true } } } },
             { no: 4, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "validate.rules": { int32: { lt: 65536, gte: 1 } } } },
-            { no: 5, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 6, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 7, name: "auth", kind: "enum", T: () => ["server.Auth", Auth], options: { "validate.rules": { enum: { definedOnly: true } } } },
-            { no: 8, name: "scheme", kind: "enum", T: () => ["server.ServerScheme", ServerScheme], options: { "validate.rules": { enum: { definedOnly: true } } } },
-            { no: 9, name: "audit", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 10, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 11, name: "private_description", kind: "scalar", localName: "private_description", T: 9 /*ScalarType.STRING*/ },
-            { no: 12, name: "public_description", kind: "scalar", localName: "public_description", T: 9 /*ScalarType.STRING*/ },
-            { no: 13, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 14, name: "public_key", kind: "scalar", localName: "public_key", T: 9 /*ScalarType.STRING*/ },
-            { no: 15, name: "key_uuid", kind: "scalar", localName: "key_uuid", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 6, name: "scheme", kind: "enum", T: () => ["server.ServerScheme", ServerScheme], options: { "validate.rules": { enum: { definedOnly: true } } } },
+            { no: 7, name: "audit", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 8, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 9, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -1159,8 +1169,7 @@ export const AddServer_Request = new AddServer_Request$Type();
 class AddServer_Response$Type extends MessageType<AddServer_Response> {
     constructor() {
         super("server.AddServer.Response", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "key_public", kind: "scalar", localName: "key_public", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -1214,8 +1223,7 @@ class UpdateServer_Info$Type extends MessageType<UpdateServer_Info> {
             { no: 2, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "validate.rules": { int32: { lt: 65536, gte: 1 } } } },
             { no: 3, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
             { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 5, name: "private_description", kind: "scalar", localName: "private_description", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "public_description", kind: "scalar", localName: "public_description", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -1286,8 +1294,9 @@ class ServerAccess_Response$Type extends MessageType<ServerAccess_Response> {
     constructor() {
         super("server.ServerAccess.Response", [
             { no: 1, name: "auth", kind: "enum", T: () => ["server.Auth", Auth] },
-            { no: 2, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "key", kind: "message", oneof: "access", T: () => ServerAccess_Key }
+            { no: 2, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "key", kind: "message", oneof: "access", T: () => ServerAccess_Key }
         ]);
     }
 }
@@ -1311,6 +1320,43 @@ class ServerAccess_Key$Type extends MessageType<ServerAccess_Key> {
  */
 export const ServerAccess_Key = new ServerAccess_Key$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class AddServerAccess$Type extends MessageType<AddServerAccess> {
+    constructor() {
+        super("server.AddServerAccess", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message server.AddServerAccess
+ */
+export const AddServerAccess = new AddServerAccess$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AddServerAccess_Request$Type extends MessageType<AddServerAccess_Request> {
+    constructor() {
+        super("server.AddServerAccess.Request", [
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 2, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 3, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "key_uuid", kind: "scalar", localName: "key_uuid", oneof: "access", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message server.AddServerAccess.Request
+ */
+export const AddServerAccess_Request = new AddServerAccess_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AddServerAccess_Response$Type extends MessageType<AddServerAccess_Response> {
+    constructor() {
+        super("server.AddServerAccess.Response", [
+            { no: 1, name: "fingeprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message server.AddServerAccess.Response
+ */
+export const AddServerAccess_Response = new AddServerAccess_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class UpdateServerAccess$Type extends MessageType<UpdateServerAccess> {
     constructor() {
         super("server.UpdateServerAccess", []);
@@ -1327,10 +1373,8 @@ class UpdateServerAccess_Request$Type extends MessageType<UpdateServerAccess_Req
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "auth", kind: "enum", T: () => ["server.Auth", Auth] },
-            { no: 5, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "public_key", kind: "scalar", localName: "public_key", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "key_uuid", kind: "scalar", localName: "key_uuid", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "key", kind: "message", oneof: "access", T: () => UpdateServerAccess_Key }
         ]);
     }
 }
@@ -1348,6 +1392,19 @@ class UpdateServerAccess_Response$Type extends MessageType<UpdateServerAccess_Re
  * @generated MessageType for protobuf message server.UpdateServerAccess.Response
  */
 export const UpdateServerAccess_Response = new UpdateServerAccess_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateServerAccess_Key$Type extends MessageType<UpdateServerAccess_Key> {
+    constructor() {
+        super("server.UpdateServerAccess.Key", [
+            { no: 1, name: "public_key", kind: "scalar", localName: "public_key", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "key_uuid", kind: "scalar", localName: "key_uuid", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message server.UpdateServerAccess.Key
+ */
+export const UpdateServerAccess_Key = new UpdateServerAccess_Key$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ServerActivity$Type extends MessageType<ServerActivity> {
     constructor() {
@@ -1699,6 +1756,7 @@ export const ServerHandlers = new ServiceType("server.ServerHandlers", [
     { name: "UpdateServer", options: {}, I: UpdateServer_Request, O: UpdateServer_Response },
     { name: "DeleteServer", options: {}, I: DeleteServer_Request, O: DeleteServer_Response },
     { name: "ServerAccess", options: {}, I: ServerAccess_Request, O: ServerAccess_Response },
+    { name: "AddServerAccess", options: {}, I: AddServerAccess_Request, O: AddServerAccess_Response },
     { name: "UpdateServerAccess", options: {}, I: UpdateServerAccess_Request, O: UpdateServerAccess_Response },
     { name: "ServerActivity", options: {}, I: ServerActivity_Request, O: ServerActivity_Response },
     { name: "UpdateServerActivity", options: {}, I: UpdateServerActivity_Request, O: UpdateServerActivity_Response },

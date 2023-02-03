@@ -124,13 +124,13 @@ export interface User_Response {
      */
     password: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_active = 10;
+     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 10;
      */
-    last_active?: Timestamp;
+    last_activity?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp register_date = 11;
+     * @generated from protobuf field: google.protobuf.Timestamp created = 11;
      */
-    register_date?: Timestamp;
+    created?: Timestamp;
 }
 /**
  * rpc AddUser
@@ -442,8 +442,8 @@ class User_Response$Type extends MessageType<User_Response> {
             { no: 7, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 8, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 9, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "last_active", kind: "message", localName: "last_active", T: () => Timestamp },
-            { no: 11, name: "register_date", kind: "message", localName: "register_date", T: () => Timestamp }
+            { no: 10, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp },
+            { no: 11, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }
 }

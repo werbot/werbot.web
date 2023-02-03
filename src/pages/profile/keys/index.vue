@@ -24,8 +24,8 @@
           </td>
           <td class="adaptive-md">
             <div><span class="font-bold">Added on:</span> {{ toDate(item.created, "lite") }}</div>
-            <div v-if="item.last_used.seconds > 0">
-              <span class="font-bold">Last used:</span> {{ toDate(item.last_used, "lite") }}
+            <div v-if="item.last_activity.seconds > 0">
+              <span class="font-bold">Last used:</span> {{ toDate(item.last_activity, "lite") }}
             </div>
             <div v-else class="text-gray-400">
               <span class="font-bold">Last used:</span> no used

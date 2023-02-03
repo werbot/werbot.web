@@ -28,7 +28,7 @@ const props = defineProps({
     required: true,
   },
   rows: {
-    type: String,
+    type: Number,
     default: 6,
   },
   error: {

@@ -95,9 +95,9 @@ export interface Key_Response {
      */
     fingerprint: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_used = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 7;
      */
-    last_used?: Timestamp;
+    last_activity?: Timestamp;
     /**
      * @generated from protobuf field: google.protobuf.Timestamp created = 8;
      */
@@ -238,6 +238,23 @@ export interface GenerateSSHKey_Response {
     finger_print: string;
 }
 /**
+ * @generated from protobuf message key.GenerateSSHKey.Key
+ */
+export interface GenerateSSHKey_Key {
+    /**
+     * @generated from protobuf field: string public = 1;
+     */
+    public: string;
+    /**
+     * @generated from protobuf field: string private = 2;
+     */
+    private: string;
+    /**
+     * @generated from protobuf field: string password = 3;
+     */
+    password: string;
+}
+/**
  * @generated from protobuf enum key.KeyType
  */
 export enum KeyType {
@@ -329,7 +346,7 @@ class Key_Response$Type extends MessageType<Key_Response> {
             { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "last_used", kind: "message", localName: "last_used", T: () => Timestamp },
+            { no: 7, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp },
             { no: 8, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }
@@ -480,6 +497,20 @@ class GenerateSSHKey_Response$Type extends MessageType<GenerateSSHKey_Response> 
  * @generated MessageType for protobuf message key.GenerateSSHKey.Response
  */
 export const GenerateSSHKey_Response = new GenerateSSHKey_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GenerateSSHKey_Key$Type extends MessageType<GenerateSSHKey_Key> {
+    constructor() {
+        super("key.GenerateSSHKey.Key", [
+            { no: 1, name: "public", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "private", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message key.GenerateSSHKey.Key
+ */
+export const GenerateSSHKey_Key = new GenerateSSHKey_Key$Type();
 /**
  * @generated ServiceType for protobuf service key.KeyHandlers
  */

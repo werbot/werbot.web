@@ -26,7 +26,7 @@
           v-model.trim="data.key"
           :error="$errorStore.errors['key']"
           :disabled="loading"
-          rows="6"
+          :rows="6"
           placeholder="Begins with 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519', 'sk-ecdsa-sha2-nistp256@openssh.com', or 'sk-ssh-ed25519@openssh.com'"
         />
 
