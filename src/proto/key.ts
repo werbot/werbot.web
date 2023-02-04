@@ -95,9 +95,9 @@ export interface Key_Response {
      */
     fingerprint: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 7;
      */
-    last_activity?: Timestamp;
+    last_update?: Timestamp;
     /**
      * @generated from protobuf field: google.protobuf.Timestamp created = 8;
      */
@@ -346,7 +346,7 @@ class Key_Response$Type extends MessageType<Key_Response> {
             { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp },
+            { no: 7, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
             { no: 8, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }

@@ -146,6 +146,14 @@ export interface Server_Response {
      * @generated from protobuf field: int32 count_members = 18;
      */
     count_members: number;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 19;
+     */
+    last_update?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created = 20;
+     */
+    created?: Timestamp;
 }
 /**
  * rpc AddServer
@@ -262,6 +270,10 @@ export interface UpdateServer_Request {
  * @generated from protobuf message server.UpdateServer.Response
  */
 export interface UpdateServer_Response {
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 1;
+     */
+    last_update?: Timestamp;
 }
 /**
  * @generated from protobuf message server.UpdateServer.Info
@@ -1127,7 +1139,9 @@ class Server_Response$Type extends MessageType<Server_Response> {
             { no: 15, name: "host_key", kind: "scalar", localName: "host_key", T: 12 /*ScalarType.BYTES*/ },
             { no: 16, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 17, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 18, name: "count_members", kind: "scalar", localName: "count_members", T: 5 /*ScalarType.INT32*/ }
+            { no: 18, name: "count_members", kind: "scalar", localName: "count_members", T: 5 /*ScalarType.INT32*/ },
+            { no: 19, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
+            { no: 20, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }
 }
@@ -1208,7 +1222,9 @@ export const UpdateServer_Request = new UpdateServer_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateServer_Response$Type extends MessageType<UpdateServer_Response> {
     constructor() {
-        super("server.UpdateServer.Response", []);
+        super("server.UpdateServer.Response", [
+            { no: 1, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp }
+        ]);
     }
 }
 /**

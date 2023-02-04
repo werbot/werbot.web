@@ -111,18 +111,18 @@ export interface ServerFirewall_Request {
  */
 export interface ServerFirewall_Response {
     /**
-     * @generated from protobuf field: firewall.ServerFirewall.Response.Countries country = 1;
+     * @generated from protobuf field: firewall.ServerFirewall.Countries country = 1;
      */
-    country?: ServerFirewall_Response_Countries;
+    country?: ServerFirewall_Countries;
     /**
-     * @generated from protobuf field: firewall.ServerFirewall.Response.Networks network = 2;
+     * @generated from protobuf field: firewall.ServerFirewall.Networks network = 2;
      */
-    network?: ServerFirewall_Response_Networks;
+    network?: ServerFirewall_Networks;
 }
 /**
- * @generated from protobuf message firewall.ServerFirewall.Response.Countries
+ * @generated from protobuf message firewall.ServerFirewall.Countries
  */
-export interface ServerFirewall_Response_Countries {
+export interface ServerFirewall_Countries {
     /**
      * @generated from protobuf field: bool wite_list = 1;
      */
@@ -133,9 +133,9 @@ export interface ServerFirewall_Response_Countries {
     list: Country[];
 }
 /**
- * @generated from protobuf message firewall.ServerFirewall.Response.Networks
+ * @generated from protobuf message firewall.ServerFirewall.Networks
  */
-export interface ServerFirewall_Response_Networks {
+export interface ServerFirewall_Networks {
     /**
      * @generated from protobuf field: bool wite_list = 1;
      */
@@ -518,8 +518,8 @@ export const ServerFirewall_Request = new ServerFirewall_Request$Type();
 class ServerFirewall_Response$Type extends MessageType<ServerFirewall_Response> {
     constructor() {
         super("firewall.ServerFirewall.Response", [
-            { no: 1, name: "country", kind: "message", T: () => ServerFirewall_Response_Countries },
-            { no: 2, name: "network", kind: "message", T: () => ServerFirewall_Response_Networks }
+            { no: 1, name: "country", kind: "message", T: () => ServerFirewall_Countries },
+            { no: 2, name: "network", kind: "message", T: () => ServerFirewall_Networks }
         ]);
     }
 }
@@ -528,31 +528,31 @@ class ServerFirewall_Response$Type extends MessageType<ServerFirewall_Response> 
  */
 export const ServerFirewall_Response = new ServerFirewall_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ServerFirewall_Response_Countries$Type extends MessageType<ServerFirewall_Response_Countries> {
+class ServerFirewall_Countries$Type extends MessageType<ServerFirewall_Countries> {
     constructor() {
-        super("firewall.ServerFirewall.Response.Countries", [
+        super("firewall.ServerFirewall.Countries", [
             { no: 1, name: "wite_list", kind: "scalar", localName: "wite_list", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "list", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Country }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message firewall.ServerFirewall.Response.Countries
+ * @generated MessageType for protobuf message firewall.ServerFirewall.Countries
  */
-export const ServerFirewall_Response_Countries = new ServerFirewall_Response_Countries$Type();
+export const ServerFirewall_Countries = new ServerFirewall_Countries$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ServerFirewall_Response_Networks$Type extends MessageType<ServerFirewall_Response_Networks> {
+class ServerFirewall_Networks$Type extends MessageType<ServerFirewall_Networks> {
     constructor() {
-        super("firewall.ServerFirewall.Response.Networks", [
+        super("firewall.ServerFirewall.Networks", [
             { no: 1, name: "wite_list", kind: "scalar", localName: "wite_list", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "list", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Network }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message firewall.ServerFirewall.Response.Networks
+ * @generated MessageType for protobuf message firewall.ServerFirewall.Networks
  */
-export const ServerFirewall_Response_Networks = new ServerFirewall_Response_Networks$Type();
+export const ServerFirewall_Networks = new ServerFirewall_Networks$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddServerFirewall$Type extends MessageType<AddServerFirewall> {
     constructor() {

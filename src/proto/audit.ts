@@ -25,6 +25,14 @@ export interface ListAudits_Request {
  * @generated from protobuf message audit.ListAudits.Response
  */
 export interface ListAudits_Response {
+    /**
+     * @generated from protobuf field: int32 total = 1;
+     */
+    total: number;
+    /**
+     * @generated from protobuf field: repeated audit.Audit.Response accounts = 2;
+     */
+    accounts: Audit_Response[];
 }
 /**
  * rpc Audit
@@ -46,6 +54,14 @@ export interface Audit_Request {
  * @generated from protobuf message audit.Audit.Response
  */
 export interface Audit_Response {
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 1;
+     */
+    last_update?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created = 2;
+     */
+    created?: Timestamp;
 }
 /**
  * rpc rpc AddAudit
@@ -280,7 +296,10 @@ export const ListAudits_Request = new ListAudits_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListAudits_Response$Type extends MessageType<ListAudits_Response> {
     constructor() {
-        super("audit.ListAudits.Response", []);
+        super("audit.ListAudits.Response", [
+            { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "accounts", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Audit_Response }
+        ]);
     }
 }
 /**
@@ -312,7 +331,10 @@ export const Audit_Request = new Audit_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Audit_Response$Type extends MessageType<Audit_Response> {
     constructor() {
-        super("audit.Audit.Response", []);
+        super("audit.Audit.Response", [
+            { no: 1, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
+            { no: 2, name: "created", kind: "message", T: () => Timestamp }
+        ]);
     }
 }
 /**

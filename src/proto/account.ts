@@ -2,9 +2,131 @@
 // @generated from protobuf file "account.proto" (package "account", syntax proto3)
 // tslint:disable
 // @ts-nocheck
+import { User_Response } from "./user/user";
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
+import { Role } from "./user/user";
+/**
+ * rpc SignIn
+ *
+ * @generated from protobuf message account.SignIn
+ */
+export interface SignIn {
+}
+/**
+ * @generated from protobuf message account.SignIn.Request
+ */
+export interface SignIn_Request {
+    /**
+     * @generated from protobuf field: string email = 2;
+     */
+    email: string;
+    /**
+     * @generated from protobuf field: string password = 3;
+     */
+    password: string;
+}
+/**
+ * @generated from protobuf message account.SignIn.Response
+ */
+export interface SignIn_Response {
+    /**
+     * @generated from protobuf field: string user_id = 1;
+     */
+    user_id: string;
+    /**
+     * @generated from protobuf field: string name = 2;
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: string email = 3;
+     */
+    email: string;
+    /**
+     * @generated from protobuf field: user.Role user_role = 4;
+     */
+    user_role: Role;
+}
+/**
+ * rpc ResetPassword
+ *
+ * @generated from protobuf message account.ResetPassword
+ */
+export interface ResetPassword {
+}
+/**
+ * @generated from protobuf message account.ResetPassword.Request
+ */
+export interface ResetPassword_Request {
+    /**
+     * @generated from protobuf oneof: request
+     */
+    request: {
+        oneofKind: "email";
+        /**
+         * @generated from protobuf field: string email = 1;
+         */
+        email: string;
+    } | {
+        oneofKind: "password";
+        /**
+         * @generated from protobuf field: string password = 2;
+         */
+        password: string;
+    } | {
+        oneofKind: undefined;
+    };
+    /**
+     * @generated from protobuf field: string token = 3;
+     */
+    token: string;
+}
+/**
+ * @generated from protobuf message account.ResetPassword.Response
+ */
+export interface ResetPassword_Response {
+    /**
+     * @generated from protobuf field: string message = 1;
+     */
+    message: string;
+    /**
+     * @generated from protobuf field: string token = 2;
+     */
+    token: string;
+}
+/**
+ * @generated from protobuf message account.RefreshTokenRequest
+ */
+export interface RefreshTokenRequest {
+    /**
+     * @generated from protobuf field: string refresh_token = 1;
+     */
+    refresh_token: string;
+}
+/**
+ * @generated from protobuf message account.UserParameters
+ */
+export interface UserParameters {
+    /**
+     * @generated from protobuf field: string user_name = 1;
+     */
+    user_name: string;
+    /**
+     * @generated from protobuf field: string user_id = 2;
+     */
+    user_id: string;
+    /**
+     * @generated from protobuf field: user.Role roles = 3;
+     */
+    roles: Role;
+    /**
+     * @generated from protobuf field: string sub = 4;
+     */
+    sub: string;
+}
+// -----------------------------------------------------
+
 /**
  * rpc ListAccounts
  *
@@ -17,6 +139,8 @@ export interface ListAccounts {
  */
 export interface ListAccounts_Request {
     /**
+     * for pagination
+     *
      * @generated from protobuf field: int32 limit = 1;
      */
     limit: number;
@@ -27,7 +151,7 @@ export interface ListAccounts_Request {
     /**
      * @generated from protobuf field: string sort_by = 3;
      */
-    sort_by: string;
+    sort_by: string; // ---
     /**
      * @generated from protobuf field: string query = 4;
      */
@@ -87,13 +211,17 @@ export interface Account_Response {
      */
     surname: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 6;
-     */
-    last_activity?: Timestamp;
-    /**
      * @generated from protobuf field: string connection_login = 7;
      */
     connection_login: string;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 8;
+     */
+    last_update?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created = 9;
+     */
+    created?: Timestamp;
 }
 /**
  * rpc AddAccount
@@ -283,14 +411,116 @@ export enum AccountStatus {
      */
     unspecified = 0,
     /**
-     * @generated from protobuf enum value: offLine = 1;
+     * @generated from protobuf enum value: offline = 1;
      */
-    offLine = 1,
+    offline = 1,
     /**
-     * @generated from protobuf enum value: onLine = 2;
+     * @generated from protobuf enum value: online = 2;
      */
-    onLine = 2
+    online = 2
 }
+// @generated message type with reflection information, may provide speed optimized methods
+class SignIn$Type extends MessageType<SignIn> {
+    constructor() {
+        super("account.SignIn", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message account.SignIn
+ */
+export const SignIn = new SignIn$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class SignIn_Request$Type extends MessageType<SignIn_Request> {
+    constructor() {
+        super("account.SignIn.Request", [
+            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
+            { no: 3, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message account.SignIn.Request
+ */
+export const SignIn_Request = new SignIn_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class SignIn_Response$Type extends MessageType<SignIn_Response> {
+    constructor() {
+        super("account.SignIn.Response", [
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "user_role", kind: "enum", localName: "user_role", T: () => ["user.Role", Role] }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message account.SignIn.Response
+ */
+export const SignIn_Response = new SignIn_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ResetPassword$Type extends MessageType<ResetPassword> {
+    constructor() {
+        super("account.ResetPassword", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message account.ResetPassword
+ */
+export const ResetPassword = new ResetPassword$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ResetPassword_Request$Type extends MessageType<ResetPassword_Request> {
+    constructor() {
+        super("account.ResetPassword.Request", [
+            { no: 1, name: "email", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
+            { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
+            { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message account.ResetPassword.Request
+ */
+export const ResetPassword_Request = new ResetPassword_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ResetPassword_Response$Type extends MessageType<ResetPassword_Response> {
+    constructor() {
+        super("account.ResetPassword.Response", [
+            { no: 1, name: "message", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message account.ResetPassword.Response
+ */
+export const ResetPassword_Response = new ResetPassword_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class RefreshTokenRequest$Type extends MessageType<RefreshTokenRequest> {
+    constructor() {
+        super("account.RefreshTokenRequest", [
+            { no: 1, name: "refresh_token", kind: "scalar", localName: "refresh_token", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message account.RefreshTokenRequest
+ */
+export const RefreshTokenRequest = new RefreshTokenRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UserParameters$Type extends MessageType<UserParameters> {
+    constructor() {
+        super("account.UserParameters", [
+            { no: 1, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "roles", kind: "enum", T: () => ["user.Role", Role] },
+            { no: 4, name: "sub", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message account.UserParameters
+ */
+export const UserParameters = new UserParameters$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListAccounts$Type extends MessageType<ListAccounts> {
     constructor() {
@@ -360,8 +590,9 @@ class Account_Response$Type extends MessageType<Account_Response> {
             { no: 3, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp },
-            { no: 7, name: "connection_login", kind: "scalar", localName: "connection_login", T: 9 /*ScalarType.STRING*/ }
+            { no: 7, name: "connection_login", kind: "scalar", localName: "connection_login", T: 9 /*ScalarType.STRING*/ },
+            { no: 8, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
+            { no: 9, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }
 }
@@ -608,6 +839,8 @@ export const FindByTokenAccount_Response = new FindByTokenAccount_Response$Type(
  * @generated ServiceType for protobuf service account.AccountHandlers
  */
 export const AccountHandlers = new ServiceType("account.AccountHandlers", [
+    { name: "SignIn", options: {}, I: SignIn_Request, O: User_Response },
+    { name: "ResetPassword", options: {}, I: ResetPassword_Request, O: ResetPassword_Response },
     { name: "ListAccounts", options: {}, I: ListAccounts_Request, O: ListAccounts_Response },
     { name: "Account", options: {}, I: Account_Request, O: Account_Response },
     { name: "AddAccount", options: {}, I: AddAccount_Request, O: AddAccount_Response },

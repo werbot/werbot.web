@@ -124,9 +124,9 @@ export interface User_Response {
      */
     password: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 10;
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 10;
      */
-    last_activity?: Timestamp;
+    last_update?: Timestamp;
     /**
      * @generated from protobuf field: google.protobuf.Timestamp created = 11;
      */
@@ -442,7 +442,7 @@ class User_Response$Type extends MessageType<User_Response> {
             { no: 7, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 8, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 9, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp },
+            { no: 10, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
             { no: 11, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }

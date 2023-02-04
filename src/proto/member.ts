@@ -120,7 +120,11 @@ export interface ProjectMember_Response {
      */
     servers_count: number;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 12;
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 12;
+     */
+    last_update?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created = 13;
      */
     created?: Timestamp;
 }
@@ -357,13 +361,17 @@ export interface ListMembersInvite_Invites {
      */
     email: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 5;
-     */
-    created?: Timestamp;
-    /**
      * @generated from protobuf field: string status = 6;
      */
     status: string;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 7;
+     */
+    last_update?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created = 8;
+     */
+    created?: Timestamp;
 }
 /**
  * rpc AddMemberInvite
@@ -586,9 +594,13 @@ export interface ServerMember_Response {
      */
     online: boolean;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_activity = 10;
+     * @generated from protobuf field: google.protobuf.Timestamp last_update = 10;
      */
-    last_activity?: Timestamp;
+    last_update?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created = 11;
+     */
+    created?: Timestamp;
 }
 /**
  * AddServerMember
@@ -845,7 +857,8 @@ class ProjectMember_Response$Type extends MessageType<ProjectMember_Response> {
             { no: 9, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 10, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 11, name: "servers_count", kind: "scalar", localName: "servers_count", T: 5 /*ScalarType.INT32*/ },
-            { no: 12, name: "created", kind: "message", T: () => Timestamp }
+            { no: 12, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
+            { no: 13, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }
 }
@@ -1058,8 +1071,9 @@ class ListMembersInvite_Invites$Type extends MessageType<ListMembersInvite_Invit
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "created", kind: "message", T: () => Timestamp },
-            { no: 6, name: "status", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 6, name: "status", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
+            { no: 8, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }
 }
@@ -1253,7 +1267,8 @@ class ServerMember_Response$Type extends MessageType<ServerMember_Response> {
             { no: 7, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 8, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 9, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 10, name: "last_activity", kind: "message", localName: "last_activity", T: () => Timestamp }
+            { no: 10, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
+            { no: 11, name: "created", kind: "message", T: () => Timestamp }
         ]);
     }
 }
