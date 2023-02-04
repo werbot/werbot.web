@@ -1,5 +1,5 @@
-import { RefreshTokenRequest } from "@proto/auth";
-import { SignIn_Request } from "@proto/user";
+import { RefreshTokenRequest } from "@proto/account";
+import { SignIn_Request } from "@proto/account";
 
 import { http } from "@/api";
 

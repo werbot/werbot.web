@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { postSignIn, postLogout, postRefresh, getProfile } from "@/api/auth";
-import { RefreshTokenRequest } from "@proto/auth";
-import { SignIn_Request } from "@proto/user";
+import { RefreshTokenRequest } from "@proto/account";
+import { SignIn_Request } from "@proto/account";
 
 import { getStorage, setStorage, removeStorage } from "@/utils/storage";
 

@@ -24,7 +24,7 @@
           <th class="w-12"></th>
           <th>Member</th>
           <th>Login</th>
-          <th class="w-40">Last activity</th>
+          <th class="w-40">Last update</th>
           <th class="w-20">Activity</th>
           <th class="w-8"></th>
           <th class="w-8"></th>
@@ -39,7 +39,7 @@
           </td>
           <td>{{ item.user_name }} {{ item.user_surname }}</td>
           <td>{{ item.user_login }}</td>
-          <td>{{ toDate(item.last_activity) }}</td>
+          <td>{{ item.last_update.seconds > 0 ? toDate(item.last_update) : "" }}</td>
           <td>
             <div class="flex items-center">
               <Toggle
