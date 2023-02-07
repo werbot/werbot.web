@@ -64,7 +64,8 @@ import { FormInput } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { postProjectMemberInvite } from "@/api/member/project";
-import { AddProjectMemberInvite_Request } from "@proto/member";
+import { AddMemberInvite_Request, ProjectMember_Response} from "@proto/member";
+import { Role } from "@/proto/user";
 
 const { proxy } = getCurrentInstance();
 const data: any = ref({});
@@ -78,7 +79,7 @@ const props = defineProps({
 const onSendInvite = async () => {
   console.log(data.value);
 
-  await postProjectMemberInvite(<AddProjectMemberInvite_Request>{
+  await postProjectMemberInvite(<AddMemberInvite_Request>{
     owner_id: proxy.$authStore.hasUserID,
     project_id: props.projectId,
     user_name: data.value.name,

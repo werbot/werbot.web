@@ -125,7 +125,7 @@ import {
   ServerFirewall_Request,
   UpdateServerFirewall_Request,
   DeleteServerFirewall_Request,
-  ServerFirewall_Response_Countries,
+  ServerFirewall_Countries,
   Country,
 } from "@proto/firewall";
 

@@ -68,7 +68,7 @@ import { SvgIcon, Pagination, Tabs, Badge, Modal } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getProjectMembersInvite, deleteProjectMemberInvite } from "@/api/member/project";
-import { ListProjectMembersInvite_Request, DeleteProjectMemberInvite_Request } from "@proto/member";
+import { ListMembersInvite_Request, DeleteMemberInvite_Request } from "@proto/member";
 
 const { proxy } = getCurrentInstance();
 const route = useRoute();
@@ -89,7 +89,7 @@ const closeModal = () => {
 };
 
 const removeInvite = async (id: number) => {
-  await deleteProjectMemberInvite(<DeleteProjectMemberInvite_Request>{
+  await deleteProjectMemberInvite(<DeleteMemberInvite_Request>{
     owner_id: proxy.$authStore.hasUserID,
     project_id: props.projectId,
     invite_id: data.value.invites[id].id
@@ -123,7 +123,7 @@ const getData = async (routeQuery: any) => {
   }
   routeQuery.project_id = props.projectId;
 
-  await getProjectMembersInvite(<ListProjectMembersInvite_Request>{
+  await getProjectMembersInvite(<ListMembersInvite_Request>{
     limit: routeQuery.limit,
     offset: routeQuery.offset,
     owner_id: routeQuery.owner_id,

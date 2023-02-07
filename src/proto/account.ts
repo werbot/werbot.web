@@ -2,11 +2,11 @@
 // @generated from protobuf file "account.proto" (package "account", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { User_Response } from "./user/user";
+import { User_Response } from "./internal/grpc/user/proto/user";
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
-import { Role } from "./user/user";
+import { Role } from "./internal/grpc/user/proto/user";
 /**
  * rpc SignIn
  *
