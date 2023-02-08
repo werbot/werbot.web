@@ -5,7 +5,7 @@
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
-import { Role } from "./internal/grpc/user/proto/user";
+import { Role } from "./user";
 /**
  * rpc ListProjectMembers
  *

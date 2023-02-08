@@ -4,7 +4,7 @@
 // @ts-nocheck
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Role } from "./internal/grpc/user/proto/user";
+import { Role } from "./user";
 /**
  * rpc UserMetrics
  *
