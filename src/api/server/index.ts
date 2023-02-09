@@ -7,6 +7,7 @@ import {
   DeleteServer_Request,
   ServerNameByID_Request,
   ServerAccess_Request,
+  UpdateServerAccess_Request,
   ServerActivity_Request,
   UpdateServerActivity_Request,
 } from "@proto/server";
@@ -42,15 +43,15 @@ const updateServer = async (data: UpdateServer_Request) =>
 const deleteServer = async (data: DeleteServer_Request) =>
   http("DELETE", URL.servers, { data: data });
 
-const updateServerStatus = async (data: UpdateServer_Request) =>
-  http("PATCH", URL.servers + "/active", { data: data });
-
 const serverNameByID = async (data: ServerNameByID_Request) =>
   http("GET", URL.servers + "/name", { params: data });
 
 // access section
 const access = async (data: ServerAccess_Request) =>
   http("GET", URL.servers + "/access", { params: data });
+
+const updateAccess = async (data: UpdateServerAccess_Request) =>
+  http("PATCH", URL.servers + "/access", { data: data });
 // ----
 
 // activity section
@@ -81,9 +82,9 @@ export {
   addServer,
   updateServer,
   deleteServer,
-  updateServerStatus,
-  access,
   serverNameByID,
+  access,
+  updateAccess,
   activity,
   updateActivity,
   firewall,

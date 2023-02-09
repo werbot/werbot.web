@@ -152,7 +152,7 @@ import { SvgIcon, Pagination, Toggle, Badge } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getAddressType } from "@/utils/network";
-import { servers, updateServerStatus } from "@/api/server";
+import { servers, updateServer } from "@/api/server";
 import { ServerScheme, UpdateServer_Request } from "@proto/server";
 
 const { proxy } = getCurrentInstance();
@@ -184,7 +184,7 @@ const changeServerActive = async (index: number, online: boolean) => {
   const active = !online;
   data.value.servers[Number(index)].active = active;
 
-  await updateServerStatus(<UpdateServer_Request>{
+  await updateServer(<UpdateServer_Request>{
     user_id: proxy.$authStore.hasUserID,
     server_id: data.value.servers[Number(index)].server_id,
     project_id: props.projectId,
@@ -198,7 +198,6 @@ const changeServerActive = async (index: number, online: boolean) => {
       } else {
         showMessage(res.data.message);
       }
-
       proxy.$errorStore.$reset();
     })
     .catch((err) => {

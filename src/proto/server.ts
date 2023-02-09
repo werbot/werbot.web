@@ -226,15 +226,15 @@ export interface UpdateServer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string;
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string;
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
+    server_id: string;
     /**
      * @generated from protobuf oneof: setting
      */
@@ -282,19 +282,19 @@ export interface UpdateServer_Info {
     /**
      * @generated from protobuf field: string address = 1;
      */
-    address: string; // @gotags: query:"address" params:"address"
+    address: string; // @gotags: query:"address"
     /**
      * @generated from protobuf field: int32 port = 2;
      */
-    port: number; // @gotags: query:"port" params:"port"
+    port: number; // @gotags: query:"port"
     /**
      * @generated from protobuf field: string login = 3;
      */
-    login: string; // @gotags: query:"login" params:"login"
+    login: string; // @gotags: query:"login"
     /**
      * @generated from protobuf field: string title = 4;
      */
-    title: string; // @gotags: query:"title" params:"title"
+    title: string; // @gotags: query:"title"
     /**
      * @generated from protobuf field: string description = 5;
      */
@@ -314,15 +314,15 @@ export interface DeleteServer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
+    server_id: string; // @gotags: query:"server_id"
 }
 /**
  * @generated from protobuf message server.DeleteServer.Response
@@ -343,15 +343,15 @@ export interface ServerAccess_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
+    server_id: string; // @gotags: query:"server_id"
 }
 /**
  * @generated from protobuf message server.ServerAccess.Response
@@ -468,15 +468,15 @@ export interface UpdateServerAccess_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id"
+    user_id: string;
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id"
+    project_id: string;
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string; // @gotags: query:"server_id"
+    server_id: string;
     /**
      * @generated from protobuf oneof: access
      */
@@ -489,9 +489,9 @@ export interface UpdateServerAccess_Request {
     } | {
         oneofKind: "key";
         /**
-         * @generated from protobuf field: server.UpdateServerAccess.Key key = 6;
+         * @generated from protobuf field: string key = 6;
          */
-        key: UpdateServerAccess_Key;
+        key: string;
     } | {
         oneofKind: undefined;
     };
@@ -500,19 +500,6 @@ export interface UpdateServerAccess_Request {
  * @generated from protobuf message server.UpdateServerAccess.Response
  */
 export interface UpdateServerAccess_Response {
-}
-/**
- * @generated from protobuf message server.UpdateServerAccess.Key
- */
-export interface UpdateServerAccess_Key {
-    /**
-     * @generated from protobuf field: string public_key = 1;
-     */
-    public_key: string;
-    /**
-     * @generated from protobuf field: string key_uuid = 2;
-     */
-    key_uuid: string; // temp uuid for new generate key
 }
 /**
  * rpc ServerActivity
@@ -845,15 +832,15 @@ export interface DeleteShareServer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string;
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string;
     /**
      * @generated from protobuf field: string share_id = 3;
      */
-    share_id: string; // @gotags: query:"share_id" params:"share_id"
+    share_id: string;
 }
 /**
  * @generated from protobuf message server.DeleteShareServer.Response
@@ -1389,8 +1376,8 @@ class UpdateServerAccess_Request$Type extends MessageType<UpdateServerAccess_Req
             { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 5, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "key", kind: "message", oneof: "access", T: () => UpdateServerAccess_Key }
+            { no: 5, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
+            { no: 6, name: "key", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
         ]);
     }
 }
@@ -1408,19 +1395,6 @@ class UpdateServerAccess_Response$Type extends MessageType<UpdateServerAccess_Re
  * @generated MessageType for protobuf message server.UpdateServerAccess.Response
  */
 export const UpdateServerAccess_Response = new UpdateServerAccess_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateServerAccess_Key$Type extends MessageType<UpdateServerAccess_Key> {
-    constructor() {
-        super("server.UpdateServerAccess.Key", [
-            { no: 1, name: "public_key", kind: "scalar", localName: "public_key", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "key_uuid", kind: "scalar", localName: "key_uuid", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.UpdateServerAccess.Key
- */
-export const UpdateServerAccess_Key = new UpdateServerAccess_Key$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ServerActivity$Type extends MessageType<ServerActivity> {
     constructor() {
