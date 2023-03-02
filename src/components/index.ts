@@ -9,6 +9,7 @@ export { default as Navigation } from "./Navigation/index.vue";
 export { default as Pagination } from "./Pagination/index.vue";
 export { default as ProfileMenu } from "./ProfileMenu/index.vue";
 export { default as ProjectMenu } from "./ProjectMenu/index.vue";
+export { default as Select } from "./Select/index.vue";
 export { default as SvgIcon } from "./SvgIcon/index.vue";
 export { default as Tabs } from "./Tabs/index.vue";
 export { default as Toggle } from "./Toggle/index.vue";
