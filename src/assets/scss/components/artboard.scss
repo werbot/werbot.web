@@ -27,6 +27,39 @@
 
   &-content {
     @apply relative flex w-full flex-wrap px-6;
+
+
+    .schemes{
+      @apply flex flex-wrap;
+
+      .element{
+        @apply rounded-lg bg-gray-200 p-4 text-center mr-5 w-24;
+
+        a {
+          @apply leading-5 text-gray-800;
+
+          &:hover {
+            @apply no-underline;
+          }
+        }
+
+        img {
+          @apply w-16 mb-4;
+        }
+
+        &:hover {
+          @apply bg-gray-300 cursor-pointer;
+        }
+
+        &.disable {
+          @apply bg-gray-50 cursor-default text-gray-400;
+
+          img {
+            @apply opacity-25;
+          }
+        }
+      }
+    }
   }
 
   &-red {
