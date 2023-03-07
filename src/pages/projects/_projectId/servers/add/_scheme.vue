@@ -87,7 +87,7 @@
           <div v-if="data.auth == Auth[2]">
             <FormInput
               name="Public key"
-              v-model.trim="data.access.public_key"
+              v-model.trim="data.public_key"
               :error="error.errors.public_key"
               :disabled="true"
               class="flex-grow"
@@ -139,7 +139,7 @@ if (!Object.values(ServerScheme).includes(props.scheme)) {
 
 const genNewKey = async () => {
   await newKey().then((res) => {
-    data.value.access.public_key = res.data.result.public;
+    data.value.public_key = res.data.result.public;
     data.value.access.key = res.data.result.uuid;
   });
 };
@@ -150,7 +150,7 @@ watch(
     // for password
     if (data.value.auth == Auth[1]) {
       data.value.access.password = "";
-      delete data.value.access.public_key;
+      delete data.value.public_key;
       delete data.value.access.key;
     }
     // for key
