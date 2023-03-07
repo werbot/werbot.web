@@ -202,6 +202,28 @@ export interface AddServer_Request {
      * @generated from protobuf field: string description = 9;
      */
     description: string;
+    /**
+     * @generated from protobuf field: string login = 10;
+     */
+    login: string;
+    /**
+     * @generated from protobuf oneof: access
+     */
+    access: {
+        oneofKind: "password";
+        /**
+         * @generated from protobuf field: string password = 11;
+         */
+        password: string;
+    } | {
+        oneofKind: "key";
+        /**
+         * @generated from protobuf field: string key = 12;
+         */
+        key: string; // key UUID from redis
+    } | {
+        oneofKind: undefined;
+    };
 }
 /**
  * @generated from protobuf message server.AddServer.Response
@@ -210,7 +232,8 @@ export interface AddServer_Response {
     /**
      * @generated from protobuf field: string server_id = 1;
      */
-    server_id: string;
+    server_id: string; // string fingeprint = 2;
+    // string key_public = 3;
 }
 /**
  * rpc UpdateServer
@@ -402,55 +425,6 @@ export interface ServerAccess_Key {
     password: string;
     /**
      * @generated from protobuf field: string fingeprint = 4;
-     */
-    fingeprint: string;
-}
-/**
- * rpc AddServerAccess
- *
- * @generated from protobuf message server.AddServerAccess
- */
-export interface AddServerAccess {
-}
-/**
- * @generated from protobuf message server.AddServerAccess.Request
- */
-export interface AddServerAccess_Request {
-    /**
-     * @generated from protobuf field: string server_id = 1;
-     */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
-    /**
-     * @generated from protobuf field: string login = 2;
-     */
-    login: string; // @gotags: query:"login" params:"login"
-    /**
-     * @generated from protobuf oneof: access
-     */
-    access: {
-        oneofKind: "password";
-        /**
-         * @generated from protobuf field: string password = 3;
-         */
-        password: string;
-    } | {
-        oneofKind: "key_uuid";
-        /**
-         * @generated from protobuf field: string key_uuid = 4;
-         */
-        key_uuid: string;
-    } | {
-        oneofKind: undefined;
-    };
-}
-/**
- * @generated from protobuf message server.AddServerAccess.Response
- */
-export interface AddServerAccess_Response {
-    /**
-     * string key_public = 1;
-     *
-     * @generated from protobuf field: string fingeprint = 1;
      */
     fingeprint: string;
 }
@@ -1158,7 +1132,10 @@ class AddServer_Request$Type extends MessageType<AddServer_Request> {
             { no: 6, name: "scheme", kind: "enum", T: () => ["server.ServerScheme", ServerScheme], options: { "validate.rules": { enum: { definedOnly: true } } } },
             { no: 7, name: "audit", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 8, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 9, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 9, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 10, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 11, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
+            { no: 12, name: "key", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -1322,43 +1299,6 @@ class ServerAccess_Key$Type extends MessageType<ServerAccess_Key> {
  * @generated MessageType for protobuf message server.ServerAccess.Key
  */
 export const ServerAccess_Key = new ServerAccess_Key$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AddServerAccess$Type extends MessageType<AddServerAccess> {
-    constructor() {
-        super("server.AddServerAccess", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.AddServerAccess
- */
-export const AddServerAccess = new AddServerAccess$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AddServerAccess_Request$Type extends MessageType<AddServerAccess_Request> {
-    constructor() {
-        super("server.AddServerAccess.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 3, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "key_uuid", kind: "scalar", localName: "key_uuid", oneof: "access", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.AddServerAccess.Request
- */
-export const AddServerAccess_Request = new AddServerAccess_Request$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class AddServerAccess_Response$Type extends MessageType<AddServerAccess_Response> {
-    constructor() {
-        super("server.AddServerAccess.Response", [
-            { no: 1, name: "fingeprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message server.AddServerAccess.Response
- */
-export const AddServerAccess_Response = new AddServerAccess_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateServerAccess$Type extends MessageType<UpdateServerAccess> {
     constructor() {
@@ -1746,7 +1686,6 @@ export const ServerHandlers = new ServiceType("server.ServerHandlers", [
     { name: "UpdateServer", options: {}, I: UpdateServer_Request, O: UpdateServer_Response },
     { name: "DeleteServer", options: {}, I: DeleteServer_Request, O: DeleteServer_Response },
     { name: "ServerAccess", options: {}, I: ServerAccess_Request, O: ServerAccess_Response },
-    { name: "AddServerAccess", options: {}, I: AddServerAccess_Request, O: AddServerAccess_Response },
     { name: "UpdateServerAccess", options: {}, I: UpdateServerAccess_Request, O: UpdateServerAccess_Response },
     { name: "ServerActivity", options: {}, I: ServerActivity_Request, O: ServerActivity_Response },
     { name: "UpdateServerActivity", options: {}, I: UpdateServerActivity_Request, O: UpdateServerActivity_Response },

@@ -257,15 +257,14 @@ const create = async (record: any, rules: Rules) => {
 };
 
 const update = async (status: boolean, rules: Rules) => {
-  const active = !status;
   switch (rules) {
     case Rules.country:
-      country.value.wite_list = active;
+      country.value.wite_list = status;
       status = country.value.wite_list;
       break;
 
     case Rules.ip:
-      network.value.wite_list = active;
+      network.value.wite_list = status;
       status = network.value.wite_list;
       break;
 

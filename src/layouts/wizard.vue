@@ -6,21 +6,15 @@
         <nav class="sidebar">
           <ul>
             <li>
-              <router-link active-class="current" :to="{ name: 'projects-projectId-servers-add-step1' }">
+              <router-link active-class="current" :to="{ name: 'projects-projectId-servers-add' }">
                 <SvgIcon name="profile" />
                 <span>Step 1</span>
               </router-link>
             </li>
             <li>
-              <router-link active-class="current" :to="{ name: 'projects-projectId-servers-add-step2' }">
+              <router-link active-class="current" :to="{ name: 'projects-projectId-servers-add-scheme' }">
                 <SvgIcon name="key" />
                 <span>Step 2</span>
-              </router-link>
-            </li>
-            <li>
-              <router-link active-class="current" :to="{ name: 'projects-projectId-servers-add-step3' }">
-                <SvgIcon name="logs" />
-                <span>Step 3</span>
               </router-link>
             </li>
           </ul>
@@ -37,5 +31,5 @@
 </template>
 
 <script setup lang="ts">
-import { Header, Version } from "@/components";
+import { Header, Version, SvgIcon } from "@/components";
 </script>

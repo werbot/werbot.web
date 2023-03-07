@@ -120,19 +120,18 @@ onMounted(() => {
 });
 
 const changeMemberActive = async (index: number, online: boolean) => {
-  const status = !online;
-  data.value.members[Number(index)].active = status;
+  data.value.members[Number(index)].active = online;
 
   await updateProjectMemberStatus(<UpdateProjectMember_Request>{
     owner_id: proxy.$authStore.hasUserID,
     project_id: props.projectId,
     member_id: data.value.members[Number(index)].member_id,
     setting: {
-      active: status,
+      active: online,
     },
   })
     .then((res) => {
-      if (!status) {
+      if (!online) {
         showMessage(res.data.message, "connextWarning");
       } else {
         showMessage(res.data.message);

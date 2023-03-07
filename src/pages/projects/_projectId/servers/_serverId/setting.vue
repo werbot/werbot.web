@@ -135,7 +135,7 @@
 
         <div class="my-5">
           <button
-            v-if="data.access.key_uuid || data.access.password > 3"
+            v-if="data.access.key || data.access.password > 3"
             type="submit"
             class="btn"
             @click="onUpdateAccess"
@@ -234,8 +234,6 @@ const onUpdate = async (typeData: string, redirect: boolean) => {
       break;
     }
     case "active": {
-      data.value.host.active = !data.value.host.active;
-
       update.setting = <any>{
         active: data.value.host.active,
       };
@@ -248,7 +246,6 @@ const onUpdate = async (typeData: string, redirect: boolean) => {
       break;
     }
     case "audit": {
-      data.value.host.audit = !data.value.host.audit;
       update.setting = <any>{
         audit: data.value.host.audit,
       };
@@ -302,7 +299,7 @@ const onUpdateAccess = async () => {
     }
     case Auth.key: {
       update.access = <any>{
-        key: data.value.access.key_uuid,
+        key: data.value.access.key,
       };
       break;
     }
@@ -344,7 +341,7 @@ const remoteServer = async () => {
 const genNewKey = async () => {
   await newKey().then((res) => {
     data.value.access.public_key = res.data.result.public;
-    data.value.access.key_uuid = res.data.result.uuid;
+    data.value.access.key = res.data.result.uuid;
   });
 };
 

@@ -181,19 +181,18 @@ onMounted(() => {
 });
 
 const changeServerActive = async (index: number, online: boolean) => {
-  const active = !online;
-  data.value.servers[Number(index)].active = active;
+  data.value.servers[Number(index)].active = online;
 
   await updateServer(<UpdateServer_Request>{
     user_id: proxy.$authStore.hasUserID,
     server_id: data.value.servers[Number(index)].server_id,
     project_id: props.projectId,
     setting: {
-      active: active,
+      active: online,
     }
   })
     .then((res) => {
-      if (!active) {
+      if (!online) {
         showMessage(res.data.message, "connextWarning");
       } else {
         showMessage(res.data.message);
