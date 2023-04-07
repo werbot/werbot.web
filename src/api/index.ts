@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
-import { useRouter } from "vue-router";
 import { useErrorStore } from "@/store";
 // @ts-ignore
 import * as NProgress from "nprogress";
@@ -14,10 +13,8 @@ axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.timeout = 5000;
 
 //if (import.meta.env.MODE === "production") {
-//  axios.defaults.withCredentials = false;
+//  axios.defaults.withCredentials = true;
 //  axios.defaults.headers.post["Access-Control-Allow-Origin-Type"] = "*";
-//} else {
-axios.defaults.withCredentials = true;
 //}
 
 axios.interceptors.request.use(
