@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import createAuthRefreshInterceptor from "axios-auth-refresh";
+import axios from "axios";
+
 import { useErrorStore } from "@/store";
 // @ts-ignore
 import * as NProgress from "nprogress";
@@ -12,40 +12,22 @@ type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.timeout = 5000;
 
-//if (import.meta.env.MODE === "production") {
-//  axios.defaults.withCredentials = true;
-//  axios.defaults.headers.post["Access-Control-Allow-Origin-Type"] = "*";
-//}
-
-axios.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    NProgress.start();
-
-    const access_token = getStorage("access_token");
-    if (access_token) {
-      //config.headers.Authorization = `Bearer ${access_token}`;
-      config.headers["Authorization"] = `Bearer ${access_token}`;
-    }
-
-    return config;
-  },
-  (error: any) => {
-    NProgress.done();
-    return Promise.reject(error);
-  }
-);
-
 axios.interceptors.response.use(
-  (response: AxiosResponse) => {
+  (response) => {
     NProgress.done();
     return response;
   },
-  (error: any) => {
+  (error) => {
     NProgress.done();
+    const originalRequest = error.config;
 
-    if (error.response.data.message === "token has been revoked") {
-      useAuthStore().resetStore();
-      window.location.reload();
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      return useAuthStore().refreshToken().then(() => {
+        originalRequest.headers.Authorization = `Bearer ${getStorage("access_token")}`;
+        return axios(originalRequest);
+      });
     }
 
     if (error.response.status === 400 || error.response.status === 500) {
@@ -59,15 +41,18 @@ axios.interceptors.response.use(
   }
 );
 
-const refreshAuthLogic = (failedRequest) =>
-  useAuthStore()
-    .refreshToken()
-    .then((res) => {
-      const access_token = getStorage("access_token");
-      failedRequest.response.config.headers["Authorization"] = `Bearer ${access_token}`;
-    });
 
-createAuthRefreshInterceptor(axios, refreshAuthLogic);
+axios.interceptors.request.use(
+  (config) => {
+    NProgress.start();
+    config.headers["Authorization"] = `Bearer ${getStorage("access_token")}`;
+    return config;
+  },
+  (error) => {
+    NProgress.done();
+    return Promise.reject(error);
+  }
+);
 
 export function http<T = any>(method: Method, route: string, options = {}): Promise<T> {
   return axios.request<T, T>({
@@ -76,3 +61,4 @@ export function http<T = any>(method: Method, route: string, options = {}): Prom
     ...options,
   });
 }
+
