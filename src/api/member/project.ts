@@ -6,9 +6,9 @@ import {
   UpdateProjectMember_Request,
   DeleteProjectMember_Request,
   UsersWithoutProject_Request,
-  ListProjectMembersInvite_Request,
-  AddProjectMemberInvite_Request,
-  DeleteProjectMemberInvite_Request,
+  ListMembersInvite_Request,
+  AddMemberInvite_Request,
+  DeleteMemberInvite_Request,
 } from "@proto/member";
 
 enum URL {
@@ -47,13 +47,13 @@ const updateProjectMemberStatus = async (data: UpdateProjectMember_Request) =>
 const getUsersWithoutProject = async (data: UsersWithoutProject_Request) =>
   http("GET", URL.project_members + "/search", { params: data });
 
-const getProjectMembersInvite = async (data: ListProjectMembersInvite_Request) =>
+const getProjectMembersInvite = async (data: ListMembersInvite_Request) =>
   http("GET", URL.project_members + "/invite", { params: data });
 
-const postProjectMemberInvite = async (data: AddProjectMemberInvite_Request) =>
+const postProjectMemberInvite = async (data: AddMemberInvite_Request) =>
   http("POST", URL.project_members + "/invite", { data: data });
 
-const deleteProjectMemberInvite = async (data: DeleteProjectMemberInvite_Request) =>
+const deleteProjectMemberInvite = async (data: DeleteMemberInvite_Request) =>
   http("DELETE", URL.project_members + "/invite", { params: data });
 
 const getProjectMembersInviteActivate = async (invite: string) =>

@@ -27,7 +27,7 @@
     "notiwind": "^2.0.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.34",
-    "postcss": "^8.4.21",
+    "postcss": "^8.4.22",
     "postcss-import": "^15.1.0",
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.7",

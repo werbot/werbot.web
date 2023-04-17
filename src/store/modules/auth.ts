@@ -26,6 +26,7 @@ export const useAuthStore = defineStore("auth", {
       removeStorage("access_token");
       removeStorage("refresh_token");
 
+      this.loggedIn = false;
       this.$reset();
     },
 
