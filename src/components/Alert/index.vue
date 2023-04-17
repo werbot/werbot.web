@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { notify } from "notiwind";
+import { notify, Notification, NotificationGroup } from "notiwind";
 import { SvgIcon } from "@/components";
 
 addEventListener("connextError", (e) => {
