@@ -1,10 +1,10 @@
 <template>
-  <div v-if="isLength(pagination) > 1" class="pagination">
+  <div v-if="Number(isLength(pagination)) > 1" class="pagination">
     <router-link
       v-for="(item, index) in pagination"
       class="pagination btn"
       :to="{
-        name: route.name,
+        name: route.name!,
         query: isQuery(index),
       }"
       :class="item == 'active' ? 'btn-active' : ''"

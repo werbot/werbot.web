@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { SvgIcon, Drawer } from "@/components";
+import { SvgIcon } from "@/components";
 
 const drawerActive = ref(false);
 
@@ -38,7 +38,9 @@ const openDrawer = async (id: number) => {
   console.log(id);
 };
 
+/*
 const closeDrawer = () => {
   drawerActive.value = false;
 };
+*/
 </script>

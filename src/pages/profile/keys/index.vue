@@ -77,7 +77,7 @@ import { showMessage } from "@/utils/message";
 import { getKeys, deleteKey } from "@/api/key";
 import { DeleteKey_Request } from "@proto/key";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const key: any = ref({});
 const route = useRoute();
@@ -118,7 +118,7 @@ const getData = async (routeQuery: any) => {
   });
 };
 
-const onSelectPage = (e) => {
+const onSelectPage = (e:any) => {
   getData(e);
 };
 

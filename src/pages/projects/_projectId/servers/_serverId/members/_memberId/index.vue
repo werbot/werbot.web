@@ -5,8 +5,8 @@
       <div class="breadcrumbs">
         <BServerName
           :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId"
-          :projectId="props.projectId"
+          :serverId="props.serverId!"
+          :projectId="props.projectId!"
         />
         <span>
           <router-link
@@ -16,7 +16,9 @@
                 projectId: props.projectId,
                 serverId: props.serverId,
               },
-            }">Members</router-link>
+            }"
+            >Members</router-link
+          >
         </span>
         <span>Logs</span>
       </div>
@@ -25,13 +27,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance } from "vue";
-import { useRoute } from "vue-router";
-import { SvgIcon, Modal, Toggle, BServerName, Pagination } from "@/components";
+import { getCurrentInstance } from "vue";
+import { BServerName } from "@/components";
 
-const { proxy } = getCurrentInstance();
-const route = useRoute();
-const data: any = ref({});
+const { proxy } = getCurrentInstance() as any;
 const props = defineProps({
   projectId: String,
   serverId: String,

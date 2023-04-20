@@ -5,8 +5,8 @@
       <div class="breadcrumbs">
         <BServerName
           :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId"
-          :projectId="props.projectId"
+          :serverId="props.serverId!"
+          :projectId="props.projectId!"
         />
         <span>
           <router-link
@@ -71,15 +71,14 @@
 <script setup lang="ts">
 import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRoute } from "vue-router";
-import { SvgIcon, Toggle, BServerName, Badge, Pagination } from "@/components";
+import { SvgIcon, BServerName, Badge, Pagination } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getMembersWithoutServer, postServerMember } from "@/api/member/server";
 import { MembersWithoutServer_Request, AddServerMember_Request } from "@proto/member";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
-const loading = ref(false);
 const route = useRoute();
 
 const props = defineProps({
@@ -105,7 +104,7 @@ const getData = async (routeQuery: any) => {
   });
 };
 
-const onSelectPage = (e) => {
+const onSelectPage = (e:any) => {
   getData(e);
 };
 

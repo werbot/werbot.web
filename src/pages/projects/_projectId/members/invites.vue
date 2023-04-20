@@ -70,7 +70,7 @@ import { showMessage } from "@/utils/message";
 import { getProjectMembersInvite, deleteProjectMemberInvite } from "@/api/member/project";
 import { ListMembersInvite_Request, DeleteMemberInvite_Request } from "@proto/member";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const route = useRoute();
 const data: any = ref({});
 const invite: any = ref({});
@@ -133,7 +133,7 @@ const getData = async (routeQuery: any) => {
   });
 };
 
-const onSelectPage = (e) => {
+const onSelectPage = (e: any) => {
   getData(e);
 };
 

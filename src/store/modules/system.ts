@@ -4,13 +4,14 @@ import pkg from "../../../package.json";
 
 export const useSystemStore = defineStore("system", {
   state: () => ({
+    //loader: useLocalStorage("loader", false),
     versions: {
       ui: "1.0 (00000000)",
       api: "1.0 (00000000)",
     },
     invites: {
       project: null,
-    }
+    },
   }),
 
   getters: {

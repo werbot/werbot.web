@@ -5,8 +5,8 @@
       <div class="breadcrumbs">
         <BServerName
           :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId"
-          :projectId="props.projectId"
+          :serverId="props.serverId!"
+          :projectId="props.projectId!"
         />
         <span>Firewall</span>
       </div>
@@ -125,11 +125,9 @@ import {
   ServerFirewall_Request,
   UpdateServerFirewall_Request,
   DeleteServerFirewall_Request,
-  ServerFirewall_Countries,
-  Country,
 } from "@proto/firewall";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const country: any = ref({});
 const network: any = ref({});
@@ -152,7 +150,7 @@ const searchCountries = async () => {
     if (data.value.search.countries.length > 0) {
       Object.entries(country.value.list).forEach((n) => {
         Object.entries(data.value.search.countries).forEach((s) => {
-          if (s[1]["code"] === n[1]["country_code"]) {
+          if ((s[1] as any)["code"] === (n[1] as any)["country_code"]) {
             data.value.search.countries.splice(s[0], 1);
           }
         });
@@ -187,7 +185,7 @@ const addIp = async (ip: any, rules: Rules) => {
       }
     }
 
-    const request: IpMask = {
+    const request = <IpMask>{
       start_ip: address.startAddress().addressMinusSuffix,
       end_ip: address.endAddress().addressMinusSuffix,
     };

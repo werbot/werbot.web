@@ -5,9 +5,11 @@
     <form @submit.prevent>
       <FormInput
         name="Email"
+        v-model.trim="data.email"
         placeholder='user@werbot.net'
         disabled
       />
+
       <FormInput
         name="Password"
         v-model.trim="data.password"
@@ -42,7 +44,7 @@ import { onMounted, ref, onBeforeUnmount, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { FormInput } from "@/components";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 
 const data: any = ref({});
 const loading = ref(false);

@@ -15,8 +15,8 @@ enum URL {
 const getUsers = async (data?: ListUsers_Request, user_id?: string) =>
   http("GET", URL.users, {
     params: {
-      limit: data.limit,
-      offset: data.offset,
+      limit: data?.limit,
+      offset: data?.offset,
       user_id: user_id,
     },
   });
@@ -36,7 +36,7 @@ const deleteUserStep1 = async (data: DeleteUser_Request) =>
   http("DELETE", URL.users, {
     data: {
       user_id: data.user_id,
-      password: data.request["password"],
+      password: (data.request as any)["password"],
     },
   });
 
@@ -44,7 +44,7 @@ const deleteUserStep2 = async (data: DeleteUser_Request) =>
   http("DELETE", URL.users, {
     data: {
       user_id: data.user_id,
-      token: data.request["token"],
+      token: (data.request as any)["token"],
     },
   });
 

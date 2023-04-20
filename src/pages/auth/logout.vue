@@ -6,7 +6,7 @@
 import { onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const router = useRouter();
 
 document.title = `Please wait...`;

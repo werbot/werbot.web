@@ -38,7 +38,7 @@ import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { getProjectMembersInviteActivate } from "@/api/member/project";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const router = useRouter();
 const props = defineProps({
@@ -48,7 +48,7 @@ const props = defineProps({
 onMounted(async () => {
   proxy.$systemStore.invites.project = props.invite;
 
-  await getProjectMembersInviteActivate(props.invite)
+  await getProjectMembersInviteActivate(props.invite!)
     .then((res) => {
       data.value = res.data.result;
       if (data.value.project_id) {

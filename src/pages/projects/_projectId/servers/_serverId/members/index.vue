@@ -5,8 +5,8 @@
       <div class="breadcrumbs">
         <BServerName
           :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId"
-          :projectId="props.projectId"
+          :serverId="props.serverId!"
+          :projectId="props.projectId!"
         />
         <span>Members</span>
       </div>
@@ -106,7 +106,7 @@ import {
 } from "@/api/member/server";
 import { UpdateServerMember_Request, DeleteServerMember_Request } from "@proto/member";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const route = useRoute();
 const data: any = ref({});
 const member: any = ref({});
@@ -159,7 +159,7 @@ const getData = async (routeQuery: any) => {
   });
 };
 
-const onSelectPage = (e) => {
+const onSelectPage = (e: any) => {
   getData(e);
 };
 

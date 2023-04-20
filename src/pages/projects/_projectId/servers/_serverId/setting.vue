@@ -5,8 +5,8 @@
       <div class="breadcrumbs">
         <BServerName
           :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId"
-          :projectId="props.projectId"
+          :serverId="props.serverId!"
+          :projectId="props.projectId!"
         />
         <span>Setting</span>
       </div>
@@ -187,7 +187,7 @@ import { FormInput, FormTextarea, BServerName, Toggle, Modal } from "@/component
 import { useErrorStore } from "@/store";
 import { showMessage } from "@/utils/message";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const error: any = useErrorStore();
 const router = useRouter();
 const data: any = ref({

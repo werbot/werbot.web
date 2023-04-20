@@ -14,7 +14,7 @@
       </button>
 
       <ul v-if="open">
-        <li v-for="(item, index) in options" @click="setLanguage(item)">
+        <li v-for="(item) in options" @click="setLanguage(item)">
           {{ item }}
         </li>
       </ul>

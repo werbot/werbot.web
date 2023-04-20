@@ -1,6 +1,6 @@
 <template>
   <!-- Profile block -->
-  <nav class="sidebar" v-if="route.name.startsWith('profile')">
+  <nav class="sidebar" v-if="(route.name as string).startsWith('profile')">
     <ul>
       <li>
         <router-link active-class="current" :to="{ name: 'profile-setting' }">
@@ -11,7 +11,7 @@
       <li>
         <router-link
           :to="{ name: 'profile-keys' }"
-          :class="{ current: route.name.startsWith('profile-keys') }"
+          :class="{ current: (route.name as string).startsWith('profile-keys') }"
         >
           <SvgIcon name="key" />
           <span>SSH keys</span>
@@ -27,7 +27,7 @@
   </nav>
 
   <!-- Profile block -->
-  <nav class="sidebar" v-if="route.name.startsWith('projects')">
+  <nav class="sidebar" v-if="(route.name as string).startsWith('projects')">
     <ul>
       <li>
         <router-link
@@ -35,7 +35,7 @@
             name: 'projects-projectId-servers',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-servers') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-servers') }"
         >
           <SvgIcon name="server" />
           <span>Servers</span>
@@ -47,7 +47,7 @@
             name: 'projects-projectId-databases',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-databases') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-databases') }"
         >
           <SvgIcon name="database" />
           <span>Databases</span>
@@ -59,7 +59,7 @@
             name: 'projects-projectId-applications',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-applications') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-applications') }"
         >
           <SvgIcon name="application" />
           <span>Applications</span>
@@ -71,7 +71,7 @@
             name: 'projects-projectId-desktops',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-desktops') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-desktops') }"
         >
           <SvgIcon name="desktop" />
           <span>Desktops</span>
@@ -83,7 +83,7 @@
             name: 'projects-projectId-containers',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-containers') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-containers') }"
         >
           <SvgIcon name="container" />
           <span>Containers</span>
@@ -95,7 +95,7 @@
             name: 'projects-projectId-clouds',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-clouds') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-clouds') }"
         >
           <SvgIcon name="cloud" />
           <span>Clouds</span>
@@ -110,7 +110,7 @@
             name: 'projects-projectId-members',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-members') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-members') }"
         >
           <SvgIcon name="users" />
           <span>Members</span>
@@ -122,7 +122,7 @@
             name: 'projects-projectId-teams',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-teams') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-teams') }"
         >
           <SvgIcon name="teams" />
           <span>Teams</span>
@@ -134,7 +134,7 @@
       <li>
         <router-link
           :to="{ name: 'projects-projectId-logs', params: { projectId: route.params.projectId } }"
-          :class="{ current: route.name.startsWith('projects-projectId-logs') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-logs') }"
         >
           <SvgIcon name="logs" />
           <span>Logs activities</span>
@@ -149,7 +149,7 @@
             name: 'projects-projectId-setting',
             params: { projectId: route.params.projectId },
           }"
-          :class="{ current: route.name.startsWith('projects-projectId-setting') }"
+          :class="{ current: (route.name as string).startsWith('projects-projectId-setting') }"
         >
           <SvgIcon name="setting" />
           <span>Settings</span>
@@ -159,7 +159,7 @@
   </nav>
 
   <!-- Admin block -->
-  <nav class="sidebar" v-if="route.name.startsWith('admin') && route.path !== '/projects/new'">
+  <nav class="sidebar" v-if="(route.name as string).startsWith('admin') && route.path !== '/projects/new'">
     <ul>
       <li>
         <router-link active-class="current" :to="{ name: 'admin-users' }">

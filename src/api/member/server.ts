@@ -20,8 +20,8 @@ const getServerMembers = async (
 ) =>
   http("GET", URL.server_members, {
     params: {
-      limit: data.limit,
-      offset: data.offset,
+      limit: data?.limit,
+      offset: data?.offset,
       owner_id: user_id,
       project_id: project_id,
       server_id: server_id,

@@ -9,7 +9,7 @@ import { deleteUserStep2 } from "@/api/user";
 import { DeleteUser_Request } from "@proto/user";
 import { showMessage } from "@/utils/message";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const router = useRouter();
 const props = defineProps({
   token: String,

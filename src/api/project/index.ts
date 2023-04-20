@@ -14,8 +14,8 @@ enum URL {
 const getProjects = async (data?: ListProjects_Request, owner_id?: string) =>
   http("GET", URL.projects, {
     params: {
-      limit: data.limit,
-      offset: data.offset,
+      limit: data?.limit,
+      offset: data?.offset,
       owner_id: owner_id,
     },
   });

@@ -1,6 +1,5 @@
 export { default as Alert } from "./Alert/index.vue";
 export { default as Badge } from "./Badge/index.vue";
-export { default as Drawer } from "./Drawer/index.vue";
 export { default as FormInput } from "./FormInput/index.vue";
 export { default as FormTextarea } from "./FormTextarea/index.vue";
 export { default as Header } from "./Header/index.vue";

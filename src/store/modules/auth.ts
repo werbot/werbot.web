@@ -25,7 +25,6 @@ export const useAuthStore = defineStore("auth", {
     resetStore() {
       removeStorage("access_token");
       removeStorage("refresh_token");
-
       this.loggedIn = false;
       this.$reset();
     },
@@ -55,11 +54,9 @@ export const useAuthStore = defineStore("auth", {
           }
         })
         .catch((err) => {
-          //if (err.response.status === 404) {
-          this.resetStore();
-          //} else {
-          //console.log(err.response);
-          //}
+          if (err.response.status === 404) {
+            this.resetStore();
+          }
         });
     },
 

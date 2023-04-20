@@ -6,7 +6,7 @@
     role="tablist"
   >
     <li v-for="(item, index) in props.tabs" :key="index">
-      <router-link
+      <RouterLink
         :id="'tab-' + index"
         :data-tabs-target="'#' + index"
         type="button"
@@ -18,7 +18,7 @@
         :to="item.link"
       >
         {{ item.name }}
-      </router-link>
+      </RouterLink>
     </li>
   </ul>
 </template>

@@ -155,7 +155,8 @@ import { getAddressType } from "@/utils/network";
 import { servers, updateServer } from "@/api/server";
 import { ServerScheme, UpdateServer_Request } from "@proto/server";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
+
 const route = useRoute();
 const data: any = ref({});
 const props = defineProps({
@@ -172,7 +173,7 @@ const getData = async (routeQuery: any) => {
   });
 };
 
-const onSelectPage = (e) => {
+const onSelectPage = (e: any) => {
   getData(e);
 };
 
@@ -189,7 +190,7 @@ const changeServerActive = async (index: number, online: boolean) => {
     project_id: props.projectId,
     setting: {
       active: online,
-    }
+    },
   })
     .then((res) => {
       if (!online) {

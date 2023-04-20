@@ -49,7 +49,7 @@ import { ref, onBeforeUnmount, getCurrentInstance } from "vue";
 import { FormInput } from "@/components";
 import { postSendEmail } from "@/api/auth";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const loading = ref(false);
 

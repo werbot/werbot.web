@@ -20,7 +20,7 @@ router.beforeEach(async (to, from, next) => {
   next();
 });
 
-router.afterEach((to) => {
+router.afterEach(() => {
   NProgress.done();
 });
 

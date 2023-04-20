@@ -14,8 +14,8 @@ enum URL {
 const getKeys = async (data?: ListKeys_Request, user_id?: string) =>
   http("GET", URL.keys, {
     params: {
-      limit: data.limit,
-      offset: data.offset,
+      limit: data?.limit,
+      offset: data?.offset,
       user_id: user_id,
     },
   });

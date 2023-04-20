@@ -138,7 +138,7 @@ import {
 import { FormInput } from "@/components";
 import { showMessage } from "@/utils/message";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const loading = ref(false);
 

@@ -52,7 +52,7 @@ import { showMessage } from "@/utils/message";
 import { postKey } from "@/api/key";
 import { AddKey_Request } from "@proto/key";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const loading = ref(false);
 const router = useRouter();

@@ -3,7 +3,7 @@
     <header>
       <h1>Servers</h1>
       <div class="breadcrumbs">
-        <BServerName :memberId="userID" :serverId="props.serverId" :projectId="props.projectId" />
+        <BServerName :memberId="userID" :serverId="props.serverId!" :projectId="props.projectId!" />
         <span>Activity</span>
       </div>
     </header>
@@ -90,7 +90,7 @@ import { ServerActivity_Request, UpdateServerActivity_Request } from "@proto/ser
 import { useErrorStore } from "@/store";
 import { BServerName, Badge } from "@/components";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const userID = proxy.$authStore.hasUserID;
 const error: any = useErrorStore();
 const router = useRouter();
@@ -134,26 +134,26 @@ const invertDay = (day: number) => {
 };
 
 const selectAll = () => {
-  selectTimeWork((a) => {
+  selectTimeWork(() => {
     return 1;
   });
 };
 
 const selectNone = () => {
-  selectTimeWork((a) => {
+  selectTimeWork(() => {
     return 0;
   });
 };
 const selectWorkTime = () => {
-  selectTimeWork((day, prop, hour) => {
+  selectTimeWork((day: any, prop: string, hour: number) => {
     return templateWork[prop][hour];
   });
 };
 
-const selectTimeWork = (callback) => {
+const selectTimeWork = (e: any) => {
   for (var day in data.value) {
     data.value[day] = data.value[day].map((item: number, hour: number) => {
-      return callback(item, day, hour);
+      return e(item, day, hour);
     });
   }
 };

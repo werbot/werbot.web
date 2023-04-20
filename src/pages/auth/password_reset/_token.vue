@@ -52,7 +52,7 @@ const props = defineProps({
   token: String,
 });
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const loading = ref(false);
 const router = useRouter();
@@ -82,7 +82,7 @@ const onSubmit = async () => {
 };
 
 onMounted(async () => {
-  await postCheckResetToken(props.token).catch((err) => {
+  await postCheckResetToken(props.token!).catch((err) => {
     if (err.response.data.message === "Token is invalid") {
       router.push({ name: "auth-signin" });
     }

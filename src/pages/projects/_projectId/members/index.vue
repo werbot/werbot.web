@@ -82,7 +82,7 @@ import { getProjectMembers, updateProjectMemberStatus } from "@/api/member/proje
 import { UpdateProjectMember_Request } from "@proto/member";
 import { Role } from "@proto/user";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const route = useRoute();
 const data: any = ref({});
 const props = defineProps({
@@ -111,7 +111,7 @@ const getData = async (routeQuery: any) => {
   });
 };
 
-const onSelectPage = (e) => {
+const onSelectPage = (e: any) => {
   getData(e);
 };
 

@@ -26,8 +26,8 @@ enum URL {
 const servers = async (user_id: string, project_id: string, data?: ListServers_Request) =>
   http("GET", URL.servers, {
     params: {
-      limit: data.limit,
-      offset: data.offset,
+      limit: data?.limit,
+      offset: data?.offset,
       user_id: user_id,
       project_id: project_id,
     },

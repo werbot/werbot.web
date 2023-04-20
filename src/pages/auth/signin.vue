@@ -52,7 +52,7 @@ import { useRouter } from "vue-router";
 import { SignIn_Request } from "@proto/account";
 import { FormInput } from "@/components";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 
 const data: any = ref({});
 const loading = ref(false);

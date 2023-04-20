@@ -64,10 +64,9 @@ import { FormInput } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { postProjectMemberInvite } from "@/api/member/project";
-import { AddMemberInvite_Request, ProjectMember_Response} from "@proto/member";
-import { Role } from "@/proto/user";
+import { AddMemberInvite_Request } from "@proto/member";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const loading = ref(false);
 const router = useRouter();

@@ -11,12 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, getCurrentInstance } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { getProject } from "@/api/project";
 import { Project_Request } from "@proto/project";
-import { SvgIcon } from "@/components";
 
-const { proxy } = getCurrentInstance();
 const data: any = ref({});
 const props = defineProps({
   projectId: String,

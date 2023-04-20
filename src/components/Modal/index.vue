@@ -1,6 +1,6 @@
 <template>
   <transition name="animation">
-    <div class="modal" v-show="showModal">
+    <div class="modal" v-show="props.showModal">
       <div class="modal-box">
         <h1>{{ title }}</h1>
         <div class="py-4">

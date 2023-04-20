@@ -9,19 +9,11 @@
     <div class="artboard-content">
       <form @submit.prevent>
         <div class="mb-5 flex flex-row">
-          <FormInput
-            name="Title"
-            v-model="data.title"
-            :error="proxy.$errorStore.errors['title']"
-            class="mr-5 flex-grow"
-          />
+          <FormInput name="Title" v-model="data.title" :error="proxy.$errorStore.errors['title']"
+            class="mr-5 flex-grow" />
 
-          <FormInput
-            name="Login"
-            v-model.trim="data.login"
-            :error="proxy.$errorStore.errors['login']"
-            class="flex-grow"
-          />
+          <FormInput name="Login" v-model.trim="data.login" :error="proxy.$errorStore.errors['login']"
+            class="flex-grow" />
         </div>
 
         <div class="my-6">
@@ -45,7 +37,7 @@ import { postProject } from "@/api/project";
 import { AddProject_Request } from "@proto/project";
 import { showMessage } from "@/utils/message";
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
 const loading = ref(false);
 const router = useRouter();

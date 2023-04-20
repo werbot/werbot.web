@@ -4,7 +4,6 @@ import Vue from "@/app.vue";
 import Router from "@/router";
 import Store, { useAuthStore, useSystemStore, useErrorStore } from "@/store";
 
-
 import "@/assets/main.css";
 import "virtual:svg-icons-register";
 

@@ -1,9 +1,10 @@
 // https://github.com/someGenki/vue-lite-admin/blob/main/src/utils/storage.js
 
+
 const invalids = [undefined, null, "undefined", "null"];
 
 export function getStorage(key: string): string {
-  return localStorage.getItem(key);
+  return <string>localStorage.getItem(key);
 }
 
 export function setStorage(key: string, val: string) {
@@ -28,8 +29,9 @@ export function batchSaveSetting(keys: any, obj: any) {
 export function getSetting(key: string, defVal = undefined): string {
   const item = localStorage.getItem(key);
   if (invalids.includes(item)) {
-    return defVal;
+    return defVal!;
   } else {
-    return JSON.parse(item);
+    return JSON.parse(item!);
   }
 }
+
