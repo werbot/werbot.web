@@ -3,33 +3,10 @@
   <div class="card w-[22rem]">
     <span class="title">Sign In</span>
     <form @submit.prevent>
-      <FormInput
-        name="Email"
-        v-model.trim="data.email"
-        :error="$errorStore.errors['email']"
-        autocomplete="username"
-        :disabled="loading"
-      />
-      <FormInput
-        name="Password"
-        v-model.trim="data.password"
-        :error="$errorStore.errors['password']"
-        type="password"
-        autocomplete="current-password"
-        :disabled="loading"
-      />
-
-      <!--
-      <div class="mt-2 flex items-center justify-between">
-        <label class="label cursor-pointer">
-          <input type="checkbox" class="checkbox" :disabled="loading" />
-          <span>Remember me</span>
-        </label>
-        <router-link :to="{ name: 'auth-password_reset' }" class="mt-2">
-          Forgot password?
-        </router-link>
-      </div>
--->
+      <FormInput name="Email" v-model.trim="data.email" :error="$errorStore.errors['email']" autocomplete="username"
+        :disabled="loading" />
+      <FormInput name="Password" v-model.trim="data.password" :error="$errorStore.errors['password']" type="password"
+        autocomplete="current-password" :disabled="loading" />
       <div class="form-control mt-6">
         <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
           <div v-if="loading">
@@ -47,34 +24,42 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount, getCurrentInstance } from "vue";
+import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
-import { SignIn_Request } from "@proto/account";
 import { FormInput } from "@/components";
+import { SignIn_Request } from "@proto/account";
 
 const { proxy } = getCurrentInstance() as any;
 
-const data: any = ref({});
+interface SignInData {
+  email: string;
+  password: string;
+}
+
+const data = ref<SignInData>({ email: "", password: "" });
 const loading = ref(false);
 const router = useRouter();
 
 const onSubmit = async () => {
-  loading.value = !loading.value;
+  loading.value = true;
 
-  proxy.$authStore
-    .login(<SignIn_Request>{
+  try {
+    await proxy.$authStore.login(<SignIn_Request>{
       email: data.value.email,
       password: data.value.password,
-    })
-    .then(() => {
-      if (proxy.$systemStore.invites.project) {
-        const invite = proxy.$systemStore.invites.project;
-        router.push({ name: "invite-project-invite", params: { invite } });
-        return;
-      }
+    });
+
+    if (proxy.$systemStore.invites.project) {
+      const invite = proxy.$systemStore.invites.project;
+      router.push({ name: "invite-project-invite", params: { invite } });
+    } else {
       router.push({ name: "index" });
-    })
-    .catch(() => (loading.value = !loading.value));
+    }
+  } catch (error) {
+    console.log(error.response.data.message)
+  }
+
+  loading.value = false;
 };
 
 onMounted(async () => {

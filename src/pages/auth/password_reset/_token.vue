@@ -4,23 +4,11 @@
     <span class="title">Reset password</span>
 
     <form @submit.prevent>
-      <FormInput
-        name="New password"
-        type="password"
-        autocomplete="new-password"
-        v-model.trim="data.password"
-        :error="proxy.$errorStore.errors['password']"
-        :disabled="loading"
-      />
+      <FormInput name="New password" type="password" autocomplete="new-password" v-model.trim="data.password"
+        :error="proxy.$errorStore.errors['password']" :disabled="loading" />
 
-      <FormInput
-        name="Repeat password"
-        type="password"
-        autocomplete="new-password"
-        v-model.trim="data.password2"
-        :error="proxy.$errorStore.errors['password2']"
-        :disabled="loading"
-      />
+      <FormInput name="Repeat password" type="password" autocomplete="new-password" v-model.trim="data.password2"
+        :error="proxy.$errorStore.errors['password2']" :disabled="loading" />
 
       <div class="form-control mt-6">
         <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
@@ -45,7 +33,7 @@
 import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { FormInput } from "@/components";
-import { postCheckResetToken, postResetPassword } from "@/api/auth";
+import { checkResetToken, resetPassword } from "@/api/auth";
 import { showMessage } from "@/utils/message";
 
 const props = defineProps({
@@ -72,21 +60,30 @@ const onSubmit = async () => {
   loading.value = !loading.value;
 
   // @ts-ignore
-  await postResetPassword(props.token, data.value.password)
-    .then((res) => {
-      showMessage(res.data.result.message);
-      proxy.$errorStore.$reset();
-      router.push({ name: "auth-signin" });
-    })
-    .catch(() => (loading.value = !loading.value));
+  try {
+    const res = await resetPassword(props.token, data.value.password);
+    showMessage(res.data.result.message);
+    proxy.$errorStore.$reset();
+    router.push({ name: "auth-signin" });
+  } catch (err) {
+    loading.value = !loading.value;
+  }
 };
 
 onMounted(async () => {
-  await postCheckResetToken(props.token!).catch((err) => {
-    if (err.response.data.message === "Token is invalid") {
-      router.push({ name: "auth-signin" });
+  try {
+    await checkResetToken(props.token!);
+  } catch (err) {
+    switch (err.response.data.message) {
+      case "Not Found":
+      case "Token is invalid":
+        router.push({ name: "auth-signin" });
+        break;
+      default:
+        // Handle other errors here
+        break;
     }
-  });
+  }
 });
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());

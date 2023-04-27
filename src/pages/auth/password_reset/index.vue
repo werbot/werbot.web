@@ -47,9 +47,10 @@
 <script setup lang="ts">
 import { ref, onBeforeUnmount, getCurrentInstance } from "vue";
 import { FormInput } from "@/components";
-import { postSendEmail } from "@/api/auth";
+import { sendEmail } from "@/api/auth";
 
 const { proxy } = getCurrentInstance() as any;
+
 const data: any = ref({});
 const loading = ref(false);
 
@@ -57,7 +58,7 @@ const onSubmit = async () => {
   loading.value = !loading.value;
 
   // @ts-ignore
-  await postSendEmail(data.value.email)
+  await sendEmail(data.value.email)
     .then((res) => {
       data.value = res.data.result;
     })

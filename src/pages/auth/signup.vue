@@ -3,36 +3,19 @@
   <div class="card w-[22rem]">
     <span class="title">Sign Up</span>
     <form @submit.prevent>
-      <FormInput
-        name="Email"
-        v-model.trim="data.email"
-        placeholder='user@werbot.net'
-        disabled
-      />
+      <FormInput name="Email" v-model.trim="data.email" placeholder='user@werbot.net' disabled />
 
-      <FormInput
-        name="Password"
-        v-model.trim="data.password"
-        :error="$errorStore.errors['password']"
-        type="password"
-        autocomplete="current-password"
-        :disabled="loading"
-      />
-      <FormInput
-        name="Re-Type Password"
-        v-model.trim="data.password2"
-        :error="$errorStore.errors['password2']"
-        type="password"
-        autocomplete="current-password"
-        :disabled="loading"
-      />
+      <FormInput name="Password" v-model.trim="data.password" :error="$errorStore.errors['password']" type="password"
+        autocomplete="current-password" :disabled="loading" />
+      <FormInput name="Re-Type Password" v-model.trim="data.password2" :error="$errorStore.errors['password2']"
+        type="password" autocomplete="current-password" :disabled="loading" />
 
       <div class="form-control mt-6">
-        <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
+        <button type="submit" class="btn" :disabled="loading">
           <div v-if="loading">
             <span>Loading...</span>
           </div>
-          <span v-else>Registration</span>
+          <span v-else @click="onSubmit">Registration</span>
         </button>
       </div>
     </form>
@@ -46,7 +29,17 @@ import { FormInput } from "@/components";
 
 const { proxy } = getCurrentInstance() as any;
 
-const data: any = ref({});
+interface FormData {
+  email: string;
+  password: string;
+  password2: string;
+}
+
+const data = ref(<FormData>{
+  email: "",
+  password: "",
+  password2: "",
+});
 const loading = ref(false);
 const router = useRouter();
 

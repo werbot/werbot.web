@@ -9,15 +9,17 @@ import { useRouter } from "vue-router";
 const { proxy } = getCurrentInstance() as any;
 const router = useRouter();
 
-document.title = `Please wait...`;
-
 onMounted(async () => {
   try {
     await proxy.$authStore.logout();
+  } catch (error) {
+    console.error(error);
   } finally {
     router.push({ name: "auth-signin" });
   }
 });
+
+document.title = "Please wait...";
 </script>
 
 <route lang="yaml">
