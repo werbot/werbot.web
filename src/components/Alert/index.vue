@@ -2,17 +2,10 @@
   <NotificationGroup group="alerts">
     <div class="alert">
       <div class="w-full max-w-sm">
-        <Notification
-          v-slot="{ notifications }"
-          enter="transform ease-out duration-300 transition"
+        <Notification v-slot="{ notifications }" enter="transform ease-out duration-300 transition"
           enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
-          enter-to="translate-y-0 opacity-100 sm:translate-x-0"
-          leave="transition ease-in duration-500"
-          leave-from="opacity-100"
-          leave-to="opacity-0"
-          move="transition duration-500"
-          move-delay="delay-300"
-        >
+          enter-to="translate-y-0 opacity-100 sm:translate-x-0" leave="transition ease-in duration-500"
+          leave-from="opacity-100" leave-to="opacity-0" move="transition duration-500" move-delay="delay-300">
           <div v-for="notification in notifications" :key="notification.id">
             <div v-if="notification.type === 'error'" class="notification">
               <div class="ico bg-red-500">
@@ -76,46 +69,29 @@
 import { notify, Notification, NotificationGroup } from "notiwind";
 import { SvgIcon } from "@/components";
 
-addEventListener("connextError", (e) => {
-  notify(
-    {
-      group: "alerts",
-      type: "error",
-      text: (<any>e).detail,
-    },
-    4000
-  );
-});
-addEventListener("connextSuccess", (e) => {
-  notify(
-    {
-      group: "alerts",
-      type: "success",
-      text: (<any>e).detail,
-    },
-    4000
-  );
-});
-addEventListener("connextWarning", (e) => {
-  notify(
-    {
-      group: "alerts",
-      type: "warning",
-      text: (<any>e).detail,
-    },
-    4000
-  );
-});
-addEventListener("connextInfo", (e) => {
-  notify(
-    {
-      group: "alerts",
-      type: "info",
-      text: (<any>e).detail,
-    },
-    4000
-  );
-});
+const NOTIFICATION_DURATION = 4000;
+
+const handleNotification = (eventName: string, notificationType: string) => {
+  const callback = (e: Event) => {
+    notify(
+      {
+        group: "alerts",
+        type: notificationType,
+        text: (<any>e).detail,
+      },
+      NOTIFICATION_DURATION
+    );
+  };
+
+  addEventListener(eventName, callback);
+  // To remove event listener:
+  // removeEventListener(eventName, callback);
+};
+
+handleNotification("connextError", "error");
+handleNotification("connextSuccess", "success");
+handleNotification("connextWarning", "warning");
+handleNotification("connextInfo", "info");
 </script>
 
 <style lang="scss">
