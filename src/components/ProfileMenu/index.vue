@@ -1,42 +1,17 @@
 <template>
   <div class="relative" v-click-outside="closeDropdown">
-    <button class="dropdown" type="button" @click="toggleDropdown">
+    <button class="dropdown" type="button" @click="toggleDropdown" :disabled="isLoading">
       <SvgIcon name="user" />
-      <span class="hidden md:block">{{ $authStore.hasUserName }}</span>
+      <span class="hidden md:block">{{ proxy.$authStore.hasUserName }}</span>
       <SvgIcon name="row_down" />
     </button>
 
     <ul v-show="isDropdownOpen" class="dropdown-menu right-0" @click="closeDropdown">
-      <li>
-        <router-link active-class="current" :to="{ name: 'profile-setting' }">
-          <SvgIcon name="profile" />
-          <span>Profile settings</span>
-        </router-link>
-      </li>
-      <li>
-        <router-link active-class="current" :to="{ name: 'profile-keys' }">
-          <SvgIcon name="key" />
-          <span>SSH Keys</span>
-        </router-link>
-      </li>
-      <li>
-        <router-link active-class="current" :to="{ name: 'profile-logs' }">
-          <SvgIcon name="logs" />
-          <span>Profile logs</span>
-        </router-link>
-      </li>
-      <li v-if="$authStore.hasUserRole === 3">
-        <hr />
-        <router-link active-class="current" :to="{ name: 'admin' }">
-          <SvgIcon name="admin" />
-          <span>Admin</span>
-        </router-link>
-      </li>
-      <li>
-        <hr />
-        <router-link active-class="current" :to="{ name: 'auth-logout' }">
-          <SvgIcon name="logout" />
-          <span>Logout</span>
+      <li v-for="(menu, index) in dropdownMenuItems" :key="index">
+        <hr v-if="menu.isSeparator && isUserRole(menu.isUserRole)" />
+        <router-link active-class="current" :to="{ name: menu.routeName }" v-if="isUserRole(menu.isUserRole)">
+          <SvgIcon :name="menu.icon" />
+          <span>{{ menu.label }}</span>
         </router-link>
       </li>
     </ul>
@@ -44,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, watch, getCurrentInstance } from "vue";
 import { SvgIcon } from "@/components";
 // @ts-ignore
 import { directive as vClickOutside } from "click-outside-vue3";
@@ -53,15 +28,60 @@ const props = defineProps<{
   isLoading?: boolean;
 }>();
 
+const dropdownMenuItems = [
+  {
+    label: "Profile settings",
+    routeName: "profile-setting",
+    icon: "profile",
+    isSeparator: false,
+  },
+  {
+    label: "SSH Keys",
+    routeName: "profile-keys",
+    icon: "key",
+    isSeparator: false,
+  },
+  {
+    label: "Profile logs",
+    routeName: "profile-logs",
+    icon: "logs",
+    isSeparator: false,
+  },
+  {
+    label: "Admin",
+    routeName: "admin",
+    icon: "admin",
+    isSeparator: true,
+    isUserRole: 3,
+  },
+  {
+    label: "Logout",
+    routeName: "auth-logout",
+    icon: "logout",
+    isSeparator: true,
+  }
+];
+
+const { proxy } = getCurrentInstance() as any;
+
+const isUserRole = (menuItem) => {
+  if (!menuItem) {
+    return true
+  }
+  return menuItem === proxy.$authStore.hasUserRole
+};
+
 const isDropdownOpen = ref(false);
 
 const openDropdown = () => {
   if (props.isLoading) return false;
   isDropdownOpen.value = true;
 };
+
 const closeDropdown = () => {
   isDropdownOpen.value = false;
 };
+
 const toggleDropdown = () => {
   isDropdownOpen.value ? closeDropdown() : openDropdown();
 };
