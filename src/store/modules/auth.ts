@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
-import { postSignIn, postLogout, postRefresh, getProfile } from "@/api/auth";
+import { signIn, logout, refresh, getProfile } from "@/api/auth";
 import { RefreshTokenRequest } from "@proto/account";
 import { SignIn_Request } from "@proto/account";
-
 import { getStorage, setStorage, removeStorage } from "@/utils/storage";
 
 export const useAuthStore = defineStore("auth", {
@@ -30,7 +29,7 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async login(loginForm: SignIn_Request) {
-      await postSignIn(loginForm).then((res) => {
+      await signIn(loginForm).then((res) => {
         if (res.data.access_token && res.data.refresh_token) {
           setStorage("access_token", res.data.access_token);
           setStorage("refresh_token", res.data.refresh_token);
@@ -45,7 +44,7 @@ export const useAuthStore = defineStore("auth", {
         refresh_token: getStorage("refresh_token"),
       };
 
-      await postRefresh(token)
+      await refresh(token)
         .then((res) => {
           if (res.status === 200) {
             setStorage("access_token", res.data.access_token);
@@ -62,7 +61,7 @@ export const useAuthStore = defineStore("auth", {
 
     async logout() {
       if (this.loggedIn) {
-        await postLogout().catch((err) => {
+        await logout().catch((err) => {
           console.log(err.response);
         });
       }
@@ -73,6 +72,6 @@ export const useAuthStore = defineStore("auth", {
       await getProfile().then((r) => {
         this.user = r.data.result;
       });
-    },
+    }
   },
 });
