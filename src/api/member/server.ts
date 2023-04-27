@@ -43,7 +43,7 @@ const deleteServerMember = async (data: DeleteServerMember_Request) =>
 const updateServerMemberActive = async (data: UpdateServerMember_Request) =>
   http("PATCH", URL.server_members + "/active", { data: data });
 
-  const getMembersWithoutServer = async (data: MembersWithoutServer_Request) =>
+const getMembersWithoutServer = async (data: MembersWithoutServer_Request) =>
   http("GET", URL.server_members + "/search", { params: data });
 
 export {

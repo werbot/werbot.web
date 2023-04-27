@@ -21,16 +21,14 @@ const getUsers = async (data?: ListUsers_Request, user_id?: string) =>
     },
   });
 
-const getUser = async (data: User_Request) =>
-  http("GET", URL.users, {params: data});
+const getUser = async (data: User_Request) => http("GET", URL.users, { params: data });
 
 const postUser = async (data: AddUser_Request) => http("POST", URL.users, { data: data });
 
-const updateUser = async (data: UpdateUser_Request) =>
-  http("PATCH", URL.users, {data: data});
+const updateUser = async (data: UpdateUser_Request) => http("PATCH", URL.users, { data: data });
 
 const updatePassword = async (data: UpdatePassword_Request) =>
-  http("PATCH", URL.users + "/password", {data: data});
+  http("PATCH", URL.users + "/password", { data: data });
 
 const deleteUserStep1 = async (data: DeleteUser_Request) =>
   http("DELETE", URL.users, {

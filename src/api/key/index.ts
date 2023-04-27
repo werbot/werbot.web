@@ -26,8 +26,7 @@ const postKey = async (data: AddKey_Request) => http("POST", URL.keys, { data: d
 
 const updateKey = async (data: UpdateKey_Request) => http("PATCH", URL.keys, { data: data });
 
-const deleteKey = async (data: DeleteKey_Request) =>
-  http("DELETE", URL.keys, { params: data });
+const deleteKey = async (data: DeleteKey_Request) => http("DELETE", URL.keys, { params: data });
 
 const newKey = async () => http("GET", URL.keys + "/generate");
 
