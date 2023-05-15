@@ -37,7 +37,7 @@
     "tailwindcss": "^3.3.2",
     "ts-protoc-gen": "^0.15.0",
     "typescript": "^5.0.4",
-    "vite": "^4.3.5",
+    "vite": "^4.3.6",
     "vite-plugin-pages": "^0.29.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-layouts": "^0.8.0",
