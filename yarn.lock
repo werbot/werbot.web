@@ -3526,10 +3526,10 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-notiwind@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/notiwind/-/notiwind-2.0.0.tgz#9ee43a2939707fd476643519b5035eb4bc49f7b5"
-  integrity sha512-TRl3vTVnBEqvNQZM15oFtS63S6hGobkRIWTyvcGyNcOzsTPb8WybE6vuXTelUgUbMqQooSae1L25cqOyFMjTMg==
+notiwind@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/notiwind/-/notiwind-2.0.1.tgz#ca2de48b980e70a80ff1f10842fb5357001bcf49"
+  integrity sha512-8xNwQUoga7MqrFaqIi5Y9hsq4hFq24KvM5h8w0goZ4O36YFCn5A3p5+Fdl4JV1/z3AtVLdU2GCwvrYt/ThCzoA==
   dependencies:
     mitt "^3.0.0"
 
