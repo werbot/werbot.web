@@ -5,7 +5,6 @@ import * as NProgress from "nprogress";
 
 import { getStorage } from "@/utils/storage";
 import { useAuthStore, useErrorStore } from "@/store";
-import { showMessage } from "@/utils/message";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.timeout = 5000;
@@ -53,8 +52,6 @@ axios.interceptors.response.use(
           errorStore.setErrors(result);
         }
       }
-
-      showMessage(errorStore.message, "connextError");
     }
 
     // In all cases, reject the promise with the original error.
