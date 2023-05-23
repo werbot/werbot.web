@@ -1,0 +1,35 @@
+name: releaser
+
+on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+   contents: write # needed to write releases
+   packages: write # needed for ghcr access
+
+jobs:
+  goreleaser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: git fetch --force --tags
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn install
+      - run: make build
+      - run: make package
+      - run: make push
+      - uses: softprops/action-gh-release@v1

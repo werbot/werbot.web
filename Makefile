@@ -60,9 +60,9 @@ package: ## Building a docker container
 	$(msg) "$(GREEN)Building a docker container$(RESET)"
 	@cat ${ROOT_PATH}/.docker/Dockerfile > ${ROOT_PATH}/Dockerfile
 	@sed -i -E "s/_GIT_COMMIT_/${GIT_COMMIT}/g" ${ROOT_PATH}/Dockerfile
-	@sed -i -E "s/_VERSION_/${VERSION}/g" ${ROOT_PATH}/Dockerfile
+	@sed -i -E "s/_VERSION_/v${VERSION}/g" ${ROOT_PATH}/Dockerfile
 	docker build -f ${ROOT_PATH}/Dockerfile -t ghcr.io/werbot/werbot.web:latest .
-	docker tag ghcr.io/werbot/werbot.web:latest ghcr.io/werbot/werbot.web:${VERSION}
+	docker tag ghcr.io/werbot/werbot.web:latest ghcr.io/werbot/werbot.web:v${VERSION}
 	rm -rf ${ROOT_PATH}/dist
 	rm ${ROOT_PATH}/Dockerfile
 	docker image prune --filter "dangling=true" --force
@@ -74,7 +74,7 @@ package: ## Building a docker container
 push: ## Submitting docker to the registry
 	$(msg) "$(GREEN)Submitting docker to the registry$(RESET)"
 	docker push ghcr.io/werbot/werbot.web:latest
-	docker push ghcr.io/werbot/werbot.web:${VERSION}
+	docker push ghcr.io/werbot/werbot.web:v${VERSION}
 #############################################################################
 
 
