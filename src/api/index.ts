@@ -7,7 +7,7 @@ import { getStorage } from "@/utils/storage";
 import { useAuthStore, useErrorStore } from "@/store";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 15000;
 
 // This code intercepts responses from Axios requests and performs certain actions based on the response.
 axios.interceptors.response.use(
