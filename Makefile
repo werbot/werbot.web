@@ -1,5 +1,5 @@
 SHELL:= /bin/bash
-ROOT_PATH:=$(abspath $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
+ROOT_PATH:=$(shell git rev-parse --show-toplevel)
 
 DATE=$(shell date '+%Y-%m-%d-%H:%M:%S')
 GIT_COMMIT=$(shell cd "${ROOT_PATH}" && git rev-parse --short HEAD)
@@ -50,6 +50,8 @@ version: ## Building new version to git
 .PHONY: build
 build: ## Building project
 	$(msg) "$(GREEN)Building project$(RESET)"
+	@yq -i -p=json -o=json '.commit = "${GIT_COMMIT}"' ${ROOT_PATH}/package.json
+	@yq -i -p=json -o=json '.version = "${VERSION}"' ${ROOT_PATH}/package.json
 	@yarn vite build --mode production
 #############################################################################
 
@@ -59,8 +61,9 @@ build: ## Building project
 package: ## Building a docker container
 	$(msg) "$(GREEN)Building a docker container$(RESET)"
 	@cat ${ROOT_PATH}/.docker/Dockerfile > ${ROOT_PATH}/Dockerfile
+	@sed -i -E "s/_DATE_/${DATE}/g" ${ROOT_PATH}/Dockerfile
 	@sed -i -E "s/_GIT_COMMIT_/${GIT_COMMIT}/g" ${ROOT_PATH}/Dockerfile
-	@sed -i -E "s/_VERSION_/v${VERSION}/g" ${ROOT_PATH}/Dockerfile
+	@sed -i -E "s/_VERSION_/${VERSION}/g" ${ROOT_PATH}/Dockerfile
 	docker build -f ${ROOT_PATH}/Dockerfile -t ghcr.io/werbot/werbot.web:latest .
 	docker tag ghcr.io/werbot/werbot.web:latest ghcr.io/werbot/werbot.web:v${VERSION}
 	rm -rf ${ROOT_PATH}/dist

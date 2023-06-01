@@ -41,7 +41,7 @@ export const useSystemStore = defineStore("system", {
     async getVersion() {
       this.versions.ui = `${pkg.version} (${pkg.commit})`; // set the UI version based on the values in 'package.json'
       const res = await getVersion(); // call the 'getVersion()' function to get the API version
-      this.versions.api = res.data.result; // set the API version based on the response from the API
+      this.versions.api = res.data.result.api; // set the API version based on the response from the API
     },
   },
 });

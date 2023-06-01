@@ -3,17 +3,18 @@ name: releaser
 on:
   push:
     branches:
-      - 'master'
+      - "master"
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 permissions:
-   contents: write # needed to write releases
-   packages: write # needed for ghcr access
+  contents: write # needed to write releases
+  packages: write # needed for ghcr access
 
 jobs:
-  goreleaser:
+  releaser:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: docker/login-action@v2
         with:
@@ -24,12 +25,15 @@ jobs:
         with:
           fetch-depth: 0
       - run: git fetch --force --tags
+      - uses: mikefarah/yq@master
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'yarn'
+          cache: "yarn"
       - run: yarn install
       - run: make build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
       - run: make package
       - run: make push
       - uses: softprops/action-gh-release@v1
