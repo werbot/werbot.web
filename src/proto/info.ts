@@ -56,7 +56,7 @@ export const UserMetrics = new UserMetrics$Type();
 class UserMetrics_Request$Type extends MessageType<UserMetrics_Request> {
     constructor() {
         super("info.UserMetrics.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
             { no: 2, name: "role", kind: "enum", T: () => ["user.Role", Role] }
         ]);
     }

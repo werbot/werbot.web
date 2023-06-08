@@ -421,7 +421,7 @@ export const User = new User$Type();
 class User_Request$Type extends MessageType<User_Request> {
     constructor() {
         super("user.User.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -465,13 +465,13 @@ export const AddUser = new AddUser$Type();
 class AddUser_Request$Type extends MessageType<AddUser_Request> {
     constructor() {
         super("user.AddUser.Request", [
-            { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 4, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { email: true } } } },
+            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 4, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
             { no: 5, name: "enabled", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 6, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 7, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } }
+            { no: 7, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } } } }
         ]);
     }
 }
@@ -505,7 +505,7 @@ export const UpdateUser = new UpdateUser$Type();
 class UpdateUser_Request$Type extends MessageType<UpdateUser_Request> {
     constructor() {
         super("user.UpdateUser.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
             { no: 2, name: "info", kind: "message", oneof: "request", T: () => UpdateUser_Info },
             { no: 3, name: "enabled", kind: "scalar", oneof: "request", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "confirmed", kind: "scalar", oneof: "request", T: 8 /*ScalarType.BOOL*/ }
@@ -530,10 +530,10 @@ export const UpdateUser_Response = new UpdateUser_Response$Type();
 class UpdateUser_Info$Type extends MessageType<UpdateUser_Info> {
     constructor() {
         super("user.UpdateUser.Info", [
-            { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$", ignoreEmpty: true } } } },
-            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 4, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } }
+            { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { email: true } } } },
+            { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 4, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } }
         ]);
     }
 }
@@ -555,9 +555,9 @@ export const DeleteUser = new DeleteUser$Type();
 class DeleteUser_Request$Type extends MessageType<DeleteUser_Request> {
     constructor() {
         super("user.DeleteUser.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
-            { no: 3, name: "token", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } } } },
+            { no: 3, name: "token", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -593,9 +593,9 @@ export const UpdatePassword = new UpdatePassword$Type();
 class UpdatePassword_Request$Type extends MessageType<UpdatePassword_Request> {
     constructor() {
         super("user.UpdatePassword.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "old_password", kind: "scalar", localName: "old_password", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
-            { no: 3, name: "new_password", kind: "scalar", localName: "new_password", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "old_password", kind: "scalar", localName: "old_password", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } } } },
+            { no: 3, name: "new_password", kind: "scalar", localName: "new_password", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } } } }
         ]);
     }
 }

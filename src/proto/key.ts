@@ -327,8 +327,8 @@ export const Key = new Key$Type();
 class Key_Request$Type extends MessageType<Key_Request> {
     constructor() {
         super("key.Key.Request", [
-            { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -369,9 +369,9 @@ export const AddKey = new AddKey$Type();
 class AddKey_Request$Type extends MessageType<AddKey_Request> {
     constructor() {
         super("key.AddKey.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 3, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "128" } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 3, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "128" } } } }
         ]);
     }
 }
@@ -405,10 +405,10 @@ export const UpdateKey = new UpdateKey$Type();
 class UpdateKey_Request$Type extends MessageType<UpdateKey_Request> {
     constructor() {
         super("key.UpdateKey.Request", [
-            { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 4, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "128" } } } }
+            { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 4, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "128" } } } }
         ]);
     }
 }
@@ -440,8 +440,8 @@ export const DeleteKey = new DeleteKey$Type();
 class DeleteKey_Request$Type extends MessageType<DeleteKey_Request> {
     constructor() {
         super("key.DeleteKey.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }

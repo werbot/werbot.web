@@ -285,7 +285,7 @@ export const ListAudits = new ListAudits$Type();
 class ListAudits_Request$Type extends MessageType<ListAudits_Request> {
     constructor() {
         super("audit.ListAudits.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -320,7 +320,7 @@ export const Audit = new Audit$Type();
 class Audit_Request$Type extends MessageType<Audit_Request> {
     constructor() {
         super("audit.Audit.Request", [
-            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -355,8 +355,8 @@ export const AddAudit = new AddAudit$Type();
 class AddAudit_Request$Type extends MessageType<AddAudit_Request> {
     constructor() {
         super("audit.AddAudit.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 3, name: "time_start", kind: "message", localName: "time_start", T: () => Timestamp },
             { no: 4, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 5, name: "session", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -437,7 +437,7 @@ export const DeleteAudit = new DeleteAudit$Type();
 class DeleteAudit_Request$Type extends MessageType<DeleteAudit_Request> {
     constructor() {
         super("audit.DeleteAudit.Request", [
-            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -485,7 +485,7 @@ export const ListRecords = new ListRecords$Type();
 class ListRecords_Request$Type extends MessageType<ListRecords_Request> {
     constructor() {
         super("audit.ListRecords.Request", [
-            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -519,7 +519,7 @@ export const AddRecord = new AddRecord$Type();
 class AddRecord_Request$Type extends MessageType<AddRecord_Request> {
     constructor() {
         super("audit.AddRecord.Request", [
-            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "records", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Record }
         ]);
     }

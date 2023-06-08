@@ -832,9 +832,9 @@ export const ProjectMember = new ProjectMember$Type();
 class ProjectMember_Request$Type extends MessageType<ProjectMember_Request> {
     constructor() {
         super("member.ProjectMember.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -880,9 +880,9 @@ export const AddProjectMember = new AddProjectMember$Type();
 class AddProjectMember_Request$Type extends MessageType<AddProjectMember_Request> {
     constructor() {
         super("member.AddProjectMember.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 5, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
@@ -918,9 +918,9 @@ export const UpdateProjectMember = new UpdateProjectMember$Type();
 class UpdateProjectMember_Request$Type extends MessageType<UpdateProjectMember_Request> {
     constructor() {
         super("member.UpdateProjectMember.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "role", kind: "enum", oneof: "setting", T: () => ["user.Role", Role] },
             { no: 5, name: "active", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ }
         ]);
@@ -954,9 +954,9 @@ export const DeleteProjectMember = new DeleteProjectMember$Type();
 class DeleteProjectMember_Request$Type extends MessageType<DeleteProjectMember_Request> {
     constructor() {
         super("member.DeleteProjectMember.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -988,8 +988,8 @@ export const UsersWithoutProject = new UsersWithoutProject$Type();
 class UsersWithoutProject_Request$Type extends MessageType<UsersWithoutProject_Request> {
     constructor() {
         super("member.UsersWithoutProject.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 3, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -1041,8 +1041,8 @@ class ListMembersInvite_Request$Type extends MessageType<ListMembersInvite_Reque
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 5, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 4, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 5, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1095,11 +1095,11 @@ export const AddMemberInvite = new AddMemberInvite$Type();
 class AddMemberInvite_Request$Type extends MessageType<AddMemberInvite_Request> {
     constructor() {
         super("member.AddMemberInvite.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 4, name: "user_surname", kind: "scalar", localName: "user_surname", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 5, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } }
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 4, name: "user_surname", kind: "scalar", localName: "user_surname", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 5, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { email: true } } } }
         ]);
     }
 }
@@ -1133,9 +1133,9 @@ export const DeleteMemberInvite = new DeleteMemberInvite$Type();
 class DeleteMemberInvite_Request$Type extends MessageType<DeleteMemberInvite_Request> {
     constructor() {
         super("member.DeleteMemberInvite.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "invite_id", kind: "scalar", localName: "invite_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "invite_id", kind: "scalar", localName: "invite_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1167,8 +1167,8 @@ export const MemberInviteActivate = new MemberInviteActivate$Type();
 class MemberInviteActivate_Request$Type extends MessageType<MemberInviteActivate_Request> {
     constructor() {
         super("member.MemberInviteActivate.Request", [
-            { no: 1, name: "invite", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "invite", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -1206,9 +1206,9 @@ class ListServerMembers_Request$Type extends MessageType<ListServerMembers_Reque
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 5, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 6, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 4, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 5, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 6, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1243,9 +1243,9 @@ export const ServerMember = new ServerMember$Type();
 class ServerMember_Request$Type extends MessageType<ServerMember_Request> {
     constructor() {
         super("member.ServerMember.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -1290,9 +1290,9 @@ export const AddServerMember = new AddServerMember$Type();
 class AddServerMember_Request$Type extends MessageType<AddServerMember_Request> {
     constructor() {
         super("member.AddServerMember.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
@@ -1328,10 +1328,10 @@ export const UpdateServerMember = new UpdateServerMember$Type();
 class UpdateServerMember_Request$Type extends MessageType<UpdateServerMember_Request> {
     constructor() {
         super("member.UpdateServerMember.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 4, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 5, name: "active", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ },
             { no: 6, name: "online", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ }
         ]);
@@ -1365,10 +1365,10 @@ export const DeleteServerMember = new DeleteServerMember$Type();
 class DeleteServerMember_Request$Type extends MessageType<DeleteServerMember_Request> {
     constructor() {
         super("member.DeleteServerMember.Request", [
-            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 4, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 4, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1403,9 +1403,9 @@ class MembersWithoutServer_Request$Type extends MessageType<MembersWithoutServer
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 5, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 6, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 4, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 5, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 6, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 7, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }

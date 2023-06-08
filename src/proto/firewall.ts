@@ -504,9 +504,9 @@ export const ServerFirewall = new ServerFirewall$Type();
 class ServerFirewall_Request$Type extends MessageType<ServerFirewall_Request> {
     constructor() {
         super("firewall.ServerFirewall.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -567,11 +567,11 @@ export const AddServerFirewall = new AddServerFirewall$Type();
 class AddServerFirewall_Request$Type extends MessageType<AddServerFirewall_Request> {
     constructor() {
         super("firewall.AddServerFirewall.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "ip", kind: "message", oneof: "record", T: () => IpMask },
-            { no: 5, name: "country_code", kind: "scalar", localName: "country_code", oneof: "record", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { len: "2" } } } }
+            { no: 5, name: "country_code", kind: "scalar", localName: "country_code", oneof: "record", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { len: "2" } } } }
         ]);
     }
 }
@@ -605,9 +605,9 @@ export const UpdateServerFirewall = new UpdateServerFirewall$Type();
 class UpdateServerFirewall_Request$Type extends MessageType<UpdateServerFirewall_Request> {
     constructor() {
         super("firewall.UpdateServerFirewall.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "rule", kind: "enum", T: () => ["firewall.Rules", Rules] },
             { no: 5, name: "status", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
@@ -641,11 +641,11 @@ export const DeleteServerFirewall = new DeleteServerFirewall$Type();
 class DeleteServerFirewall_Request$Type extends MessageType<DeleteServerFirewall_Request> {
     constructor() {
         super("firewall.DeleteServerFirewall.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "rule", kind: "enum", T: () => ["firewall.Rules", Rules] },
-            { no: 5, name: "record_id", kind: "scalar", localName: "record_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 5, name: "record_id", kind: "scalar", localName: "record_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -677,7 +677,7 @@ export const IPAccess = new IPAccess$Type();
 class IPAccess_Request$Type extends MessageType<IPAccess_Request> {
     constructor() {
         super("firewall.IPAccess.Request", [
-            { no: 1, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+            { no: 1, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { ip: true } } } }
         ]);
     }
 }
@@ -709,9 +709,9 @@ export const ServerAccess = new ServerAccess$Type();
 class ServerAccess_Request$Type extends MessageType<ServerAccess_Request> {
     constructor() {
         super("firewall.ServerAccess.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { ip: true } } } }
         ]);
     }
 }
@@ -743,8 +743,8 @@ export const ServerAccessUser = new ServerAccessUser$Type();
 class ServerAccessUser_Request$Type extends MessageType<ServerAccessUser_Request> {
     constructor() {
         super("firewall.ServerAccessUser.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -776,7 +776,7 @@ export const ServerAccessTime = new ServerAccessTime$Type();
 class ServerAccessTime_Request$Type extends MessageType<ServerAccessTime_Request> {
     constructor() {
         super("firewall.ServerAccessTime.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -808,8 +808,8 @@ export const ServerAccessIP = new ServerAccessIP$Type();
 class ServerAccessIP_Request$Type extends MessageType<ServerAccessIP_Request> {
     constructor() {
         super("firewall.ServerAccessIP.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { ip: true } } } }
         ]);
     }
 }
@@ -841,8 +841,8 @@ export const ServerAccessCountry = new ServerAccessCountry$Type();
 class ServerAccessCountry_Request$Type extends MessageType<ServerAccessCountry_Request> {
     constructor() {
         super("firewall.ServerAccessCountry.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 2, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "member_ip", kind: "scalar", localName: "member_ip", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { ip: true } } } }
         ]);
     }
 }

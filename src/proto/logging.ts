@@ -155,8 +155,8 @@ export const ListRecords = new ListRecords$Type();
 class ListRecords_Request$Type extends MessageType<ListRecords_Request> {
     constructor() {
         super("logging.ListRecords.Request", [
-            { no: 1, name: "logger", kind: "enum", T: () => ["logging.Logger", Logger], options: { "validate.rules": { enum: { definedOnly: true } } } },
-            { no: 2, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "logger", kind: "enum", T: () => ["logging.Logger", Logger], options: { "buf.validate.field": { enum: { definedOnly: true } } } },
+            { no: 2, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -188,7 +188,7 @@ export const Record = new Record$Type();
 class Record_Request$Type extends MessageType<Record_Request> {
     constructor() {
         super("logging.Record.Request", [
-            { no: 3, name: "record_id", kind: "scalar", localName: "record_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 3, name: "record_id", kind: "scalar", localName: "record_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -220,9 +220,9 @@ export const AddRecord = new AddRecord$Type();
 class AddRecord_Request$Type extends MessageType<AddRecord_Request> {
     constructor() {
         super("logging.AddRecord.Request", [
-            { no: 1, name: "logger", kind: "enum", T: () => ["logging.Logger", Logger], options: { "validate.rules": { enum: { definedOnly: true } } } },
-            { no: 2, name: "event", kind: "enum", T: () => ["logging.EventType", EventType], options: { "validate.rules": { enum: { definedOnly: true } } } },
-            { no: 3, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "logger", kind: "enum", T: () => ["logging.Logger", Logger], options: { "buf.validate.field": { enum: { definedOnly: true } } } },
+            { no: 2, name: "event", kind: "enum", T: () => ["logging.EventType", EventType], options: { "buf.validate.field": { enum: { definedOnly: true } } } },
+            { no: 3, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }

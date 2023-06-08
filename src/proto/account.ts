@@ -19,11 +19,11 @@ export interface SignIn {
  */
 export interface SignIn_Request {
     /**
-     * @generated from protobuf field: string email = 2;
+     * @generated from protobuf field: string email = 1;
      */
     email: string;
     /**
-     * @generated from protobuf field: string password = 3;
+     * @generated from protobuf field: string password = 2;
      */
     password: string;
 }
@@ -433,8 +433,8 @@ export const SignIn = new SignIn$Type();
 class SignIn_Request$Type extends MessageType<SignIn_Request> {
     constructor() {
         super("account.SignIn.Request", [
-            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 3, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } }
+            { no: 1, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "request.email", message: "value must be a valid email address", expression: "this.isEmail()" }] } } },
+            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } } } }
         ]);
     }
 }
@@ -471,9 +471,9 @@ export const ResetPassword = new ResetPassword$Type();
 class ResetPassword_Request$Type extends MessageType<ResetPassword_Request> {
     constructor() {
         super("account.ResetPassword.Request", [
-            { no: 1, name: "email", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
-            { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "email", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { email: true } } } },
+            { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } } } },
+            { no: 3, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -498,7 +498,7 @@ export const ResetPassword_Response = new ResetPassword_Response$Type();
 class RefreshTokenRequest$Type extends MessageType<RefreshTokenRequest> {
     constructor() {
         super("account.RefreshTokenRequest", [
-            { no: 1, name: "refresh_token", kind: "scalar", localName: "refresh_token", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "refresh_token", kind: "scalar", localName: "refresh_token", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -573,7 +573,7 @@ export const Account = new Account$Type();
 class Account_Request$Type extends MessageType<Account_Request> {
     constructor() {
         super("account.Account.Request", [
-            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -614,7 +614,7 @@ export const AddAccount = new AddAccount$Type();
 class AddAccount_Request$Type extends MessageType<AddAccount_Request> {
     constructor() {
         super("account.AddAccount.Request", [
-            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -646,7 +646,7 @@ export const UpdateAccount = new UpdateAccount$Type();
 class UpdateAccount_Request$Type extends MessageType<UpdateAccount_Request> {
     constructor() {
         super("account.UpdateAccount.Request", [
-            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -678,7 +678,7 @@ export const DeleteAccount = new DeleteAccount$Type();
 class DeleteAccount_Request$Type extends MessageType<DeleteAccount_Request> {
     constructor() {
         super("account.DeleteAccount.Request", [
-            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -712,7 +712,7 @@ class AccountIDByLogin_Request$Type extends MessageType<AccountIDByLogin_Request
         super("account.AccountIDByLogin.Request", [
             { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+            { no: 3, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { ip: true } } } }
         ]);
     }
 }
@@ -746,7 +746,7 @@ export const UpdateStatus = new UpdateStatus$Type();
 class UpdateStatus_Request$Type extends MessageType<UpdateStatus_Request> {
     constructor() {
         super("account.UpdateStatus.Request", [
-            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "status", kind: "enum", T: () => ["account.AccountStatus", AccountStatus] }
         ]);
     }

@@ -85,7 +85,7 @@ export const Countries = new Countries$Type();
 class Countries_Request$Type extends MessageType<Countries_Request> {
     constructor() {
         super("utility.Countries.Request", [
-            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "2" } } } }
+            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "2" } } } }
         ]);
     }
 }
@@ -132,7 +132,7 @@ export const CountryByIP = new CountryByIP$Type();
 class CountryByIP_Request$Type extends MessageType<CountryByIP_Request> {
     constructor() {
         super("utility.CountryByIP.Request", [
-            { no: 1, name: "ip", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { ip: true } } } }
+            { no: 1, name: "ip", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { ip: true } } } }
         ]);
     }
 }

@@ -1069,9 +1069,9 @@ export const Server = new Server$Type();
 class Server_Request$Type extends MessageType<Server_Request> {
     constructor() {
         super("server.Server.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1124,16 +1124,16 @@ export const AddServer = new AddServer$Type();
 class AddServer_Request$Type extends MessageType<AddServer_Request> {
     constructor() {
         super("server.AddServer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { address: true } } } },
-            { no: 4, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "validate.rules": { int32: { lt: 65536, gte: 1 } } } },
-            { no: 5, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 6, name: "scheme", kind: "enum", T: () => ["server.ServerScheme", ServerScheme], options: { "validate.rules": { enum: { definedOnly: true } } } },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { address: true } } } },
+            { no: 4, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { int32: { lt: 65536, gte: 1 } } } },
+            { no: 5, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 6, name: "scheme", kind: "enum", T: () => ["server.ServerScheme", ServerScheme], options: { "buf.validate.field": { enum: { definedOnly: true } } } },
             { no: 7, name: "audit", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 8, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 9, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 10, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
             { no: 11, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ },
             { no: 12, name: "key", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/ }
         ]);
@@ -1169,9 +1169,9 @@ export const UpdateServer = new UpdateServer$Type();
 class UpdateServer_Request$Type extends MessageType<UpdateServer_Request> {
     constructor() {
         super("server.UpdateServer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "info", kind: "message", oneof: "setting", T: () => UpdateServer_Info },
             { no: 5, name: "audit", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ },
             { no: 6, name: "active", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ },
@@ -1199,10 +1199,10 @@ export const UpdateServer_Response = new UpdateServer_Response$Type();
 class UpdateServer_Info$Type extends MessageType<UpdateServer_Info> {
     constructor() {
         super("server.UpdateServer.Info", [
-            { no: 1, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { address: true } } } },
-            { no: 2, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "validate.rules": { int32: { lt: 65536, gte: 1 } } } },
-            { no: 3, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 1, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { address: true } } } },
+            { no: 2, name: "port", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { int32: { lt: 65536, gte: 1 } } } },
+            { no: 3, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
+            { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
             { no: 5, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -1225,9 +1225,9 @@ export const DeleteServer = new DeleteServer$Type();
 class DeleteServer_Request$Type extends MessageType<DeleteServer_Request> {
     constructor() {
         super("server.DeleteServer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1259,9 +1259,9 @@ export const ServerAccess = new ServerAccess$Type();
 class ServerAccess_Request$Type extends MessageType<ServerAccess_Request> {
     constructor() {
         super("server.ServerAccess.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1313,11 +1313,11 @@ export const UpdateServerAccess = new UpdateServerAccess$Type();
 class UpdateServerAccess_Request$Type extends MessageType<UpdateServerAccess_Request> {
     constructor() {
         super("server.UpdateServerAccess.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 5, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "8", maxLen: "32" } } } },
-            { no: 6, name: "key", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 5, name: "password", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } } } },
+            { no: 6, name: "key", kind: "scalar", oneof: "access", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -1349,9 +1349,9 @@ export const ServerActivity = new ServerActivity$Type();
 class ServerActivity_Request$Type extends MessageType<ServerActivity_Request> {
     constructor() {
         super("server.ServerActivity.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1391,9 +1391,9 @@ export const UpdateServerActivity = new UpdateServerActivity$Type();
 class UpdateServerActivity_Request$Type extends MessageType<UpdateServerActivity_Request> {
     constructor() {
         super("server.UpdateServerActivity.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 4, name: "activity", kind: "message", T: () => ServerActivity_Response }
         ]);
     }
@@ -1426,7 +1426,7 @@ export const UpdateHostKey = new UpdateHostKey$Type();
 class UpdateHostKey_Request$Type extends MessageType<UpdateHostKey_Request> {
     constructor() {
         super("server.UpdateHostKey.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "hostkey", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
@@ -1459,7 +1459,7 @@ export const AddSession = new AddSession$Type();
 class AddSession_Request$Type extends MessageType<AddSession_Request> {
     constructor() {
         super("server.AddSession.Request", [
-            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "status", kind: "enum", T: () => ["server.SessionStatus", SessionStatus] },
             { no: 3, name: "created", kind: "message", T: () => Timestamp },
             { no: 4, name: "message", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
@@ -1496,9 +1496,9 @@ export const ServerNameByID = new ServerNameByID$Type();
 class ServerNameByID_Request$Type extends MessageType<ServerNameByID_Request> {
     constructor() {
         super("server.ServerNameByID.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1535,7 +1535,7 @@ class ListShareServers_Request$Type extends MessageType<ListShareServers_Request
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } }
+            { no: 4, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -1588,9 +1588,9 @@ export const AddShareServer = new AddShareServer$Type();
 class AddShareServer_Request$Type extends MessageType<AddShareServer_Request> {
     constructor() {
         super("server.AddShareServer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1622,9 +1622,9 @@ export const UpdateShareServer = new UpdateShareServer$Type();
 class UpdateShareServer_Request$Type extends MessageType<UpdateShareServer_Request> {
     constructor() {
         super("server.UpdateShareServer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "share_id", kind: "scalar", localName: "share_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "share_id", kind: "scalar", localName: "share_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
@@ -1656,9 +1656,9 @@ export const DeleteShareServer = new DeleteShareServer$Type();
 class DeleteShareServer_Request$Type extends MessageType<DeleteShareServer_Request> {
     constructor() {
         super("server.DeleteShareServer.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true, ignoreEmpty: true } } } },
-            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 3, name: "share_id", kind: "scalar", localName: "share_id", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 3, name: "share_id", kind: "scalar", localName: "share_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
