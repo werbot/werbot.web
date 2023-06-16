@@ -7,6 +7,12 @@ table {
 
   tr {
     @apply border-b border-gray-100 bg-white;
+
+    &.cursor {
+      &:hover, &:active {
+        @apply bg-gray-100 cursor-pointer;
+      }
+    }
   }
 
   td {
@@ -24,4 +30,18 @@ table {
   .adaptive-lg {
     @apply hidden lg:table-cell;
   }
+
+  &.mini {
+    @apply inline-block rounded border border-solid border-gray-300 scroll-my-0;
+
+    tr {
+      @apply border-b border-gray-300 bg-transparent last:border-b-0;
+    }
+
+    td {
+      @apply py-4 first:pl-4 first:pr-2 last:pl-2 last:pr-4;
+      @apply whitespace-normal break-all first:font-bold;
+    }
+  }
 }
+

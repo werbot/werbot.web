@@ -13,6 +13,7 @@ export { default as SvgIcon } from "./SvgIcon/index.vue";
 export { default as Tabs } from "./Tabs/index.vue";
 export { default as Toggle } from "./Toggle/index.vue";
 export { default as Version } from "./Version/index.vue";
+export { default as Drawer } from "./Drawer/index.vue";
 
 // Breadcrumbs navigation's
 export { default as BServerName } from "./Breadcrumbs/server-name.vue";
