@@ -3,7 +3,7 @@
     <button class="dropdown" type="button" @click="toggleDropdown" :disabled="isLoading">
       <SvgIcon name="user" />
       <span class="hidden md:block">{{ proxy.$authStore.hasUserName }}</span>
-      <SvgIcon name="row_down" />
+      <SvgIcon name="chevron_down" />
     </button>
 
     <ul v-show="isDropdownOpen" class="dropdown-menu right-0" @click="closeDropdown">

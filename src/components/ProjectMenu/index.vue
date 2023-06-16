@@ -3,15 +3,12 @@
     <button class="dropdown" type="button" @click="toggleDropdown">
       <SvgIcon name="project" />
       <span class="hidden md:block">Projects</span>
-      <SvgIcon name="row_down" />
+      <SvgIcon name="chevron_down" />
     </button>
 
     <ul v-show="isDropdownOpen" class="dropdown-menu" @click="closeDropdown">
       <li v-for="(item, index) in data.projects" :key="index">
-        <router-link
-          active-class="current"
-          :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }"
-        >
+        <router-link active-class="current" :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }">
           <SvgIcon name="project" />
           <span>{{ item.title }}</span>
         </router-link>

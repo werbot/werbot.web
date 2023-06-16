@@ -10,7 +10,7 @@
     <div v-click-outside="close">
       <button type="button" @click="toggle">
         <span>{{ value }}</span>
-        <SvgIcon name="row_down" />
+        <SvgIcon name="chevron_down" />
       </button>
 
       <ul v-if="open">
