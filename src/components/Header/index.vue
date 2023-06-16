@@ -27,7 +27,9 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { SvgIcon, ProjectMenu, ProfileMenu } from "@/components";
+import { SvgIcon } from "@/components";
+import { default as ProfileMenu } from "./profile-menu.vue";
+import { default as ProjectMenu } from "./project-menu.vue";
 
 const route = useRoute();
 </script>
@@ -44,7 +46,7 @@ const route = useRoute();
     @apply mr-4 flex items-center whitespace-nowrap text-gray-700;
 
     &.current {
-      @apply rounded bg-gray-200 p-2 text-gray-700;
+      @apply border rounded bg-gray-200 p-2 text-gray-700;
 
       svg {
         @apply fill-gray-700;

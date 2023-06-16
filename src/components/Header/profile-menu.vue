@@ -1,6 +1,8 @@
 <template>
   <div class="relative" v-click-outside="closeDropdown">
-    <button class="dropdown" type="button" @click="toggleDropdown" :disabled="isLoading">
+    <button class="dropdown"
+      :class="{ active: (route.name as string).startsWith('profile') || (route.name as string).startsWith('admin')}"
+      type="button" @click="toggleDropdown" :disabled="isLoading">
       <SvgIcon name="user" />
       <span class="hidden md:block">{{ proxy.$authStore.hasUserName }}</span>
       <SvgIcon name="chevron_down" />
@@ -20,10 +22,12 @@
 
 <script lang="ts" setup>
 import { ref, watch, getCurrentInstance } from "vue";
+import { useRoute } from "vue-router";
 import { SvgIcon } from "@/components";
 // @ts-ignore
 import { directive as vClickOutside } from "click-outside-vue3";
 
+const route = useRoute();
 const props = defineProps<{
   isLoading?: boolean;
 }>();
