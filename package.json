@@ -46,6 +46,6 @@
     "vue-tsc": "^1.6.5"
   },
   "dependencies": {
-    "@bufbuild/buf": "^1.21.0-1"
+    "@bufbuild/buf": "^1.22.0"
   }
 }
