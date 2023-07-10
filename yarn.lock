@@ -3449,10 +3449,10 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
   integrity sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==
 
-mitt@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.0.tgz#69ef9bd5c80ff6f57473e8d89326d01c414be0bd"
-  integrity sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==
+mitt@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.1.tgz#ea36cf0cc30403601ae074c8f77b7092cdab36d1"
+  integrity sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==
 
 mixin-deep@^1.2.0:
   version "1.3.2"
@@ -3581,12 +3581,12 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-notiwind@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/notiwind/-/notiwind-2.0.1.tgz#ca2de48b980e70a80ff1f10842fb5357001bcf49"
-  integrity sha512-8xNwQUoga7MqrFaqIi5Y9hsq4hFq24KvM5h8w0goZ4O36YFCn5A3p5+Fdl4JV1/z3AtVLdU2GCwvrYt/ThCzoA==
+notiwind@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/notiwind/-/notiwind-2.0.2.tgz#f7242fe4311ea586246d766f0cc35ca46c075450"
+  integrity sha512-wMCf+07E093d0Q78C5UHroT9GQHm4mIGerhg7dGLJ0GN6zONqKj8nTR3clkq/Y44On9k28/0DtDNwOX7FT5p/A==
   dependencies:
-    mitt "^3.0.0"
+    mitt "^3.0.1"
 
 npm-run-path@^2.0.0:
   version "2.0.2"
