@@ -13,7 +13,7 @@
     "update": "ncu -i --format group"
   },
   "devDependencies": {
-    "@protobuf-ts/plugin": "^2.9.0",
+    "@protobuf-ts/plugin": "^2.9.1",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/cli-plugin-typescript": "^5.0.8",
     "@vueuse/core": "^10.3.0",
