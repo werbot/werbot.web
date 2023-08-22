@@ -30,7 +30,7 @@
     "pinia": "^2.1.6",
     "postcss": "^8.4.27",
     "postcss-import": "^15.1.0",
-    "prettier": "^3.0.1",
+    "prettier": "^3.0.2",
     "prettier-plugin-tailwindcss": "^0.5.2",
     "sass": "^1.65.1",
     "tailwind-config-viewer": "^1.7.2",
