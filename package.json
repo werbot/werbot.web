@@ -18,7 +18,7 @@
     "@vue/cli-plugin-typescript": "^5.0.8",
     "@vueuse/core": "^10.3.0",
     "autoprefixer": "^10.4.15",
-    "axios": "^1.4.0",
+    "axios": "^1.5.0",
     "click-outside-vue3": "^4.0.1",
     "cssnano": "^6.0.1",
     "ip-address": "^8.1.0",
