@@ -21,7 +21,7 @@
     "axios": "^1.5.0",
     "click-outside-vue3": "^4.0.1",
     "cssnano": "^6.0.1",
-    "ip-address": "^8.1.0",
+    "ip-address": "^9.0.5",
     "ipaddr.js": "^2.1.0",
     "less": "^4.2.0",
     "less-loader": "^11.1.3",
