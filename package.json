@@ -16,7 +16,7 @@
     "@protobuf-ts/plugin": "^2.9.1",
     "@vitejs/plugin-vue": "^4.4.0",
     "@vue/cli-plugin-typescript": "^5.0.8",
-    "@vueuse/core": "^10.4.1",
+    "@vueuse/core": "^10.5.0",
     "autoprefixer": "^10.4.16",
     "axios": "^1.5.1",
     "click-outside-vue3": "^4.0.1",
