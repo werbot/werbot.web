@@ -63,7 +63,7 @@
   }
 
   &-red {
-    @apply artboard shadow-md shadow-red-200 !important;
+    @apply artboard shadow-md shadow-red-200 ; // !important
 
     header {
       @apply text-red-700;
@@ -88,7 +88,7 @@
   }
 
   &-yellow {
-    @apply artboard shadow-md shadow-yellow-200 !important;
+    @apply artboard shadow-md shadow-yellow-200 ; //!important
 
     header {
       @apply text-yellow-700;

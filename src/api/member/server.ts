@@ -16,7 +16,7 @@ const getServerMembers = async (
   user_id: string,
   project_id: string,
   server_id: string,
-  data?: ListServerMembers_Request
+  data?: ListServerMembers_Request,
 ) =>
   http("GET", URL.server_members, {
     params: {

@@ -1,15 +1,9 @@
 <template>
   <div v-if="Number(isLength(pagination)) > 1" class="pagination">
-    <router-link
-      v-for="(item, index) in pagination"
-      class="pagination btn"
-      :to="{
-        name: route.name!,
-        query: isQuery(index),
-      }"
-      :class="item == 'active' ? 'btn-active' : ''"
-      @click="onSelectPage(isQuery(index))"
-    >
+    <router-link v-for="(item, index) in pagination" class="pagination btn" :to="{
+      name: route.name!,
+      query: isQuery(index),
+    }" :class="item == 'active' ? 'btn-active' : ''" @click="onSelectPage(isQuery(index))">
       {{ index }}
     </router-link>
   </div>

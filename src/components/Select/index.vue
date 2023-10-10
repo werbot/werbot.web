@@ -75,8 +75,6 @@ const setLanguage = (val: string) => {
 </script>
 
 <style lang="scss" scoped>
-
-
 .form-dropdown {
   button {
     @apply min-w-[10rem] justify-between inline-block rounded border border-solid border-gray-300 px-2 py-2 leading-tight;

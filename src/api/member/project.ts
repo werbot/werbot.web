@@ -18,7 +18,7 @@ enum URL {
 const getProjectMembers = async (
   user_id: string,
   project_id: string,
-  data?: ListProjectMembers_Request
+  data?: ListProjectMembers_Request,
 ) =>
   http("GET", URL.project_members, {
     params: {
