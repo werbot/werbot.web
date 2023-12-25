@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@protobuf-ts/plugin": "^2.9.3",
-    "@vitejs/plugin-vue": "^4.5.2",
+    "@vitejs/plugin-vue": "^5.0.0",
     "@vue/cli-plugin-typescript": "^5.0.8",
     "@vueuse/core": "^10.7.0",
     "autoprefixer": "^10.4.16",
