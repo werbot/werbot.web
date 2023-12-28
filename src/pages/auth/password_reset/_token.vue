@@ -4,12 +4,9 @@
     <span class="title">Reset password</span>
 
     <form @submit.prevent>
-      <FormInput name="New password" type="password" autocomplete="new-password" v-model.trim="data.password"
-        :error="proxy.$errorStore.errors['password']" :disabled="loading" />
-
-      <FormInput name="Repeat password" type="password" autocomplete="new-password" v-model.trim="data.password2"
-        :error="proxy.$errorStore.errors['password2']" :disabled="loading" />
-
+      <FormInput name="New password" type="password" autocomplete="new-password" v-model.trim="data.password" :error="proxy.$errorStore.errors['password']" :disabled="loading" />
+      <FormInput name="Repeat password" type="password" autocomplete="new-password" v-model.trim="data.password2" :error="proxy.$errorStore.errors['password2']"
+        :disabled="loading" />
       <div class="form-control mt-6">
         <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
           <div v-if="loading">
@@ -61,7 +58,7 @@ const onSubmit = async () => {
 
   // @ts-ignore
   try {
-    const res = await resetPassword(props.token, data.value.password);
+    const res: any = await resetPassword(props.token, data.value.password);
     showMessage(res.data.result.message);
     proxy.$errorStore.$reset();
     router.push({ name: "auth-signin" });

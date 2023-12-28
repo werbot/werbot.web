@@ -6,14 +6,16 @@
     @apply mx-2 inline-block w-5;
   }
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     @apply border-gray-800 bg-gray-800 text-gray-300;
   }
 
   &.active {
     @apply border-gray-200 bg-gray-200;
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
       @apply border-gray-800 bg-gray-800 text-gray-300;
     }
   }

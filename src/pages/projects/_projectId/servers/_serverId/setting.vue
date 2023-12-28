@@ -1,85 +1,32 @@
 <template>
   <div class="artboard">
     <header>
-      <h1>Servers</h1>
-      <div class="breadcrumbs">
-        <BServerName
-          :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId!"
-          :projectId="props.projectId!"
-        />
-        <span>Setting</span>
-      </div>
+      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <div class="breadcrumbs">{{ data.host.title }}</div>
     </header>
-
-    <div class="desc">
-      Several options for adding new members are available. Choose the right one and follow the
-      instructions.
-    </div>
+    <Tabs :tabs="tabMenu" />
+    <div class="desc">Several options for adding new members are available. Choose the right one and follow the instructions.</div>
 
     <form @submit.prevent>
       <div class="artboard-content">
-        <FormInput
-          name="Title"
-          v-model="data.host.title"
-          :error="error.errors.title"
-          class="flex-grow"
-        />
+        <FormInput name="Title" v-model="data.host.title" :error="error.errors.title" class="flex-grow" />
       </div>
 
       <div class="artboard-content mb-5">
         <div class="w-full">
           <div class="flex flex-row">
-            <FormInput
-              name="Address"
-              v-model.trim="data.host.address"
-              :error="error.errors.address"
-              class="mr-5 flex-grow"
-              :required="true"
-            />
-
-            <FormInput
-              name="Port"
-              v-model.number="data.host.port"
-              :error="error.errors.port"
-              class="mr-5 flex-grow"
-              :required="true"
-            />
-
-            <FormInput
-              name="Login"
-              v-model.trim="data.host.login"
-              :error="error.errors.login"
-              class="flex-grow"
-              :required="true"
-            />
+            <FormInput name="Address" v-model.trim="data.host.address" :error="error.errors.address" class="mr-5 flex-grow" :required="true" />
+            <FormInput name="Port" v-model.number="data.host.port" :error="error.errors.port" class="mr-5 flex-grow" :required="true" />
+            <FormInput name="Login" v-model.trim="data.host.login" :error="error.errors.login" class="flex-grow" :required="true" />
           </div>
 
           <div class="flex flex-row">
-            <FormTextarea
-              name="Description"
-              v-model="data.host.description"
-              :error="error.errors.description"
-              :rows="6"
-              class="flex-grow"
-            />
+            <FormTextarea name="Description" v-model="data.host.description" :error="error.errors.description" :rows="6" class="flex-grow" />
           </div>
 
           <div class="mt-5 flex flex-row">
-            <Toggle
-              name="Active"
-              v-model="data.host.active"
-              class="mr-5 flex-grow"
-              id="active"
-              @change="onUpdate('active', false)"
-            />
-            <Toggle
-              name="Audit"
-              v-model="data.host.audit"
-              class="flex-grow"
-              id="audit"
-              @change="onUpdate('audit', false)"
-            />
+            <Toggle name="Active" v-model="data.host.active" class="mr-5 flex-grow" id="active" @change="onUpdate('active', false)" />
+            <Toggle name="Audit" v-model="data.host.audit" class="flex-grow" id="audit" @change="onUpdate('audit', false)" />
           </div>
         </div>
       </div>
@@ -89,9 +36,7 @@
       <div class="artboard-content py-5">
         <div class="flex-none">
           <button type="submit" @click="onUpdate('info', false)" class="btn mr-5">Update</button>
-          <button type="submit" @click="onUpdate('info', true)" class="btn">
-            Update and close
-          </button>
+          <button type="submit" @click="onUpdate('info', true)" class="btn">Update and close</button>
         </div>
         <div class="flex-grow"></div>
         <button type="submit" @click="openModal()" class="btn">Delete server</button>
@@ -107,26 +52,12 @@
     <div class="artboard-content">
       <form @submit.prevent>
         <div v-if="data.host.auth == Auth.password">
-          <FormInput
-            name="Password (hidden, can only be overwritten)"
-            v-model.trim="data.access.password"
-            :error="error.errors.password"
-            class="flex-grow"
-            type="password"
-            autocomplete="current-password"
-          />
+          <FormInput name="Password (hidden, can only be overwritten)" v-model.trim="data.access.password" :error="error.errors.password" class="flex-grow" type="password"
+            autocomplete="current-password" />
         </div>
 
         <div v-if="data.host.auth == Auth.key">
-          <FormTextarea
-            name="Public key"
-            v-model="data.access.public_key"
-            :error="error.errors.public_key"
-            class="w-full"
-            :disabled="true"
-            :required="true"
-            :rows="6"
-          />
+          <FormInput name="Public key" v-model="data.access.public_key" :error="error.errors.public_key" class="w-full" :disabled="true" :required="true" />
 
           <button type="submit" class="btn mt-5 bg-green-500" @click="genNewKey()">
             Generate new key
@@ -134,13 +65,7 @@
         </div>
 
         <div class="my-5">
-          <button
-            v-if="data.access.key || data.access.password > 3"
-            type="submit"
-            class="btn"
-            @click="onUpdateAccess"
-            :disabled="loading"
-          >
+          <button v-if="data.access.key || data.access.password > 3" type="submit" class="btn" @click="onUpdateAccess" :disabled="loading">
             <div v-if="loading">
               <span>Loading...</span>
             </div>
@@ -151,11 +76,7 @@
     </div>
   </div>
 
-  <Modal
-    :showModal="modalActive"
-    @close="closeModal"
-    title="Are you sure you want to delete this server?"
-  >
+  <Modal :showModal="modalActive" @close="closeModal" title="Are you sure you want to delete this server?">
     <p>
       This action CANNOT be undone. This will permanently delete the server and if you’d like to use
       it in the future, you will need to added it again.<br />
@@ -183,9 +104,12 @@ import {
   UpdateServerAccess_Request,
   Auth,
 } from "@proto/server";
-import { FormInput, FormTextarea, BServerName, Toggle, Modal } from "@/components";
+import { Tabs, FormInput, FormTextarea, Toggle, Modal } from "@/components";
 import { useErrorStore } from "@/store";
 import { showMessage } from "@/utils/message";
+
+// Tabs section
+import { tabMenu } from "./tab";
 
 const { proxy } = getCurrentInstance() as any;
 const error: any = useErrorStore();

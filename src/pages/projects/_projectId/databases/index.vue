@@ -2,9 +2,18 @@
   <div class="artboard">
     <header>
       <h1>Databases</h1>
+      <router-link :to="{ name: 'projects-projectId-databases-add' }">
+        <label class="plus">
+          <SvgIcon name="plus_square" />
+          add new
+        </label>
+      </router-link>
     </header>
-
-    <div class="desc">Description</div>
+    <div class="desc">Empty</div>
     <div class="artboard-content p-5">section under development</div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { SvgIcon } from "@/components";
+</script>

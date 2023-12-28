@@ -3,13 +3,7 @@
   <div class="card w-[22rem]">
     <span class="title">Reset password</span>
     <form @submit.prevent v-if="!data.message">
-      <FormInput
-        name="Email"
-        v-model.trim="data.email"
-        :error="proxy.$errorStore.errors['email']"
-        :disabled="loading"
-      />
-
+      <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" />
       <div class="form-control mt-6">
         <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
           <div v-if="loading">
@@ -21,17 +15,13 @@
     </form>
 
     <div v-if="data.message === 'Verification email has been sent'">
-      <span class="message"
-        >Bad An email has been sent. It contains a link you must click to reset your password.</span
-      >
+      <span class="message">Bad An email has been sent. It contains a link you must click to reset your password.</span>
       <span class="message">Note: You can only request a new password once within 24 hours.</span>
       <span class="message">If you don't get an email check your spam folder or try again.</span>
     </div>
 
     <div v-if="data.message === 'Resend only after 24 hours'">
-      <span class="message"
-        >In the last 24 hours, you have already been sent a password reset email</span
-      >
+      <span class="message">In the last 24 hours, you have already been sent a password reset email</span>
       <span class="message">If you don't get an email check your spam folder or try again.</span>
     </div>
   </div>
@@ -59,7 +49,7 @@ const onSubmit = async () => {
 
   // @ts-ignore
   await sendEmail(data.value.email)
-    .then((res) => {
+    .then((res: any) => {
       data.value = res.data.result;
     })
     .catch(() => (loading.value = !loading.value));

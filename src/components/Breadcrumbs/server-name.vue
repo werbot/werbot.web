@@ -1,6 +1,5 @@
 <template>
   <router-link :to="{ name: 'projects-projectId-servers' }"> {{ data.server_name }} </router-link>
-
 </template>
 
 <script lang="ts" setup>

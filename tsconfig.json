@@ -11,7 +11,7 @@
     "noUnusedParameters": true,
     "noEmit": true,
     "lib": ["esnext", "dom"],
-    "plugins": [{"name": "@vuedx/typescript-plugin-vue"}],
+    "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }],
     "types": [
       "node",
       "vite-plugin-svg-icons/client",
@@ -26,7 +26,7 @@
   },
   "vueCompilerOptions": {
     "target": 3,
-    "strictTemplates": true,
+    "strictTemplates": true
     // "experimentalDisableTemplateSupport": true
   },
   "include": [

@@ -1,39 +1,28 @@
 <template>
   <div class="artboard">
     <header>
-      <h1>Servers</h1>
-      <div class="breadcrumbs">
-        <BServerName
-          :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId!"
-          :projectId="props.projectId!"
-        />
-        <span>
-          <router-link
-            :to="{
-              name: 'projects-projectId-servers-serverId-members',
-              params: {
-                projectId: props.projectId,
-                serverId: props.serverId,
-              },
-            }">Members</router-link
-          >
+      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <div class="breadcrumbs">{{ serverName }} <span>
+          <router-link :to="{ name: 'projects-projectId-servers-serverId-members', params: { projectId: props.projectId, serverId: props.serverId } }">Members</router-link>
         </span>
         <span>Add new</span>
       </div>
     </header>
+    <Tabs :tabs="tabMenu" />
 
     <table v-if="data.total > 0">
       <thead>
         <tr>
           <th>Member</th>
+          <th>Login</th>
           <th class="w-20">Status</th>
           <th class="w-20">Add</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item, index) in data.members" :key="index">
-          <td>{{ item.user_name }}</td>
+          <td>{{ item.user_name }} {{ item.user_surname }}</td>
+          <td>{{ item.user_login }}</td>
           <td>
             <Badge v-if="item.active" name="online" color="green" />
             <Badge v-else name="offline" color="red" />
@@ -55,27 +44,30 @@
 
   <div class="m-6">
     In order to add a new member, he must first be invited to the general list of
-    <router-link
-      :to="{
-        name: 'projects-projectId-members',
-        params: {
-          projectId: props.projectId,
-        },
-      }"
-    >
-      project members </router-link
-    >.
+    <router-link :to="{
+      name: 'projects-projectId-members',
+      params: {
+        projectId: props.projectId,
+      },
+    }">
+      project members </router-link>.
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRoute } from "vue-router";
-import { SvgIcon, BServerName, Badge, Pagination } from "@/components";
+import { Tabs, SvgIcon, Badge, Pagination } from "@/components";
 import { showMessage } from "@/utils/message";
-
+import { serverNameByID } from "@/api/server";
+import { ServerNameByID_Request } from "@proto/server";
 import { getMembersWithoutServer, postServerMember } from "@/api/member/server";
 import { MembersWithoutServer_Request, AddServerMember_Request } from "@proto/member";
+
+const serverName: any = ref("");
+
+// Tabs section
+import { tabMenu } from "../tab";
 
 const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
@@ -104,12 +96,20 @@ const getData = async (routeQuery: any) => {
   });
 };
 
-const onSelectPage = (e:any) => {
+const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(() => {
+onMounted(async() => {
   getData(route.query);
+
+  await serverNameByID(<ServerNameByID_Request>{
+    user_id: proxy.$authStore.hasUserID,
+    server_id: props.serverId,
+    project_id: props.projectId,
+  }).then((res) => {
+    serverName.value = res.data.result.server_name;
+  });
 });
 
 const addingMember = async (index: number) => {

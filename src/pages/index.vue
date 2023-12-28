@@ -1,8 +1,6 @@
 <template>
   <div class="artboard">
-    <header>
-      <h1>Shared servers</h1>
-    </header>
+    <header><h1>Shared servers</h1></header>
 
     <table>
       <thead>
@@ -40,4 +38,3 @@ meta:
   layout: private_blank
   requiresAuth: true
 </route>
-  

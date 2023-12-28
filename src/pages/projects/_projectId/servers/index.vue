@@ -34,16 +34,13 @@
             </div>
           </td>
           <td>
-            <router-link
-              active-class="current"
-              :to="{
-                name: 'projects-projectId-servers-serverId-session',
-                params: {
-                  projectId: props.projectId,
-                  serverId: item.server_id,
-                },
-              }"
-            >
+            <router-link active-class="current" :to="{
+              name: 'projects-projectId-servers-serverId-session',
+              params: {
+                projectId: props.projectId,
+                serverId: item.server_id,
+              },
+            }">
               {{ item.title }}
             </router-link>
           </td>
@@ -54,10 +51,7 @@
           </td>
 
           <td class="pr-1.5">
-            <Badge
-              :name="(addressType = getAddressType(item.address))"
-              :color="addressColor(addressType)"
-            />
+            <Badge :name="(addressType = getAddressType(item.address))" :color="addressColor(addressType)" />
           </td>
           <td>
             <div class="flex items-center">
@@ -71,66 +65,50 @@
           </td>
           <td>
             <div class="flex items-center">
-              <Toggle
-                v-model="item.active"
-                :id="index"
-                @change="changeServerActive(index, item.active)"
-              />
+              <Toggle v-model="item.active" :id="index" @change="changeServerActive(index, item.active)" />
             </div>
           </td>
           <td>
-            <router-link
-              active-class="current"
-              :to="{
-                name: 'projects-projectId-servers-serverId-members',
-                params: {
-                  projectId: props.projectId,
-                  serverId: item.server_id,
-                },
-              }"
-            >
+            <router-link active-class="current" :to="{
+              name: 'projects-projectId-servers-serverId-members',
+              params: {
+                projectId: props.projectId,
+                serverId: item.server_id,
+              },
+            }">
               <SvgIcon name="users" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link
-              active-class="current"
-              :to="{
-                name: 'projects-projectId-servers-serverId-activity',
-                params: {
-                  projectId: props.projectId,
-                  serverId: item.server_id,
-                },
-              }"
-            >
+            <router-link active-class="current" :to="{
+              name: 'projects-projectId-servers-serverId-activity',
+              params: {
+                projectId: props.projectId,
+                serverId: item.server_id,
+              },
+            }">
               <SvgIcon name="clock" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link
-              active-class="current"
-              :to="{
-                name: 'projects-projectId-servers-serverId-firewall',
-                params: {
-                  projectId: props.projectId,
-                  serverId: item.server_id,
-                },
-              }"
-            >
+            <router-link active-class="current" :to="{
+              name: 'projects-projectId-servers-serverId-firewall',
+              params: {
+                projectId: props.projectId,
+                serverId: item.server_id,
+              },
+            }">
               <SvgIcon name="firewall" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link
-              active-class="current"
-              :to="{
-                name: 'projects-projectId-servers-serverId-setting',
-                params: {
-                  projectId: props.projectId,
-                  serverId: item.server_id,
-                },
-              }"
-            >
+            <router-link active-class="current" :to="{
+              name: 'projects-projectId-servers-serverId-setting',
+              params: {
+                projectId: props.projectId,
+                serverId: item.server_id,
+              },
+            }">
               <SvgIcon name="setting" class="text-gray-700" />
             </router-link>
           </td>
@@ -157,6 +135,7 @@ import { ServerScheme, UpdateServer_Request } from "@proto/server";
 
 const { proxy } = getCurrentInstance() as any;
 
+const addressType = ref("");
 const route = useRoute();
 const data: any = ref({});
 const props = defineProps({

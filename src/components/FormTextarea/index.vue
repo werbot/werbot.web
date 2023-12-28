@@ -7,13 +7,7 @@
       </span>
     </label>
 
-    <textarea
-      v-model="value"
-      :class="error ? 'error' : ''"
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :rows="rows"
-    ></textarea>
+    <textarea v-model="(value as string)" :class="error ? 'error' : ''" :disabled="disabled" :placeholder="placeholder" :rows="rows"></textarea>
   </div>
 </template>
 
@@ -49,7 +43,6 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["update:modelValue"]);
-
 const value = computed({
   get: () => {
     return props.modelValue;

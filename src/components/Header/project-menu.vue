@@ -1,7 +1,6 @@
 <template>
   <div class="relative" v-click-outside="closeDropdown">
-    <button class="dropdown" :class="{ active: (route.name as string).startsWith('projects') }" type="button"
-      @click="toggleDropdown">
+    <button class="dropdown" :class="{ active: (route.name as string).startsWith('projects') }" type="button" @click="toggleDropdown">
       <SvgIcon name="project" />
       <span class="hidden md:block">Projects</span>
       <SvgIcon name="chevron_down" />

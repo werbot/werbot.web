@@ -159,6 +159,10 @@ export interface UpdateProject_Request {
      * @generated from protobuf field: string title = 3;
      */
     title: string; // @gotags: query:"title" params:"title"
+    /**
+     * @generated from protobuf field: string login = 4;
+     */
+    login: string; // @gotags: query:"login" params:"login"
 }
 /**
  * @generated from protobuf message project.UpdateProject.Response
@@ -442,7 +446,8 @@ class UpdateProject_Request$Type extends MessageType<UpdateProject_Request> {
         super("project.UpdateProject.Request", [
             { no: 1, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignoreEmpty: true, string: { uuid: true } } } },
-            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } }
+            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 4, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } }
         ]);
     }
 }

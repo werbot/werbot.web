@@ -43,7 +43,7 @@ axios.interceptors.response.use(
       const { message, result } = data;
       const errorStore = useErrorStore();
 
-      if (typeof(result) === 'string') {
+      if (typeof result === "string") {
         errorStore.resetStore();
         errorStore.setErrorMessage(result);
       } else {
@@ -57,7 +57,7 @@ axios.interceptors.response.use(
     // In all cases, reject the promise with the original error.
     // The error will be handled by the caller of the original request.
     return Promise.reject(error);
-  }
+  },
 );
 
 // This code intercepts requests from Axios and adds an authentication header to them,
@@ -76,7 +76,7 @@ axios.interceptors.request.use(
   (error) => {
     NProgress.done();
     return Promise.reject(error);
-  }
+  },
 );
 
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";

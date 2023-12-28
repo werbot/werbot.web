@@ -1,48 +1,19 @@
 <template>
   <div class="artboard">
     <header>
-      <h1>
-        <router-link
-          :to="{
-            name: 'projects-projectId-members-invites',
-            params: {
-              projectId: props.projectId,
-            },
-          }"
-        >
-          Invites
-        </router-link>
-        <span>New member</span>
-      </h1>
+      <h1><router-link :to="{name: 'projects-projectId-members-invites',params: {projectId: props.projectId}}">Invites</router-link><span>New member</span></h1>
     </header>
+    <Tabs :tabs="tabMenu" />
 
     <div class="desc">Description</div>
     <div class="artboard-content">
       <form @submit.prevent>
         <div class="flex flex-row">
-          <FormInput
-            name="Name"
-            v-model.trim="data.name"
-            :error="proxy.$errorStore.errors['name']"
-            :disabled="loading"
-            class="mr-5 flex-grow"
-          />
-          <FormInput
-            name="Surname"
-            v-model.trim="data.surname"
-            :error="proxy.$errorStore.errors['surname']"
-            :disabled="loading"
-            class="flex-grow"
-          />
+          <FormInput name="Name" v-model.trim="data.name" :error="proxy.$errorStore.errors['name']" :disabled="loading" class="mr-5 flex-grow" />
+          <FormInput name="Surname" v-model.trim="data.surname" :error="proxy.$errorStore.errors['surname']" :disabled="loading" class="flex-grow" />
         </div>
 
-        <FormInput
-          name="Email"
-          v-model.trim="data.email"
-          :error="proxy.$errorStore.errors['email']"
-          :disabled="loading"
-          class="flex-grow"
-        />
+        <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" class="flex-grow" />
 
         <div class="my-6">
           <button type="submit" class="btn" @click="onSendInvite" :disabled="loading">
@@ -60,11 +31,14 @@
 <script setup lang="ts">
 import { ref, getCurrentInstance, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
-import { FormInput } from "@/components";
+import { Tabs, FormInput } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { postProjectMemberInvite } from "@/api/member/project";
 import { AddMemberInvite_Request } from "@proto/member";
+
+// Tabs section
+import { tabMenu } from "./tab";
 
 const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});

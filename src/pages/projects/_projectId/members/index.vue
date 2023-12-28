@@ -3,7 +3,6 @@
     <header>
       <h1>Members</h1>
     </header>
-
     <Tabs :tabs="tabMenu" />
 
     <table v-if="data.total > 0">
@@ -82,24 +81,15 @@ import { getProjectMembers, updateProjectMemberStatus } from "@/api/member/proje
 import { UpdateProjectMember_Request } from "@proto/member";
 import { Role } from "@proto/user";
 
+// Tabs section
+import { tabMenu } from "./tab";
+
 const { proxy } = getCurrentInstance() as any;
 const route = useRoute();
 const data: any = ref({});
 const props = defineProps({
   projectId: String,
 });
-
-// Tabs section
-const tabMenu = [
-  {
-    name: "Members",
-    link: { name: "projects-projectId-members" },
-  },
-  {
-    name: "Invites",
-    link: { name: "projects-projectId-members-invites" },
-  },
-];
 
 const getData = async (routeQuery: any) => {
   if (proxy.$authStore.hasUserRole === 3) {

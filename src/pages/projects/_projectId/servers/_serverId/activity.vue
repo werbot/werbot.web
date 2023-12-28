@@ -1,13 +1,10 @@
 <template>
   <div class="artboard">
     <header>
-      <h1>Servers</h1>
-      <div class="breadcrumbs">
-        <BServerName :memberId="userID" :serverId="props.serverId!" :projectId="props.projectId!" />
-        <span>Activity</span>
-      </div>
+      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <div class="breadcrumbs">{{ serverName }}</div>
     </header>
-
+    <Tabs :tabs="tabMenu" />
     <div class="desc">Time at which access to the server is possible</div>
 
     <form @submit.prevent>
@@ -15,35 +12,13 @@
         <table>
           <tr v-for="(itemDay, day) in data" :key="day">
             <td class="worktime-weekday select-none pr-5 outline-none">
-              <span
-                class="cursor-pointer"
-                @click="invertDay(day)"
-                :class="{
-                  'text-red-500': ['saturday', 'sunday'].includes(String(day)),
-                }"
-              >
-                {{ day }}
-              </span>
+              <span class="cursor-pointer" @click="invertDay(day)" :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }">{{ day }}</span>
             </td>
             <td>
               <div class="flex select-none outline-none">
-                <label
-                  v-for="(itemHour, hour) in itemDay"
-                  class="worktime-hours-item mr-1 cursor-pointer"
-                  @mousemove="invert('mousemove', day, hour)"
-                  @mousedown="startDrag"
-                >
-                  <input
-                    class="absolute -left-64 h-0 w-0"
-                    type="checkbox"
-                    :checked="itemHour"
-                    @click="invert('click', day, hour)"
-                  />
-                  <span
-                    class="square inline-flex h-8 w-8 select-none items-center justify-center rounded bg-gray-300 text-center text-white"
-                  >
-                    {{ hour }}
-                  </span>
+                <label v-for="(itemHour, hour) in itemDay" class="worktime-hours-item mr-1 cursor-pointer" @mousemove="invert('mousemove', day, hour)" @mousedown="startDrag">
+                  <input class="absolute -left-64 h-0 w-0" type="checkbox" :checked="itemHour" @click="invert('click', day, hour)" />
+                  <span class="square inline-flex h-8 w-8 select-none items-center justify-center rounded bg-gray-300 text-center text-white">{{ hour }}</span>
                 </label>
               </div>
             </td>
@@ -85,16 +60,19 @@
 <script setup lang="ts">
 import { ref, onMounted, getCurrentInstance, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
-import { activity, updateActivity } from "@/api/server";
-import { ServerActivity_Request, UpdateServerActivity_Request } from "@proto/server";
+import { serverNameByID, activity, updateActivity } from "@/api/server";
+import { ServerNameByID_Request, ServerActivity_Request, UpdateServerActivity_Request } from "@proto/server";
 import { useErrorStore } from "@/store";
-import { BServerName, Badge } from "@/components";
+import { Tabs, Badge } from "@/components";
+
+// Tabs section
+import { tabMenu } from "./tab";
 
 const { proxy } = getCurrentInstance() as any;
-const userID = proxy.$authStore.hasUserID;
 const error: any = useErrorStore();
 const router = useRouter();
 const data: any = ref({});
+const serverName: any = ref("");
 const loading = ref(false);
 const props = defineProps({
   projectId: String,
@@ -145,7 +123,7 @@ const selectNone = () => {
   });
 };
 const selectWorkTime = () => {
-  selectTimeWork((day: any, prop: string, hour: number) => {
+  selectTimeWork((_day: any, prop: string, hour: number) => {
     return templateWork[prop][hour];
   });
 };
@@ -178,6 +156,15 @@ const onUpdate = async (redirect: boolean) => {
 };
 
 onMounted(async () => {
+  await serverNameByID(<ServerNameByID_Request>{
+    user_id: proxy.$authStore.hasUserID,
+    server_id: props.serverId,
+    project_id: props.projectId,
+  }).then((res) => {
+    serverName.value = res.data.result.server_name;
+  });
+
+
   await activity(<ServerActivity_Request>{
     project_id: props.projectId,
     server_id: props.serverId,
@@ -192,19 +179,19 @@ document.title = "server activity";
 
 // prettier-ignore
 const templateWork: any = {
-            //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23
-  monday:    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-  tuesday:   [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+  //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23
+  monday: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+  tuesday: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
   wednesday: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-  thursday:  [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-  friday:    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-  saturday:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  sunday:    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  thursday: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+  friday: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+  saturday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  sunday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 };
 </script>
 
 <style>
-.worktime-hours-item input:checked ~ .square {
+.worktime-hours-item input:checked~.square {
   background-color: #3dcc38;
 }
 </style>

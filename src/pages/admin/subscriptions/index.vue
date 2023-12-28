@@ -3,8 +3,8 @@
     <header>
       <h1>Subscriptions</h1>
     </header>
-
     <div class="desc">Description</div>
+
     <div class="artboard-content p-5">section under development</div>
   </div>
 </template>

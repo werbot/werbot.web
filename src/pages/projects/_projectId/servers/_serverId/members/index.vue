@@ -1,15 +1,8 @@
 <template>
   <div class="artboard">
     <header>
-      <h1>Servers</h1>
-      <div class="breadcrumbs">
-        <BServerName
-          :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId!"
-          :projectId="props.projectId!"
-        />
-        <span>Members</span>
-      </div>
+      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <div class="breadcrumbs">{{ serverName }}</div>
       <router-link :to="{ name: 'projects-projectId-servers-serverId-members-add' }">
         <label class="plus">
           <SvgIcon name="plus_square" />
@@ -17,6 +10,7 @@
         </label>
       </router-link>
     </header>
+    <Tabs :tabs="tabMenu" />
 
     <table v-if="data.total > 0">
       <thead>
@@ -42,25 +36,18 @@
           <td>{{ item.last_update.seconds > 0 ? toDate(item.last_update) : "" }}</td>
           <td>
             <div class="flex items-center">
-              <Toggle
-                v-model="item.active"
-                :id="index"
-                @change="changeMemberActive(index, item.active)"
-              />
+              <Toggle v-model="item.active" :id="index" @change="changeMemberActive(index, item.active)" />
             </div>
           </td>
           <td>
-            <router-link
-              active-class="current"
-              :to="{
-                name: 'projects-projectId-servers-serverId-members-memberId',
-                params: {
-                  projectId: props.projectId,
-                  serverId: props.serverId,
-                  memberId: item.member_id,
-                },
-              }"
-            >
+            <router-link active-class="current" :to="{
+              name: 'projects-projectId-servers-serverId-members-memberId',
+              params: {
+                projectId: props.projectId,
+                serverId: props.serverId,
+                memberId: item.member_id,
+              },
+            }">
               <SvgIcon name="logs" class="text-gray-700" />
             </router-link>
           </td>
@@ -77,11 +64,7 @@
     </div>
   </div>
 
-  <Modal
-    :showModal="modalActive"
-    @close="closeModal"
-    title="Are you sure you want to delete this member?"
-  >
+  <Modal :showModal="modalActive" @close="closeModal" title="Are you sure you want to delete this member?">
     <p>This action CANNOT be undone. But this member can be added again.<br /></p>
     <template v-slot:footer>
       <div class="flex flex-row justify-end">
@@ -96,15 +79,21 @@
 import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRoute } from "vue-router";
 import { toDate } from "@/utils/time";
-import { BServerName, SvgIcon, Modal, Toggle, Pagination } from "@/components";
+import { Tabs, SvgIcon, Modal, Toggle, Pagination } from "@/components";
 import { showMessage } from "@/utils/message";
-
+import { serverNameByID } from "@/api/server";
+import { ServerNameByID_Request } from "@proto/server";
 import {
   getServerMembers,
   updateServerMemberActive,
   deleteServerMember,
 } from "@/api/member/server";
 import { UpdateServerMember_Request, DeleteServerMember_Request } from "@proto/member";
+
+// Tabs section
+import { tabMenu } from "../tab";
+
+const serverName: any = ref("");
 
 const { proxy } = getCurrentInstance() as any;
 const route = useRoute();
@@ -163,8 +152,16 @@ const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(() => {
+onMounted(async () => {
   getData(route.query);
+
+  await serverNameByID(<ServerNameByID_Request>{
+    user_id: proxy.$authStore.hasUserID,
+    server_id: props.serverId,
+    project_id: props.projectId,
+  }).then((res) => {
+    serverName.value = res.data.result.server_name;
+  });
 });
 
 const changeMemberActive = async (index: number, online: boolean) => {

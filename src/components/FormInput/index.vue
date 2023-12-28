@@ -6,15 +6,7 @@
         {{ error }}
       </span>
     </label>
-    <input
-      :type="type"
-      v-model="value"
-      :class="error ? 'error' : ''"
-      class="input"
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :autocomplete="autocomplete"
-    />
+    <input :type="type" v-model="value" :class="error ? 'error' : ''" class="input" :disabled="disabled" :placeholder="placeholder" :autocomplete="autocomplete" />
   </div>
 </template>
 

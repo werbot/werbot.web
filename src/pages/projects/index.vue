@@ -28,8 +28,7 @@
       <tbody>
         <tr v-for="(item, index) in data.projects" :key="index">
           <td>
-            <router-link active-class="current"
-              :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }">
+            <router-link active-class="current" :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }">
               {{ item.title }}
             </router-link>
           </td>

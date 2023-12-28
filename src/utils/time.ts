@@ -9,7 +9,7 @@ type Method = "full" | "lite";
  */
 export function toDate(
   timestamp: { seconds: number; nanos?: number },
-  format: Method = "full"
+  format: Method = "full",
 ): string {
   // Calculate the date from the input timestamp
   const dateMath = timestamp.nanos
@@ -21,4 +21,3 @@ export function toDate(
     ? new Date(dateMath).toLocaleDateString() // If "lite", return date only
     : new Date(dateMath).toLocaleString(); // Otherwise, return date and time
 }
-

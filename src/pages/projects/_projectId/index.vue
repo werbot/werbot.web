@@ -4,9 +4,7 @@
       <h1>Project information</h1>
     </header>
 
-    <div class="artboard-content pb-5">
-      {{ data }}
-    </div>
+    <div class="artboard-content pb-5">{{ data }}</div>
   </div>
 </template>
 

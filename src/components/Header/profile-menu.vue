@@ -1,8 +1,7 @@
 <template>
   <div class="relative" v-click-outside="closeDropdown">
-    <button class="dropdown"
-      :class="{ active: (route.name as string).startsWith('profile') || (route.name as string).startsWith('admin')}"
-      type="button" @click="toggleDropdown" :disabled="isLoading">
+    <button class="dropdown" :class="{ active: (route.name as string).startsWith('profile') || (route.name as string).startsWith('admin') }" type="button" @click="toggleDropdown"
+      :disabled="isLoading">
       <SvgIcon name="user" />
       <span class="hidden md:block">{{ proxy.$authStore.hasUserName }}</span>
       <SvgIcon name="chevron_down" />

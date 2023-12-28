@@ -4,11 +4,8 @@
     <span class="title">Sign Up</span>
     <form @submit.prevent>
       <FormInput name="Email" v-model.trim="data.email" placeholder='user@werbot.net' disabled />
-
-      <FormInput name="Password" v-model.trim="data.password" :error="$errorStore.errors['password']" type="password"
-        autocomplete="current-password" :disabled="loading" />
-      <FormInput name="Re-Type Password" v-model.trim="data.password2" :error="$errorStore.errors['password2']"
-        type="password" autocomplete="current-password" :disabled="loading" />
+      <FormInput name="Password" v-model.trim="data.password" :error="$errorStore.errors['password']" type="password" autocomplete="current-password" :disabled="loading" />
+      <FormInput name="Re-Type Password" v-model.trim="data.password2" :error="$errorStore.errors['password2']" type="password" autocomplete="current-password" :disabled="loading" />
 
       <div class="form-control mt-6">
         <button type="submit" class="btn" :disabled="loading">

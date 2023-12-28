@@ -29,7 +29,7 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async login(loginForm: SignIn_Request) {
-      await signIn(loginForm).then((res) => {
+      await signIn(loginForm).then((res: any) => {
         if (res.data.access_token && res.data.refresh_token) {
           setStorage("access_token", res.data.access_token);
           setStorage("refresh_token", res.data.refresh_token);
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore("auth", {
       };
 
       await refresh(token)
-        .then((res) => {
+        .then((res: any) => {
           if (res.status === 200) {
             setStorage("access_token", res.data.access_token);
             setStorage("refresh_token", res.data.refresh_token);
@@ -69,9 +69,9 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async getProfile() {
-      await getProfile().then((r) => {
+      await getProfile().then((r: any) => {
         this.user = r.data.result;
       });
-    }
+    },
   },
 });

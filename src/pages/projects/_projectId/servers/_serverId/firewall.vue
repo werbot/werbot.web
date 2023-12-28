@@ -1,67 +1,35 @@
 <template>
   <div class="artboard">
     <header>
-      <h1>Servers</h1>
-      <div class="breadcrumbs">
-        <BServerName
-          :memberId="proxy.$authStore.hasUserID"
-          :serverId="props.serverId!"
-          :projectId="props.projectId!"
-        />
-        <span>Firewall</span>
-      </div>
+      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <div class="breadcrumbs">{{ serverName }} </div>
     </header>
-
+    <Tabs :tabs="tabMenu" />
     <div class="desc">In addition to creating your own, some add-ons come with their own.</div>
 
     <div class="artboard-content py-4">
       <div class="mt-1 w-28 flex-none">Countries:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
-        <Toggle
-          name="Black-list"
-          v-model="country.wite_list"
-          class="flex-grow"
-          id="country"
-          @change="update(country.wite_list, Rules.country)"
-        />
+        <Toggle name="Black-list" v-model="country.wite_list" class="flex-grow" id="country" @change="update(country.wite_list, Rules.country)" />
       </div>
     </div>
 
     <div class="artboard-content">
-      <FormInput
-        v-model.trim="data.country"
-        :error="error.errors.country"
-        class="flex-grow"
-        placeholder="Search country ..."
-        @keyup="searchCountries()"
-      />
+      <FormInput v-model.trim="data.country" :error="error.errors.country" class="flex-grow" placeholder="Search country ..." @keyup="searchCountries()" />
     </div>
 
     <div class="artboard-content pb-4">
       <div class="flex-col">
         <div v-if="data.search" class="mt-3">
-          <Badge
-            v-for="(item, index) in data.search['countries']"
-            :key="index"
-            :name="item.name"
-            color="green"
-            class="mr-1 cursor-pointer"
-            @click="addCountry(index, Rules.country)"
-          />
+          <Badge v-for="(item, index) in data.search['countries']" :key="index" :name="item.name" color="green" class="mr-1 cursor-pointer"
+            @click="addCountry(index, Rules.country)" />
         </div>
 
         <div class="pt-5">
-          <span
-            class="firewall-tags-item mr-3 mb-3 inline-flex items-center rounded border bg-gray-50 p-2"
-            v-for="(item, index) in country.list"
-          >
+          <span class="firewall-tags-item mr-3 mb-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in country.list">
             <span class="ml-1">{{ item.country_name }}</span>
-            <SvgIcon
-              name="close"
-              class="-mr-1 cursor-pointer"
-              @click="remove(index, Rules.country)"
-            />
+            <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.country)" />
           </span>
         </div>
       </div>
@@ -73,32 +41,17 @@
       <div class="mt-1 w-28 flex-none">Networks:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
-        <Toggle
-          name="Black-list"
-          v-model="network.wite_list"
-          class="flex-grow"
-          id="network"
-          @change="update(network.wite_list, Rules.ip)"
-        />
+        <Toggle name="Black-list" v-model="network.wite_list" class="flex-grow" id="network" @change="update(network.wite_list, Rules.ip)" />
       </div>
     </div>
 
     <div class="artboard-content">
-      <FormInput
-        v-model="data.network"
-        :error="error.errors.network"
-        class="flex-grow"
-        placeholder="IP address or mask"
-        v-on:keyup.enter="addIp(data.network, Rules.ip)"
-      />
+      <FormInput v-model="data.network" :error="error.errors.network" class="flex-grow" placeholder="IP address or mask" v-on:keyup.enter="addIp(data.network, Rules.ip)" />
     </div>
 
     <div class="artboard-content pb-6">
       <div class="pt-5">
-        <span
-          class="firewall-tags-item mr-3 mb-3 inline-flex items-center rounded border bg-gray-50 p-2"
-          v-for="(item, index) in network.list"
-        >
+        <span class="firewall-tags-item mr-3 mb-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in network.list">
           <span class="ml-1" v-if="item.start_ip !== item.end_ip">
             {{ item.start_ip }} - {{ item.end_ip }}
           </span>
@@ -114,9 +67,10 @@
 import { ref, onMounted, getCurrentInstance, onBeforeUnmount } from "vue";
 import { Address4, Address6 } from "ip-address";
 import { useErrorStore } from "@/store";
-import { BServerName, SvgIcon, FormInput, Toggle, Badge } from "@/components";
+import { Tabs, SvgIcon, FormInput, Toggle, Badge } from "@/components";
 
-import { firewall, addFirewall, updateFirewall, deleteFirewall } from "@/api/server";
+import { serverNameByID, firewall, addFirewall, updateFirewall, deleteFirewall } from "@/api/server";
+import { ServerNameByID_Request } from "@proto/server";
 import { countries } from "@/api/utility";
 import { Countries_Request } from "@proto/utility";
 import {
@@ -127,8 +81,14 @@ import {
   DeleteServerFirewall_Request,
 } from "@proto/firewall";
 
+
+
+// Tabs section
+import { tabMenu } from "./tab";
+
 const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
+const serverName: any = ref("");
 const country: any = ref({});
 const network: any = ref({});
 const error: any = useErrorStore();
@@ -136,6 +96,7 @@ const props = defineProps({
   projectId: String,
   serverId: String,
 });
+
 
 // country
 const searchCountries = async () => {
@@ -328,6 +289,14 @@ const remove = async (index: number, rules: Rules) => {
 };
 
 onMounted(async () => {
+  await serverNameByID(<ServerNameByID_Request>{
+    user_id: proxy.$authStore.hasUserID,
+    server_id: props.serverId,
+    project_id: props.projectId,
+  }).then((res) => {
+    serverName.value = res.data.result.server_name;
+  });
+
   await firewall(<ServerFirewall_Request>{
     project_id: props.projectId,
     server_id: props.serverId,

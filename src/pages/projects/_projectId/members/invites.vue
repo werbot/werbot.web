@@ -9,7 +9,6 @@
         </label>
       </router-link>
     </header>
-
     <Tabs :tabs="tabMenu" />
 
     <table v-if="data.total > 0">
@@ -70,6 +69,9 @@ import { showMessage } from "@/utils/message";
 import { getProjectMembersInvite, deleteProjectMemberInvite } from "@/api/member/project";
 import { ListMembersInvite_Request, DeleteMemberInvite_Request } from "@proto/member";
 
+// Tabs section
+import { tabMenu } from "./tab";
+
 const { proxy } = getCurrentInstance() as any;
 const route = useRoute();
 const data: any = ref({});
@@ -104,18 +106,6 @@ const removeInvite = async (id: number) => {
     }
   });
 };
-
-// Tabs section
-const tabMenu = [
-  {
-    name: "Members",
-    link: { name: "projects-projectId-members" },
-  },
-  {
-    name: "Invites",
-    link: { name: "projects-projectId-members-invites" },
-  },
-];
 
 const getData = async (routeQuery: any) => {
   if (proxy.$authStore.hasUserRole === 3) {

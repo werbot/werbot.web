@@ -3,17 +3,13 @@
     <header>
       <h1>New project</h1>
     </header>
-
     <div class="desc">Create a new project where you can add new servers and invite members.</div>
 
     <div class="artboard-content">
       <form @submit.prevent>
         <div class="mb-5 flex flex-row">
-          <FormInput name="Title" v-model="data.title" :error="proxy.$errorStore.errors['title']"
-            class="mr-5 flex-grow" />
-
-          <FormInput name="Login" v-model.trim="data.login" :error="proxy.$errorStore.errors['login']"
-            class="flex-grow" />
+          <FormInput name="Title" v-model="data.title" :error="proxy.$errorStore.errors['title']" class="mr-5 flex-grow" />
+          <FormInput name="Login" v-model.trim="data.login" :error="proxy.$errorStore.errors['login']" class="flex-grow" />
         </div>
 
         <div class="my-6">

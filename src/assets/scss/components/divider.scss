@@ -1,5 +1,6 @@
 .divider {
   @apply flex flex-row items-center self-stretch bg-gray-200;
+
   &:before,
   &:after {
     content: "";

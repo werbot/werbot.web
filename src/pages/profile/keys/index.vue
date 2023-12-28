@@ -9,11 +9,7 @@
         </label>
       </router-link>
     </header>
-
-    <div class="desc">
-      This is a list of SSH keys associated with your account. Remove any keys that you do not
-      recognize.
-    </div>
+    <div class="desc">This is a list of SSH keys associated with your account. Remove any keys that you do not recognize.</div>
 
     <table v-if="data.total > 0">
       <tbody>

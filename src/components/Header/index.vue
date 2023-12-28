@@ -9,11 +9,7 @@
       <ProjectMenu />
     </div>
     <div>
-      <router-link
-        :to="{ name: 'index' }"
-        class="shared"
-        :class="{ current: route.name === 'index' }"
-      >
+      <router-link :to="{ name: 'index' }" class="shared" :class="{ current: route.name === 'index' }">
         <SvgIcon name="share" class="mr-2 w-5 text-gray-700" />
         Servers<span class="hidden sm:block">&nbsp;shared with me</span>
       </router-link>

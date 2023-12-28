@@ -3,9 +3,7 @@
     <header>
       <h1>Invitation to join the project</h1>
     </header>
-    <div class="desc">
-      The link to join the project is invalid.
-    </div>
+    <div class="desc">The link to join the project is invalid.</div>
   </div>
 
   <div v-if="data.message == 'Wrong user'" class="artboard-red">

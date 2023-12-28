@@ -3,10 +3,8 @@
   <div class="card w-[22rem]">
     <span class="title">Sign In</span>
     <form @submit.prevent>
-      <FormInput name="Email" v-model.trim="data.email" :error="$errorStore.errors['email']" autocomplete="username"
-        :disabled="loading" />
-      <FormInput name="Password" v-model.trim="data.password" :error="$errorStore.errors['password']" type="password"
-        autocomplete="current-password" :disabled="loading" />
+      <FormInput name="Email" v-model.trim="data.email" :error="$errorStore.errors['email']" autocomplete="username" :disabled="loading" />
+      <FormInput name="Password" v-model.trim="data.password" :error="$errorStore.errors['password']" type="password" autocomplete="current-password" :disabled="loading" />
       <div class="form-control mt-6">
         <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
           <div v-if="loading">

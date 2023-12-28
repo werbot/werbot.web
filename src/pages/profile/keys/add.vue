@@ -6,11 +6,7 @@
         <span>Add new</span>
       </h1>
     </header>
-
-    <div class="desc">
-      Check out our guide to <a href="#">generating SSH keys</a> or troubleshoot
-      <a href="#">common SSH problems</a>.
-    </div>
+    <div class="desc">Check out our guide to <a href="#">generating SSH keys</a> or troubleshoot<a href="#">common SSH problems</a>.</div>
 
     <div class="artboard-content">
       <form @submit.prevent>

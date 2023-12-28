@@ -21,9 +21,7 @@ export default defineConfig({
 
     Pages({
       routeStyle: "nuxt",
-      dirs: [
-        { dir: "src/pages", baseRoute: "" },
-      ],
+      dirs: [{ dir: "src/pages", baseRoute: "" }],
       exclude: ["**/_menu_/index.vue"],
       //syncIndex: false,
       //importMode: "async",

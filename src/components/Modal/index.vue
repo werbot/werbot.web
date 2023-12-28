@@ -34,6 +34,7 @@ const closeModal = () => {
 .animation-leave-active {
   @apply transition;
 }
+
 .animation-enter-from,
 .animation-leave-to {
   @apply opacity-0;
@@ -44,6 +45,7 @@ const closeModal = () => {
   @apply pointer-events-auto bg-slate-900 bg-opacity-70 backdrop-blur-sm;
   @apply z-[999];
 }
+
 :where(.modal) {
   @apply items-center;
 }
