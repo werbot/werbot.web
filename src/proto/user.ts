@@ -124,13 +124,21 @@ export interface User_Response {
      */
     password: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 10;
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 10;
      */
-    last_update?: Timestamp;
+    locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 11;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 11;
      */
-    created?: Timestamp;
+    archived_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 12;
+     */
+    updated_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 13;
+     */
+    created_at?: Timestamp;
 }
 /**
  * rpc AddUser
@@ -442,8 +450,10 @@ class User_Response$Type extends MessageType<User_Response> {
             { no: 7, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 8, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 9, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 11, name: "created", kind: "message", T: () => Timestamp }
+            { no: 10, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
+            { no: 11, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
+            { no: 12, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 13, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }

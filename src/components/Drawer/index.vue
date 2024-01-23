@@ -25,7 +25,6 @@
 
 <script lang="ts" setup>
 import { ref, watch, getCurrentInstance } from "vue";
-// @ts-ignore
 import { directive as vClickOutside } from "click-outside-vue3";
 
 const isVisible = ref(false);

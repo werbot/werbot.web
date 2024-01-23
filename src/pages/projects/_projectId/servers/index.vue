@@ -117,14 +117,14 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <div class="artboard-content">
+    <div class="artboard-content" v-if="data.total">
       <Pagination :total="data.total" @selectPage="onSelectPage" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted, getCurrentInstance, reactive } from "vue";
 import { useRoute } from "vue-router";
 import { SvgIcon, Pagination, Toggle, Badge } from "@/components";
 import { showMessage } from "@/utils/message";
@@ -135,7 +135,7 @@ import { ServerScheme, UpdateServer_Request } from "@proto/server";
 
 const { proxy } = getCurrentInstance() as any;
 
-const addressType = ref("");
+const addressType = reactive(null);
 const route = useRoute();
 const data: any = ref({});
 const props = defineProps({

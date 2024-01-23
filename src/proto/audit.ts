@@ -55,13 +55,13 @@ export interface Audit_Request {
  */
 export interface Audit_Response {
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 1;
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 1;
      */
-    last_update?: Timestamp;
+    updated_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 2;
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 2;
      */
-    created?: Timestamp;
+    created_at?: Timestamp;
 }
 /**
  * rpc rpc AddAudit
@@ -332,8 +332,8 @@ export const Audit_Request = new Audit_Request$Type();
 class Audit_Response$Type extends MessageType<Audit_Response> {
     constructor() {
         super("audit.Audit.Response", [
-            { no: 1, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 2, name: "created", kind: "message", T: () => Timestamp }
+            { no: 1, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 2, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }

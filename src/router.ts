@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-// @ts-ignore
 import * as NProgress from "nprogress";
 import { useAuthStore } from "@/store";
 import { setupLayouts } from "virtual:generated-layouts";

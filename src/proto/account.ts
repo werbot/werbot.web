@@ -215,13 +215,13 @@ export interface Account_Response {
      */
     connection_login: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 8;
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 8;
      */
-    last_update?: Timestamp;
+    updated_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 9;
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 9;
      */
-    created?: Timestamp;
+    created_at?: Timestamp;
 }
 /**
  * rpc AddAccount
@@ -591,8 +591,8 @@ class Account_Response$Type extends MessageType<Account_Response> {
             { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 7, name: "connection_login", kind: "scalar", localName: "connection_login", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 9, name: "created", kind: "message", T: () => Timestamp }
+            { no: 8, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 9, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }

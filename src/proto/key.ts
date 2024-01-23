@@ -95,13 +95,21 @@ export interface Key_Response {
      */
     fingerprint: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 7;
      */
-    last_update?: Timestamp;
+    locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 8;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 8;
      */
-    created?: Timestamp;
+    archived_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 9;
+     */
+    updated_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 10;
+     */
+    created_at?: Timestamp;
 }
 /**
  * rpc AddKey
@@ -346,8 +354,10 @@ class Key_Response$Type extends MessageType<Key_Response> {
             { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 8, name: "created", kind: "message", T: () => Timestamp }
+            { no: 7, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
+            { no: 8, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
+            { no: 9, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 10, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }

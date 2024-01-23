@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { getVersion } from "@/api/info"; // import the 'getVersion' function from an external module
-import pkg from "../../../package.json"; // import the 'package.json' file as a module
+import { getVersion } from "@/api/info";
+import pkg from "../../../package.json";
 
 // define an interface for the store state to ensure strict typing
 interface SystemState {
@@ -17,31 +17,27 @@ interface SystemState {
 export const useSystemStore = defineStore("system", {
   state: (): SystemState => ({
     versions: {
-      ui: "1.0 (00000000)", // default UI version number
-      api: "1.0 (00000000)", // default API version number
+      ui: "1.0 (00000000)",
+      api: "1.0 (00000000)",
     },
     invites: {
-      project: null, // default project invite
+      project: null,
     },
   }),
 
   getters: {
-    // define a getter to get both UI and API versions
-    // from the store state by returning the 'versions' object
     getVersions: (state): SystemState["versions"] => state.versions,
   },
 
   actions: {
-    // reset the entire store state back to its default values
     resetStore() {
       this.$reset();
     },
 
-    // asynchronously update the UI and API version numbers of the store state
     async getVersion() {
-      this.versions.ui = `${pkg.version} (${pkg.commit})`; // set the UI version based on the values in 'package.json'
-      const res: any = await getVersion(); // call the 'getVersion()' function to get the API version
-      this.versions.api = res.data.result.api; // set the API version based on the response from the API
+      this.versions.ui = `${pkg.version} (${pkg.commit})`;
+      const res: any = await getVersion();
+      this.versions.api = res.data.result.api;
     },
   },
 });

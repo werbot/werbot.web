@@ -33,7 +33,7 @@
           </td>
           <td>{{ item.user_name }} {{ item.user_surname }}</td>
           <td>{{ item.user_login }}</td>
-          <td>{{ item.last_update.seconds > 0 ? toDate(item.last_update) : "" }}</td>
+          <td>{{ item.updated_at.seconds > 0 ? toDate(item.updated_at) : "" }}</td>
           <td>
             <div class="flex items-center">
               <Toggle v-model="item.active" :id="index" @change="changeMemberActive(index, item.active)" />

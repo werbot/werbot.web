@@ -120,13 +120,21 @@ export interface ProjectMember_Response {
      */
     servers_count: number;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 12;
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 12;
      */
-    last_update?: Timestamp;
+    locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 13;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 13;
      */
-    created?: Timestamp;
+    archived_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 14;
+     */
+    updated_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 15;
+     */
+    created_at?: Timestamp;
 }
 /**
  * rpc AddProjectMember
@@ -365,13 +373,13 @@ export interface ListMembersInvite_Invites {
      */
     status: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 7;
      */
-    last_update?: Timestamp;
+    updated_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 8;
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 8;
      */
-    created?: Timestamp;
+    created_at?: Timestamp;
 }
 /**
  * rpc AddMemberInvite
@@ -413,6 +421,10 @@ export interface AddMemberInvite_Response {
      * @generated from protobuf field: string invite = 1;
      */
     invite: string;
+    /**
+     * @generated from protobuf field: string status = 2;
+     */
+    status: string;
 }
 /**
  * rpc DeleteMemberInvite
@@ -594,13 +606,21 @@ export interface ServerMember_Response {
      */
     online: boolean;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 10;
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 10;
      */
-    last_update?: Timestamp;
+    locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 11;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 11;
      */
-    created?: Timestamp;
+    archived_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 12;
+     */
+    updated_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 13;
+     */
+    created_at?: Timestamp;
 }
 /**
  * AddServerMember
@@ -857,8 +877,10 @@ class ProjectMember_Response$Type extends MessageType<ProjectMember_Response> {
             { no: 9, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 10, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 11, name: "servers_count", kind: "scalar", localName: "servers_count", T: 5 /*ScalarType.INT32*/ },
-            { no: 12, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 13, name: "created", kind: "message", T: () => Timestamp }
+            { no: 12, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
+            { no: 13, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
+            { no: 14, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 15, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }
@@ -1072,8 +1094,8 @@ class ListMembersInvite_Invites$Type extends MessageType<ListMembersInvite_Invit
             { no: 3, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "status", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 8, name: "created", kind: "message", T: () => Timestamp }
+            { no: 7, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 8, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }
@@ -1097,9 +1119,9 @@ class AddMemberInvite_Request$Type extends MessageType<AddMemberInvite_Request> 
         super("member.AddMemberInvite.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
-            { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 4, name: "user_surname", kind: "scalar", localName: "user_surname", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "20", pattern: "^[a-z0-9]+$" } } } },
-            { no: 5, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { email: true } } } }
+            { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_user_name", message: "required field (3 to 30 characters)", expression: "this.matches('^[a-z0-9]{3,20}$')" }] } } },
+            { no: 4, name: "user_surname", kind: "scalar", localName: "user_surname", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_user_surname", message: "required field (3 to 30 characters)", expression: "this.matches('^[a-z0-9]{3,20}$')" }] } } },
+            { no: 5, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_email", message: "must be a valid email", expression: "this.isEmail()" }] } } }
         ]);
     }
 }
@@ -1111,7 +1133,8 @@ export const AddMemberInvite_Request = new AddMemberInvite_Request$Type();
 class AddMemberInvite_Response$Type extends MessageType<AddMemberInvite_Response> {
     constructor() {
         super("member.AddMemberInvite.Response", [
-            { no: 1, name: "invite", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "invite", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "status", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -1267,8 +1290,10 @@ class ServerMember_Response$Type extends MessageType<ServerMember_Response> {
             { no: 7, name: "role", kind: "enum", T: () => ["user.Role", Role] },
             { no: 8, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 9, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 10, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 11, name: "created", kind: "message", T: () => Timestamp }
+            { no: 10, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
+            { no: 11, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
+            { no: 12, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 13, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }

@@ -15,17 +15,13 @@ export function getAddressType(addr: string): AddressType {
     const kind = parse_addr.kind(); // Determine the kind of the parsed address.
 
     if (kind === "ipv4") {
-      // If it's an IPv4 address,
-      return "IPv4"; // Return 'IPv4'.
+      return "IPv4";
     } else if (kind === "ipv6") {
-      // Otherwise, if it's an IPv6 address,
-      return "IPv6"; // Return 'IPv6'.
+      return "IPv6";
     } else {
-      // If it's neither IPv4 nor IPv6,
-      throw new Error("Invalid address kind"); // Throw an error with a descriptive message.
+      throw new Error("Invalid address kind");
     }
   } catch (err) {
-    // If the parsing fails for some reason,
-    return "Hostname"; // Assume that it's a hostname and return 'Hostname'.
+    return "Hostname";
   }
 }

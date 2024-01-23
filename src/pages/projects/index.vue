@@ -35,7 +35,7 @@
           <td>{{ item.login }}</td>
           <td>{{ item.members_count }}</td>
           <td>{{ item.servers_count }}</td>
-          <td>{{ toDate(item.created, "lite") }}</td>
+          <td>{{ toDate(item.created_at, "lite") }}</td>
           <td>
             <router-link active-class="current" :to="{
               name: 'projects-projectId-setting',

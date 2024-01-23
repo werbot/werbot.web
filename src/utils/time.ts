@@ -11,13 +11,11 @@ export function toDate(
   timestamp: { seconds: number; nanos?: number },
   format: Method = "full",
 ): string {
-  // Calculate the date from the input timestamp
   const dateMath = timestamp.nanos
-    ? timestamp.seconds * 1000 + timestamp.nanos / 1e6 // If nanoseconds exist, include them in the date calculation
-    : timestamp.seconds * 1000; // Otherwise, just use the seconds
+    ? timestamp.seconds * 1000 + timestamp.nanos / 1e6
+    : timestamp.seconds * 1000;
 
-  // Return the date as a formatted string based on the specified format
   return format === "lite"
-    ? new Date(dateMath).toLocaleDateString() // If "lite", return date only
-    : new Date(dateMath).toLocaleString(); // Otherwise, return date and time
+    ? new Date(dateMath).toLocaleDateString()
+    : new Date(dateMath).toLocaleString();
 }

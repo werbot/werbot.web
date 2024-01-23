@@ -7,25 +7,20 @@ interface ErrorState {
 
 // Define a store named 'error'
 export const useErrorStore = defineStore("error", {
-  // Use an arrow function for the state object
   state: (): ErrorState => ({
     message: null,
     errors: {},
   }),
 
-  // Define getters to get values from the store
   getters: {
-    // Get error codes from the 'errors' state object
     errorCode(state) {
       return Object.keys(state.errors);
     },
   },
 
-  // Define actions to modify the store's state
   actions: {
-    // Reset the store to its initial state
     resetStore() {
-      this.$reset(); // '$reset' is a Pinia helper method to reset the state
+      this.$reset();
     },
 
     /**

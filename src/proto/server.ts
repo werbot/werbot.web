@@ -147,13 +147,21 @@ export interface Server_Response {
      */
     count_members: number;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 19;
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 19;
      */
-    last_update?: Timestamp;
+    locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 20;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 20;
      */
-    created?: Timestamp;
+    archived_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 21;
+     */
+    updated_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 22;
+     */
+    created_at?: Timestamp;
 }
 /**
  * rpc AddServer
@@ -294,9 +302,9 @@ export interface UpdateServer_Request {
  */
 export interface UpdateServer_Response {
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 1;
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 1;
      */
-    last_update?: Timestamp;
+    updated_at?: Timestamp;
 }
 /**
  * @generated from protobuf message server.UpdateServer.Info
@@ -610,9 +618,9 @@ export interface AddSession_Request {
      */
     status: SessionStatus;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 3;
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 3;
      */
-    created?: Timestamp;
+    created_at?: Timestamp;
     /**
      * @generated from protobuf field: string message = 4;
      */
@@ -1101,8 +1109,10 @@ class Server_Response$Type extends MessageType<Server_Response> {
             { no: 16, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 17, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 18, name: "count_members", kind: "scalar", localName: "count_members", T: 5 /*ScalarType.INT32*/ },
-            { no: 19, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 20, name: "created", kind: "message", T: () => Timestamp }
+            { no: 19, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
+            { no: 20, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
+            { no: 21, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 22, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }
@@ -1187,7 +1197,7 @@ export const UpdateServer_Request = new UpdateServer_Request$Type();
 class UpdateServer_Response$Type extends MessageType<UpdateServer_Response> {
     constructor() {
         super("server.UpdateServer.Response", [
-            { no: 1, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp }
+            { no: 1, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp }
         ]);
     }
 }
@@ -1461,7 +1471,7 @@ class AddSession_Request$Type extends MessageType<AddSession_Request> {
         super("server.AddSession.Request", [
             { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "status", kind: "enum", T: () => ["server.SessionStatus", SessionStatus] },
-            { no: 3, name: "created", kind: "message", T: () => Timestamp },
+            { no: 3, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp },
             { no: 4, name: "message", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }

@@ -9,12 +9,10 @@
     <div class="artboard-content">
       <form @submit.prevent>
         <div class="flex flex-row">
-          <FormInput name="Name" v-model.trim="data.name" :error="proxy.$errorStore.errors['name']" :disabled="loading" class="mr-5 flex-grow" />
-          <FormInput name="Surname" v-model.trim="data.surname" :error="proxy.$errorStore.errors['surname']" :disabled="loading" class="flex-grow" />
+          <FormInput name="Name" v-model.trim="data.name" :error="proxy.$errorStore.errors['user_name']" :disabled="loading" class="mr-5 flex-grow" />
+          <FormInput name="Surname" v-model.trim="data.surname" :error="proxy.$errorStore.errors['user_surname']" :disabled="loading" class="flex-grow" />
         </div>
-
         <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" class="flex-grow" />
-
         <div class="my-6">
           <button type="submit" class="btn" @click="onSendInvite" :disabled="loading">
             <div v-if="loading">
@@ -50,8 +48,6 @@ const props = defineProps({
 });
 
 const onSendInvite = async () => {
-  console.log(data.value);
-
   await postProjectMemberInvite(<AddMemberInvite_Request>{
     owner_id: proxy.$authStore.hasUserID,
     project_id: props.projectId,
@@ -60,7 +56,7 @@ const onSendInvite = async () => {
     email: data.value.email,
   })
     .then((res) => {
-      showMessage(res.data.message);
+      showMessage(res.data.result);
       proxy.$errorStore.$reset();
       router.push({
         name: "projects-projectId-members-invites",

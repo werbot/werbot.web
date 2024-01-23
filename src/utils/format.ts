@@ -5,9 +5,6 @@
  * @returns The formatted cost as a string.
  */
 export function costFormat(cost: number): string {
-  // Use a ternary operator to check if `cost` exists (i.e., if it's not falsy).
-  // If `cost` exists, divide it by 100 and call `toFixed(2)` to round to two decimal places.
-  // If `cost` is falsy, return "0".
   return cost ? (cost / 100).toFixed(2) : "0";
 }
 
@@ -18,8 +15,6 @@ export function costFormat(cost: number): string {
  * @returns The converted number as a string.
  */
 export function toInfinity(num: number): string {
-  // Use a ternary operator to check if `num` is equal to -1.
-  // If `num` is equal to -1, return "∞". Otherwise, return `num` as a string.
   return num === -1 ? "∞" : String(num);
 }
 
@@ -30,11 +25,8 @@ export function toInfinity(num: number): string {
  * @returns The capitalized string.
  */
 export function upperCaseWorld(world: string): string {
-  // If `world` is an empty string or null/undefined, return an empty string.
   if (!world) {
     return "";
   }
-
-  // Otherwise, return `world` with its first letter capitalized.
   return world.charAt(0).toUpperCase() + world.slice(1);
 }

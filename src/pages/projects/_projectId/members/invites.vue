@@ -25,13 +25,12 @@
         <tr v-for="(item, index) in data.invites" :key="index">
           <td>{{ item.name }} {{ item.surname }}</td>
           <td>{{ item.email }}</td>
-          <td>{{ toDate(item.created) }}</td>
+          <td>{{ toDate(item.created_at) }}</td>
           <td>
             <Badge v-if="item.status == 'activated'" :name="item.status" color="green" />
             <Badge v-if="item.status == 'send'" :name="item.status" color="yellow" />
           </td>
           <td>
-
             <SvgIcon v-if="item.status == 'send'" name="delete" class="cursor-pointer text-red-500" @click="openModal(index)" />
           </td>
         </tr>
@@ -39,7 +38,7 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <div class="artboard-content">
+    <div class="artboard-content" v-if="data.total">
       <Pagination :total="data.total" @selectPage="onSelectPage" />
     </div>
   </div>

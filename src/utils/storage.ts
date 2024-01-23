@@ -8,7 +8,6 @@ const invalids = [undefined, null, "undefined", "null"];
  * @returns The retrieved value, assumed to be of type string.
  */
 export function getStorage(key: string) {
-  // Retrieve the stored value from localStorage based on the provided key and assume it to be of type string using the `as` keyword.
   return localStorage.getItem(key) as string;
 }
 
@@ -18,7 +17,6 @@ export function getStorage(key: string) {
  * @param val - The value to store.
  */
 export function setStorage(key: string, val: string) {
-  // Use the "setItem" method of the "localStorage" object to store the given value under the given key.
   localStorage.setItem(key, val);
 }
 
@@ -27,7 +25,6 @@ export function setStorage(key: string, val: string) {
  * @param key - The key for the value to remove.
  */
 export function removeStorage(key: string) {
-  // Use the "removeItem" method of the "localStorage" object to remove the value associated with the given key.
   localStorage.removeItem(key);
 }
 
@@ -40,12 +37,10 @@ export function removeStorage(key: string) {
  */
 export function saveSetting(key: string, val: string) {
   if (invalids.includes(val)) {
-    // Check if the value is invalid.
-    console.warn("Don't use an invalid value!"); // Log a warning message if the value is invalid.
-    return; // Return without saving if the value is invalid.
+    console.warn("Don't use an invalid value!");
+    return;
   }
-
-  localStorage.setItem(key, JSON.stringify(val)); // Save the value to local storage.
+  localStorage.setItem(key, JSON.stringify(val));
 }
 
 export function batchSaveSetting(keys: any, obj: any) {
@@ -59,14 +54,9 @@ export function batchSaveSetting(keys: any, obj: any) {
  * @returns The saved value as a string, or the default value if none is found.
  */
 export function getSetting(key: string, defVal: string = ""): string {
-  // Get the saved value from local storage by key.
   const item = localStorage.getItem(key);
-
-  // If the saved value is not null or undefined, parse and return it.
   if (item !== null && item !== undefined) {
     return JSON.parse(item);
   }
-
-  // If no saved value was found, return the default value.
   return defVal;
 }

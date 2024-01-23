@@ -139,9 +139,9 @@ export interface Event_Response {
      */
     meta_data: Uint8Array;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 7;
      */
-    created?: Timestamp;
+    created_at?: Timestamp;
 }
 /**
  * rpc AddEvent
@@ -325,7 +325,7 @@ class Event_Response$Type extends MessageType<Event_Response> {
             { no: 4, name: "ip", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "event", kind: "enum", T: () => ["event.Type", Type] },
             { no: 6, name: "meta_data", kind: "scalar", localName: "meta_data", T: 12 /*ScalarType.BYTES*/ },
-            { no: 7, name: "created", kind: "message", T: () => Timestamp }
+            { no: 7, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }

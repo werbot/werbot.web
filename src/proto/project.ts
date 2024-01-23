@@ -95,13 +95,21 @@ export interface Project_Response {
      */
     servers_count: number;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 7;
      */
-    last_update?: Timestamp;
+    locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 9;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 8;
      */
-    created?: Timestamp;
+    archived_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 9;
+     */
+    updated_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 10;
+     */
+    created_at?: Timestamp;
 }
 /**
  * rpc AddProject
@@ -227,13 +235,21 @@ export interface Key_Response {
      */
     api_online: boolean;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp last_update = 6;
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 4;
      */
-    last_update?: Timestamp;
+    locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 5;
      */
-    created?: Timestamp;
+    archived_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 6;
+     */
+    updated_at?: Timestamp;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 7;
+     */
+    created_at?: Timestamp;
 }
 /**
  * rpc AddKey
@@ -385,8 +401,10 @@ class Project_Response$Type extends MessageType<Project_Response> {
             { no: 4, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "members_count", kind: "scalar", localName: "members_count", T: 5 /*ScalarType.INT32*/ },
             { no: 6, name: "servers_count", kind: "scalar", localName: "servers_count", T: 5 /*ScalarType.INT32*/ },
-            { no: 7, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 9, name: "created", kind: "message", T: () => Timestamp }
+            { no: 7, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
+            { no: 8, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
+            { no: 9, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 10, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }
@@ -527,8 +545,10 @@ class Key_Response$Type extends MessageType<Key_Response> {
             { no: 1, name: "api_key", kind: "scalar", localName: "api_key", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "api_secret", kind: "scalar", localName: "api_secret", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "api_online", kind: "scalar", localName: "api_online", T: 8 /*ScalarType.BOOL*/ },
-            { no: 6, name: "last_update", kind: "message", localName: "last_update", T: () => Timestamp },
-            { no: 7, name: "created", kind: "message", T: () => Timestamp }
+            { no: 4, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
+            { no: 5, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
+            { no: 6, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 7, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }
