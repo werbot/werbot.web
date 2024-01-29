@@ -20,7 +20,7 @@
     "@vue/cli-plugin-typescript": "^5.0.8",
     "@vueuse/core": "^10.7.2",
     "autoprefixer": "^10.4.17",
-    "axios": "^1.6.5",
+    "axios": "^1.6.7",
     "click-outside-vue3": "^4.0.1",
     "cssnano": "^6.0.3",
     "ip-address": "^9.0.5",
