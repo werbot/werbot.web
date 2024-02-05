@@ -121,7 +121,7 @@ const removeMember = async (id: number) => {
     server_id: props.serverId,
     member_id: data.value.members[Number(id)].member_id,
   }).then((res) => {
-    if (res.data.success) {
+    if (res.data.code === 200) {
       closeModal();
       data.value.members.splice(id, 1);
       data.value.total = data.value.total - 1;

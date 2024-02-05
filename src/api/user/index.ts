@@ -9,7 +9,7 @@ import {
 } from "@proto/user";
 
 enum URL {
-  users = "v1/users",
+  users = "/v1/users",
 }
 
 const getUsers = async (data?: ListUsers_Request, user_id?: string) =>

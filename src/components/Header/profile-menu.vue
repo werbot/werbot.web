@@ -1,8 +1,9 @@
 <template>
-  <div class="relative" v-click-outside="closeDropdown">
+  <div class="relative" ref="profileMenu">
     <button class="dropdown" :class="{ active: (route.name as string).startsWith('profile') || (route.name as string).startsWith('admin') }" type="button" @click="toggleDropdown"
       :disabled="isLoading">
       <SvgIcon name="user" />
+      <span class="dot !w-2 !h-2 mr-1.5 mt-0.5" :class="wsStatus === 'OPEN' ? 'bg-green-500' : 'bg-gray-200'"></span>
       <span class="hidden md:block">{{ proxy.$authStore.hasUserName }}</span>
       <SvgIcon name="chevron_down" />
     </button>
@@ -20,11 +21,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, getCurrentInstance } from "vue";
+import { ref, watch, getCurrentInstance, inject } from "vue";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "@/store";
 import { SvgIcon } from "@/components";
-// @ts-ignore
-import { directive as vClickOutside } from "click-outside-vue3";
+
+const authStore = useAuthStore();
+const profileMenu = ref(null);
+import { onClickOutside } from "@vueuse/core";
+onClickOutside(profileMenu, event => closeDropdown());
+
+const wsStatus = inject("wsStatus");
 
 const route = useRoute();
 const props = defineProps<{

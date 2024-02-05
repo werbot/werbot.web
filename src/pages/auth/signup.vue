@@ -45,7 +45,7 @@ const onSubmit = async () => {
 };
 
 onMounted(async () => {
-  if (proxy.$authStore.loggedIn) {
+  if (proxy.$authStore.logged_in) {
     router.push({ name: "index" });
   }
 });

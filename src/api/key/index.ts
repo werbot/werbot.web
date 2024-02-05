@@ -8,7 +8,7 @@ import {
 } from "@proto/key";
 
 enum URL {
-  keys = "v1/keys",
+  keys = "/v1/keys",
 }
 
 const getKeys = async (data?: ListKeys_Request, user_id?: string) =>

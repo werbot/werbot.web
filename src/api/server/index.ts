@@ -19,7 +19,7 @@ import {
 } from "@proto/firewall";
 
 enum URL {
-  servers = "v1/servers",
+  servers = "/v1/servers",
 }
 
 const servers = async (user_id: string, project_id: string, data?: ListServers_Request) =>

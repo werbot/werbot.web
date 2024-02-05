@@ -93,7 +93,7 @@ const removeKey = async (id: number) => {
     user_id: proxy.$authStore.hasUserID,
     key_id: data.value.public_keys[id].key_id,
   }).then((res) => {
-    if (res.data.success) {
+    if (res.data.code === 200) {
       closeModal();
       data.value.public_keys.splice(id, 1);
       data.value.total = data.value.total - 1;

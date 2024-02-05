@@ -9,7 +9,7 @@ import {
 } from "@proto/member";
 
 enum URL {
-  server_members = "v1/members/server",
+  server_members = "/v1/members/server",
 }
 
 const getServerMembers = async (

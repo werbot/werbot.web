@@ -49,7 +49,7 @@ const props = defineProps({
 
 const onSendInvite = async () => {
   await postProjectMemberInvite(<AddMemberInvite_Request>{
-    owner_id: proxy.$authStore.hasUserID,
+    owner_id: proxy.$authStore,
     project_id: props.projectId,
     user_name: data.value.name,
     user_surname: data.value.surname,

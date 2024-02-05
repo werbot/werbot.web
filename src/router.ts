@@ -13,7 +13,7 @@ const router = createRouter({
 router.beforeEach(async (to, _from, next) => {
   NProgress.start();
 
-  if (to.meta.requiresAuth && !useAuthStore().loggedIn) {
+  if (to.meta.requiresAuth && !useAuthStore().logged_in) {
     next({ name: "auth-signin" });
   }
   next();

@@ -43,11 +43,7 @@
     </div>
   </div>
 
-  <Modal
-    :showModal="modalActive"
-    @close="closeModal"
-    title="Are you sure you want to delete this invite"
-  >
+  <Modal :showModal="modalActive" @close="closeModal" title="Are you sure you want to delete this invite">
     <p>This action CANNOT be undone.<br /></p>
     <template v-slot:footer>
       <div class="flex flex-row justify-end">
@@ -95,7 +91,7 @@ const removeInvite = async (id: number) => {
     project_id: props.projectId,
     invite_id: data.value.invites[id].id
   }).then((res) => {
-    if (res.data.success) {
+    if (res.data.code === 200) {
       closeModal();
       data.value.invites.splice(id, 1);
       data.value.total = data.value.total - 1;

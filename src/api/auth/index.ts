@@ -2,7 +2,7 @@ import { http } from "@/api";
 import { SignIn_Request, RefreshTokenRequest } from "@proto/account";
 
 enum URL {
-  auth = "auth",
+  auth = "/auth",
 }
 
 const signIn = async (data: SignIn_Request): Promise<void> =>
@@ -26,6 +26,6 @@ const checkResetToken = async (token: string): Promise<void> =>
 const resetPassword = async (token: string, password: string): Promise<void> =>
   http("POST", `${URL.auth}/password_reset/${token}`, { data: { password } });
 
-const getProfile = async (): Promise<void> => http("GET", `${URL.auth}/profile`);
+//const getProfile = async (): Promise<void> => http("GET", `${URL.auth}/profile`);
 
-export { logout, signIn, refresh, getProfile, sendEmail, checkResetToken, resetPassword };
+export { logout, signIn, refresh, /*getProfile,*/ sendEmail, checkResetToken, resetPassword };

@@ -26,6 +26,7 @@ import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { FormInput } from "@/components";
 import { SignIn_Request } from "@proto/account";
+import { showMessage } from "@/utils/message";
 
 const { proxy } = getCurrentInstance() as any;
 
@@ -54,15 +55,17 @@ const onSubmit = async () => {
       router.push({ name: "index" });
     }
   } catch (error) {
-    console.log(error.response.data.message)
+    if (error.response.status === 404) {
+      showMessage(error.response.data.result, "connextWarning");
+      proxy.$errorStore.$reset();
+    }
   }
 
   loading.value = false;
 };
 
 onMounted(async () => {
-  //proxy.$authStore.user.user_id
-  if (proxy.$authStore.loggedIn) {
+  if (proxy.$authStore.logged_in) {
     router.push({ name: "index" });
   }
 });

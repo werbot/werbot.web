@@ -30,7 +30,7 @@
             <Toggle name="Audit" v-model="data.audit" class="flex-grow" id="audit" />
           </div>
 
-          <Select name="Auth" v-model="data.auth" :options="[Auth[1], Auth[2]]" />
+          <Select name="Auth" v-model="data.auth" :options="[Auth[1], Auth[2]]" :error="error.errors.auth" />
 
           <div v-if="data.auth == Auth[1]">
             <FormInput name="Password" v-model.trim="data.access.password" :error="error.errors.password" class="flex-grow" type="password" autocomplete="current-password" />

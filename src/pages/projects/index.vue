@@ -85,6 +85,7 @@ onMounted(() => {
 
 <route lang="yaml">
 meta:
-  layout: private_blank
+  layout: private
+  layoutStyle: blank
   requiresAuth: true
 </route>

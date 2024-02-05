@@ -16,7 +16,13 @@ axios.interceptors.response.use(
   async (error) => {
     NProgress.done();
     const { status, config, data } = error.response;
+
     if (status === 401 && !config.__isRetryRequest) {
+      if (data.result === "The token has been revoked") {
+        useAuthStore().resetStore();
+        window.location.reload();
+      }
+
       try {
         config.__isRetryRequest = true;
         await useAuthStore().refreshToken();
@@ -46,6 +52,12 @@ axios.interceptors.request.use(
   (config) => {
     NProgress.start();
     const token = getStorage("access_token");
+
+    //var isoDateString = new Date().toISOString();
+    //if (isoDateString > getStorage("expires_at")) {
+    //  useAuthStore().refreshToken();
+    //}
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

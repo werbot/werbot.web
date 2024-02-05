@@ -8,139 +8,124 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>Event</th>
-          <th>Ip</th>
+          <th class="w-32">Section</th>
+          <th class="w-32">Event</th>
+          <th class="w-64">Ip</th>
           <th class="w-8"></th>
         </tr>
       </thead>
       <tbody>
-        <tr class="cursor" @click="openDrawer(1)">
-          <td>25/05/2022 15:31:48</td>
-          <td>login_success</td>
-          <td>162.158.90.222</td>
+        <tr v-for="(item, index) in data.records" :key="index" class="cursor" @click="openDrawer(item.id)">
+          <td>{{ toDate(item.created_at, "full") }}</td>
           <td>
-            <SvgIcon name="chevron_right" />
+            <Badge :name="Profile_Section[item.section]" />
           </td>
-        </tr>
-        <tr class="cursor" @click="openDrawer(2)">
-          <td>25/05/2022 15:31:48</td>
-          <td>login_success</td>
-          <td>162.158.90.222</td>
           <td>
-            <SvgIcon name="chevron_right" />
+            <Badge :name="EventType[item.event]" :color="eventTypeToColor[item.event]" />
           </td>
-        </tr>
-        <tr class="cursor" @click="openDrawer(3)">
-          <td>25/05/2022 15:31:48</td>
-          <td>login_success</td>
-          <td>162.158.90.222</td>
+          <td>{{ item.ip }}</td>
           <td>
             <SvgIcon name="chevron_right" />
           </td>
         </tr>
       </tbody>
     </table>
+
+    <div class="artboard-content">
+      <Pagination :total="data.total" @selectPage="onSelectPage" />
+    </div>
   </div>
 
-  <Drawer :is-open="isDrawerOpen" @close="closeDrawer" title="Name" maxWidth="600px" >
+  <Drawer :is-open="isDrawerOpen" @close="closeDrawer" title="Name" maxWidth="600px">
     <table class="mini">
-      <tr>
-        <td width="120">ID</td>
-        <td>qjeqb78k18tbefl</td>
-      </tr>
-      <tr>
-        <td>Remote IP</td>
-        <td>162.158.90.222</td>
-      </tr>
-      <tr>
-        <td>URL</td>
-        <td>/api/files/POWMOh0W6IoLUAI/eP2jCr1h3NGtsbz/VPtmjtDBX6noQL6iSg6CEvYVhcaa1uAw.jpg?thumb=100x100&token=</td>
-      </tr>
-      <tr>
-        <td>Created</td>
-        <td>25/05/2022 15:31:48</td>
+      <tr v-if="dataFull.event">
+        <td width="120">Event</td>
+        <td>
+          <Badge :name="EventType[dataFull.event]" :color="eventTypeToColor[dataFull.event]" />
+        </td>
       </tr>
       <tr>
         <td>ID</td>
-        <td>qjeqb78k18tbefl</td>
+        <td>{{ dataFull.id }}</td>
+      </tr>
+      <tr>
+        <td>User ID</td>
+        <td>{{ dataFull.user_id }}</td>
       </tr>
       <tr>
         <td>Remote IP</td>
-        <td>162.158.90.222</td>
+        <td>{{ dataFull.ip }}</td>
       </tr>
       <tr>
-        <td>URL</td>
-        <td>/api/files/POWMOh0W6IoLUAI/eP2jCr1h3NGtsbz/VPtmjtDBX6noQL6iSg6CEvYVhcaa1uAw.jpg?thumb=100x100&token=</td>
-      </tr>
-      <tr>
-        <td>Created</td>
-        <td>25/05/2022 15:31:48</td>
-      </tr>
-      <tr>
-        <td>ID</td>
-        <td>qjeqb78k18tbefl</td>
-      </tr>
-      <tr>
-        <td>Remote IP</td>
-        <td>162.158.90.222</td>
-      </tr>
-      <tr>
-        <td>URL</td>
-        <td>/api/files/POWMOh0W6IoLUAI/eP2jCr1h3NGtsbz/VPtmjtDBX6noQL6iSg6CEvYVhcaa1uAw.jpg?thumb=100x100&token=</td>
+        <td>User Agent</td>
+        <td>{{ dataFull.user_agent }}</td>
       </tr>
       <tr>
         <td>Created</td>
-        <td>25/05/2022 15:31:48</td>
+        <td>{{ toDate(Object(dataFull.created_at), "full") }}</td>
       </tr>
-      <tr>
-        <td>ID</td>
-        <td>qjeqb78k18tbefl</td>
-      </tr>
-      <tr>
-        <td>Remote IP</td>
-        <td>162.158.90.222</td>
-      </tr>
-      <tr>
-        <td>URL</td>
-        <td>/api/files/POWMOh0W6IoLUAI/eP2jCr1h3NGtsbz/VPtmjtDBX6noQL6iSg6CEvYVhcaa1uAw.jpg?thumb=100x100&token=</td>
-      </tr>
-      <tr>
-        <td>Created</td>
-        <td>25/05/2022 15:31:48</td>
-      </tr>
-      <tr>
-        <td>ID</td>
-        <td>qjeqb78k18tbefl</td>
-      </tr>
-      <tr>
-        <td>Remote IP</td>
-        <td>162.158.90.222</td>
-      </tr>
-      <tr>
-        <td>URL</td>
-        <td>/api/files/POWMOh0W6IoLUAI/eP2jCr1h3NGtsbz/VPtmjtDBX6noQL6iSg6CEvYVhcaa1uAw.jpg?thumb=100x100&token=</td>
-      </tr>
-      <tr>
-        <td>Created</td>
-        <td>25/05/2022 15:31:48</td>
+      <tr v-if="dataFull.meta_data">
+        <td>Metadata</td>
+        <td>{{ decodeBase64(dataFull.meta_data) }}</td>
       </tr>
     </table>
+
   </Drawer>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { SvgIcon, Drawer } from "@/components";
+import { ref, getCurrentInstance, onMounted, } from "vue";
+import { useRoute } from "vue-router";
+import { getEvents, getEvent } from "@/api/event";
+import { SvgIcon, Pagination, Drawer, Badge } from "@/components";
+import { Profile_Section, EventType } from "@proto/event";
+import { toDate } from "@/utils/time";
+import { eventTypeToColor } from "@/utils/color";
+
+const { proxy } = getCurrentInstance() as any;
+const data: any = ref({});
+const dataFull: any = ref({});
+const route = useRoute();
 
 const isDrawerOpen = ref(false);
 const logDescription: any = ref({});
 
-const openDrawer = async (id: number) => {
+const openDrawer = async (id: string) => {
+  await getEvent("profile", proxy.$authStore.hasUserID, id).then((res) => {
+    dataFull.value = res.data.result;
+  });
+
   isDrawerOpen.value = true;
   logDescription.value = id;
 };
 
 const closeDrawer = async () => {
-  isDrawerOpen.value = false
+  dataFull.value = {};
+  isDrawerOpen.value = false;
+};
+
+const getData = async (routeQuery: any) => {
+  await getEvents("profile", proxy.$authStore.hasUserID, routeQuery).then((res) => {
+    data.value = res.data.result;
+  });
+};
+
+const onSelectPage = (e: any) => {
+  getData(e);
+};
+
+onMounted(() => {
+  getData(route.query);
+});
+
+function decodeBase64(encodedString: string): string {
+  try {
+    return atob(encodedString);
+  } catch (e) {
+    console.error('Error decoding Base64 string:', e);
+    return '';
+  }
 }
+
 </script>
+@/utils/color

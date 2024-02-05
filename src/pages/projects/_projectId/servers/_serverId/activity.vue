@@ -142,7 +142,7 @@ const onUpdate = async (redirect: boolean) => {
     server_id: props.serverId,
     activity: data.value,
   }).then((res) => {
-    if (res.data.success) {
+    if (res.data.code === 200) {
       const eventError = new CustomEvent("connextSuccess", {
         detail: res.data.message,
       });

@@ -1,6 +1,8 @@
 <template>
   <div class="artboard">
-    <header><h1>Shared servers</h1></header>
+    <header>
+      <h1>Shared servers</h1>
+    </header>
 
     <table>
       <thead>
@@ -30,11 +32,16 @@
 </template>
 
 <script setup lang="ts">
-document.title = "servers shared with me";
+import { onMounted, inject, } from "vue";
+
+onMounted(() => {
+  document.title = "servers shared with me";
+});
 </script>
 
 <route lang="yaml">
 meta:
-  layout: private_blank
+  layout: private
+  layoutStyle: blank
   requiresAuth: true
 </route>

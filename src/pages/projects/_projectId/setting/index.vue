@@ -55,7 +55,7 @@ const onUpdate = async (redirect: boolean) => {
     login: data.value.login,
   })
     .then((res) => {
-      if (res.data.success) {
+      if (res.data.code === 200) {
         if (message.warn) {
           showMessage(message.text, "connextWarning");
         } else {

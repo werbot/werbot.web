@@ -126,7 +126,7 @@ const addingMember = async (index: number) => {
     active: active,
   })
     .then((res) => {
-      if (res.data.success) {
+      if (res.data.code === 200) {
         data.value.members.splice(index, 1);
         data.value.total = data.value.total - 1;
 

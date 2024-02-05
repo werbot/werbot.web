@@ -202,7 +202,7 @@ const create = async (record: any, rules: Rules) => {
   }
 
   const id: string = await addFirewall(request).then((res) => {
-    if (res.data.success) {
+    if (res.data.code === 200) {
       const eventError = new CustomEvent("connextSuccess", {
         detail: res.data.message,
       });
@@ -237,7 +237,7 @@ const update = async (status: boolean, rules: Rules) => {
     rule: rules,
     status: status,
   }).then((res) => {
-    if (res.data.success) {
+    if (res.data.code === 200) {
       const eventError = new CustomEvent("connextSuccess", {
         detail: res.data.message,
       });
@@ -268,7 +268,7 @@ const remove = async (index: number, rules: Rules) => {
     rule: rules,
     record_id: record_id,
   }).then((res) => {
-    if (res.data.success) {
+    if (res.data.code === 200) {
       switch (rules) {
         case Rules.country:
           country.value.list.splice(index, 1);

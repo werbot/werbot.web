@@ -189,7 +189,7 @@ const onUpdate = async (typeData: string, redirect: boolean) => {
 
   await updateServer(update)
     .then((res) => {
-      if (res.data.success) {
+      if (res.data.code === 200) {
         if (message.warn) {
           showMessage(message.text, "connextWarning");
         } else {
@@ -236,7 +236,7 @@ const onUpdateAccess = async () => {
 
   await updateAccess(update)
     .then((res) => {
-      if (res.data.success) {
+      if (res.data.code === 200) {
         showMessage(res.data.message);
         proxy.$errorStore.$reset();
       }
@@ -251,7 +251,7 @@ const remoteServer = async () => {
     project_id: props.projectId,
     server_id: props.serverId,
   }).then((res) => {
-    if (res.data.success) {
+    if (res.data.code === 200) {
       const eventError = new CustomEvent("connextSuccess", {
         detail: res.data.message,
       });

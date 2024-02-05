@@ -2,7 +2,7 @@
   <div>
     <div class="drawer" :class="{ 'is-open': isOpen, 'is-visible': isVisible }">
       <div class="drawer__overlay" :style="{ transitionDuration: `${speed}ms` }"></div>
-      <div class="drawer__content" v-click-outside="closeDrawer" :style="{
+      <div class="drawer__content" ref="drawer" :style="{
         maxWidth: maxWidth,
         transitionDuration: `${speed}ms`,
         backgroundColor: backgroundColor,
@@ -18,14 +18,16 @@
           </slot>
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, getCurrentInstance } from "vue";
-import { directive as vClickOutside } from "click-outside-vue3";
+
+const drawer = ref(null);
+import { onClickOutside } from "@vueuse/core";
+onClickOutside(drawer, (event) => closeDrawer());
 
 const isVisible = ref(false);
 const isTransitioning = ref(false);
@@ -63,32 +65,35 @@ const props = defineProps({
 });
 
 const toggleBackgroundScrolling = (enable) => {
-  const body = document.querySelector("body")
-  body.style.overflow = enable ? "hidden" : null
-}
+  const body = document.querySelector("body");
+  body.style.overflow = enable ? "hidden" : null;
+};
 
 const closeDrawer = () => {
   if (!isTransitioning.value) {
-    emit("close")
+    emit("close");
   }
-}
+};
 
-watch(() => props.isOpen, (val) => {
-  isTransitioning.value = true;
+watch(
+  () => props.isOpen,
+  (val) => {
+    isTransitioning.value = true;
 
-  if (val) {
-    const drawerContent = document.getElementsByClassName("drawer__content")[0] as HTMLElement;
-    drawerContent.scrollTop = 0;
+    if (val) {
+      const drawerContent = document.getElementsByClassName("drawer__content")[0] as HTMLElement;
+      drawerContent.scrollTop = 0;
 
-    toggleBackgroundScrolling(true);
-    isVisible.value = true;
-  } else {
-    toggleBackgroundScrolling(false);
-    setTimeout(() => (isVisible.value = false), props.speed);
-  }
+      toggleBackgroundScrolling(true);
+      isVisible.value = true;
+    } else {
+      toggleBackgroundScrolling(false);
+      setTimeout(() => (isVisible.value = false), props.speed);
+    }
 
-  setTimeout(() => (isTransitioning.value = false), props.speed);
-});
+    setTimeout(() => (isTransitioning.value = false), props.speed);
+  },
+);
 </script>
 
 <style lang="scss" scoped>
@@ -111,7 +116,6 @@ watch(() => props.isOpen, (val) => {
 
   &__overlay {
     @apply fixed inset-x-0 inset-y-0 w-full z-50 opacity-0 transition-opacity bg-black select-none;
-
   }
 
   &__content {

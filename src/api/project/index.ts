@@ -8,7 +8,7 @@ import {
 } from "@proto/project";
 
 enum URL {
-  projects = "v1/projects",
+  projects = "/v1/projects",
 }
 
 const getProjects = async (data?: ListProjects_Request, owner_id?: string) =>

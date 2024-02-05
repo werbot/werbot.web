@@ -61,7 +61,7 @@
             </div>
           </td>
           <td class="flex items-center">
-            <Badge :name="ServerScheme[item.scheme]" />
+            <Badge :name="ServerScheme[item.scheme]" :color="serverSchemeToColor[item.scheme]" />
           </td>
           <td>
             <div class="flex items-center">
@@ -130,12 +130,13 @@ import { SvgIcon, Pagination, Toggle, Badge } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getAddressType } from "@/utils/network";
+import { addressToColor, serverSchemeToColor } from "@/utils/color";
 import { servers, updateServer } from "@/api/server";
 import { ServerScheme, UpdateServer_Request } from "@proto/server";
 
 const { proxy } = getCurrentInstance() as any;
 
-const addressType = reactive(null);
+//const addressType = reactive(null);
 const route = useRoute();
 const data: any = ref({});
 const props = defineProps({
@@ -184,14 +185,16 @@ const changeServerActive = async (index: number, online: boolean) => {
     });
 };
 
+
 function addressColor(address: string): string {
   switch (address) {
     case "IPv4":
-      return "gray";
+      return addressToColor[1];
     case "IPv6":
-      return "purple";
+    return addressToColor[2];
     default:
-      return "blue";
+    return addressToColor[3];
   }
 }
+
 </script>

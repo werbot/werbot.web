@@ -34,10 +34,10 @@ export const useSystemStore = defineStore("system", {
       this.$reset();
     },
 
-    async getVersion() {
-      this.versions.ui = `${pkg.version} (${pkg.commit})`;
-      const res: any = await getVersion();
-      this.versions.api = res.data.result.api;
-    },
+    //async getVersion() {
+    //  this.versions.ui = `${pkg.version} (${pkg.commit})`;
+    //  const res: any = await getVersion();
+    //  this.versions.api = res.data.result.api;
+    //},
   },
 });

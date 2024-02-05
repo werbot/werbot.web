@@ -851,6 +851,27 @@ export enum Auth {
     agent = 3
 }
 /**
+ * @generated from protobuf enum server.Address
+ */
+export enum Address {
+    /**
+     * @generated from protobuf enum value: address_unspecified = 0;
+     */
+    address_unspecified = 0,
+    /**
+     * @generated from protobuf enum value: IPv4 = 1;
+     */
+    IPv4 = 1,
+    /**
+     * @generated from protobuf enum value: IPv6 = 2;
+     */
+    IPv6 = 2,
+    /**
+     * @generated from protobuf enum value: Hostname = 3;
+     */
+    Hostname = 3
+}
+/**
  * @generated from protobuf enum server.ServerScheme
  */
 export enum ServerScheme {

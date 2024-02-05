@@ -13,12 +13,11 @@ export default defineConfig({
       "@proto": path.resolve(__dirname, "./src/proto"),
       "@protobuf-ts": path.resolve(__dirname, "./node_modules/@protobuf-ts"),
     },
-    extensions: [".js", ".ts", ".json", ".vue"],
+    //extensions: [".js", ".ts", ".json", ".vue"],
   },
 
   plugins: [
     Vue(),
-
     Pages({
       routeStyle: "nuxt",
       dirs: [{ dir: "src/pages", baseRoute: "" }],
@@ -26,22 +25,24 @@ export default defineConfig({
       //syncIndex: false,
       //importMode: "async",
     }),
-
     Layouts({
       defaultLayout: "private",
     }),
-
     createSvgIconsPlugin({
-      iconDirs: [path.resolve(process.cwd(), "src/assets/icons")],
+      iconDirs: [path.resolve(process.cwd(), "./src/assets/icons")],
       symbolId: "icon-[dir]-[name]",
     }),
   ],
 
-  css: {
-    preprocessorOptions: {
-      less: {
-        javascriptEnabled: true,
-      },
-    },
-  },
+  //build: {
+  //  rollupOptions: {
+  //    output: {
+  //      manualChunks(id) {
+  //        if (id.includes("node_modules")) {
+  //          return id.toString().split("node_modules/")[1].split("/")[0].toString();
+  //        }
+  //      },
+  //    },
+  //  },
+  //},
 });

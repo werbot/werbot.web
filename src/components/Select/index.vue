@@ -7,7 +7,7 @@
       </span>
     </label>
 
-    <div v-click-outside="close">
+    <div ref="compSelect">
       <button type="button" @click="toggle">
         <span>{{ value }}</span>
         <SvgIcon name="chevron_down" />
@@ -25,8 +25,10 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { SvgIcon } from "@/components";
-// @ts-ignore
-import { directive as vClickOutside } from "click-outside-vue3";
+
+const compSelect = ref(null);
+import { onClickOutside } from "@vueuse/core";
+onClickOutside(compSelect, event => close());
 
 const open = ref(false);
 

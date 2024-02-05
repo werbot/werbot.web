@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" v-click-outside="closeDropdown">
+  <div class="relative" ref="projectMenu">
     <button class="dropdown" :class="{ active: (route.name as string).startsWith('projects') }" type="button" @click="toggleDropdown">
       <SvgIcon name="project" />
       <span class="hidden md:block">Projects</span>
@@ -43,9 +43,10 @@ import { useRoute } from "vue-router";
 import { SvgIcon } from "@/components";
 import { getProjects } from "@/api/project";
 import { ListProjects_Request } from "@proto/project";
-// @ts-ignore
-import { directive as vClickOutside } from "click-outside-vue3";
 
+const projectMenu = ref(null);
+import { onClickOutside } from "@vueuse/core";
+onClickOutside(projectMenu, event => closeDropdown());
 
 const route = useRoute();
 const data: any = ref({});
