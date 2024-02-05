@@ -31,7 +31,7 @@
     "cssnano": "^6.0.3",
     "ip-address": "^9.0.5",
     "ipaddr.js": "^2.1.0",
-    "postcss": "^8.4.33",
+    "postcss": "^8.4.34",
     "postcss-import": "^16.0.0",
     "postcss-nesting": "^12.0.2",
     "prettier": "^3.2.5",
