@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, inject, } from "vue";
+import { onMounted } from "vue";
 
 onMounted(() => {
   document.title = "servers shared with me";

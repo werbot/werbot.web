@@ -9,13 +9,17 @@
     </button>
 
     <ul v-show="isDropdownOpen" class="dropdown-menu right-0" @click="closeDropdown">
-      <li v-for="(menu, index) in dropdownMenuItems" :key="index">
-        <hr v-if="menu.isSeparator && isUserRole(menu.isUserRole)" />
-        <router-link active-class="current" :to="{ name: menu.routeName }" v-if="isUserRole(menu.isUserRole)">
-          <SvgIcon :name="menu.icon" />
-          <span>{{ menu.label }}</span>
-        </router-link>
-      </li>
+      <template v-for="(group, key, index) of topMenu">
+        <template v-for="(item, iindex) in group">
+          <li v-if="isUserRole(item.isUserRole)">
+            <router-link active-class="current" :to="item.link" :class="{ current: (route.name as string).startsWith(item.link.name) }">
+              <SvgIcon :name="item.icon" />
+              <span>{{ item.name }}</span>
+            </router-link>
+            <hr v-if="(iindex === group.length - 1) && (index != Object.keys(topMenu).length - 1)" />
+          </li>
+        </template>
+      </template>
     </ul>
   </div>
 </template>
@@ -25,6 +29,7 @@ import { ref, watch, getCurrentInstance, inject } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
 import { SvgIcon } from "@/components";
+import { topMenu } from "@/pages/profile/menu";
 
 const authStore = useAuthStore();
 const profileMenu = ref(null);
@@ -38,50 +43,11 @@ const props = defineProps<{
   isLoading?: boolean;
 }>();
 
-const dropdownMenuItems = [
-  {
-    label: "Profile settings",
-    routeName: "profile-setting",
-    icon: "profile",
-    isSeparator: false,
-  },
-  {
-    label: "SSH Keys",
-    routeName: "profile-keys",
-    icon: "key",
-    isSeparator: false,
-  },
-  {
-    label: "Profile logs",
-    routeName: "profile-logs",
-    icon: "logs",
-    isSeparator: false,
-  },
-  {
-    label: "Admin",
-    routeName: "admin",
-    icon: "admin",
-    isSeparator: true,
-    isUserRole: 3,
-  },
-  {
-    label: "Logout",
-    routeName: "auth-logout",
-    icon: "logout",
-    isSeparator: true,
-  }
-];
+const isDropdownOpen = ref(false);
 
 const { proxy } = getCurrentInstance() as any;
 
-const isUserRole = (menuItem) => {
-  if (!menuItem) {
-    return true
-  }
-  return menuItem === proxy.$authStore.hasUserRole
-};
-
-const isDropdownOpen = ref(false);
+const isUserRole = (role) => role === undefined || role === proxy.$authStore.hasUserRole;
 
 const openDropdown = () => {
   if (props.isLoading) return false;
