@@ -36,4 +36,4 @@ jobs:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
       - run: make package
       - run: make push
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
