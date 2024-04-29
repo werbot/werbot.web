@@ -28,7 +28,7 @@
     "@vueuse/core": "^10.7.2",
     "autoprefixer": "^10.4.17",
     "axios": "^1.6.7",
-    "cssnano": "^6.0.3",
+    "cssnano": "^7.0.1",
     "ip-address": "^9.0.5",
     "ipaddr.js": "^2.1.0",
     "postcss": "^8.4.35",
