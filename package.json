@@ -20,7 +20,7 @@
     "vue-tsc": "^2.0.19"
   },
   "devDependencies": {
-    "@bufbuild/buf": "^1.31.0",
+    "@bufbuild/buf": "^1.32.1",
     "@protobuf-ts/plugin": "^2.9.4",
     "@types/nprogress": "^0.2.3",
     "@vitejs/plugin-vue": "^5.0.4",
