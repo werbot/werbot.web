@@ -27,7 +27,7 @@
     "@vue/cli-plugin-typescript": "^5.0.8",
     "@vueuse/core": "^10.9.0",
     "autoprefixer": "^10.4.19",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "cssnano": "^7.0.1",
     "ip-address": "^9.0.5",
     "ipaddr.js": "^2.2.0",
