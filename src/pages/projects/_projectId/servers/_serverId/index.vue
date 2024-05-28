@@ -1,8 +1,12 @@
 <template>
   <div class="artboard">
     <header>
-      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
-      <div class="breadcrumbs">{{serverName}}</div>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">
+          Servers
+        </router-link>
+      </h1>
+      <div class="breadcrumbs">{{ serverName }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">Several options for adding new members are available. Choose the right one and follow the instructions.</div>

@@ -37,10 +37,7 @@
           <td>{{ item.servers_count }}</td>
           <td>{{ toDate(item.created_at, "lite") }}</td>
           <td>
-            <router-link active-class="current" :to="{
-              name: 'projects-projectId-setting',
-              params: { projectId: item.project_id },
-            }">
+            <router-link active-class="current" :to="{ name: 'projects-projectId-setting', params: { projectId: item.project_id } }">
               <SvgIcon name="setting" class="text-gray-700" />
             </router-link>
           </td>
@@ -49,9 +46,7 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <div class="artboard-content">
-      <Pagination :total="data.total" @selectPage="onSelectPage" />
-    </div>
+    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
   </div>
 </template>
 
@@ -82,10 +77,3 @@ onMounted(() => {
   getData(route.query);
 });
 </script>
-
-<route lang="yaml">
-meta:
-  layout: private
-  layoutStyle: blank
-  requiresAuth: true
-</route>

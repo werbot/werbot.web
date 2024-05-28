@@ -1,9 +1,7 @@
 <template>
   <div v-if="Number(isLength(pagination)) > 1" class="pagination">
-    <router-link v-for="(item, index) in pagination" class="pagination btn" :to="{
-      name: route.name!,
-      query: isQuery(index),
-    }" :class="item == 'active' ? 'btn-active' : ''" @click="onSelectPage(isQuery(index))">
+    <router-link v-for="(item, index) in pagination" class="pagination btn" :to="{ name: route.name!, query: isQuery(index) }" :class="item == 'active' ? 'btn-active' : ''"
+      @click="onSelectPage(isQuery(index))">
       {{ index }}
     </router-link>
   </div>
@@ -77,7 +75,7 @@ const onSelectPage = (query: any) => {
 
 <style lang="scss" scoped>
 .pagination {
-  @apply my-3 flex justify-center;
+  @apply flex;
 
   &.btn {
     @apply mr-2 inline-block rounded bg-gray-200 py-1.5 px-3 text-gray-700;

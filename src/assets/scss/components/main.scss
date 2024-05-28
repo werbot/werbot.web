@@ -3,14 +3,14 @@
 }
 
 body {
-  @apply bg-gray-50 font-sans text-sm text-gray-700 antialiased;
+  @apply bg-gray-50 font-sans text-gray-700 antialiased;
 }
 
 .content {
   @apply relative flex w-full flex-row pt-5;
 
   & .left {
-    @apply flex-none pr-8 sm:pr-12;
+    @apply flex-none pr-8;
 
   }
 
@@ -40,7 +40,7 @@ a {
 }
 
 h1 {
-  @apply flex gap-2 text-2xl;
+  @apply flex gap-2 text-2xl font-black;
 }
 
 h2 {

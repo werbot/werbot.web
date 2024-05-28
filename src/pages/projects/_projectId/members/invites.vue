@@ -38,9 +38,7 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <div class="artboard-content" v-if="data.total">
-      <Pagination :total="data.total" @selectPage="onSelectPage" />
-    </div>
+    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
   </div>
 
   <Modal :showModal="modalActive" @close="closeModal" title="Are you sure you want to delete this invite">

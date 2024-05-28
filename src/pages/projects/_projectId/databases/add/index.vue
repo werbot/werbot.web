@@ -6,7 +6,7 @@
     </header>
     <div class="desc">Step 1: Select the scheme you want to add.</div>
 
-    <div class="artboard-content p-5">
+    <div class="content">
       <ol class="schemes">
         <li class="element disable">
           <img src="/img/schemes/databases/mysql.svg" />

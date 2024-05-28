@@ -1,7 +1,11 @@
 <template>
   <div class="artboard">
     <header>
-      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">
+          Servers
+        </router-link>
+      </h1>
       <h1>Member log</h1>
     </header>
     <Tabs :tabs="tabMenu" />

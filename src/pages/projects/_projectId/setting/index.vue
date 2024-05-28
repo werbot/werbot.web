@@ -5,7 +5,7 @@
     </header>
     <Tabs :tabs="tabMenu" />
 
-    <div class="artboard-content p-5">
+    <div class="content">
       <form @submit.prevent>
         <div class="mb-5 flex flex-row">
           <FormInput name="Title" v-model="data.title" :error="proxy.$errorStore.errors['title']" class="mr-5 flex-grow" />

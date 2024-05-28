@@ -5,21 +5,19 @@
     </header>
     <div class="desc">Create a new project where you can add new servers and invite members.</div>
 
-    <div class="artboard-content">
+    <div class="content">
       <form @submit.prevent>
-        <div class="mb-5 flex flex-row">
+        <div class="flex flex-row">
           <FormInput name="Title" v-model="data.title" :error="proxy.$errorStore.errors['title']" class="mr-5 flex-grow" />
           <FormInput name="Login" v-model.trim="data.login" :error="proxy.$errorStore.errors['login']" class="flex-grow" />
         </div>
 
-        <div class="my-6">
-          <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Add project</span>
-          </button>
-        </div>
+        <button type="submit" class="btn mt-8" @click="onSubmit" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Add project</span>
+        </button>
       </form>
     </div>
   </div>
@@ -61,10 +59,3 @@ onBeforeUnmount(() => proxy.$errorStore.$reset());
 
 document.title = "new projects";
 </script>
-
-<route lang="yaml">
-meta:
-  layout: private
-  layoutStyle: blank
-  requiresAuth: true
-</route>

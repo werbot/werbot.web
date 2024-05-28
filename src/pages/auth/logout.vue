@@ -21,9 +21,3 @@ onMounted(async () => {
 
 document.title = "Please wait...";
 </script>
-
-<route lang="yaml">
-meta:
-  layout: auth
-  requiresAuth: true
-</route>

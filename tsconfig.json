@@ -1,38 +1,37 @@
 {
   "compilerOptions": {
+    "target": "es2017",
     "baseUrl": ".",
-    "module": "esnext",
+    "module": "esnext", //"commonjs",
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "composite": true,
     "skipLibCheck": true,
-    //"esModuleInterop": true,
+    "esModuleInterop": true,
     //"strict": true,
     "noEmit": true,
     "lib": ["esnext", "dom"],
-    "types": [
-      "vite-plugin-svg-icons/client",
-      "vite-plugin-pages/client",
-      "vite-plugin-vue-layouts/client",
-      "node",
-    ],
+    "types": ["vite-plugin-svg-icons/client", "node"],
     "paths": {
       "@/*": ["./src/*"],
+      "@pages/*": ["./src/pages/*"],
       "@proto/*": ["./src/proto/*"],
-      "@addon/*": ["../add-on/*"],
-    },
+      "@addon/*": ["../add-on/*"]
+    }
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",
-    "src/router.ts",
     "src/main.ts",
     "src/utils/request.js",
+
+    "src/router/*",
+    "src/router/**/*",
 
     //"../add-on/ee/web/**/*",
     //"../add-on/saas/web/**/*",
     "../add-on/**/web/**/*",
   ],
-  "exclude": ["node_modules", "dist", "public"],
+  "exclude": ["node_modules", "dist", "public"]
 }

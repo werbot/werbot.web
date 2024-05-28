@@ -11,7 +11,7 @@
     </header>
     <div class="desc">Empty</div>
 
-    <div class="artboard-content p-5">section under development</div>
+    <div class="content">section under development</div>
   </div>
 </template>
 

@@ -1,11 +1,16 @@
 <template>
-  <RouterView />
+  <component :is="route.meta.layoutComponent">
+    <RouterView />
+  </component>
   <Alert />
 </template>
 
 <script setup lang="ts">
 import { onMounted} from "vue";
+import { RouterView, useRoute } from "vue-router";
 import { Alert } from "@/components";
+
+const route = useRoute();
 
 //import { onMounted, watchEffect, provide, computed } from "vue";
 //import { useAuthStore, useSystemStore } from "@/store";

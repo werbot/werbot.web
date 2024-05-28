@@ -33,11 +33,9 @@
         </tr>
       </tbody>
     </table>
-    <div v-else class="artboard-content p-5">Empty</div>
+    <div v-else class="content p-5">Empty</div>
 
-    <div class="artboard-content">
-      <Pagination :total="data.total" @selectPage="onSelectPage" />
-    </div>
+    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
   </div>
 
   <div class="m-6">
@@ -45,11 +43,7 @@
     <a href="#">common SSH problems</a>.
   </div>
 
-  <Modal
-    :showModal="modalActive"
-    @close="closeModal"
-    title="Are you sure you want to delete this SSH key?"
-  >
+  <Modal :showModal="modalActive" @close="closeModal" title="Are you sure you want to delete this SSH key?">
     <p>
       This action CANNOT be undone. This will permanently delete the SSH key and if you’d like to
       use it in the future, you will need to upload it again. <br />
@@ -114,7 +108,7 @@ const getData = async (routeQuery: any) => {
   });
 };
 
-const onSelectPage = (e:any) => {
+const onSelectPage = (e: any) => {
   getData(e);
 };
 

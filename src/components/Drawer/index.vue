@@ -2,11 +2,7 @@
   <div>
     <div class="drawer" :class="{ 'is-open': isOpen, 'is-visible': isVisible }">
       <div class="drawer__overlay" :style="{ transitionDuration: `${speed}ms` }"></div>
-      <div class="drawer__content" ref="drawer" :style="{
-        maxWidth: maxWidth,
-        transitionDuration: `${speed}ms`,
-        backgroundColor: backgroundColor,
-      }">
+      <div class="drawer__content" ref="drawer" :style="{ maxWidth: maxWidth, transitionDuration: `${speed}ms`, backgroundColor: backgroundColor }">
         <div class="pb-4">
           <h2>{{ title }}</h2>
         </div>
@@ -24,10 +20,10 @@
 
 <script lang="ts" setup>
 import { ref, watch, getCurrentInstance } from "vue";
+import { onClickOutside } from "@vueuse/core";
 
 const drawer = ref(null);
-import { onClickOutside } from "@vueuse/core";
-onClickOutside(drawer, (event) => closeDrawer());
+onClickOutside(drawer, (e) => closeDrawer());
 
 const isVisible = ref(false);
 const isTransitioning = ref(false);

@@ -4,7 +4,7 @@
     <span class="title">Reset password</span>
     <form @submit.prevent v-if="!data.message">
       <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" />
-      <div class="form-control mt-6">
+      <div class="form-control pt-8">
         <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
           <div v-if="loading">
             <span>Loading...</span>
@@ -59,9 +59,3 @@ onBeforeUnmount(() => proxy.$errorStore.$reset());
 
 document.title = "Reset password";
 </script>
-
-<route lang="yaml">
-meta:
-  layout: auth
-  requiresAuth: false
-</route>

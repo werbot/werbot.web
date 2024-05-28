@@ -6,10 +6,9 @@ table {
   }
 
   tr {
-    @apply border-b border-gray-100 bg-white;
+    //@apply border-b border-gray-100;
 
     &.cursor {
-
       &:hover,
       &:active {
         @apply bg-gray-100 cursor-pointer;

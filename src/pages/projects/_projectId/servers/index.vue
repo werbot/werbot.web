@@ -34,13 +34,7 @@
             </div>
           </td>
           <td>
-            <router-link active-class="current" :to="{
-              name: 'projects-projectId-servers-serverId-session',
-              params: {
-                projectId: props.projectId,
-                serverId: item.server_id,
-              },
-            }">
+            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-session', params: { projectId: props.projectId, serverId: item.server_id } }">
               {{ item.title }}
             </router-link>
           </td>
@@ -65,50 +59,26 @@
           </td>
           <td>
             <div class="flex items-center">
-              <Toggle v-model="item.active" :id="index" @change="changeServerActive(index, item.active)" />
+              <FormToggle v-model="item.active" :id="index" @change="changeServerActive(index, item.active)" />
             </div>
           </td>
           <td>
-            <router-link active-class="current" :to="{
-              name: 'projects-projectId-servers-serverId-members',
-              params: {
-                projectId: props.projectId,
-                serverId: item.server_id,
-              },
-            }">
+            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-members', params: { projectId: props.projectId, serverId: item.server_id } }">
               <SvgIcon name="users" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link active-class="current" :to="{
-              name: 'projects-projectId-servers-serverId-activity',
-              params: {
-                projectId: props.projectId,
-                serverId: item.server_id,
-              },
-            }">
+            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-activity', params: { projectId: props.projectId, serverId: item.server_id } }">
               <SvgIcon name="clock" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link active-class="current" :to="{
-              name: 'projects-projectId-servers-serverId-firewall',
-              params: {
-                projectId: props.projectId,
-                serverId: item.server_id,
-              },
-            }">
+            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-firewall', params: { projectId: props.projectId, serverId: item.server_id } }">
               <SvgIcon name="firewall" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link active-class="current" :to="{
-              name: 'projects-projectId-servers-serverId-setting',
-              params: {
-                projectId: props.projectId,
-                serverId: item.server_id,
-              },
-            }">
+            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-setting', params: { projectId: props.projectId, serverId: item.server_id } }">
               <SvgIcon name="setting" class="text-gray-700" />
             </router-link>
           </td>
@@ -117,16 +87,14 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <div class="artboard-content" v-if="data.total">
-      <Pagination :total="data.total" @selectPage="onSelectPage" />
-    </div>
+    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, getCurrentInstance, reactive } from "vue";
 import { useRoute } from "vue-router";
-import { SvgIcon, Pagination, Toggle, Badge } from "@/components";
+import { SvgIcon, Pagination, FormToggle, Badge } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getAddressType } from "@/utils/network";
@@ -191,9 +159,9 @@ function addressColor(address: string): string {
     case "IPv4":
       return addressToColor[1];
     case "IPv6":
-    return addressToColor[2];
+      return addressToColor[2];
     default:
-    return addressToColor[3];
+      return addressToColor[3];
   }
 }
 

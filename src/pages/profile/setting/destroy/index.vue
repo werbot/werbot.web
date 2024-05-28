@@ -1,24 +1,24 @@
 <template>
-  <div class="artboard-red">
+  <div class="artboard red">
     <header>
       <h1>Destroy your account</h1>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">This operation will permanently delete your user account. It CAN NOT be undone.</div>
 
-    <div class="artboard-content">
+    <div class="content">
       <form @submit.prevent>
-        <FormInput name="Password" v-model="data.password" :error="proxy.$errorStore.errors['password']" :disabled="loading" class="w-80" type="password"
-          autocomplete="current-password" />
-
-        <div class="my-6">
-          <button type="submit" class="btn" @click="onDelete" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Send me email for delete</span>
-          </button>
+        <div class="flex flex-row">
+          <FormInput name="Password" v-model="data.password" :error="proxy.$errorStore.errors['password']" :disabled="loading" class="w-80" type="password"
+            autocomplete="current-password" />
         </div>
+
+        <button type="submit" class="btn mt-8" @click="onDelete" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Send me email for delete</span>
+        </button>
       </form>
     </div>
   </div>
@@ -35,7 +35,7 @@ import { FormInput, Tabs } from "@/components";
 import { showMessage } from "@/utils/message";
 
 // Tabs section
-import { tabMenu } from "./tab";
+import { tabMenu } from "../tab";
 
 const { proxy } = getCurrentInstance() as any;
 const data: any = ref({});
@@ -78,3 +78,4 @@ onMounted(async () => {
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>
+../tab

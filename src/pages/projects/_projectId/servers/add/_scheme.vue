@@ -1,9 +1,15 @@
 <template>
   <div class="artboard">
     <header>
-      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">
+          Servers
+        </router-link>
+      </h1>
       <div class="breadcrumbs">
-        <router-link :to="{ name: 'projects-projectId-servers-add', params: { projectId: props.projectId } }">Select scheme</router-link>
+        <router-link :to="{ name: 'projects-projectId-servers-add', params: { projectId: props.projectId } }">
+          Select scheme
+        </router-link>
         <span>{{ props.scheme }}</span>
       </div>
     </header>
@@ -11,7 +17,7 @@
 
     <form @submit.prevent>
       <!-- SSH -->
-      <div class="artboard-content" v-if="props.scheme == ServerScheme[3]">
+      <div class="content" v-if="props.scheme == ServerScheme[3]">
         <FormInput name="Title" v-model="data.title" :error="error.errors.title" class="flex-grow" />
 
         <div class="w-full">
@@ -26,11 +32,11 @@
           </div>
 
           <div class="mt-5 flex flex-row">
-            <Toggle name="Active" v-model="data.active" class="mr-5 flex-grow" id="active" />
-            <Toggle name="Audit" v-model="data.audit" class="flex-grow" id="audit" />
+            <FormToggle name="Active" v-model="data.active" class="mr-5 flex-grow" id="active" />
+            <FormToggle name="Audit" v-model="data.audit" class="flex-grow" id="audit" />
           </div>
 
-          <Select name="Auth" v-model="data.auth" :options="[Auth[1], Auth[2]]" :error="error.errors.auth" />
+          <FormSelect name="Auth" v-model="data.auth" :options="[Auth[1], Auth[2]]" :error="error.errors.auth" />
 
           <div v-if="data.auth == Auth[1]">
             <FormInput name="Password" v-model.trim="data.access.password" :error="error.errors.password" class="flex-grow" type="password" autocomplete="current-password" />
@@ -43,7 +49,7 @@
       </div>
 
       <div class="divider mt-5 before:bg-gray-100 after:bg-gray-100"></div>
-      <div class="artboard-content py-5">
+      <div class="content">
         <div class="flex-none">
           <button type="submit" @click="onSubmit()" class="btn mr-5">Add server</button>
         </div>
@@ -59,7 +65,7 @@ import { useErrorStore } from "@/store";
 
 import { useRouter } from "vue-router";
 import { Auth, ServerScheme, AddServer_Request } from "@proto/server";
-import { FormInput, FormTextarea, Toggle, Select } from "@/components";
+import { FormInput, FormTextarea, FormToggle, FormSelect } from "@/components";
 import { newKey } from "@/api/key";
 import { addServer } from "@/api/server";
 import { showMessage } from "@/utils/message";

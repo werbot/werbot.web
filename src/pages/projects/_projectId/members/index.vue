@@ -10,12 +10,24 @@
         <tr>
           <th class="w-12"></th>
           <th>Name</th>
-          <th class="w-12"><SvgIcon name="server" class="text-gray-700" /></th>
-          <th class="w-12"><SvgIcon name="database" class="text-gray-700" /></th>
-          <th class="w-12"><SvgIcon name="application" class="text-gray-700" /></th>
-          <th class="w-12"><SvgIcon name="desktop" class="text-gray-700" /></th>
-          <th class="w-12"><SvgIcon name="container" class="text-gray-700" /></th>
-          <th class="w-12"><SvgIcon name="cloud" class="text-gray-700" /></th>
+          <th class="w-12">
+            <SvgIcon name="server" class="text-gray-700" />
+          </th>
+          <th class="w-12">
+            <SvgIcon name="database" class="text-gray-700" />
+          </th>
+          <th class="w-12">
+            <SvgIcon name="application" class="text-gray-700" />
+          </th>
+          <th class="w-12">
+            <SvgIcon name="desktop" class="text-gray-700" />
+          </th>
+          <th class="w-12">
+            <SvgIcon name="container" class="text-gray-700" />
+          </th>
+          <th class="w-12">
+            <SvgIcon name="cloud" class="text-gray-700" />
+          </th>
           <th class="w-20">Role</th>
           <th class="w-20">Activity</th>
           <th class="w-8"></th>
@@ -40,23 +52,11 @@
           </td>
           <td>
             <div class="flex items-center">
-              <Toggle
-                v-model="item.active"
-                :id="index"
-                @change="changeMemberActive(index, item.active)"
-              />
+              <FormToggle v-model="item.active" :id="index" @change="changeMemberActive(index, item.active)" />
             </div>
           </td>
           <td>
-            <router-link
-              active-class="current"
-              :to="{
-                name: 'projects-projectId-members',
-                params: {
-                  projectId: props.projectId,
-                },
-              }"
-            >
+            <router-link active-class="current" :to="{ name: 'projects-projectId-members', params: { projectId: props.projectId } }">
               <SvgIcon name="setting" class="text-gray-700" />
             </router-link>
           </td>
@@ -65,16 +65,14 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <div class="artboard-content">
-      <Pagination :total="data.total" @selectPage="onSelectPage" />
-    </div>
+    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRoute } from "vue-router";
-import { SvgIcon, Pagination, Badge, Toggle, Tabs } from "@/components";
+import { SvgIcon, Pagination, Badge, FormToggle, Tabs } from "@/components";
 import { showMessage } from "@/utils/message";
 
 import { getProjectMembers, updateProjectMemberStatus } from "@/api/member/project";
@@ -134,8 +132,3 @@ const changeMemberActive = async (index: number, online: boolean) => {
     });
 };
 </script>
-
-<route lang="yaml">
-meta:
-  requiresAuth: true
-</route>

@@ -24,7 +24,7 @@ const classBadge = "badge-" + props.color + " " + props.class;
 
 <style lang="scss">
 .badge {
-  @apply mr-2 rounded px-2.5 py-0.5 text-sm font-medium;
+  @apply mr-2 rounded px-2.5 pt-0.5 pb-1 text-sm font-medium;
 
   &-gray {
     @apply bg-gray-200 text-gray-700;

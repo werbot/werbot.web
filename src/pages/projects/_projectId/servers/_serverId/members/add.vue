@@ -1,9 +1,15 @@
 <template>
   <div class="artboard">
     <header>
-      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">
+          Servers
+        </router-link>
+      </h1>
       <div class="breadcrumbs">{{ serverName }} <span>
-          <router-link :to="{ name: 'projects-projectId-servers-serverId-members', params: { projectId: props.projectId, serverId: props.serverId } }">Members</router-link>
+          <router-link :to="{ name: 'projects-projectId-servers-serverId-members', params: { projectId: props.projectId, serverId: props.serverId } }">
+            Members
+          </router-link>
         </span>
         <span>Add new</span>
       </div>
@@ -37,20 +43,14 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <div class="artboard-content">
-      <Pagination :total="data.total" @selectPage="onSelectPage" />
-    </div>
+    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
   </div>
 
   <div class="m-6">
     In order to add a new member, he must first be invited to the general list of
-    <router-link :to="{
-      name: 'projects-projectId-members',
-      params: {
-        projectId: props.projectId,
-      },
-    }">
-      project members </router-link>.
+    <router-link :to="{ name: 'projects-projectId-members', params: { projectId: props.projectId } }">
+      project members
+    </router-link>.
   </div>
 </template>
 
@@ -100,7 +100,7 @@ const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(async() => {
+onMounted(async () => {
   getData(route.query);
 
   await serverNameByID(<ServerNameByID_Request>{

@@ -1,18 +1,22 @@
 <template>
   <div class="artboard">
     <header>
-      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">
+          Servers
+        </router-link>
+      </h1>
       <div class="breadcrumbs">{{ data.host.title }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">Several options for adding new members are available. Choose the right one and follow the instructions.</div>
 
     <form @submit.prevent>
-      <div class="artboard-content">
+      <div class="content">
         <FormInput name="Title" v-model="data.host.title" :error="error.errors.title" class="flex-grow" />
       </div>
 
-      <div class="artboard-content mb-5">
+      <div class="content">
         <div class="w-full">
           <div class="flex flex-row">
             <FormInput name="Address" v-model.trim="data.host.address" :error="error.errors.address" class="mr-5 flex-grow" :required="true" />
@@ -25,15 +29,15 @@
           </div>
 
           <div class="mt-5 flex flex-row">
-            <Toggle name="Active" v-model="data.host.active" class="mr-5 flex-grow" id="active" @change="onUpdate('active', false)" />
-            <Toggle name="Audit" v-model="data.host.audit" class="flex-grow" id="audit" @change="onUpdate('audit', false)" />
+            <FormToggle name="Active" v-model="data.host.active" class="mr-5 flex-grow" id="active" @change="onUpdate('active', false)" />
+            <FormToggle name="Audit" v-model="data.host.audit" class="flex-grow" id="audit" @change="onUpdate('audit', false)" />
           </div>
         </div>
       </div>
 
       <div class="divider before:bg-gray-100 after:bg-gray-100"></div>
 
-      <div class="artboard-content py-5">
+      <div class="content">
         <div class="flex-none">
           <button type="submit" @click="onUpdate('info', false)" class="btn mr-5">Update</button>
           <button type="submit" @click="onUpdate('info', true)" class="btn">Update and close</button>
@@ -49,7 +53,7 @@
       <h1>Access section</h1>
     </header>
     <div class="divider"></div>
-    <div class="artboard-content">
+    <div class="content">
       <form @submit.prevent>
         <div v-if="data.host.auth == Auth.password">
           <FormInput name="Password (hidden, can only be overwritten)" v-model.trim="data.access.password" :error="error.errors.password" class="flex-grow" type="password"
@@ -64,14 +68,12 @@
           </button>
         </div>
 
-        <div class="my-5">
-          <button v-if="data.access.key || data.access.password > 3" type="submit" class="btn" @click="onUpdateAccess" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Update access</span>
-          </button>
-        </div>
+        <button v-if="data.access.key || data.access.password > 3" type="submit" class="btn mt-8" @click="onUpdateAccess" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Update access</span>
+        </button>
       </form>
     </div>
   </div>
@@ -104,7 +106,7 @@ import {
   UpdateServerAccess_Request,
   Auth,
 } from "@proto/server";
-import { Tabs, FormInput, FormTextarea, Toggle, Modal } from "@/components";
+import { Tabs, FormInput, FormTextarea, FormToggle, Modal } from "@/components";
 import { useErrorStore } from "@/store";
 import { showMessage } from "@/utils/message";
 

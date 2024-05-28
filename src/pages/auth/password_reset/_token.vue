@@ -6,8 +6,8 @@
     <form @submit.prevent>
       <FormInput name="New password" type="password" autocomplete="new-password" v-model.trim="data.password" :error="proxy.$errorStore.errors['password']" :disabled="loading" />
       <FormInput name="Repeat password" type="password" autocomplete="new-password" v-model.trim="data.password2" :error="proxy.$errorStore.errors['password2']"
-        :disabled="loading" />
-      <div class="form-control mt-6">
+        :disabled="loading" class="mt-5" />
+      <div class="form-control pt-8">
         <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
           <div v-if="loading">
             <span>Loading...</span>
@@ -87,9 +87,3 @@ onBeforeUnmount(() => proxy.$errorStore.$reset());
 
 document.title = "Reset password";
 </script>
-
-<route lang="yaml">
-meta:
-  layout: auth
-  requiresAuth: false
-</route>

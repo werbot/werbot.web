@@ -2,7 +2,7 @@
   <div class="px-6">
     <Header />
 
-    <div class="content" v-if="!useRouter().currentRoute.value.meta.layoutStyle">
+    <div class="content" v-if="!router.currentRoute.value.meta.layoutStyle">
       <div class="left">
         <Navigation />
         <Version />
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="content" v-if="useRouter().currentRoute.value.meta.layoutStyle === 'blank'">
+    <div class="content" v-if="router.currentRoute.value.meta.layoutStyle === 'blank'">
       <div id="alert"></div>
       <RouterView />
     </div>
@@ -21,13 +21,14 @@
 </template>
 
 <script setup lang="ts">
-import { watchEffect, provide, ref } from "vue";
+import { getCurrentInstance, watchEffect, provide, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store";
 import { useWebSocket } from "@vueuse/core";
 import { Header, Navigation, Version } from "@/components";
-import { getStorage } from "@/utils/storage";
 
+const { proxy } = getCurrentInstance() as any;
+const router = useRouter();
 
 const isSubscribe = ref(false);
 const authStore = useAuthStore();
@@ -41,6 +42,10 @@ const { status, data, send, open, close } = useWebSocket(
 provide("wsStatus", status);
 provide("wsData", data);
 provide("wsSend", send);
+
+if (router.currentRoute.value.fullPath.startsWith('/admin') && proxy.$authStore.hasUserRole != 3) {
+  router.push({ name: "404" });
+}
 
 watchEffect(() => {
   if (data.value) {

@@ -29,7 +29,7 @@ import { ref, watch, getCurrentInstance, inject } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
 import { SvgIcon } from "@/components";
-import { topMenu } from "@/pages/profile/menu";
+import { topMenu } from "@pages/profile/menu";
 
 const authStore = useAuthStore();
 const profileMenu = ref(null);

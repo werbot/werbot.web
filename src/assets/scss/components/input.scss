@@ -1,30 +1,20 @@
 .input {
-  @apply h-10 rounded border border-solid border-gray-300 bg-gray-50 pl-2;
+  @apply h-10 rounded border border-solid border-gray-300 bg-gray-50 pl-3;
 
   &:focus {
-    @apply border-solid border-sky-600;
+    @apply border-sky-600;
   }
 
   &.warning,
-  & .warning {
+  &.error {
     @apply border-red-300 bg-red-50;
 
     &:focus {
-      @apply border-2 border-solid border-red-600 bg-red-50;
-    }
-  }
-
-  &.error,
-  & .error {
-    @apply border-red-300 bg-red-50;
-
-    &:focus {
-      @apply border-2 border-solid border-red-600 bg-red-50;
+      @apply border-red-600 ring-red-600;
     }
   }
 
   &.disabled,
-  & .disabled,
   &[disabled] {
     @apply cursor-not-allowed border-transparent bg-gray-300;
   }

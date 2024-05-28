@@ -1,25 +1,29 @@
 <template>
   <div class="artboard">
     <header>
-      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">
+          Servers
+        </router-link>
+      </h1>
       <div class="breadcrumbs">{{ serverName }} </div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">In addition to creating your own, some add-ons come with their own.</div>
 
-    <div class="artboard-content py-4">
+    <div class="content">
       <div class="mt-1 w-28 flex-none">Countries:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
-        <Toggle name="Black-list" v-model="country.wite_list" class="flex-grow" id="country" @change="update(country.wite_list, Rules.country)" />
+        <FormToggle name="Black-list" v-model="country.wite_list" class="flex-grow" id="country" @change="update(country.wite_list, Rules.country)" />
       </div>
     </div>
 
-    <div class="artboard-content">
+    <div class="content">
       <FormInput v-model.trim="data.country" :error="error.errors.country" class="flex-grow" placeholder="Search country ..." @keyup="searchCountries()" />
     </div>
 
-    <div class="artboard-content pb-4">
+    <div class="content">
       <div class="flex-col">
         <div v-if="data.search" class="mt-3">
           <Badge v-for="(item, index) in data.search['countries']" :key="index" :name="item.name" color="green" class="mr-1 cursor-pointer"
@@ -37,19 +41,19 @@
 
     <div class="divider"></div>
 
-    <div class="artboard-content py-4">
+    <div class="content">
       <div class="mt-1 w-28 flex-none">Networks:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
-        <Toggle name="Black-list" v-model="network.wite_list" class="flex-grow" id="network" @change="update(network.wite_list, Rules.ip)" />
+        <FormToggle name="Black-list" v-model="network.wite_list" class="flex-grow" id="network" @change="update(network.wite_list, Rules.ip)" />
       </div>
     </div>
 
-    <div class="artboard-content">
+    <div class="content">
       <FormInput v-model="data.network" :error="error.errors.network" class="flex-grow" placeholder="IP address or mask" v-on:keyup.enter="addIp(data.network, Rules.ip)" />
     </div>
 
-    <div class="artboard-content pb-6">
+    <div class="content">
       <div class="pt-5">
         <span class="firewall-tags-item mr-3 mb-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in network.list">
           <span class="ml-1" v-if="item.start_ip !== item.end_ip">
@@ -67,7 +71,7 @@
 import { ref, onMounted, getCurrentInstance, onBeforeUnmount } from "vue";
 import { Address4, Address6 } from "ip-address";
 import { useErrorStore } from "@/store";
-import { Tabs, SvgIcon, FormInput, Toggle, Badge } from "@/components";
+import { Tabs, SvgIcon, FormInput, FormToggle, Badge } from "@/components";
 
 import { serverNameByID, firewall, addFirewall, updateFirewall, deleteFirewall } from "@/api/server";
 import { ServerNameByID_Request } from "@proto/server";

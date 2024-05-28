@@ -31,9 +31,7 @@
       </tbody>
     </table>
 
-    <div class="artboard-content">
-      <Pagination :total="data.total" @selectPage="onSelectPage" />
-    </div>
+    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
   </div>
 
   <Drawer :is-open="isDrawerOpen" @close="closeDrawer" title="Name" maxWidth="600px">
@@ -126,6 +124,4 @@ function decodeBase64(encodedString: string): string {
     return '';
   }
 }
-
 </script>
-@/utils/color

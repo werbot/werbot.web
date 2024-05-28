@@ -1,7 +1,11 @@
 <template>
   <div class="artboard">
     <header>
-      <h1><router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">Servers</router-link></h1>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">
+          Servers
+        </router-link>
+      </h1>
       <div class="breadcrumbs">{{ serverName }}</div>
       <router-link :to="{ name: 'projects-projectId-servers-serverId-members-add' }">
         <label class="plus">
@@ -36,18 +40,12 @@
           <td>{{ item.updated_at.seconds > 0 ? toDate(item.updated_at) : "" }}</td>
           <td>
             <div class="flex items-center">
-              <Toggle v-model="item.active" :id="index" @change="changeMemberActive(index, item.active)" />
+              <FormToggle v-model="item.active" :id="index" @change="changeMemberActive(index, item.active)" />
             </div>
           </td>
           <td>
-            <router-link active-class="current" :to="{
-              name: 'projects-projectId-servers-serverId-members-memberId',
-              params: {
-                projectId: props.projectId,
-                serverId: props.serverId,
-                memberId: item.member_id,
-              },
-            }">
+            <router-link active-class="current"
+              :to="{ name: 'projects-projectId-servers-serverId-members-memberId', params: { projectId: props.projectId, serverId: props.serverId, memberId: item.member_id } }">
               <SvgIcon name="logs" class="text-gray-700" />
             </router-link>
           </td>
@@ -59,9 +57,7 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <div class="artboard-content">
-      <Pagination :total="data.total" @selectPage="onSelectPage" />
-    </div>
+    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
   </div>
 
   <Modal :showModal="modalActive" @close="closeModal" title="Are you sure you want to delete this member?">
@@ -79,7 +75,7 @@
 import { ref, onMounted, getCurrentInstance } from "vue";
 import { useRoute } from "vue-router";
 import { toDate } from "@/utils/time";
-import { Tabs, SvgIcon, Modal, Toggle, Pagination } from "@/components";
+import { Tabs, SvgIcon, Modal, FormToggle, Pagination } from "@/components";
 import { showMessage } from "@/utils/message";
 import { serverNameByID } from "@/api/server";
 import { ServerNameByID_Request } from "@proto/server";

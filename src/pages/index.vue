@@ -38,10 +38,3 @@ onMounted(() => {
   document.title = "servers shared with me";
 });
 </script>
-
-<route lang="yaml">
-meta:
-  layout: private
-  layoutStyle: blank
-  requiresAuth: true
-</route>

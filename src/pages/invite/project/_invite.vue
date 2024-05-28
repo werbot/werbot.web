@@ -1,12 +1,12 @@
 <template>
-  <div v-if="data.message == 'Invite is invalid'" class="artboard-red">
+  <div v-if="data.message == 'Invite is invalid'" class="artboard red">
     <header>
       <h1>Invitation to join the project</h1>
     </header>
     <div class="desc">The link to join the project is invalid.</div>
   </div>
 
-  <div v-if="data.message == 'Wrong user'" class="artboard-red">
+  <div v-if="data.message == 'Wrong user'" class="artboard red">
     <header>
       <h1>Invitation to join the project</h1>
     </header>
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div v-if="data.message == 'Invite is activated'" class="artboard-yellow">
+  <div v-if="data.message == 'Invite is activated'" class="artboard yellow">
     <header>
       <h1>Invitation to join the project</h1>
     </header>
@@ -66,9 +66,3 @@ onBeforeUnmount(() => proxy.$errorStore.$reset());
 
 document.title = "Invitation to join the project";
 </script>
-
-<route lang="yaml">
-meta:
-  layout: public_blank
-  requiresAuth: false
-</route>

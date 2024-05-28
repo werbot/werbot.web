@@ -6,26 +6,26 @@
 
     <Tabs :tabs="tabMenu" />
 
-    <div class="artboard-content">
+    <div class="content">
       <form @submit.prevent>
-        <FormInput name="Current Password" v-model.trim="data.old_password" :error="proxy.$errorStore.errors['old_password']" :disabled="loading" class="w-80" type="password"
-          autocomplete="current-password" />
-
-        <div class="mb-5 flex flex-row">
-          <FormInput name="New password" v-model.trim="data.new_password" :error="proxy.$errorStore.errors['new_password']" :disabled="loading" class="mr-5 flex-grow" type="password"
-            autocomplete="new-password" />
-          <FormInput name="Re-Type New Password" v-model="data.new_password2" :error="proxy.$errorStore.errors['new_password2']" :disabled="loading" class="flex-grow" type="password"
-            autocomplete="new-password" />
+        <div class="flex flex-row">
+          <FormInput name="Current Password" v-model.trim="data.old_password" :error="proxy.$errorStore.errors['old_password']" :disabled="loading" class="w-80" type="password"
+            autocomplete="current-password" />
         </div>
 
-        <div class="my-6">
-          <button type="submit" class="btn" @click="onUpdatePassword" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Update password</span>
-          </button>
+        <div class="flex flex-row mt-5">
+          <FormInput name="New password" v-model.trim="data.new_password" :error="proxy.$errorStore.errors['new_password']" :disabled="loading" class="mr-5 flex-grow"
+            type="password" autocomplete="new-password" />
+          <FormInput name="Re-Type New Password" v-model="data.new_password2" :error="proxy.$errorStore.errors['new_password2']" :disabled="loading" class="flex-grow"
+            type="password" autocomplete="new-password" />
         </div>
+
+        <button type="submit" class="btn mt-8" @click="onUpdatePassword" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Update password</span>
+        </button>
       </form>
     </div>
   </div>

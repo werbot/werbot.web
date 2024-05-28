@@ -70,7 +70,7 @@ import { SvgIcon } from "@/components";
 
 const NOTIFICATION_DURATION = 4000;
 
-const handleNotification = (eventName: string, notificationType: string) => {
+const handleNotification = (eName: string, notificationType: string) => {
   const callback = (e: Event) => {
     notify(
       {
@@ -82,7 +82,7 @@ const handleNotification = (eventName: string, notificationType: string) => {
     );
   };
 
-  addEventListener(eventName, callback);
+  addEventListener(eName, callback);
   // To remove event listener:
   // removeEventListener(eventName, callback);
 };

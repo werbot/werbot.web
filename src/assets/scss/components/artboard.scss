@@ -25,9 +25,13 @@
     @apply bg-gray-200 px-6 py-4 text-left text-gray-700;
   }
 
-  &-content {
-    @apply relative flex w-full flex-wrap px-6;
+  .content {
+    @apply relative flex w-full flex-wrap p-6;
 
+
+    //form {
+    //  @apply my-5;
+    //}
 
     .schemes {
       @apply flex flex-wrap;
@@ -62,8 +66,8 @@
     }
   }
 
-  &-red {
-    @apply artboard shadow-md shadow-red-200; // !important
+  &.red {
+    @apply shadow-md shadow-red-200; // !important
 
     header {
       @apply text-red-700;
@@ -87,8 +91,8 @@
     }
   }
 
-  &-yellow {
-    @apply artboard shadow-md shadow-yellow-200; //!important
+  &.yellow {
+    @apply shadow-md shadow-yellow-200; //!important
 
     header {
       @apply text-yellow-700;

@@ -5,25 +5,23 @@
     </header>
     <Tabs :tabs="tabMenu" />
 
-    <div class="artboard-content">
+    <div class="content">
       <form @submit.prevent>
-        <div class="mb-5 flex flex-row">
+        <div class="flex flex-row">
           <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" class="flex-grow" />
         </div>
 
-        <div class="mb-5 flex flex-row">
+        <div class="flex flex-row mt-5">
           <FormInput name="Name" v-model.trim="data.name" :error="proxy.$errorStore.errors['name']" :disabled="loading" class="mr-5 flex-grow" />
           <FormInput name="Surname" v-model.trim="data.surname" :error="proxy.$errorStore.errors['surname']" :disabled="loading" class="flex-grow" />
         </div>
 
-        <div class="my-6">
-          <button type="submit" class="btn" @click="onUpdateProfile" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Update profile</span>
-          </button>
-        </div>
+        <button type="submit" class="btn mt-8" @click="onUpdateProfile" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Update profile</span>
+        </button>
       </form>
     </div>
   </div>

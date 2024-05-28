@@ -6,34 +6,20 @@
         <span>Add new</span>
       </h1>
     </header>
-    <div class="desc">Check out our guide to <a href="#">generating SSH keys</a> or troubleshoot<a href="#">common SSH problems</a>.</div>
+    <div class="desc">Check out our guide to <a href="#">generating SSH keys</a> or troubleshoot <a href="#">common SSH problems</a>.</div>
 
-    <div class="artboard-content">
+    <div class="content">
       <form @submit.prevent>
-        <FormInput
-          name="Title"
-          v-model.trim="data.title"
-          :error="$errorStore.errors['title']"
-          :disabled="loading"
-          class="w-80"
-        />
-        <FormTextarea
-          name="Key"
-          v-model.trim="data.key"
-          :error="$errorStore.errors['key']"
-          :disabled="loading"
-          :rows="6"
-          placeholder="Begins with 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519', 'sk-ecdsa-sha2-nistp256@openssh.com', or 'sk-ssh-ed25519@openssh.com'"
-        />
+        <FormInput name="Title" v-model.trim="data.title" :error="$errorStore.errors['title']" :disabled="loading" class="w-80" />
+        <FormTextarea name="Key" v-model.trim="data.key" :error="$errorStore.errors['key']" :disabled="loading" :rows="6" class="mt-5"
+          placeholder="Begins with 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519', 'sk-ecdsa-sha2-nistp256@openssh.com', or 'sk-ssh-ed25519@openssh.com'" />
 
-        <div class="my-6">
-          <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Add SSH key</span>
-          </button>
-        </div>
+        <button type="submit" class="btn mt-8" @click="onSubmit" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Add SSH key</span>
+        </button>
       </form>
     </div>
   </div>

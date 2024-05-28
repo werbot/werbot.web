@@ -4,10 +4,12 @@
     <span class="title">Sign Up</span>
     <form @submit.prevent>
       <FormInput name="Email" v-model.trim="data.email" placeholder='user@werbot.net' disabled />
-      <FormInput name="Password" v-model.trim="data.password" :error="$errorStore.errors['password']" type="password" autocomplete="current-password" :disabled="loading" />
-      <FormInput name="Re-Type Password" v-model.trim="data.password2" :error="$errorStore.errors['password2']" type="password" autocomplete="current-password" :disabled="loading" />
+      <FormInput name="Password" v-model.trim="data.password" :error="$errorStore.errors['password']" type="password" autocomplete="current-password" :disabled="loading"
+        class="mt-5" />
+      <FormInput name="Re-Type Password" v-model.trim="data.password2" :error="$errorStore.errors['password2']" type="password" autocomplete="current-password" :disabled="loading"
+        class="mt-5" />
 
-      <div class="form-control mt-6">
+      <div class="form-control pt-8">
         <button type="submit" class="btn" :disabled="loading">
           <div v-if="loading">
             <span>Loading...</span>
@@ -54,9 +56,3 @@ onBeforeUnmount(() => proxy.$errorStore.$reset());
 
 document.title = "Sign Up";
 </script>
-
-<route lang="yaml">
-meta:
-  layout: auth
-  requiresAuth: false
-</route>

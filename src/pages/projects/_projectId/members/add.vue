@@ -1,26 +1,30 @@
 <template>
   <div class="artboard">
     <header>
-      <h1><router-link :to="{name: 'projects-projectId-members-invites',params: {projectId: props.projectId}}">Invites</router-link><span>New member</span></h1>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-members-invites', params: { projectId: props.projectId } }">
+          Invites
+        </router-link>
+        <span>New member</span>
+      </h1>
     </header>
     <Tabs :tabs="tabMenu" />
 
     <div class="desc">Description</div>
-    <div class="artboard-content">
+    <div class="content">
       <form @submit.prevent>
         <div class="flex flex-row">
           <FormInput name="Name" v-model.trim="data.name" :error="proxy.$errorStore.errors['user_name']" :disabled="loading" class="mr-5 flex-grow" />
           <FormInput name="Surname" v-model.trim="data.surname" :error="proxy.$errorStore.errors['user_surname']" :disabled="loading" class="flex-grow" />
         </div>
         <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" class="flex-grow" />
-        <div class="my-6">
-          <button type="submit" class="btn" @click="onSendInvite" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Send invite</span>
-          </button>
-        </div>
+
+        <button type="submit" class="btn mt-8" @click="onSendInvite" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Send invite</span>
+        </button>
       </form>
     </div>
   </div>
