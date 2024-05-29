@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 
-onMounted(() => {
+onMounted(async () => {
   document.title = "servers shared with me";
 });
 </script>

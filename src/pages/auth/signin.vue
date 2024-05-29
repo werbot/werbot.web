@@ -66,12 +66,12 @@ const onSubmit = async () => {
 };
 
 onMounted(async () => {
+  document.title = "Sign In";
+
   if (proxy.$authStore.logged_in) {
     router.push({ name: "index" });
   }
 });
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
-
-document.title = "Sign In";
 </script>

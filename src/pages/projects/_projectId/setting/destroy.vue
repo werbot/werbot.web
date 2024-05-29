@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance } from "vue";
+import { onMounted, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { deleteProject } from "@/api/project";
 import { DeleteProject_Request } from "@proto/project";
@@ -42,4 +42,8 @@ const onDelete = async () => {
     router.push({ name: "projects" });
   });
 };
+
+onMounted(async () => {
+  document.title = "Destroy project";
+});
 </script>

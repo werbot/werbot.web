@@ -33,7 +33,9 @@ watch(
   }
 );
 
-onMounted(() => {
+onMounted(async () => {
+  document.title = "Project information";
+
   getData(<Project_Request>{
     project_id: props.projectId,
   });

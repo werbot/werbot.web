@@ -73,7 +73,9 @@ const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  document.title = "Projects list";
+
   getData(route.query);
 });
 </script>

@@ -1,10 +1,8 @@
 <template>
   <div class="form-dropdown">
     <label class="label">
-      <span v-if="name" class="text">{{ name }}{{ required ? "*" : "" }}</span>
-      <span v-if="error" class="error">
-        {{ error }}
-      </span>
+      <span v-if="props.name" class="text">{{ fullName }}</span>
+      <span v-if="props.error" class="error">{{ props.error }}</span>
     </label>
 
     <div ref="compSelect">
@@ -14,7 +12,7 @@
       </button>
 
       <ul v-if="open">
-        <li v-for="(item) in options" @click="setLanguage(item)">
+        <li v-for="(item) in props.options" @click="setLanguage(item)">
           {{ item }}
         </li>
       </ul>
@@ -33,34 +31,23 @@ onClickOutside(compSelect, event => close());
 const open = ref(false);
 
 const props = defineProps({
-  name: {
-    type: String,
-  },
+  name: String,
   modelValue: {
     required: false,
   },
-  error: {
-    type: String,
-  },
-  required: {
-    type: Boolean,
-  },
+  error: String,
+  required: Boolean,
   options: Object,
 });
 
 const emits = defineEmits(["update:modelValue"]);
-const value = computed({
-  get: () => {
-    if (props.modelValue === undefined) {
-      return "Choose option";
-    }
 
-    return props.modelValue;
-  },
-  set: (val) => {
-    emits("update:modelValue", val);
-  },
+const value = computed({
+  get: () => props.modelValue ?? "Choose option",
+  set: (val) => emits("update:modelValue", val),
 });
+
+const fullName = computed(() => `${props.name}${props.required ? "*" : ""}`);
 
 const toggle = () => {
   open.value = !open.value;

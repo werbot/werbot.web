@@ -31,31 +31,27 @@
       </div>
 
       <div class="content">
-        <div class="my-5 flex flex-row">
-          <Badge name="Select All" class="cursor-pointer" @click.prevent="selectAll" />
-          <Badge name="Unselect All" class="cursor-pointer" @click.prevent="selectNone" />
-          <Badge name="Select Work Time" class="cursor-pointer" @click.prevent="selectWorkTime" />
-        </div>
+        <Badge name="Select All" class="cursor-pointer" @click.prevent="selectAll" />
+        <Badge name="Unselect All" class="cursor-pointer" @click.prevent="selectNone" />
+        <Badge name="Select Work Time" class="cursor-pointer" @click.prevent="selectWorkTime" />
       </div>
 
       <div class="divider"></div>
 
       <div class="content">
-        <div class="my-6">
-          <button type="submit" class="btn mr-5" @click="onUpdate(false)" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Update</span>
-          </button>
+        <button type="submit" class="btn mr-5" @click="onUpdate(false)" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Update</span>
+        </button>
 
-          <button type="submit" class="btn" @click="onUpdate(true)" :disabled="loading">
-            <div v-if="loading">
-              <span>Loading...</span>
-            </div>
-            <span v-else>Update and close</span>
-          </button>
-        </div>
+        <button type="submit" class="btn" @click="onUpdate(true)" :disabled="loading">
+          <div v-if="loading">
+            <span>Loading...</span>
+          </div>
+          <span v-else>Update and close</span>
+        </button>
       </div>
     </form>
   </div>
@@ -160,6 +156,8 @@ const onUpdate = async (redirect: boolean) => {
 };
 
 onMounted(async () => {
+  document.title = "Server activity";
+
   await serverNameByID(<ServerNameByID_Request>{
     user_id: proxy.$authStore.hasUserID,
     server_id: props.serverId,
@@ -178,8 +176,6 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => error.$reset());
-
-document.title = "server activity";
 
 // prettier-ignore
 const templateWork: any = {

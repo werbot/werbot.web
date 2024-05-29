@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onBeforeUnmount, getCurrentInstance } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 import { useErrorStore } from "@/store";
 
 import { useRouter } from "vue-router";
@@ -128,7 +128,9 @@ const onSubmit = async () => {
     });
 };
 
-onBeforeUnmount(() => proxy.$errorStore.$reset());
+onMounted(async () => {
+  document.title = "Step 2: Fill in the fields to connect";
+});
 
-document.title = "Step 2: Fill in the fields to connect";
+onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

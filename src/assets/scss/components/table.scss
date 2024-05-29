@@ -6,7 +6,7 @@ table {
   }
 
   tr {
-    //@apply border-b border-gray-100;
+    @apply border-b border-gray-100;
 
     &.cursor {
       &:hover,

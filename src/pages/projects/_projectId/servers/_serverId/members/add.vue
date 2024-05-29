@@ -101,6 +101,8 @@ const onSelectPage = (e: any) => {
 };
 
 onMounted(async () => {
+  document.title = "Server member add";
+
   getData(route.query);
 
   await serverNameByID(<ServerNameByID_Request>{

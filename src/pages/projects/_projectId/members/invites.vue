@@ -120,11 +120,11 @@ const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  document.title = "Add member";
+
   getData(route.query);
 });
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
-
-document.title = "add member";
 </script>

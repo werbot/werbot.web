@@ -112,7 +112,9 @@ const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  document.title = "SSH keys";
+
   getData(route.query);
 });
 </script>

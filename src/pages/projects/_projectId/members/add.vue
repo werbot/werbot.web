@@ -17,7 +17,7 @@
           <FormInput name="Name" v-model.trim="data.name" :error="proxy.$errorStore.errors['user_name']" :disabled="loading" class="mr-5 flex-grow" />
           <FormInput name="Surname" v-model.trim="data.surname" :error="proxy.$errorStore.errors['user_surname']" :disabled="loading" class="flex-grow" />
         </div>
-        <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" class="flex-grow" />
+        <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" class="flex-grow mt-5" />
 
         <button type="submit" class="btn mt-8" @click="onSendInvite" :disabled="loading">
           <div v-if="loading">
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, onBeforeUnmount } from "vue";
+import { ref, onMounted, getCurrentInstance, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { Tabs, FormInput } from "@/components";
 import { showMessage } from "@/utils/message";
@@ -73,6 +73,10 @@ const onSendInvite = async () => {
       showMessage(err.response.data.message, "connextError");
     });
 };
+
+onMounted(async () => {
+  document.title = "New member";
+});
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

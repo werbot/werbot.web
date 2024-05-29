@@ -1,13 +1,11 @@
 <template>
-  <div class="form-control" :class="class">
+  <div class="form-control" :class="props.class">
     <label class="label">
-      <span v-if="name" class="text">{{ name }}{{ required ? "*" : "" }}</span>
-      <span v-if="error" class="error">
-        {{ error }}
-      </span>
+      <span v-if="props.name" class="text">{{ fullName }}</span>
+      <span v-if="props.error" class="error">{{ props.error }}</span>
     </label>
 
-    <textarea v-model="(value as string)" :class="error ? 'error' : ''" :disabled="disabled" :placeholder="placeholder" :rows="rows"></textarea>
+    <textarea v-model="(value as string)" :class="props.error ? 'error' : ''" :disabled="props.disabled" :placeholder="props.placeholder" :rows="props.rows"></textarea>
   </div>
 </template>
 
@@ -15,9 +13,7 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  name: {
-    type: String,
-  },
+  name: String,
   modelValue: {
     required: true,
   },
@@ -25,30 +21,19 @@ const props = defineProps({
     type: Number,
     default: 6,
   },
-  error: {
-    type: String,
-  },
-  class: {
-    type: String,
-  },
-  disabled: {
-    type: Boolean,
-  },
-  required: {
-    type: Boolean,
-  },
-  placeholder: {
-    type: String,
-  },
+  error: String,
+  class: String,
+  disabled: Boolean,
+  required: Boolean,
+  placeholder: String,
 });
 
 const emits = defineEmits(["update:modelValue"]);
+
 const value = computed({
-  get: () => {
-    return props.modelValue;
-  },
-  set: (val) => {
-    emits("update:modelValue", val);
-  },
+  get: () => props.modelValue,
+  set: (val) => emits("update:modelValue", val),
 });
+
+const fullName = computed(() => `${props.name}${props.required ? "*" : ""}`);
 </script>

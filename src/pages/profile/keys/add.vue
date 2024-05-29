@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, getCurrentInstance } from "vue";
+import { onMounted, ref, onBeforeUnmount, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { FormInput, FormTextarea } from "@/components";
 import { showMessage } from "@/utils/message";
@@ -56,6 +56,10 @@ const onSubmit = async () => {
       loading.value = !loading.value;
     });
 };
+
+onMounted(async () => {
+  document.title = "Add new key";
+});
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, getCurrentInstance } from "vue";
+import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { FormInput } from "@/components";
 import { postProject } from "@/api/project";
@@ -55,7 +55,9 @@ const onSubmit = async () => {
     });
 };
 
-onBeforeUnmount(() => proxy.$errorStore.$reset());
+onMounted(async () => {
+  document.title = "New project";
+});
 
-document.title = "new projects";
+onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

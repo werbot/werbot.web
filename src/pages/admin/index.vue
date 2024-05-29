@@ -10,5 +10,9 @@
 </template>
 
 <script setup lang="ts">
-document.title = "Statistic";
+import { onMounted } from "vue";
+
+onMounted(async () => {
+  document.title = "Statistic";
+});
 </script>

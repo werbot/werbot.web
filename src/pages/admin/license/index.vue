@@ -10,5 +10,9 @@
 </template>
 
 <script setup lang="ts">
-document.title = "License";
+import { onMounted } from "vue";
+
+onMounted(async () => {
+  document.title = "License";
+});
 </script>

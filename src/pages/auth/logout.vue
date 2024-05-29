@@ -10,6 +10,8 @@ const { proxy } = getCurrentInstance() as any;
 const router = useRouter();
 
 onMounted(async () => {
+  document.title = "Please wait...";
+
   try {
     await proxy.$authStore.logout();
   } catch (error) {
@@ -18,6 +20,4 @@ onMounted(async () => {
     router.push({ name: "auth-signin" });
   }
 });
-
-document.title = "Please wait...";
 </script>

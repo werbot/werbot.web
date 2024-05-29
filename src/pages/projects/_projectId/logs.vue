@@ -7,3 +7,11 @@
     <div class="content">section under development</div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { onMounted } from "vue";
+
+onMounted(async () => {
+  document.title = "Logs activities";
+});
+</script>

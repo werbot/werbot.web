@@ -103,7 +103,9 @@ const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  document.title = "Members list";
+
   getData(route.query);
 });
 

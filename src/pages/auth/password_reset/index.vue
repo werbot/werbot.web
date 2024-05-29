@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, getCurrentInstance } from "vue";
+import { onMounted, ref, onBeforeUnmount, getCurrentInstance } from "vue";
 import { FormInput } from "@/components";
 import { sendEmail } from "@/api/auth";
 
@@ -55,7 +55,9 @@ const onSubmit = async () => {
     .catch(() => (loading.value = !loading.value));
 };
 
-onBeforeUnmount(() => proxy.$errorStore.$reset());
+onMounted(async () => {
+  document.title = "Reset password";
+});
 
-document.title = "Reset password";
+onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

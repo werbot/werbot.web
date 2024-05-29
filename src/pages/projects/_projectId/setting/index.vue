@@ -74,6 +74,8 @@ const onUpdate = async (redirect: boolean) => {
 };
 
 onMounted(async () => {
+  document.title = "Project setting";
+
   await getProject(<Project_Request>{
     project_id: props.projectId,
     owner_id: proxy.$authStore.hasUserID,
@@ -83,6 +85,4 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
-
-document.title = "setting projects";
 </script>

@@ -34,5 +34,9 @@
 </template>
 
 <script setup lang="ts">
-document.title = "Step 1: Select the scheme you want to add";
+import { onMounted } from "vue";
+
+onMounted(async () => {
+  document.title = "Step 1: Select the scheme you want to add";
+});
 </script>

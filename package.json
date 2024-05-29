@@ -5,11 +5,11 @@
   "commit": "00000000",
   "private": true,
   "scripts": {
-    "dev": "VITE_CJS_IGNORE_WARNING=true vite",
-    "build": "VITE_CJS_IGNORE_WARNING=true vite build --mode production",
-    "preview": "vite preview --port 4173",
-    "typecheck": "vue-tsc --noEmit --skipLibCheck",
-    "update": "ncu -i --format group"
+    "dev": "VITE_CJS_IGNORE_WARNING=true bun x vite",
+    "build": "VITE_CJS_IGNORE_WARNING=true bun x vite build --mode production",
+    "preview": "bun x vite preview --port 4173",
+    "typecheck": "bun x vue-tsc --noEmit --skipLibCheck",
+    "update": "bun x ncu -i --format group"
   },
   "dependencies": {
     "notiwind": "^2.0.2",
@@ -39,7 +39,7 @@
     "sass": "^1.77.2",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11",
+    "vite": "^5.2.12",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-devtools": "^7.2.1"
   }

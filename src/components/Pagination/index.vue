@@ -1,8 +1,8 @@
 <template>
-  <div v-if="Number(isLength(pagination)) > 1" class="pagination">
-    <router-link v-for="(item, index) in pagination" class="pagination btn" :to="{ name: route.name!, query: isQuery(index) }" :class="item == 'active' ? 'btn-active' : ''"
-      @click="onSelectPage(isQuery(index))">
-      {{ index }}
+  <div v-if="totalPages > 1" class="pagination">
+    <router-link v-for="page in totalPages" :key="page" class="pagination btn" :to="{ name: route.name, query: getQuery(page) }" :class="{ 'btn-active': page === currentPage }"
+      @click="onSelectPage(getQuery(page))">
+      {{ page }}
     </router-link>
   </div>
 </template>
@@ -12,63 +12,24 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 
 const props = defineProps({
-  total: {
-    type: Number,
-    default: 0,
-  },
+  total: Number,
 });
 
 const emits = defineEmits(["selectPage"]);
-
 const route = useRoute();
-const isLimit = (): number => {
-  let limit = 10;
-  if (route.query.limit) {
-    limit = Number(route.query.limit);
-  }
-  return limit;
-};
 
-const isOffset = (): number => {
-  let offset = 0;
-  if (route.query.offset) {
-    offset = Number(route.query.offset);
-  }
-  return offset;
-};
+const limit = computed(() => Number(route.query.limit) || 10);
+const offset = computed(() => Number(route.query.offset) || 0);
 
-const isQuery = (index: Number) => {
-  const offset: number = (Number(index) - 1) * isLimit();
-  return {
-    limit: isLimit(),
-    offset: offset,
-  };
-};
+const totalPages = computed(() => Math.ceil(props.total / limit.value));
+const currentPage = computed(() => Math.floor(offset.value / limit.value) + 1);
 
-const isLength = (obj: {}): Number => {
-  return Object.keys(obj).length;
-};
-
-const pagination = computed((): {} => {
-  const res: any = {};
-  const totalPage = Math.ceil(props.total / isLimit());
-  const selectPage = isOffset() / isLimit() + 1;
-
-  if (totalPage > 0) {
-    var count = 1;
-    for (let i = 0; i < totalPage; i++) {
-      if (selectPage === count) {
-        res[count] = "active";
-      } else {
-        res[count] = "";
-      }
-      count++;
-    }
-  }
-  return res;
+const getQuery = (page: number) => ({
+  limit: limit.value,
+  offset: (page - 1) * limit.value,
 });
 
-const onSelectPage = (query: any) => {
+const onSelectPage = (query: Record<string, any>) => {
   emits("selectPage", query);
 };
 </script>

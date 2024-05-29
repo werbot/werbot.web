@@ -91,6 +91,8 @@ const onUpdatePassword = async () => {
 
 
 onMounted(async () => {
+  document.title = "Password update";
+
   await getUser(<User_Request>{
     user_id: proxy.$authStore.hasUserID,
   }).then((res) => {

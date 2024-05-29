@@ -1,7 +1,7 @@
 <template>
   <div class="artboard red">
     <header>
-      <h1>Destroy your account</h1>
+      <h1>Destroy your profile</h1>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">This operation will permanently delete your user account. It CAN NOT be undone.</div>
@@ -69,6 +69,8 @@ const onDelete = async () => {
 };
 
 onMounted(async () => {
+  document.title = "Destroy profile";
+
   await getUser(<User_Request>{
     user_id: proxy.$authStore.hasUserID,
   }).then((res) => {
@@ -78,4 +80,3 @@ onMounted(async () => {
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>
-../tab

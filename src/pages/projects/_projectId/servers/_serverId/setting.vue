@@ -14,17 +14,15 @@
     <form @submit.prevent>
       <div class="content">
         <FormInput name="Title" v-model="data.host.title" :error="error.errors.title" class="flex-grow" />
-      </div>
 
-      <div class="content">
-        <div class="w-full">
+        <div class="mt-5 w-full">
           <div class="flex flex-row">
             <FormInput name="Address" v-model.trim="data.host.address" :error="error.errors.address" class="mr-5 flex-grow" :required="true" />
             <FormInput name="Port" v-model.number="data.host.port" :error="error.errors.port" class="mr-5 flex-grow" :required="true" />
             <FormInput name="Login" v-model.trim="data.host.login" :error="error.errors.login" class="flex-grow" :required="true" />
           </div>
 
-          <div class="flex flex-row">
+          <div class="mt-5 flex flex-row">
             <FormTextarea name="Description" v-model="data.host.description" :error="error.errors.description" :rows="6" class="flex-grow" />
           </div>
 
@@ -85,7 +83,7 @@
     </p>
     <template v-slot:footer>
       <div class="flex flex-row justify-end">
-        <button class="btn btn-red" @click="remoteServer()">Delete server</button>
+        <button class="btn btn-red" @click="remoteServer">Delete server</button>
         <button class="btn ml-5" @click="closeModal">Close</button>
       </div>
     </template>
@@ -272,6 +270,8 @@ const genNewKey = async () => {
 };
 
 onMounted(async () => {
+  document.title = "Server setting";
+
   await access(<ServerAccess_Request>{
     project_id: props.projectId,
     server_id: props.serverId,
@@ -306,6 +306,4 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => error.$reset());
-
-document.title = "server edit";
 </script>

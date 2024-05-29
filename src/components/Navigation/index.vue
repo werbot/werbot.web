@@ -1,50 +1,46 @@
 <template>
-  <!-- Profile block -->
-  <nav class="sidebar" v-if="(route.name as string).startsWith('profile')">
+  <nav class="sidebar" v-if="isProfileRoute">
     <ul>
-      <template v-for="(group, key, index) of profileMenu">
-        <li v-for="(item) in group">
-          <router-link active-class="current" :to="item.link" :class="{ current: (route.name as string).startsWith(item.link.name) }">
+      <template v-for="(group, key, index) in profileMenu" :key="key">
+        <li v-for="item in group" :key="item.link.name">
+          <router-link active-class="current" :to="item.link" :class="{ current: isActive(item.link.name) }">
             <SvgIcon :name="item.icon" />
             <span>{{ item.name }}</span>
           </router-link>
         </li>
-        <li v-if="index != Object.keys(profileMenu).length - 1">
+        <li v-if="index !== profileMenu.length - 1">
           <hr />
         </li>
       </template>
     </ul>
   </nav>
 
-  <!-- Project block -->
-  <nav class="sidebar" v-if="(route.name as string).startsWith('projects')">
+  <nav class="sidebar" v-if="isProjectRoute">
     <ul>
-      <template v-for="(group, key, index) of projectMenu">
-        <li v-for="(item) in group">
-          <router-link active-class="current" :to="{ name: item.link.name, params: { projectId: route.params.projectId } }"
-            :class="{ current: (route.name as string).startsWith(item.link.name) }">
+      <template v-for="(group, key, index) in projectMenu" :key="key">
+        <li v-for="item in group" :key="item.link.name">
+          <router-link active-class="current" :to="{ name: item.link.name, params: { projectId: route.params.projectId } }" :class="{ current: isActive(item.link.name) }">
             <SvgIcon :name="item.icon" />
             <span>{{ item.name }}</span>
           </router-link>
         </li>
-        <li v-if="index != Object.keys(projectMenu).length - 1">
+        <li v-if="index !== projectMenu.length - 1">
           <hr />
         </li>
       </template>
     </ul>
   </nav>
 
-  <!-- Admin block -->
-  <nav class="sidebar" v-if="(route.name as string).startsWith('admin') && route.path !== '/projects/new'">
+  <nav class="sidebar" v-if="isAdminRoute">
     <ul>
-      <template v-for="(group, key, index) of adminMenu">
-        <li v-for="(item) in group">
+      <template v-for="(group, key, index) in adminMenu" :key="key">
+        <li v-for="item in group" :key="item.link.name">
           <router-link active-class="current" :to="item.link">
             <SvgIcon :name="item.icon" />
             <span>{{ item.name }}</span>
           </router-link>
         </li>
-        <li v-if="index != Object.keys(adminMenu).length - 1">
+        <li v-if="index !== adminMenu.length - 1">
           <hr />
         </li>
       </template>
@@ -53,15 +49,21 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
+import { computed, inject } from "vue";
 import { useRoute } from "vue-router";
 import { SvgIcon } from "@/components";
 
 const route = useRoute();
 
-const adminMenu = inject('adminMenu')
-const profileMenu = inject('profileMenu')
-const projectMenu = inject('projectMenu')
+const adminMenu = inject('adminMenu');
+const profileMenu = inject('profileMenu');
+const projectMenu = inject('projectMenu');
+
+const isProfileRoute = computed(() => (route.name as string).startsWith('profile'));
+const isProjectRoute = computed(() => (route.name as string).startsWith('projects'));
+const isAdminRoute = computed(() => (route.name as string).startsWith('admin') && route.path !== '/projects/new');
+
+const isActive = (linkName: string) => (route.name as string).startsWith(linkName);
 </script>
 
 <style lang="scss">

@@ -26,11 +26,8 @@ jobs:
           fetch-depth: 0
       - run: git fetch --force --tags
       - uses: mikefarah/yq@master
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: "yarn"
-      - run: yarn install
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
       - run: make build
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}

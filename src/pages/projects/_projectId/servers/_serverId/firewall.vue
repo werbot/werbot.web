@@ -12,30 +12,25 @@
     <div class="desc">In addition to creating your own, some add-ons come with their own.</div>
 
     <div class="content">
-      <div class="mt-1 w-28 flex-none">Countries:</div>
+      <div class="w-28 flex-none">Countries:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
         <FormToggle name="Black-list" v-model="country.wite_list" class="flex-grow" id="country" @change="update(country.wite_list, Rules.country)" />
       </div>
-    </div>
 
-    <div class="content">
-      <FormInput v-model.trim="data.country" :error="error.errors.country" class="flex-grow" placeholder="Search country ..." @keyup="searchCountries()" />
-    </div>
+      <div class="w-full pt-3">
+        <FormInput v-model.trim="data.country" :error="error.errors.country" class="flex-grow" placeholder="Search country ..." @keyup="searchCountries()" />
+      </div>
 
-    <div class="content">
       <div class="flex-col">
         <div v-if="data.search" class="mt-3">
           <Badge v-for="(item, index) in data.search['countries']" :key="index" :name="item.name" color="green" class="mr-1 cursor-pointer"
             @click="addCountry(index, Rules.country)" />
         </div>
-
-        <div class="pt-5">
-          <span class="firewall-tags-item mr-3 mb-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in country.list">
-            <span class="ml-1">{{ item.country_name }}</span>
-            <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.country)" />
-          </span>
-        </div>
+        <span class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in country.list">
+          <span class="ml-1">{{ item.country_name }}</span>
+          <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.country)" />
+        </span>
       </div>
     </div>
 
@@ -47,15 +42,13 @@
       <div class="w-30 flex-none">
         <FormToggle name="Black-list" v-model="network.wite_list" class="flex-grow" id="network" @change="update(network.wite_list, Rules.ip)" />
       </div>
-    </div>
 
-    <div class="content">
-      <FormInput v-model="data.network" :error="error.errors.network" class="flex-grow" placeholder="IP address or mask" v-on:keyup.enter="addIp(data.network, Rules.ip)" />
-    </div>
+      <div class="w-full pt-3">
+        <FormInput v-model="data.network" :error="error.errors.network" class="flex-grow" placeholder="IP address or mask" v-on:keyup.enter="addIp(data.network, Rules.ip)" />
+      </div>
 
-    <div class="content">
-      <div class="pt-5">
-        <span class="firewall-tags-item mr-3 mb-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in network.list">
+      <div class="flex-col">
+        <span class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in network.list">
           <span class="ml-1" v-if="item.start_ip !== item.end_ip">
             {{ item.start_ip }} - {{ item.end_ip }}
           </span>
@@ -85,8 +78,6 @@ import {
   DeleteServerFirewall_Request,
 } from "@proto/firewall";
 
-
-
 // Tabs section
 import { tabMenu } from "./tab";
 
@@ -100,7 +91,6 @@ const props = defineProps({
   projectId: String,
   serverId: String,
 });
-
 
 // country
 const searchCountries = async () => {
@@ -177,7 +167,6 @@ const addIp = async (ip: any, rules: Rules) => {
 };
 
 // ---
-
 const create = async (record: any, rules: Rules) => {
   let request: any;
 
@@ -293,6 +282,8 @@ const remove = async (index: number, rules: Rules) => {
 };
 
 onMounted(async () => {
+  document.title = "Server firewall";
+
   await serverNameByID(<ServerNameByID_Request>{
     user_id: proxy.$authStore.hasUserID,
     server_id: props.serverId,

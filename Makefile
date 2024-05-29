@@ -52,7 +52,7 @@ build: ## Building project
 	$(msg) "$(GREEN)Building project$(RESET)"
 	@yq -i -p=json -o=json '.commit = "${GIT_COMMIT}"' ${ROOT_PATH}/package.json
 	@yq -i -p=json -o=json '.version = "${VERSION}"' ${ROOT_PATH}/package.json
-	@yarn vite build --mode production
+	@bun x vite build --mode production
 #############################################################################
 
 

@@ -6,5 +6,9 @@
 </template>
 
 <script setup lang="ts">
-document.title = "404 - Page Not Found";
+import { onMounted } from "vue";
+
+onMounted(async () => {
+  document.title = "404 - Page Not Found";
+});
 </script>

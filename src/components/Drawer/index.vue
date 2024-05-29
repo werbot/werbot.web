@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="drawer" :class="{ 'is-open': isOpen, 'is-visible': isVisible }">
-      <div class="drawer__overlay" :style="{ transitionDuration: `${speed}ms` }"></div>
-      <div class="drawer__content" ref="drawer" :style="{ maxWidth: maxWidth, transitionDuration: `${speed}ms`, backgroundColor: backgroundColor }">
+    <div class="drawer" :class="{ 'is-open': props.isOpen, 'is-visible': isVisible }">
+      <div class="drawer__overlay" :style="{ transitionDuration: `${props.speed}ms` }"></div>
+      <div class="drawer__content" ref="drawer" :style="{ maxWidth: props.maxWidth, transitionDuration: `${props.speed}ms`, backgroundColor: props.backgroundColor }">
         <div class="pb-4">
-          <h2>{{ title }}</h2>
+          <h2>{{ props.title }}</h2>
         </div>
 
         <slot />

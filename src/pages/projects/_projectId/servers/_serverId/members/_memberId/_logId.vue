@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { Tabs } from "@/components";
 
 // Tabs section
@@ -23,5 +24,9 @@ const props = defineProps({
   projectId: String,
   serverId: String,
   memberId: String,
+});
+
+onMounted(async () => {
+  document.title = "Server member";
 });
 </script>

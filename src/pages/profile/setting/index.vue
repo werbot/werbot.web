@@ -66,6 +66,8 @@ const onUpdateProfile = async () => {
 };
 
 onMounted(async () => {
+  document.title = "Profile setting";
+
   await getUser(<User_Request>{
     user_id: proxy.$authStore.hasUserID,
   }).then((res) => {

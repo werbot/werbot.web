@@ -44,6 +44,8 @@ const props = defineProps({
 });
 
 onMounted(async () => {
+  document.title = "Invitation to join the project";
+
   proxy.$systemStore.invites.project = props.invite;
 
   await getProjectMembersInviteActivate(props.invite!)
@@ -63,6 +65,4 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
-
-document.title = "Invitation to join the project";
 </script>

@@ -36,11 +36,14 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { ServerScheme } from "@proto/server";
 
 const props = defineProps({
   projectId: String,
 });
 
-document.title = "Step 1: Select the scheme you want to add";
+onMounted(async () => {
+  document.title = "Step 1: Select the scheme you want to add";
+});
 </script>

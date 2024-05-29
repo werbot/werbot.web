@@ -125,7 +125,9 @@ const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  document.title = "Servers list";
+
   getData(route.query);
 });
 

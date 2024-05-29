@@ -149,6 +149,8 @@ const onSelectPage = (e: any) => {
 };
 
 onMounted(async () => {
+  document.title = "Server member";
+
   getData(route.query);
 
   await serverNameByID(<ServerNameByID_Request>{

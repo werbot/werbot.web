@@ -19,8 +19,7 @@
   </div>
 
   <div class="mt-10">
-    <p>
-      Already have an account?
+    <p>Already have an account?
       <router-link :to="{ name: 'auth-signin' }"> Sign in </router-link>
     </p>
   </div>
@@ -68,6 +67,8 @@ const onSubmit = async () => {
 };
 
 onMounted(async () => {
+  document.title = "Reset password";
+
   try {
     await checkResetToken(props.token!);
   } catch (err) {
@@ -84,6 +85,4 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => proxy.$errorStore.$reset());
-
-document.title = "Reset password";
 </script>

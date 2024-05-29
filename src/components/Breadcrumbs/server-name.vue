@@ -7,30 +7,25 @@ import { ref, onMounted } from "vue";
 import { serverNameByID } from "@/api/server";
 import { ServerNameByID_Request } from "@proto/server";
 
-const data: any = ref({});
+interface ServerData {
+  server_name: string;
+}
 
-const props = defineProps({
-  memberId: {
-    type: String,
-    required: true,
-  },
-  serverId: {
-    type: String,
-    required: true,
-  },
-  projectId: {
-    type: String,
-    required: true,
-  },
-});
+const data = ref<ServerData | null>(null);
 
-onMounted(() => {
-  serverNameByID(<ServerNameByID_Request>{
+const props = defineProps<{
+  memberId: string;
+  serverId: string;
+  projectId: string;
+}>();
+
+onMounted(async () => {
+  const response = await serverNameByID(<ServerNameByID_Request>{
     user_id: props.memberId,
     server_id: props.serverId,
     project_id: props.projectId,
-  }).then((res) => {
-    data.value = res.data.result;
   });
+
+  data.value = response.data.result;
 });
 </script>

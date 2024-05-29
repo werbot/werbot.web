@@ -78,6 +78,7 @@ import { getEvents, getEvent } from "@/api/event";
 import { SvgIcon, Pagination, Drawer, Badge } from "@/components";
 import { Profile_Section, EventType } from "@proto/event";
 import { toDate } from "@/utils/time";
+import { decodeBase64 } from "@/utils/string";
 import { eventTypeToColor } from "@/utils/color";
 
 const { proxy } = getCurrentInstance() as any;
@@ -112,16 +113,9 @@ const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  document.title = "Profile logs";
+
   getData(route.query);
 });
-
-function decodeBase64(encodedString: string): string {
-  try {
-    return atob(encodedString);
-  } catch (e) {
-    console.error('Error decoding Base64 string:', e);
-    return '';
-  }
-}
 </script>

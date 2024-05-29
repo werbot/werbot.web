@@ -5,56 +5,15 @@
         <Notification v-slot="{ notifications }" enter="transform ease-out duration-300 transition" enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
           enter-to="translate-y-0 opacity-100 sm:translate-x-0" leave="transition ease-in duration-500" leave-from="opacity-100" leave-to="opacity-0" move="transition duration-500"
           move-delay="delay-300">
-          <div v-for="notification in notifications" :key="notification.id">
-            <div v-if="notification.type === 'error'" class="notification">
-              <div class="ico bg-red-500">
-                <SvgIcon name="error" class="text-white" />
-              </div>
-
-              <div class="message">
-                <div class="mx-3">
-                  <span class="font-semibold text-red-500">Error</span>
-                  <p>{{ notification.text }}</p>
-                </div>
-              </div>
+          <div v-for="notification in notifications" :key="notification.id" class="notification">
+            <div :class="['ico', typeStyles[notification.type].bgColor]">
+              <SvgIcon :name="typeStyles[notification.type].icon" class="text-white" />
             </div>
 
-            <div v-if="notification.type === 'info'" class="notification">
-              <div class="ico bg-blue-500">
-                <SvgIcon name="info" class="text-white" />
-              </div>
-
-              <div class="message">
-                <div class="mx-3">
-                  <span class="font-semibold text-blue-500">Info</span>
-                  <p>{{ notification.text }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="notification.type === 'success'" class="notification">
-              <div class="ico bg-green-500">
-                <SvgIcon name="success" class="text-white" />
-              </div>
-
-              <div class="message">
-                <div class="mx-3">
-                  <span class="font-semibold text-green-500">Success</span>
-                  <p>{{ notification.text }}</p>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="notification.type === 'warning'" class="notification">
-              <div class="ico bg-yellow-500">
-                <SvgIcon name="warning" class="text-white" />
-              </div>
-
-              <div class="message">
-                <div class="mx-3">
-                  <span class="font-semibold text-yellow-500">Warning</span>
-                  <p>{{ notification.text }}</p>
-                </div>
+            <div class="message">
+              <div class="mx-3">
+                <span :class="['font-semibold', typeStyles[notification.type].textColor]">{{ typeStyles[notification.type].label }}</span>
+                <p>{{ notification.text }}</p>
               </div>
             </div>
           </div>
@@ -67,8 +26,7 @@
 <script setup lang="ts">
 import { notify, Notification, NotificationGroup } from "notiwind";
 import { SvgIcon } from "@/components";
-
-const NOTIFICATION_DURATION = 4000;
+import { computed } from 'vue';
 
 const handleNotification = (eName: string, notificationType: string) => {
   const callback = (e: Event) => {
@@ -78,7 +36,7 @@ const handleNotification = (eName: string, notificationType: string) => {
         type: notificationType,
         text: (<any>e).detail,
       },
-      NOTIFICATION_DURATION
+      4000
     );
   };
 
@@ -91,6 +49,13 @@ handleNotification("connextError", "error");
 handleNotification("connextSuccess", "success");
 handleNotification("connextWarning", "warning");
 handleNotification("connextInfo", "info");
+
+const typeStyles = computed(() => ({
+  error: { bgColor: 'bg-red-500', textColor: 'text-red-500', label: 'Error', icon: 'error' },
+  info: { bgColor: 'bg-blue-500', textColor: 'text-blue-500', label: 'Info', icon: 'info' },
+  success: { bgColor: 'bg-green-500', textColor: 'text-green-500', label: 'Success', icon: 'success' },
+  warning: { bgColor: 'bg-yellow-500', textColor: 'text-yellow-500', label: 'Warning', icon: 'warning' }
+}));
 </script>
 
 <style lang="scss">

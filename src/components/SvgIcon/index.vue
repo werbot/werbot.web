@@ -1,5 +1,5 @@
 <template>
-  <svg aria-hidden="true" :class="class">
+  <svg aria-hidden="true" :class="props.class">
     <use :href="symbolId" />
   </svg>
 </template>
@@ -16,9 +16,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  class: {
-    type: String,
-  },
+  class: String
 });
 
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);

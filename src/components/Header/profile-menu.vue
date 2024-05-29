@@ -1,7 +1,7 @@
 <template>
   <div class="relative" ref="profileMenu">
     <button class="dropdown" :class="{ active: (route.name as string).startsWith('profile') || (route.name as string).startsWith('admin') }" type="button" @click="toggleDropdown"
-      :disabled="isLoading">
+      :disabled="props.isLoading">
       <SvgIcon name="user" />
       <span class="dot !w-2 !h-2 mr-1.5 mt-0.5" :class="wsStatus === 'OPEN' ? 'bg-green-500' : 'bg-gray-200'"></span>
       <span class="hidden md:block">{{ proxy.$authStore.hasUserName }}</span>
@@ -27,13 +27,12 @@
 <script lang="ts" setup>
 import { ref, watch, getCurrentInstance, inject } from "vue";
 import { useRoute } from "vue-router";
-import { useAuthStore } from "@/store";
 import { SvgIcon } from "@/components";
 import { topMenu } from "@pages/profile/menu";
 
-const authStore = useAuthStore();
-const profileMenu = ref(null);
 import { onClickOutside } from "@vueuse/core";
+
+const profileMenu = ref(null);
 onClickOutside(profileMenu, event => closeDropdown());
 
 const wsStatus = inject("wsStatus");

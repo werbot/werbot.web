@@ -49,6 +49,8 @@ const props = defineProps({
 });
 
 onMounted(async () => {
+  document.title = "Server session list";
+
   await serverNameByID(<ServerNameByID_Request>{
     user_id: proxy.$authStore.hasUserID,
     server_id: props.serverId,
