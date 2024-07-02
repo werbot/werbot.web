@@ -2,10 +2,16 @@ import { defineConfig } from "vite";
 import path from "path";
 import Vue from "@vitejs/plugin-vue";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
-import VueDevTools from 'vite-plugin-vue-devtools'
+import VueDevTools from "vite-plugin-vue-devtools";
 import AddonsRouter from "./src/plugins/addons";
 
 export default defineConfig({
+  server: {
+    fs: {
+      allow: [".", "../add-on"],
+    },
+  },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

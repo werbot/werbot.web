@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import { getVersion } from "@/api/info";
+//import { getVersion } from "@/api/info";
+//import { api } from "@/api";
 import pkg from "../../../package.json";
 
-// define an interface for the store state to ensure strict typing
 interface SystemState {
   versions: {
     ui: string;
@@ -13,7 +13,6 @@ interface SystemState {
   };
 }
 
-// define a reactive 'system' store with initial state and its type
 export const useSystemStore = defineStore("system", {
   state: (): SystemState => ({
     versions: {
@@ -34,10 +33,17 @@ export const useSystemStore = defineStore("system", {
       this.$reset();
     },
 
-    //async getVersion() {
-    //  this.versions.ui = `${pkg.version} (${pkg.commit})`;
-    //  const res: any = await getVersion();
-    //  this.versions.api = res.data.result.api;
-    //},
+    async getVersion() {
+      this.versions.ui = `${pkg.version} (${pkg.commit})`;
+      // TODO: receive via ws
+      //try {
+      //  const res = await api().GET(`/v1/version`);
+      //  if (res.data) {
+      //    this.versions.api = res.data.result.api;
+      //  }
+      //} catch (err) {
+      //  console.error("Unexpected error:", err);
+      //}
+    },
   },
 });

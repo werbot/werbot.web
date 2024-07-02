@@ -10,7 +10,7 @@
         <slot />
         <div class="pt-4">
           <slot name="footer">
-            <button class="btn" @click="closeDrawer">Close</button>
+            <FormButton @click="closeDrawer()">Close</FormButton>
           </slot>
         </div>
       </div>
@@ -20,6 +20,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, getCurrentInstance } from "vue";
+import { FormButton } from "@/components";
 import { onClickOutside } from "@vueuse/core";
 
 const drawer = ref(null);

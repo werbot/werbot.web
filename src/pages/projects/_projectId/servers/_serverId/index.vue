@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverName }}</div>
+      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">Several options for adding new members are available. Choose the right one and follow the instructions.</div>
@@ -15,17 +15,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, getCurrentInstance, ref } from "vue";
+import { onMounted } from "vue";
+import { useServerStore } from "@/store";
 import { Tabs } from "@/components";
-import { serverNameByID } from "@/api/server";
-import { ServerNameByID_Request } from "@proto/server";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
-const serverName: any = ref("");
+const serverStore = useServerStore();
 
-const { proxy } = getCurrentInstance() as any;
 const props = defineProps({
   projectId: String,
   serverId: String,
@@ -33,13 +31,6 @@ const props = defineProps({
 
 onMounted(async () => {
   document.title = "Server info";
-
-  await serverNameByID(<ServerNameByID_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    server_id: props.serverId,
-    project_id: props.projectId,
-  }).then((res) => {
-    serverName.value = res.data.result.server_name;
-  });
+  serverStore.serverNameByID(props.projectId, props.serverId);
 });
 </script>

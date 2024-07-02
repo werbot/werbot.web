@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverName }}</div>
+      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">Time at which access to the server is possible</div>
@@ -14,7 +14,7 @@
     <form @submit.prevent>
       <div class="flex w-full flex-row">
         <table>
-          <tr v-for="(itemDay, day) in data" :key="day">
+          <tr v-for="(itemDay, day) in pageData.base" :key="day">
             <td class="worktime-weekday select-none pr-5 outline-none">
               <span class="cursor-pointer" @click="invertDay(day)" :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }">{{ day }}</span>
             </td>
@@ -39,143 +39,118 @@
       <div class="divider"></div>
 
       <div class="content">
-        <button type="submit" class="btn mr-5" @click="onUpdate(false)" :disabled="loading">
-          <div v-if="loading">
-            <span>Loading...</span>
-          </div>
-          <span v-else>Update</span>
-        </button>
-
-        <button type="submit" class="btn" @click="onUpdate(true)" :disabled="loading">
-          <div v-if="loading">
-            <span>Loading...</span>
-          </div>
-          <span v-else>Update and close</span>
-        </button>
+        <FormButton class="mr-5" @click="onUpdate()" :loading="pageData.loading">Update</FormButton>
       </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance, onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
-import { serverNameByID, activity, updateActivity } from "@/api/server";
-import { ServerNameByID_Request, ServerActivity_Request, UpdateServerActivity_Request } from "@proto/server";
-import { useErrorStore } from "@/store";
-import { Tabs, Badge } from "@/components";
+import { ref, onMounted } from "vue";
+import { useServerStore } from "@/store";
+import { showMessage } from "@/utils";
+import { Tabs, Badge, FormButton } from "@/components";
+import { PageData, defaultPageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
+import { ServerActivity_Request, UpdateServerActivity_Request } from "@proto/server";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
-const { proxy } = getCurrentInstance() as any;
-const error: any = useErrorStore();
-const router = useRouter();
-const data: any = ref({});
-const serverName: any = ref("");
-const loading = ref(false);
+const serverStore = useServerStore();
+const pageData = ref<PageData>(defaultPageData);
+
 const props = defineProps({
   projectId: String,
   serverId: String,
 });
 
-const serverActivity: any = ref({});
-const invert = (event: String, day: number, hour: number) => {
-  if (serverActivity.value.md && event == "mousemove") {
-    if (serverActivity.value.prevDay == day && serverActivity.value.prevHour == hour) {
+const getData = async () => {
+  try {
+    const queryParams = <ServerActivity_Request>{
+      project_id: props.projectId,
+      server_id: props.serverId,
+    };
+
+    const res = await api().GET(`/v1/servers/activity`, queryParams);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+    }
+  } catch (err) {
+    console.error("Unexpected error:", err);
+  }
+};
+
+const invert = (e: String, day: number, hour: number) => {
+  if (pageData.value.tmp.md && e == "mousemove") {
+    if (pageData.value.tmp.prevDay == day && pageData.value.tmp.prevHour == hour) {
       return;
     }
-    serverActivity.value.prevDay = day;
-    serverActivity.value.prevHour = hour;
+    pageData.value.tmp.prevDay = day;
+    pageData.value.tmp.prevHour = hour;
 
-    data.value[day][hour] = Number(!data.value[day][hour]);
+    pageData.value.base[day][hour] = Number(!pageData.value.base[day][hour]);
   }
 
-  if (event == "click") {
-    data.value[day][hour] = Number(!data.value[day][hour]);
+  if (e == "click") {
+    pageData.value.base[day][hour] = Number(!pageData.value.base[day][hour]);
   }
 };
 
 const startDrag = () => {
-  serverActivity.value.md = true;
+  pageData.value.tmp.md = true;
   document.addEventListener("mouseup", stopDrag);
 };
 
 const stopDrag = () => {
-  serverActivity.value.md = false;
+  pageData.value.tmp.md = false;
+  document.addEventListener("mouseup", stopDrag);
 };
 
 const invertDay = (day: number) => {
-  data.value[day].map((item: number, hour: number) => {
-    data.value[day][hour] = Number(!item);
-  });
+  pageData.value.base[day] = pageData.value.base[day].map((item: number) => Number(!item));
 };
 
 const selectAll = () => {
-  selectTimeWork(() => {
-    return 1;
-  });
+  selectTimeWork(() => 1);
 };
 
 const selectNone = () => {
-  selectTimeWork(() => {
-    return 0;
-  });
+  selectTimeWork(() => 0);
 };
+
 const selectWorkTime = () => {
-  selectTimeWork((_day: any, prop: string, hour: number) => {
-    return templateWork[prop][hour];
-  });
+  selectTimeWork((_, prop, hour) => templateWork[prop][hour]);
 };
 
 const selectTimeWork = (e: any) => {
-  for (var day in data.value) {
-    data.value[day] = data.value[day].map((item: number, hour: number) => {
-      return e(item, day, hour);
-    });
-  }
+  Object.keys(pageData.value.base).forEach((day) => {
+    pageData.value.base[day] = pageData.value.base[day].map((item: number, hour: number) => e(item, day, hour));
+  });
 };
 
-const onUpdate = async (redirect: boolean) => {
-  await updateActivity(<UpdateServerActivity_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-    activity: data.value,
-  }).then((res) => {
-    if (res.data.code === 200) {
-      const eventError = new CustomEvent("connextSuccess", {
-        detail: res.data.message,
-      });
-      dispatchEvent(eventError);
+const onUpdate = async () => {
+  try {
+    pageData.value.loading = true;
+
+    const bodyParams = <UpdateServerActivity_Request>{
+      project_id: props.projectId,
+      server_id: props.serverId,
+      activity: pageData.value.base,
+    };
+
+    const res = await api().UPDATE(`/v1/servers/activity`, {}, bodyParams);
+    if (res.data) {
+      showMessage(res.data.message);
     }
-  });
-
-  if (redirect) {
-    router.push({ name: "projects-projectId-servers" });
+  } catch (err) {
+    console.error("Unexpected error:", err);
+  } finally {
+    pageData.value.loading = false;
   }
 };
-
-onMounted(async () => {
-  document.title = "Server activity";
-
-  await serverNameByID(<ServerNameByID_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    server_id: props.serverId,
-    project_id: props.projectId,
-  }).then((res) => {
-    serverName.value = res.data.result.server_name;
-  });
-
-
-  await activity(<ServerActivity_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-  }).then((res) => {
-    data.value = res.data.result;
-  });
-});
-
-onBeforeUnmount(() => error.$reset());
 
 // prettier-ignore
 const templateWork: any = {
@@ -188,6 +163,12 @@ const templateWork: any = {
   saturday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   sunday: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 };
+
+onMounted(async () => {
+  document.title = "Server activity";
+  serverStore.serverNameByID(props.projectId, props.serverId);
+  await getData();
+});
 </script>
 
 <style>

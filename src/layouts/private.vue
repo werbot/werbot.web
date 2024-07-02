@@ -21,13 +21,12 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, watchEffect, provide, ref } from "vue";
+import { watchEffect, provide, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store";
 import { useWebSocket } from "@vueuse/core";
 import { Header, Navigation, Version } from "@/components";
 
-const { proxy } = getCurrentInstance() as any;
 const router = useRouter();
 
 const isSubscribe = ref(false);
@@ -43,31 +42,25 @@ provide("wsStatus", status);
 provide("wsData", data);
 provide("wsSend", send);
 
-if (router.currentRoute.value.fullPath.startsWith('/admin') && proxy.$authStore.hasUserRole != 3) {
+if (router.currentRoute.value.fullPath.startsWith('/admin') && authStore.hasUserRole != 3) {
   router.push({ name: "404" });
 }
 
 watchEffect(() => {
-  if (data.value) {
-    const resp = JSON.parse(data.value);
-    switch (resp.code) {
-      case 200:
-        if (resp.action === "subscribe") {
-          isSubscribe.value = true
-          const message = JSON.stringify({ action: "info" });
-          send(message);
-        }
-        break;
+  if (!data.value) return;
 
-      case 401:
-        isSubscribe.value = false
-        close();
-        open();
-        break;
-    }
+  const resp = JSON.parse(data.value);
+  const { code, action } = resp;
+
+  if (code === 200 && action === "subscribe") {
+    isSubscribe.value = true;
+    send(JSON.stringify({ action: "info" }));
+  } else if (code === 401) {
+    isSubscribe.value = false;
+    close();
+    open();
   }
 });
-
 
 /*
 const checkExpiration = () => {
@@ -84,5 +77,4 @@ const checkExpiration = () => {
 checkExpiration();
 const intervalId = setInterval(checkExpiration, 5000)
 */
-
 </script>

@@ -8,14 +8,13 @@
     <div class="content">
       <form @submit.prevent>
         <div class="mb-5 flex flex-row">
-          <FormInput name="Title" v-model="data.title" :error="proxy.$errorStore.errors['title']" class="mr-5 flex-grow" />
-          <FormInput name="Login" v-model.trim="data.login" :error="proxy.$errorStore.errors['login']" class="flex-grow" />
+          <FormInput name="Title" v-model="pageData.base.title" :error="pageData.error['title']" class="mr-5 flex-grow" />
+          <FormInput name="Login" v-model.trim="pageData.base.login" :error="pageData.error['login']" class="flex-grow" />
         </div>
 
         <div class="mt-6">
           <div class="flex-none">
-            <button type="submit" @click="onUpdate(false)" class="btn mr-5">Update</button>
-            <button type="submit" @click="onUpdate(true)" class="btn">Update and close</button>
+            <FormButton @click="onUpdate()" class="mr-5" :loading="pageData.loading">Update</FormButton>
           </div>
         </div>
       </form>
@@ -25,64 +24,70 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
-import { useRouter } from "vue-router";
-import { Tabs, FormInput } from "@/components";
-import { getProject, updateProject } from "@/api/project";
+import { ref, onMounted } from "vue";
+import { useAuthStore } from "@/store";
+import { Tabs, FormInput, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
 import { Project_Request, UpdateProject_Request } from "@proto/project";
-import { showMessage } from "@/utils/message";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
-const { proxy } = getCurrentInstance() as any;
-const data: any = ref({});
-const router = useRouter();
+const authStore = useAuthStore();
+const pageData = ref<PageData>(defaultPageData);
+
 const props = defineProps({
   projectId: String,
 });
 
-const onUpdate = async (redirect: boolean) => {
-  let message: any = {
-    warn: false,
-    text: "Project settings updated",
-  };
+const getData = async () => {
+  try {
+    const queryParams = <Project_Request>{
+      project_id: props.projectId,
+      owner_id: authStore.hasUserID,
+    };
 
-  await updateProject(<UpdateProject_Request>{
-    project_id: props.projectId,
-    owner_id: proxy.$authStore.hasUserID,
-    title: data.value.title,
-    login: data.value.login,
-  })
-    .then((res) => {
-      if (res.data.code === 200) {
-        if (message.warn) {
-          showMessage(message.text, "connextWarning");
-        } else {
-          showMessage(message.text);
-        }
-        proxy.$errorStore.$reset();
-      }
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-    });
+    const res = await api().GET(`/v1/projects`, queryParams);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
+};
 
-  if (redirect) {
-    router.push({ name: "projects-projectId-servers" });
+const onUpdate = async () => {
+  try {
+    pageData.value.loading = true;
+
+    const bodyParams = <UpdateProject_Request>{
+      project_id: props.projectId,
+      owner_id: authStore.hasUserID,
+      title: pageData.value.base.title,
+      login: pageData.value.base.login,
+    };
+
+    const res = await api().UPDATE(`/v1/projects`, {}, bodyParams)
+    if (res.data) {
+      showMessage(res.data.message);
+      pageData.value.error = {};
+    }
+    if (res.error) {
+      pageData.value.error = res.error.result;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    pageData.value.loading = false;
   }
 };
 
 onMounted(async () => {
   document.title = "Project setting";
-
-  await getProject(<Project_Request>{
-    project_id: props.projectId,
-    owner_id: proxy.$authStore.hasUserID,
-  }).then((res) => {
-    data.value = res.data.result;
-  });
+  await getData();
 })
-
-onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

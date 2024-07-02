@@ -6,29 +6,29 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ data.host.title }}</div>
+      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">Several options for adding new members are available. Choose the right one and follow the instructions.</div>
 
     <form @submit.prevent>
       <div class="content">
-        <FormInput name="Title" v-model="data.host.title" :error="error.errors.title" class="flex-grow" />
+        <FormInput name="Title" v-model="pageData.base.host.title" :error="pageData.error['title']" class="flex-grow" />
 
         <div class="mt-5 w-full">
-          <div class="flex flex-row">
-            <FormInput name="Address" v-model.trim="data.host.address" :error="error.errors.address" class="mr-5 flex-grow" :required="true" />
-            <FormInput name="Port" v-model.number="data.host.port" :error="error.errors.port" class="mr-5 flex-grow" :required="true" />
-            <FormInput name="Login" v-model.trim="data.host.login" :error="error.errors.login" class="flex-grow" :required="true" />
+          <div class="flex">
+            <FormInput name="Address" v-model.trim="pageData.base.host.address" :error="pageData.error['info.address']" class="mr-5 flex-grow" :required="true" />
+            <FormInput name="Port" v-model.number="pageData.base.host.port" :error="pageData.error['info.port']" class="mr-5 flex-grow" :required="true" />
+            <FormInput name="Login" v-model.trim="pageData.base.host.login" :error="pageData.error['info.login']" class="flex-grow" :required="true" />
           </div>
 
-          <div class="mt-5 flex flex-row">
-            <FormTextarea name="Description" v-model="data.host.description" :error="error.errors.description" :rows="6" class="flex-grow" />
+          <div class="mt-5 flex">
+            <FormTextarea name="Description" v-model="pageData.base.host.description" :error="pageData.error['info.description']" :rows="6" class="flex-grow" />
           </div>
 
-          <div class="mt-5 flex flex-row">
-            <FormToggle name="Active" v-model="data.host.active" class="mr-5 flex-grow" id="active" @change="onUpdate('active', false)" />
-            <FormToggle name="Audit" v-model="data.host.audit" class="flex-grow" id="audit" @change="onUpdate('audit', false)" />
+          <div class="mt-5 flex">
+            <FormToggle name="Active" v-model="pageData.base.host.active" class="mr-5 flex-grow" id="active" @change="onUpdate('active')" />
+            <FormToggle name="Audit" v-model="pageData.base.host.audit" class="flex-grow" id="audit" @change="onUpdate('audit')" />
           </div>
         </div>
       </div>
@@ -36,12 +36,7 @@
       <div class="divider before:bg-gray-100 after:bg-gray-100"></div>
 
       <div class="content">
-        <div class="flex-none">
-          <button type="submit" @click="onUpdate('info', false)" class="btn mr-5">Update</button>
-          <button type="submit" @click="onUpdate('info', true)" class="btn">Update and close</button>
-        </div>
-        <div class="flex-grow"></div>
-        <button type="submit" @click="openModal()" class="btn">Delete server</button>
+        <FormButton @click="onUpdate('info')" :disabled="pageData.loading" :loading="pageData.loading">Update</FormButton>
       </div>
     </form>
   </div>
@@ -53,257 +48,246 @@
     <div class="divider"></div>
     <div class="content">
       <form @submit.prevent>
-        <div v-if="data.host.auth == Auth.password">
-          <FormInput name="Password (hidden, can only be overwritten)" v-model.trim="data.access.password" :error="error.errors.password" class="flex-grow" type="password"
-            autocomplete="current-password" />
+        <div v-if="pageData.base.host.auth == Auth.password">
+          <FormInput name="Password (hidden, can only be overwritten)" v-model.trim="pageData.base.access.password" :error="pageData.error['password']" class="flex-grow"
+            type="password" autocomplete="current-password" />
         </div>
 
-        <div v-if="data.host.auth == Auth.key">
-          <FormInput name="Public key" v-model="data.access.public_key" :error="error.errors.public_key" class="w-full" :disabled="true" :required="true" />
+        <div v-if="pageData.base.host.auth == Auth.key" class="flex-grow">
+          <div class="flex">
+            <FormInput name="Public key" v-model="pageData.base.access.public_key" :error="pageData.error['public_key']" class="grow" :disabled="true" :required="true" />
 
-          <button type="submit" class="btn mt-5 bg-green-500" @click="genNewKey()">
-            Generate new key
-          </button>
-        </div>
-
-        <button v-if="data.access.key || data.access.password > 3" type="submit" class="btn mt-8" @click="onUpdateAccess" :disabled="loading">
-          <div v-if="loading">
-            <span>Loading...</span>
+            <FormButton lite class="ml-2 mt-8 flex-none" @click="copy(pageData.base.access.public_key)">
+              <span>{{ (copied ? 'Copied' : 'Copy') }}</span>
+            </FormButton>
+            <FormButton lite :disabled="pageData.tmp.new_key" :rotate="pageData.tmp.new_key" class="ml-2 mt-8 flex-none" @click="genNewKey()">
+              <SvgIcon name="refresh" />
+            </FormButton>
           </div>
-          <span v-else>Update access</span>
-        </button>
+        </div>
+
+        <FormButton v-if="pageData.base.access.key || pageData.base.access.password > 3" class="mt-8" @click="onUpdateAccess()" :disabled="pageData.tmp.loading_key"
+          :loading="pageData.tmp.loading_key">Update key</FormButton>
       </form>
     </div>
   </div>
-
-  <Modal :showModal="modalActive" @close="closeModal" title="Are you sure you want to delete this server?">
-    <p>
-      This action CANNOT be undone. This will permanently delete the server and if you’d like to use
-      it in the future, you will need to added it again.<br />
-    </p>
-    <template v-slot:footer>
-      <div class="flex flex-row justify-end">
-        <button class="btn btn-red" @click="remoteServer">Delete server</button>
-        <button class="btn ml-5" @click="closeModal">Close</button>
-      </div>
-    </template>
-  </Modal>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance, onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
-import { server, updateServer, updateAccess, deleteServer, access } from "@/api/server";
-import { newKey } from "@/api/key";
-import {
-  Server_Request,
-  UpdateServer_Request,
-  UpdateServer_Info,
-  DeleteServer_Request,
-  ServerAccess_Request,
-  UpdateServerAccess_Request,
-  Auth,
-} from "@proto/server";
-import { Tabs, FormInput, FormTextarea, FormToggle, Modal } from "@/components";
-import { useErrorStore } from "@/store";
-import { showMessage } from "@/utils/message";
+import { ref, watch, onMounted } from "vue";
+import { useServerStore } from "@/store";
+import { useClipboard } from '@vueuse/core'
+import { SvgIcon, Tabs, FormInput, FormTextarea, FormToggle, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+import { PageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
+import { Server_Request, UpdateServer_Info, ServerAccess_Request, UpdateServerAccess_Request, Auth } from "@proto/server";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
-const { proxy } = getCurrentInstance() as any;
-const error: any = useErrorStore();
-const router = useRouter();
-const data: any = ref({
-  host: <any>{},
-  access: <any>{},
+const serverStore = useServerStore();
+const pageData = ref<PageData>({
+  base: {
+    host: {},
+    access: {},
+  },
+  tmp: {
+    new_key: false,
+    loading_key: false,
+  },
+  error: {},
 });
-const loading = ref(false);
+
 const props = defineProps({
   projectId: String,
   serverId: String,
 });
 
-const modalActive = ref(false);
-const openModal = async () => {
-  modalActive.value = true;
-};
-const closeModal = () => {
-  modalActive.value = false;
-};
+const getData = async () => {
+  const { projectId, serverId } = props;
 
-const onUpdate = async (typeData: string, redirect: boolean) => {
-  delete data.value.scheme;
-  let update = <UpdateServer_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
+  try {
+    const serverRequestParams = <Server_Request>{
+      project_id: projectId,
+      server_id: serverId,
+    };
+
+    const accessRequestParams = <ServerAccess_Request>{
+      project_id: projectId,
+      server_id: serverId,
+    };
+
+    const [serverRes, accessRes] = await Promise.all([
+      api().GET(`/v1/servers`, serverRequestParams),
+      api().GET(`/v1/servers/access`, accessRequestParams)
+    ]);
+
+    if (serverRes.data) {
+      pageData.value.base.host = serverRes.data.result;
+    }
+
+    if (accessRes.data) {
+      pageData.value.base.access.auth = accessRes.data.result.auth;
+
+      switch (accessRes.data.result.auth) {
+        case Auth.password:
+          pageData.value.base.access.password = accessRes.data.result.Access.password;
+          break;
+
+        case Auth.key:
+          pageData.value.base.access.public_key = accessRes.data.result.Access.Key.public;
+          break;
+      }
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
+}
+
+const onUpdate = async (typeData: string) => {
+  delete pageData.value.base.scheme;
+
+  const { projectId, serverId } = props;
+  const { address, port, login, title, description, active, audit } = pageData.value.base.host;
+  const bodyParams: any = {
+    project_id: projectId,
+    server_id: serverId,
   };
+
   let message: any = {
     warn: false,
     text: "",
   };
 
+  const setMessage = (text: string, warn: boolean = false) => {
+    message.text = text;
+    message.warn = warn;
+  };
+
   switch (typeData) {
-    case "info": {
-      update.setting = <any>{
-        info: <UpdateServer_Info>{
-          address: data.value.host.address,
-          port: data.value.host.port,
-          login: data.value.host.login,
-          title: data.value.host.title,
-          description: data.value.host.description,
-        },
-      };
-      message.text = "Server settings updated";
+    case "info":
+      bodyParams.info = { address, port: port || null, login, title, description };
+      setMessage("Server settings updated");
       break;
-    }
-    case "active": {
-      update.setting = <any>{
-        active: data.value.host.active,
-      };
-      if (data.value.host.active === false) {
-        message.warn = true;
-        message.text = "Server disabled";
-      } else {
-        message.text = "Server enabled";
-      }
+    case "active":
+      bodyParams.active = active;
+      setMessage(active ? "Server enabled" : "Server disabled", !active);
       break;
-    }
-    case "audit": {
-      update.setting = <any>{
-        audit: data.value.host.audit,
-      };
-      if (data.value.host.audit === false) {
-        message.warn = true;
-        message.text = "Audit settings disabled";
-      } else {
-        message.text = "Audit settings enabled";
-      }
+    case "audit":
+      bodyParams.audit = audit;
+      setMessage(audit ? "Audit settings enabled" : "Audit settings disabled", !audit);
       break;
-    }
-    default: {
+    default:
       console.log("exit");
-      break;
-    }
+      return;
   }
 
-  await updateServer(update)
-    .then((res) => {
-      if (res.data.code === 200) {
-        if (message.warn) {
-          showMessage(message.text, "connextWarning");
-        } else {
-          showMessage(message.text);
-        }
-        proxy.$errorStore.$reset();
-      }
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-    });
+  try {
+    if (typeData === "info") {
+      pageData.value.loading = true;
+    }
 
-  if (redirect) {
-    router.push({ name: "projects-projectId-servers" });
+    const res = await api(false).UPDATE(`/v1/servers`, {}, bodyParams);
+    if (res.data) {
+      if (typeData === "info") {
+        serverStore.updateServerNameByID(props.projectId, props.serverId, title);
+        ['address', 'port', 'login', 'description'].forEach(field => {
+          pageData.value.error[`info.${field}`] = null;
+        });
+      }
+      showMessage(res.data.message);
+    }
+
+    if (res.error && typeData === "info") {
+      pageData.value.error = res.error.result;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    pageData.value.loading = false;
   }
 };
 
 const onUpdateAccess = async () => {
-  console.log(data.value.access);
-  let update = <UpdateServerAccess_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-  };
+  const { projectId, serverId } = props;
+  const { base, tmp, error } = pageData.value;
 
-  switch (data.value.access.auth) {
-    case Auth.password: {
-      update.access = <any>{
-        password: data.value.access.password,
-      };
-      break;
-    }
-    case Auth.key: {
-      update.access = <any>{
-        key: data.value.access.key,
-      };
-      break;
+  try {
+    tmp.loading_key = true;
+
+    let bodyParams = {
+      project_id: projectId,
+      server_id: serverId,
+      access: {},
+    };
+
+    switch (base.access.auth) {
+      case Auth.password:
+        bodyParams.access = { password: base.access.password };
+        break;
+      case Auth.key:
+        bodyParams.access = { key: base.access.key };
+        break;
+      default:
+        console.log("exit");
+        return;
     }
 
-    default: {
-      console.log("exit");
-      break;
+    const res = await api().UPDATE(`/v1/servers/access`, {}, bodyParams);
+    if (res.data) {
+      base.access.key = null;
+      base.access.password = null;
+      showMessage(res.data.message);
+      error.password = null;
     }
+    if (res.error && base.access.auth === Auth.password) {
+      error.password = res.error.result.password;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    tmp.loading_key = false;
   }
-
-  await updateAccess(update)
-    .then((res) => {
-      if (res.data.code === 200) {
-        showMessage(res.data.message);
-        proxy.$errorStore.$reset();
-      }
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-    });
-};
-
-const remoteServer = async () => {
-  await deleteServer(<DeleteServer_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-  }).then((res) => {
-    if (res.data.code === 200) {
-      const eventError = new CustomEvent("connextSuccess", {
-        detail: res.data.message,
-      });
-      dispatchEvent(eventError);
-    }
-  });
-
-  router.push({ name: "projects-projectId-servers" });
 };
 
 const genNewKey = async () => {
-  await newKey().then((res) => {
-    data.value.access.public_key = res.data.result.public;
-    data.value.access.key = res.data.result.uuid;
-  });
+  const { tmp, base } = pageData.value;
+
+  try {
+    tmp.new_key = true;
+    const res = await api().GET(`/v1/keys/generate`)
+    if (res.data) {
+      base.access.public_key = res.data.result.public;
+      base.access.key = res.data.result.uuid;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    tmp.new_key = false;
+  }
 };
 
-onMounted(async () => {
-  document.title = "Server setting";
-
-  await access(<ServerAccess_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-  }).then((res) => {
-    data.value.access.auth = res.data.result.auth;
-
-    switch (res.data.result.auth) {
-      case Auth.password:
-        data.value.access.password = res.data.result.Access.password;
-        break;
-
-      case Auth.key:
-        data.value.access.public_key = res.data.result.Access.Key.public;
-        break;
-    }
-  });
-
-  await server(<Server_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-  }).then((res) => {
-    data.value.host = res.data.result;
-  });
-
-  if (data.value.host.audit === undefined) {
-    data.value.host.audit = false;
-  }
-
-  if (data.value.host.active === undefined) {
-    data.value.host.active = false;
+const { copy, copied } = useClipboard();
+watch(copied, (val) => {
+  if (val) {
+    showMessage("The key has been copied to the clipboard");
   }
 });
 
-onBeforeUnmount(() => error.$reset());
+onMounted(async () => {
+  document.title = "Server setting";
+  serverStore.serverNameByID(props.projectId, props.serverId);
+  await getData();
+
+  if (pageData.value.base.host.audit === undefined) {
+    pageData.value.base.host.audit = false;
+  }
+
+  if (pageData.value.base.host.active === undefined) {
+    pageData.value.base.host.active = false;
+  }
+});
 </script>

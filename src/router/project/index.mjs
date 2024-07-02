@@ -1,7 +1,7 @@
 export const route = [
   {
     path: "/projects",
-    meta: { layout: "private", requiresAuth: true, name: "Projects" },
+    meta: { layout: "private", layoutStyle: "blank", requiresAuth: true, name: "Projects" },
     children: [
       {
         path: "",
@@ -12,13 +12,11 @@ export const route = [
       {
         path: "add",
         name: "projects-add",
-        meta: { layoutStyle: "blank" },
         component: () => import("@/pages/projects/add.vue"),
         "props": true
       },
     ],
   },
-
   {
     path: "/projects/:projectId",
     meta: { layout: "private", requiresAuth: true, name: "Projects" },
@@ -194,6 +192,23 @@ export const route = [
             "props": true
           },
           {
+            path: "add",
+            children: [
+              {
+                path: "",
+                name: "projects-projectId-servers-add",
+                component: () => import("@/pages/projects/_projectId/servers/add/index.vue"),
+                "props": true
+              },
+              {
+                path: ":scheme",
+                name: "projects-projectId-servers-add-scheme",
+                component: () => import("@/pages/projects/_projectId/servers/add/_scheme.vue"),
+                "props": true
+              },
+            ],
+          },
+          {
             path: ":serverId",
             children: [
               {
@@ -272,18 +287,10 @@ export const route = [
                 component: () => import("@/pages/projects/_projectId/servers/_serverId/setting.vue"),
                 "props": true
               },
-            ],
-          },
-          {
-            path: "add",
-            name: "projects-projectId-servers-add",
-            component: () => import("@/pages/projects/_projectId/servers/add/index.vue"),
-            "props": true,
-            children: [
               {
-                path: ":scheme",
-                name: "projects-projectId-servers-add-scheme",
-                component: () => import("@/pages/projects/_projectId/servers/add/_scheme.vue"),
+                path: "destroy",
+                name: "projects-projectId-servers-serverId-destroy",
+                component: () => import("@/pages/projects/_projectId/servers/_serverId/destroy.vue"),
                 "props": true
               },
             ],

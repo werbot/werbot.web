@@ -18,40 +18,52 @@
     <form @submit.prevent>
       <!-- SSH -->
       <div class="content" v-if="props.scheme == ServerScheme[3]">
-        <FormInput name="Title" v-model="data.title" :error="error.errors.title" class="flex-grow" />
+        <FormInput name="Title" v-model="pageData.base.title" :error="pageData.error['title']" class="flex-grow" />
 
-        <div class="w-full">
-          <div class="flex flex-row">
-            <FormInput name="Address" v-model.trim="data.address" :error="error.errors.address" class="mr-5 flex-grow" :required="true" />
-            <FormInput name="Port" v-model.number="data.port" :error="error.errors.port" class="mr-5 flex-grow" :required="true" />
-            <FormInput name="Login" v-model.trim="data.login" :error="error.errors.login" class="flex-grow" :required="true" />
+        <div class="mt-5 w-full">
+          <div class="flex">
+            <FormInput name="Address" v-model.trim="pageData.base.address" :error="pageData.error['address']" class="mr-5 flex-grow" :required="true" />
+            <FormInput name="Port" v-model.number="pageData.base.port" :error="pageData.error['port']" class="mr-5 flex-grow" :required="true" />
+            <FormInput name="Login" v-model.trim="pageData.base.login" :error="pageData.error['login']" class="flex-grow" :required="true" />
           </div>
 
-          <div class="flex flex-row">
-            <FormTextarea name="Description" v-model="data.description" :error="error.errors.description" :rows="6" class="flex-grow" />
+          <div class="mt-5 flex">
+            <FormTextarea name="Description" v-model="pageData.base.description" :error="pageData.error['description']" :rows="6" class="flex-grow" />
           </div>
 
-          <div class="mt-5 flex flex-row">
-            <FormToggle name="Active" v-model="data.active" class="mr-5 flex-grow" id="active" />
-            <FormToggle name="Audit" v-model="data.audit" class="flex-grow" id="audit" />
-          </div>
-
-          <FormSelect name="Auth" v-model="data.auth" :options="[Auth[1], Auth[2]]" :error="error.errors.auth" />
-
-          <div v-if="data.auth == Auth[1]">
-            <FormInput name="Password" v-model.trim="data.access.password" :error="error.errors.password" class="flex-grow" type="password" autocomplete="current-password" />
-          </div>
-
-          <div v-if="data.auth == Auth[2]">
-            <FormInput name="Public key" v-model.trim="data.public_key" :error="error.errors.public_key" :disabled="true" class="flex-grow" />
+          <div class="mt-5 flex">
+            <FormToggle name="Active" v-model="pageData.base.active" class="mr-5 flex-grow" id="active" />
+            <FormToggle name="Audit" v-model="pageData.base.audit" class="flex-grow" id="audit" />
           </div>
         </div>
       </div>
 
-      <div class="divider mt-5 before:bg-gray-100 after:bg-gray-100"></div>
+      <div class="divider before:bg-gray-100 after:bg-gray-100"></div>
+      <div class="content">
+        <FormSelect name="Auth" v-model="pageData.base.auth" :options="[Auth[1], Auth[2]]" :error="pageData.error['auth']" class="mr-5" />
+
+        <div v-if="pageData.base.auth == Auth[1]">
+          <FormInput name="Password" v-model.trim="pageData.base.access.password" :error="pageData.error['password']" type="password" autocomplete="current-password" />
+        </div>
+
+        <div v-if="pageData.base.auth == Auth[2]" class="flex-grow">
+          <div class="flex">
+            <FormInput name="Public key" v-model.trim="pageData.base.public_key" :error="pageData.error['public_key']" :disabled="true" class="grow" />
+
+            <FormButton lite class="ml-2 mt-8 flex-none" @click="copy(pageData.base.public_key)">
+              <span>{{ (copied ? 'Copied' : 'Copy') }}</span>
+            </FormButton>
+            <FormButton lite :disabled="pageData.tmp.new_key" :rotate="pageData.tmp.new_key" class="ml-2 mt-8 flex-none" @click="genNewKey()">
+              <SvgIcon name="refresh" />
+            </FormButton>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider before:bg-gray-100 after:bg-gray-100"></div>
       <div class="content">
         <div class="flex-none">
-          <button type="submit" @click="onSubmit()" class="btn mr-5">Add server</button>
+          <FormButton @click="onSubmit()" class="mr-5" :loading="pageData.loading">Add server</FormButton>
         </div>
         <div class="flex-grow"></div>
       </div>
@@ -60,77 +72,101 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
-import { useErrorStore } from "@/store";
-
+import { ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { Auth, ServerScheme, AddServer_Request } from "@proto/server";
-import { FormInput, FormTextarea, FormToggle, FormSelect } from "@/components";
-import { newKey } from "@/api/key";
-import { addServer } from "@/api/server";
-import { showMessage } from "@/utils/message";
+import { useClipboard } from '@vueuse/core'
+import { SvgIcon, FormInput, FormTextarea, FormToggle, FormSelect, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
 
-const { proxy } = getCurrentInstance() as any;
-const loading = ref(false);
+// API section
+import { api } from "@/api";
+import { Auth, ServerScheme, AddServer_Request } from "@proto/server";
+
+const { copy, copied } = useClipboard();
 const router = useRouter();
-const error: any = useErrorStore();
+const pageData = ref<PageData>(defaultPageData);
+
 const props = defineProps({
   projectId: String,
   scheme: String,
 });
 
-const data: any = ref(<AddServer_Request>{
-  project_id: props.projectId,
-  scheme: ServerScheme[props.scheme],
-  access: {},
-});
-
-if (!Object.values(ServerScheme).includes(props.scheme!)) {
-  router.push({ name: "projects-projectId-servers-add" });
-}
-
 const genNewKey = async () => {
-  await newKey().then((res) => {
-    data.value.public_key = res.data.result.public;
-    data.value.access.key = res.data.result.uuid;
-  });
+  const { tmp, base } = pageData.value;
+
+  try {
+    tmp.new_key = true;
+    const res = await api(false).GET(`/v1/keys/generate`)
+    if (res.data) {
+      base.public_key = res.data.result.public;
+      base.access.key = res.data.result.uuid;
+    }
+    if (res.error) {
+      showMessage(res.error.result, "connextError");
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    tmp.new_key = false;
+  }
 };
 
+watch(copied, val => {
+  if (val) showMessage("The key has been copied to the clipboard");
+});
+
 watch(
-  () => data.value.auth,
-  () => {
-    // for password
-    if (data.value.auth == Auth[1]) {
-      data.value.access.password = "";
-      delete data.value.public_key;
-      delete data.value.access.key;
-    }
-    // for key
-    if (data.value.auth == Auth[2]) {
+  () => pageData.value.base.auth,
+  (newAuth) => {
+    if (newAuth == Auth[1]) {
+      pageData.value.base.access.password = '';
+      delete pageData.value.base.public_key;
+      delete pageData.value.base.access.key;
+    } else if (newAuth == Auth[2]) {
       genNewKey();
-      delete data.value.access.password;
+      if (pageData.value.base.access.password) {
+        delete pageData.value.base.access.password;
+      }
     }
+    pageData.value.error.auth = null;
   }
 );
 
 const onSubmit = async () => {
-  loading.value = !loading.value;
+  try {
+    pageData.value.loading = true;
 
-  await addServer(data.value)
-    .then((res) => {
+    const bodyParams = <AddServer_Request>{
+      project_id: props.projectId,
+      scheme: ServerScheme[props.scheme],
+      ...pageData.value.base,
+    };
+
+    const res = await api().POST(`/v1/servers`, {}, bodyParams)
+    if (res.data) {
       showMessage(res.data.message);
-      proxy.$errorStore.$reset();
+      pageData.value.error = {};
       router.push({ name: "projects-projectId-servers", params: { projectId: props.projectId } });
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-      loading.value = !loading.value;
-    });
+    }
+    if (res.error) {
+      pageData.value.error = res.error.result;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    pageData.value.loading = false;
+  }
 };
 
 onMounted(async () => {
   document.title = "Step 2: Fill in the fields to connect";
-});
 
-onBeforeUnmount(() => proxy.$errorStore.$reset());
+  pageData.value.base.access = {};
+  pageData.value.tmp.new_key = false;
+
+  if (!Object.values(ServerScheme).includes(props.scheme!)) {
+    router.push({ name: "projects-projectId-servers-add" });
+  }
+});
 </script>

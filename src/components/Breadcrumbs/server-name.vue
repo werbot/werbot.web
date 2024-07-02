@@ -1,17 +1,12 @@
 <template>
-  <router-link :to="{ name: 'projects-projectId-servers' }"> {{ data.server_name }} </router-link>
+  <router-link :to="{ name: 'projects-projectId-servers' }"> {{ serverStore.getServerNameByID(props.projectId, props.serverId) }} </router-link>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
-import { serverNameByID } from "@/api/server";
-import { ServerNameByID_Request } from "@proto/server";
+import { onMounted } from "vue";
+import { useServerStore } from "@/store";
 
-interface ServerData {
-  server_name: string;
-}
-
-const data = ref<ServerData | null>(null);
+const serverStore = useServerStore();
 
 const props = defineProps<{
   memberId: string;
@@ -20,12 +15,6 @@ const props = defineProps<{
 }>();
 
 onMounted(async () => {
-  const response = await serverNameByID(<ServerNameByID_Request>{
-    user_id: props.memberId,
-    server_id: props.serverId,
-    project_id: props.projectId,
-  });
-
-  data.value = response.data.result;
+  serverStore.serverNameByID(props.projectId, props.serverId);
 });
 </script>

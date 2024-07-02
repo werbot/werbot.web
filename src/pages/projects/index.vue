@@ -2,15 +2,13 @@
   <div class="artboard">
     <header>
       <h1>Projects list</h1>
-      <router-link :to="{ name: 'projects-add' }">
-        <label class="plus">
-          <SvgIcon name="plus_square" />
-          add new
-        </label>
+      <router-link :to="{ name: 'projects-add' }" class="breadcrumbs">
+        <SvgIcon name="plus_square" class="mr-3" />
+        add new
       </router-link>
     </header>
 
-    <table v-if="data.total > 0">
+    <table v-if="pageData.base.total > 0">
       <thead>
         <tr>
           <th>Name</th>
@@ -26,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data.projects" :key="index">
+        <tr v-for="(item, index) in pageData.base.projects" :key="index">
           <td>
             <router-link active-class="current" :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }">
               {{ item.title }}
@@ -46,36 +44,52 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { toDate } from "@/utils/time";
-import { getProjects } from "@/api/project";
+import { useAuthStore } from "@/store";
 import { SvgIcon, Pagination } from "@/components";
+import { toDate } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
 
-const data: any = ref({});
+// API section
+import { api } from "@/api";
+import { ListProjects_Request } from "@proto/project";
+
 const route = useRoute();
-
-const getData = async (routeQuery: any) => {
-  //if (proxy.$authStore.hasUserRole === 3) { // hack for admin user
-  //  routeQuery.user_id = proxy.$authStore.hasUserID;
-  //}
-  await getProjects(routeQuery).then((res) => {
-    data.value = res.data.result;
-  });
-};
+const authStore = useAuthStore();
+const pageData = ref<PageData>(defaultPageData);
 
 const onSelectPage = (e: any) => {
   getData(e);
 };
 
+const getData = async (routeQuery: any) => {
+  try {
+    if (authStore.hasUserRole === 3) {
+      routeQuery.member_id = authStore.hasUserID;
+    }
+
+    const queryParams = <ListProjects_Request>{
+      ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
+      ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
+    };
+
+    const res = await api().GET(`/v1/projects`, queryParams);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
+};
+
 onMounted(async () => {
   document.title = "Projects list";
-
-  getData(route.query);
+  await getData(route.query);
 });
 </script>

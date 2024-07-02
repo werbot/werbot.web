@@ -1,16 +1,16 @@
 <template>
-  <div class="artboard">
+  <Skeleton class="text-gray-200" v-if="!pageData.base.total" />
+
+  <div class="artboard" v-else>
     <header>
       <h1>Servers</h1>
-      <router-link :to="{ name: 'projects-projectId-servers-add' }">
-        <label class="plus">
-          <SvgIcon name="plus_square" />
-          add new
-        </label>
+      <router-link :to="{ name: 'projects-projectId-servers-add' }" class="breadcrumbs">
+        <SvgIcon name="plus_square" class="mr-3" />
+        add new
       </router-link>
     </header>
 
-    <table v-if="data.total > 0">
+    <table v-if="pageData.base.total > 0">
       <thead>
         <tr>
           <th class="w-12"></th>
@@ -27,7 +27,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data.servers" :key="index">
+        <tr v-for="(item, index) in pageData.base.servers" :key="index">
           <td>
             <div class="flex items-center">
               <span class="dot" :class="item.online ? 'bg-green-500' : 'bg-gray-200'"></span>
@@ -87,84 +87,86 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance, reactive } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { SvgIcon, Pagination, FormToggle, Badge } from "@/components";
-import { showMessage } from "@/utils/message";
+import { useAuthStore } from "@/store";
+import { Skeleton, SvgIcon, Pagination, FormToggle, Badge } from "@/components";
+import { getAddressType, showMessage, addressToColor, serverSchemeToColor } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
 
-import { getAddressType } from "@/utils/network";
-import { addressToColor, serverSchemeToColor } from "@/utils/color";
-import { servers, updateServer } from "@/api/server";
-import { ServerScheme, UpdateServer_Request } from "@proto/server";
+// API section
+import { api } from "@/api";
+import { ListServers_Request, ServerScheme, UpdateServer_Request } from "@proto/server";
 
-const { proxy } = getCurrentInstance() as any;
-
-//const addressType = reactive(null);
 const route = useRoute();
-const data: any = ref({});
+const authStore = useAuthStore();
+const pageData = ref<PageData>(defaultPageData);
+
 const props = defineProps({
   projectId: String,
 });
 
 const getData = async (routeQuery: any) => {
-  if (proxy.$authStore.hasUserRole === 3) {
-    routeQuery.user_id = proxy.$authStore.hasUserID;
+  try {
+    if (authStore.hasUserRole === 3) {
+      routeQuery.user_id = authStore.hasUserID;
+    }
+
+    const queryParams = <ListServers_Request>{
+      project_id: props.projectId,
+      ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
+      ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
+    };
+
+    const res = await api().GET(`/v1/servers`, queryParams);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
   }
-  routeQuery.project_id = props.projectId;
-  await servers(routeQuery.user_id, routeQuery.project_id, routeQuery).then((res) => {
-    data.value = res.data.result;
-  });
 };
 
 const onSelectPage = (e: any) => {
   getData(e);
 };
 
-onMounted(async () => {
-  document.title = "Servers list";
-
-  getData(route.query);
-});
-
 const changeServerActive = async (index: number, online: boolean) => {
-  data.value.servers[Number(index)].active = online;
+  try {
+    const bodyParams = <UpdateServer_Request>{
+      user_id: authStore.hasUserID,
+      server_id: pageData.value.base.servers[Number(index)].server_id,
+      project_id: props.projectId,
+      setting: {
+        active: online,
+      },
+    };
 
-  await updateServer(<UpdateServer_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    server_id: data.value.servers[Number(index)].server_id,
-    project_id: props.projectId,
-    setting: {
-      active: online,
-    },
-  })
-    .then((res) => {
-      if (!online) {
-        showMessage(res.data.message, "connextWarning");
-      } else {
-        showMessage(res.data.message);
-      }
-      proxy.$errorStore.$reset();
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-    });
+    const res = await api(false).UPDATE(`/v1/servers`, {}, bodyParams);
+    if (res.data) {
+      showMessage(res.data.message, online ? undefined : "connextWarning");
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 };
 
-
 function addressColor(address: string): string {
-  switch (address) {
-    case "IPv4":
-      return addressToColor[1];
-    case "IPv6":
-      return addressToColor[2];
-    default:
-      return addressToColor[3];
-  }
+  const addressToColorMap = {
+    "IPv4": addressToColor[1],
+    "IPv6": addressToColor[2]
+  };
+
+  return addressToColorMap[address] || addressToColor[3];
 }
 
+onMounted(async () => {
+  document.title = "Servers list";
+  await getData(route.query);
+});
 </script>

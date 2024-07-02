@@ -2,11 +2,9 @@
   <div class="artboard">
     <header>
       <h1>Applications</h1>
-      <router-link :to="{ name: 'projects-projectId-applications-add' }">
-        <label class="plus">
-          <SvgIcon name="plus_square" />
-          add new
-        </label>
+      <router-link :to="{ name: 'projects-projectId-applications-add' }" class="breadcrumbs">
+        <SvgIcon name="plus_square" class="mr-3" />
+        add new
       </router-link>
     </header>
     <div class="desc">Empty</div>

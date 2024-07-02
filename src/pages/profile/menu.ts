@@ -1,7 +1,7 @@
 export const topMenu = {
   group10: [
     {
-      name: "Profile settings",
+      name: "Settings",
       link: { name: "profile-setting" },
       icon: "profile",
     },
@@ -11,7 +11,7 @@ export const topMenu = {
       icon: "key",
     },
     {
-      name: "Profile logs",
+      name: "Logs",
       link: { name: "profile-logs" },
       icon: "logs",
     },
@@ -36,7 +36,7 @@ export const topMenu = {
 export const menu = {
   group10: [
     {
-      name: "Profile settings",
+      name: "Settings",
       link: { name: "profile-setting" },
       icon: "profile",
     },
@@ -46,7 +46,7 @@ export const menu = {
       icon: "key",
     },
     {
-      name: "Profile logs",
+      name: "Logs",
       link: { name: "profile-logs" },
       icon: "logs",
     },

@@ -30,7 +30,9 @@ router.beforeEach(async (to, _from, next) => {
 
   loadLayoutMiddleware(to);
 
-  if (to.meta.requiresAuth && !useAuthStore().logged_in) {
+  const isAuthenticated = useAuthStore().logged_in;
+
+  if (!isAuthenticated && to.meta.requiresAuth) {
     next({ name: "auth-signin" });
   } else next();
 });

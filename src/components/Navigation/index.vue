@@ -71,10 +71,10 @@ const isActive = (linkName: string) => (route.name as string).startsWith(linkNam
   @apply mb-6;
 
   li {
-    @apply mb-4 w-3 sm:w-36;
+    @apply mb-4 ;
 
     a {
-      @apply leading-5 text-gray-400;
+      @apply leading-5 text-gray-400 ;
 
       &:hover {
         @apply -m-2 rounded bg-gray-100 p-2;
@@ -89,7 +89,7 @@ const isActive = (linkName: string) => (route.name as string).startsWith(linkNam
       }
 
       &.current {
-        @apply -m-2 rounded bg-gray-200 p-2 text-gray-700;
+        @apply -m-2 rounded bg-gray-200 text-gray-700 p-2;
 
         svg {
           @apply fill-gray-700;

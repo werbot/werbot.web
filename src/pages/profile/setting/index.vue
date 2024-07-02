@@ -8,72 +8,66 @@
     <div class="content">
       <form @submit.prevent>
         <div class="flex flex-row">
-          <FormInput name="Email" v-model.trim="data.email" :error="proxy.$errorStore.errors['email']" :disabled="loading" class="flex-grow" />
+          <FormInput name="Email" v-model.trim="authStore.user.email" :error="pageData.error['info.email']" :disabled="pageData.loading" class="flex-grow" />
         </div>
 
         <div class="flex flex-row mt-5">
-          <FormInput name="Name" v-model.trim="data.name" :error="proxy.$errorStore.errors['name']" :disabled="loading" class="mr-5 flex-grow" />
-          <FormInput name="Surname" v-model.trim="data.surname" :error="proxy.$errorStore.errors['surname']" :disabled="loading" class="flex-grow" />
+          <FormInput name="Name" v-model.trim="authStore.user.name" :error="pageData.error['info.name']" :disabled="pageData.loading" class="mr-5 flex-grow" />
+          <FormInput name="Surname" v-model.trim="authStore.user.surname" :error="pageData.error['info.surname']" :disabled="pageData.loading" class="flex-grow" />
         </div>
 
-        <button type="submit" class="btn mt-8" @click="onUpdateProfile" :disabled="loading">
-          <div v-if="loading">
-            <span>Loading...</span>
-          </div>
-          <span v-else>Update profile</span>
-        </button>
+        <FormButton class="mt-8" @click="onUpdateProfile()" :loading="pageData.loading">Update profile</FormButton>
       </form>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
-import { getUser, updateUser } from "@/api/user";
-import {
-  User_Request,
-  UpdateUser_Request,
-  UpdateUser_Info,
-} from "@proto/user";
-import { FormInput, Tabs } from "@/components";
-import { showMessage } from "@/utils/message";
+import { ref, onMounted } from "vue";
+import { useAuthStore } from "@/store";
+import { FormInput, Tabs, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
+import { UpdateUser_Info } from "@proto/user";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
-const { proxy } = getCurrentInstance() as any;
-const data: any = ref({});
-const loading = ref(false);
+const authStore = useAuthStore();
+const pageData = ref<PageData>(defaultPageData);
 
 const onUpdateProfile = async () => {
-  await updateUser(<UpdateUser_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    request: {
+  try {
+    pageData.value.loading = true;
+
+    const bodyParams = {
+      user_id: authStore.hasUserID,
       info: <UpdateUser_Info>{
-        email: data.value.email,
-        name: data.value.name,
-        surname: data.value.surname,
+        email: authStore.user.email,
+        name: authStore.user.name,
+        surname: authStore.user.surname,
       },
-    },
-  })
-    .then((res) => {
+    };
+
+    const res = await api().UPDATE(`/v1/users`, {}, bodyParams);
+    if (res.data) {
       showMessage(res.data.message);
-      proxy.$errorStore.$reset();
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-    });
+      pageData.value.error = {};
+    }
+    if (res.error) {
+      pageData.value.error = res.error.result
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    pageData.value.loading = false;
+  }
 };
 
 onMounted(async () => {
   document.title = "Profile setting";
-
-  await getUser(<User_Request>{
-    user_id: proxy.$authStore.hasUserID,
-  }).then((res) => {
-    data.value = res.data.result;
-  });
 });
-
-onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

@@ -1,0 +1,74 @@
+<template>
+  <div class="artboard red">
+    <header>
+      <h1>
+        <router-link :to="{ name: 'projects-projectId-servers', params: { projectId: props.projectId } }">
+          Servers
+        </router-link>
+      </h1>
+      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
+    </header>
+
+    <Tabs :tabs="tabMenu" />
+    <div class="desc">
+      This action CANNOT be undone. This will permanently delete the server and if you’d like to use
+      it in the future, you will need to added it again.
+    </div>
+
+    <div class="content">
+      <form @submit.prevent>
+        <FormButton @click="onDelete()" class="red">Delete this server</FormButton>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore, useServerStore } from "@/store";
+import { Tabs, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+
+// API section
+import { api } from "@/api";
+import { DeleteServer_Request } from "@proto/server";
+
+// Tabs section
+import { tabMenu } from "./tab";
+
+const router = useRouter();
+const authStore = useAuthStore();
+const serverStore = useServerStore();
+
+const props = defineProps({
+  projectId: String,
+  serverId: String,
+});
+
+const onDelete = async () => {
+  try {
+    const queryParams = <DeleteServer_Request>{
+      user_id: authStore.hasUserID,
+      project_id: props.projectId,
+      server_id: props.serverId,
+    };
+
+    const res = await api().DELETE(`/v1/servers`, queryParams)
+    if (res.data) {
+      showMessage(res.data.message);
+      router.push({ name: "projects-projectId-servers" });
+    }
+    if (res.error) {
+      showMessage(res.error.result, "connextError");
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
+};
+
+onMounted(async () => {
+  document.title = "Destroy server";
+  serverStore.serverNameByID(props.projectId, props.serverId);
+});
+</script>

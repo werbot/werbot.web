@@ -14,7 +14,9 @@ const props = defineProps({
     type: String,
     default: "gray",
   },
-  class: String,
+  class: {
+    type: String,
+  },
 });
 
 const badgeClass = computed(() => `badge badge-${props.color} ${props.class}`);

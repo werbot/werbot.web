@@ -2,11 +2,11 @@
   <div class="relative" ref="projectMenu">
     <button class="dropdown" :class="{ active: (route.name as string).startsWith('projects') }" type="button" @click="toggleDropdown">
       <SvgIcon name="project" />
-      <span class="hidden md:block">Projects</span>
+      <span class="hidden md:block">{{ projectTitle }}</span>
       <SvgIcon name="chevron_down" />
     </button>
 
-    <ul v-show="isDropdownOpen" class="dropdown-menu" @click="closeDropdown">
+    <ul v-if="isDropdownOpen" class="dropdown-menu" @click="closeDropdown()">
       <li v-for="(item, index) in data.projects" :key="index">
         <router-link active-class="current" :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }">
           <SvgIcon name="project" />
@@ -38,33 +38,36 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { SvgIcon } from "@/components";
-import { getProjects } from "@/api/project";
+import { onClickOutside } from "@vueuse/core";
+
+// API section
+import { api } from "@/api";
 import { ListProjects_Request } from "@proto/project";
 
-const projectMenu = ref(null);
-import { onClickOutside } from "@vueuse/core";
-onClickOutside(projectMenu, event => closeDropdown());
-
 const route = useRoute();
+
+const projectMenu = ref(null);
 const data: any = ref({});
 const isDropdownOpen = ref(false);
+
 const props = defineProps<{
   isLoading?: boolean;
 }>();
 
-const openDropdown = () => {
-  if (props.isLoading) return false;
-  isDropdownOpen.value = true;
-};
-const closeDropdown = () => {
-  isDropdownOpen.value = false;
-};
-const toggleDropdown = () => {
-  isDropdownOpen.value ? closeDropdown() : openDropdown();
-};
+onClickOutside(projectMenu, e => closeDropdown());
+
+const openDropdown = () => !props.isLoading && (isDropdownOpen.value = !isDropdownOpen.value);
+const closeDropdown = () => isDropdownOpen.value = false;
+const toggleDropdown = () => isDropdownOpen.value ? closeDropdown() : openDropdown();
+
+const projectTitle = computed(() => {
+  const projects = data.value?.projects || [];
+  const project = projects.find(p => p.project_id === route.params.projectId);
+  return project ? project.title : 'Projects';
+});
 
 watch(
   () => props.isLoading,
@@ -76,13 +79,17 @@ watch(
 );
 
 onMounted(async () => {
-  await getProjects(
-    <ListProjects_Request>{
+  try {
+    const queryParams = <ListProjects_Request>{
       limit: 5,
+    };
+
+    const res = await api().GET(`/v1/projects`, queryParams);
+    if (res.data) {
+      data.value = res.data.result;
     }
-    //proxy.$authStore.hasUserID
-  ).then((res) => {
-    data.value = res.data.result;
-  });
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 });
 </script>

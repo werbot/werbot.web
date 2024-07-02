@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { notify, Notification, NotificationGroup } from "notiwind";
 import { SvgIcon } from "@/components";
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const handleNotification = (eName: string, notificationType: string) => {
   const callback = (e: Event) => {
@@ -34,7 +34,7 @@ const handleNotification = (eName: string, notificationType: string) => {
       {
         group: "alerts",
         type: notificationType,
-        text: (<any>e).detail,
+        text: (<any>e).detail
       },
       4000
     );
@@ -51,10 +51,10 @@ handleNotification("connextWarning", "warning");
 handleNotification("connextInfo", "info");
 
 const typeStyles = computed(() => ({
-  error: { bgColor: 'bg-red-500', textColor: 'text-red-500', label: 'Error', icon: 'error' },
-  info: { bgColor: 'bg-blue-500', textColor: 'text-blue-500', label: 'Info', icon: 'info' },
-  success: { bgColor: 'bg-green-500', textColor: 'text-green-500', label: 'Success', icon: 'success' },
-  warning: { bgColor: 'bg-yellow-500', textColor: 'text-yellow-500', label: 'Warning', icon: 'warning' }
+  error: { bgColor: "bg-red-500", textColor: "text-red-500", label: "Error", icon: "error" },
+  info: { bgColor: "bg-blue-500", textColor: "text-blue-500", label: "Info", icon: "info" },
+  success: { bgColor: "bg-green-500", textColor: "text-green-500", label: "Success", icon: "success" },
+  warning: { bgColor: "bg-yellow-500", textColor: "text-yellow-500", label: "Warning", icon: "warning" }
 }));
 </script>
 

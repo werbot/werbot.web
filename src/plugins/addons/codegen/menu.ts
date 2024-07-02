@@ -2,7 +2,7 @@ import { MenuList } from "../types";
 
 export function menuAddon(addonMenu: MenuList): string {
   let importLines: string = `import { ref } from "vue";
-import { mergeMenus } from "@/utils/object";
+import { mergeMenus } from "@/utils";
 import { menu as mainAdminMenu } from "@pages/admin/menu";
 import { menu as mainProfileMenu } from "@pages/profile/menu";
 import { menu as mainProjectMenu } from "@pages/projects/menu";\n\n`;

@@ -1,5 +1,7 @@
 <template>
-  <div class="artboard">
+  <Skeleton class="text-gray-200" v-if="!pageData.base.total" />
+
+  <div class="artboard" v-else>
     <header>
       <h1>Profile logs</h1>
     </header>
@@ -15,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data.records" :key="index" class="cursor" @click="openDrawer(item.id)">
+        <tr v-for="(item, index) in pageData.base.records" :key="index" class="cursor" @click="openDrawer(item.id)">
           <td>{{ toDate(item.created_at, "full") }}</td>
           <td>
             <Badge :name="Profile_Section[item.section]" />
@@ -31,40 +33,40 @@
       </tbody>
     </table>
 
-    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
   </div>
 
-  <Drawer :is-open="isDrawerOpen" @close="closeDrawer" title="Name" maxWidth="600px">
+  <Drawer :is-open="pageData.modal" @close="closeDrawer()" title="Name" maxWidth="600px">
     <table class="mini">
-      <tr v-if="dataFull.event">
+      <tr v-if="pageData.tmp.event">
         <td width="120">Event</td>
         <td>
-          <Badge :name="EventType[dataFull.event]" :color="eventTypeToColor[dataFull.event]" />
+          <Badge :name="EventType[pageData.tmp.event]" :color="eventTypeToColor[pageData.tmp.event]" />
         </td>
       </tr>
       <tr>
         <td>ID</td>
-        <td>{{ dataFull.id }}</td>
+        <td>{{ pageData.tmp.id }}</td>
       </tr>
       <tr>
         <td>User ID</td>
-        <td>{{ dataFull.user_id }}</td>
+        <td>{{ pageData.tmp.user_id }}</td>
       </tr>
       <tr>
         <td>Remote IP</td>
-        <td>{{ dataFull.ip }}</td>
+        <td>{{ pageData.tmp.ip }}</td>
       </tr>
       <tr>
         <td>User Agent</td>
-        <td>{{ dataFull.user_agent }}</td>
+        <td>{{ pageData.tmp.user_agent }}</td>
       </tr>
       <tr>
         <td>Created</td>
-        <td>{{ toDate(Object(dataFull.created_at), "full") }}</td>
+        <td>{{ toDate(Object(pageData.tmp.created_at), "full") }}</td>
       </tr>
-      <tr v-if="dataFull.meta_data">
+      <tr v-if="pageData.tmp.meta_data">
         <td>Metadata</td>
-        <td>{{ decodeBase64(dataFull.meta_data) }}</td>
+        <td>{{ decodeBase64(pageData.tmp.meta_data) }}</td>
       </tr>
     </table>
 
@@ -72,41 +74,60 @@
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance, onMounted, } from "vue";
+import { ref, onMounted, } from "vue";
 import { useRoute } from "vue-router";
-import { getEvents, getEvent } from "@/api/event";
-import { SvgIcon, Pagination, Drawer, Badge } from "@/components";
+import { useAuthStore } from "@/store";
+import { Skeleton, SvgIcon, Pagination, Drawer, Badge } from "@/components";
+import { showMessage, toDate, decodeBase64, eventTypeToColor } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
 import { Profile_Section, EventType } from "@proto/event";
-import { toDate } from "@/utils/time";
-import { decodeBase64 } from "@/utils/string";
-import { eventTypeToColor } from "@/utils/color";
 
-const { proxy } = getCurrentInstance() as any;
-const data: any = ref({});
-const dataFull: any = ref({});
 const route = useRoute();
-
-const isDrawerOpen = ref(false);
-const logDescription: any = ref({});
+const authStore = useAuthStore();
+const pageData = ref<PageData>(defaultPageData);
 
 const openDrawer = async (id: string) => {
-  await getEvent("profile", proxy.$authStore.hasUserID, id).then((res) => {
-    dataFull.value = res.data.result;
-  });
-
-  isDrawerOpen.value = true;
-  logDescription.value = id;
+  try {
+    const res = await api().GET(`/v1/event/profile/${authStore.hasUserID}/${id}`)
+    if (res.data) {
+      pageData.value.tmp = res.data.result;
+    }
+    if (res.error) {
+      showMessage(res.error.result, "connextError");
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    pageData.value.modal = true;
+  }
 };
 
 const closeDrawer = async () => {
-  dataFull.value = {};
-  isDrawerOpen.value = false;
+  pageData.value.tmp = {};
+  pageData.value.modal = false;
 };
 
-const getData = async (routeQuery: any) => {
-  await getEvents("profile", proxy.$authStore.hasUserID, routeQuery).then((res) => {
-    data.value = res.data.result;
-  });
+const getData = async (routeQuery?: any) => {
+  try {
+    const queryParams = {
+      ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
+      ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
+    };
+
+    const res = await api().GET(`/v1/event/profile/${authStore.hasUserID}`, queryParams);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+    }
+    if (res.error) {
+      console.log(res)
+      showMessage(res.error.result, "connextError");
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 };
 
 const onSelectPage = (e: any) => {
@@ -115,7 +136,6 @@ const onSelectPage = (e: any) => {
 
 onMounted(async () => {
   document.title = "Profile logs";
-
-  getData(route.query);
+  await getData(route.query);
 });
 </script>

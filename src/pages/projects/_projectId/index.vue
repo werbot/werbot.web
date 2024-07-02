@@ -4,40 +4,43 @@
       <h1>Project information</h1>
     </header>
 
-    <div class="content">{{ data }}</div>
+    <div class="content">{{ pageData.base }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import { getProject } from "@/api/project";
+import { PageData, defaultPageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
 import { Project_Request } from "@proto/project";
 
-const data: any = ref({});
+const pageData = ref<PageData>(defaultPageData);
+
 const props = defineProps({
   projectId: String,
 });
 
-const getData = async (routeQuery: any) => {
-  await getProject(routeQuery).then((res) => {
-    data.value = res.data.result;
-  });
+const getData = async () => {
+  try {
+    const queryParams = <Project_Request>{
+      project_id: props.projectId,
+    };
+
+    const res = await api().GET(`/v1/projects`, queryParams);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 };
 
-watch(
-  () => props.projectId,
-  () => {
-    getData(<Project_Request>{
-      project_id: props.projectId,
-    });
-  }
-);
+watch(() => props.projectId, getData);
 
 onMounted(async () => {
   document.title = "Project information";
-
-  getData(<Project_Request>{
-    project_id: props.projectId,
-  });
+  await getData();
 });
 </script>

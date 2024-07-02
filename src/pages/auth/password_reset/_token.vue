@@ -4,16 +4,11 @@
     <span class="title">Reset password</span>
 
     <form @submit.prevent>
-      <FormInput name="New password" type="password" autocomplete="new-password" v-model.trim="data.password" :error="proxy.$errorStore.errors['password']" :disabled="loading" />
-      <FormInput name="Repeat password" type="password" autocomplete="new-password" v-model.trim="data.password2" :error="proxy.$errorStore.errors['password2']"
-        :disabled="loading" class="mt-5" />
+      <FormInput name="New password" type="password" autocomplete="new-password" v-model.trim="pageData.base.password" :error="authStore.error['password']" :disabled="pageData.loading" />
+      <FormInput name="Repeat password" type="password" autocomplete="new-password" v-model.trim="pageData.base.password2" :error="authStore.error['password2']" :disabled="pageData.loading"
+        class="mt-5" />
       <div class="form-control pt-8">
-        <button type="submit" class="btn" @click="onSubmit" :disabled="loading">
-          <div v-if="loading">
-            <span>Loading...</span>
-          </div>
-          <span v-else>Save new password</span>
-        </button>
+        <FormButton @click="onSubmit()" :loading="pageData.loading">Save new password</FormButton>
       </div>
     </form>
   </div>
@@ -26,43 +21,60 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { FormInput } from "@/components";
-import { checkResetToken, resetPassword } from "@/api/auth";
-import { showMessage } from "@/utils/message";
+import { useAuthStore } from "@/store";
+import { FormInput, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
+import { ResetPassword_Password } from "@proto/account";
+
+const router = useRouter();
+const authStore = useAuthStore();
+const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
   token: String,
 });
 
-const { proxy } = getCurrentInstance() as any;
-const data: any = ref({});
-const loading = ref(false);
-const router = useRouter();
-
 const onSubmit = async () => {
-  if (data.value.password != data.value.password2) {
-    proxy.$errorStore.errors["password"] = proxy.$errorStore.errors["password2"] =
-      "Passwords do not match";
+  let errorMessage: string | null = null;
+  if (pageData.value.base.password !== pageData.value.base.password2) {
+    errorMessage = "Passwords do not match";
+  } else if (pageData.value.base.password.length < 8) {
+    errorMessage = "Weak password";
+  }
+
+  if (errorMessage) {
+    authStore.error = <Record<string, null>>{
+      password: errorMessage,
+      password2: errorMessage,
+    };
     return;
   }
 
-  if (data.value.password.length < 8) {
-    proxy.$errorStore.errors["password"] = proxy.$errorStore.errors["password2"] = "Weak password";
-    return;
-  }
+  authStore.resetError();
 
-  loading.value = !loading.value;
-
-  // @ts-ignore
   try {
-    const res: any = await resetPassword(props.token, data.value.password);
-    showMessage(res.data.result.message);
-    proxy.$errorStore.$reset();
-    router.push({ name: "auth-signin" });
+    pageData.value.loading = true;
+
+    const res = await api().POST(`/auth/password_reset`, {}, {
+      password: <ResetPassword_Password>{
+        password: pageData.value.base.password,
+        token: props.token,
+      },
+    })
+    if (res.data) {
+      showMessage(res.data.result.message);
+      router.push({ name: "auth-signin" });
+    }
   } catch (err) {
-    loading.value = !loading.value;
+    console.error('Unexpected error:', err);
+  } finally {
+    pageData.value.loading = false;
   }
 };
 
@@ -70,19 +82,14 @@ onMounted(async () => {
   document.title = "Reset password";
 
   try {
-    await checkResetToken(props.token!);
-  } catch (err) {
-    switch (err.response.data.message) {
-      case "Not Found":
-      case "Token is invalid":
+    const res = await api().GET(`/auth/password_reset/${props.token!}`);
+    if (res.error) {
+      if (res.error && ["Not Found", "Token is invalid"].includes(res.error.message)) {
         router.push({ name: "auth-signin" });
-        break;
-      default:
-        // Handle other errors here
-        break;
+      }
     }
+  } catch (err) {
+    console.error('Unexpected error:', err);
   }
 });
-
-onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

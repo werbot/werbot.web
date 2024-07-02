@@ -9,74 +9,72 @@
     <div class="content">
       <form @submit.prevent>
         <div class="flex flex-row">
-          <FormInput name="Password" v-model="data.password" :error="proxy.$errorStore.errors['password']" :disabled="loading" class="w-80" type="password"
+          <FormInput name="Password" v-model="pageData.base.password" :error="pageData.error['password']" :disabled="pageData.loading" class="w-80" type="password"
             autocomplete="current-password" />
         </div>
 
-        <button type="submit" class="btn mt-8" @click="onDelete" :disabled="loading">
-          <div v-if="loading">
-            <span>Loading...</span>
-          </div>
-          <span v-else>Send me email for delete</span>
-        </button>
+        <FormButton class="red mt-8" @click="onDelete()" :loading="pageData.loading">Send me email for delete</FormButton>
       </form>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
-import { getUser, deleteUserStep1 } from "@/api/user";
-import {
-  User_Request,
-  DeleteUser_Request,
-} from "@proto/user";
-import { FormInput, Tabs } from "@/components";
-import { showMessage } from "@/utils/message";
+import { ref, onMounted } from "vue";
+import { useAuthStore } from "@/store";
+import { FormInput, Tabs, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
 
 // Tabs section
 import { tabMenu } from "../tab";
 
-const { proxy } = getCurrentInstance() as any;
-const data: any = ref({});
-const loading = ref(false);
+const authStore = useAuthStore();
+const pageData = ref<PageData>(defaultPageData);
 
 const onDelete = async () => {
-  proxy.$errorStore.$reset();
-
-  if (!data.value.password) {
-    proxy.$errorStore.errors["password"] = "Password required";
+  if (!pageData.value.base.password) {
+    pageData.value.error["password"] = "Password required";
     return;
   }
 
-  if (data.value.password.length < 8) {
-    proxy.$errorStore.errors["password"] = "Weak password";
+  if (pageData.value.base.password.length < 8) {
+    pageData.value.error["password"] = "Weak password";
     return;
   }
 
-  await deleteUserStep1(<DeleteUser_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    request: {
-      password: data.value.password,
-    },
-  }).then((res) => {
-    showMessage(res.data.message);
-    proxy.$authStore.refreshToken();
+  // step 1
+  try {
+    pageData.value.loading = true;
 
-    data.value.password = "";
-    proxy.$errorStore.$reset();
-  });
+    const bodyParams = {
+      user_id: authStore.hasUserID,
+      password: pageData.value.base.password,
+    };
+
+    const res = await api().DELETE(`/v1/users`, {}, bodyParams);
+    if (res.data) {
+      pageData.value.base.password = "";
+      pageData.value.error = {};
+      showMessage(res.data.message);
+      authStore.refreshToken();
+    }
+    if (res.error) {
+      if (res.error.result === "Password is not valid") {
+        pageData.value.error['password'] = res.error.result;
+      }
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    pageData.value.loading = false;
+  }
 };
 
 onMounted(async () => {
   document.title = "Destroy profile";
-
-  await getUser(<User_Request>{
-    user_id: proxy.$authStore.hasUserID,
-  }).then((res) => {
-    data.value = res.data.result;
-  });
 });
-
-onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

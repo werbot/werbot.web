@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverName }} </div>
+      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">In addition to creating your own, some add-ons come with their own.</div>
@@ -15,19 +15,19 @@
       <div class="w-28 flex-none">Countries:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
-        <FormToggle name="Black-list" v-model="country.wite_list" class="flex-grow" id="country" @change="update(country.wite_list, Rules.country)" />
+        <FormToggle name="Black-list" v-model="pageData.tmp.country.wite_list" class="flex-grow" id="country" @change="update(pageData.tmp.country.wite_list, Rules.country)" />
       </div>
 
       <div class="w-full pt-3">
-        <FormInput v-model.trim="data.country" :error="error.errors.country" class="flex-grow" placeholder="Search country ..." @keyup="searchCountries()" />
+        <FormInput v-model.trim="pageData.base.country" :error="pageData.error.country" class="flex-grow" placeholder="Search country ..." @keyup="searchCountries()" />
       </div>
 
       <div class="flex-col">
-        <div v-if="data.search" class="mt-3">
-          <Badge v-for="(item, index) in data.search['countries']" :key="index" :name="item.name" color="green" class="mr-1 cursor-pointer"
+        <div v-if="pageData.base.search" class="mt-3">
+          <Badge v-for="(item, index) in pageData.base.search['countries']" :key="index" :name="item.name" color="green" class="mr-1 cursor-pointer"
             @click="addCountry(index, Rules.country)" />
         </div>
-        <span class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in country.list">
+        <span class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2" v-for="(item, index) in pageData.tmp.country.list">
           <span class="ml-1">{{ item.country_name }}</span>
           <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.country)" />
         </span>
@@ -40,15 +40,16 @@
       <div class="mt-1 w-28 flex-none">Networks:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
-        <FormToggle name="Black-list" v-model="network.wite_list" class="flex-grow" id="network" @change="update(network.wite_list, Rules.ip)" />
+        <FormToggle name="Black-list" v-model="pageData.tmp.network.wite_list" class="flex-grow" id="network" @change="update(pageData.tmp.network.wite_list, Rules.ip)" />
       </div>
 
       <div class="w-full pt-3">
-        <FormInput v-model="data.network" :error="error.errors.network" class="flex-grow" placeholder="IP address or mask" v-on:keyup.enter="addIp(data.network, Rules.ip)" />
+        <FormInput v-model="pageData.base.network" :error="pageData.error.network" class="flex-grow" placeholder="IP address or mask"
+          v-on:keyup.enter="addIp(pageData.base.network, Rules.ip)" />
       </div>
 
       <div class="flex-col">
-        <span class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 p-2" v-for="(item, index) in network.list">
+        <span class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2" v-for="(item, index) in pageData.tmp.network.list">
           <span class="ml-1" v-if="item.start_ip !== item.end_ip">
             {{ item.start_ip }} - {{ item.end_ip }}
           </span>
@@ -61,72 +62,104 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance, onBeforeUnmount } from "vue";
+import { ref, onMounted } from "vue";
 import { Address4, Address6 } from "ip-address";
-import { useErrorStore } from "@/store";
+import { useServerStore } from "@/store";
+import { showMessage } from "@/utils";
 import { Tabs, SvgIcon, FormInput, FormToggle, Badge } from "@/components";
+import { PageData } from "@/interface/page";
 
-import { serverNameByID, firewall, addFirewall, updateFirewall, deleteFirewall } from "@/api/server";
-import { ServerNameByID_Request } from "@proto/server";
-import { countries } from "@/api/utility";
+// API section
+import { api } from "@/api";
 import { Countries_Request } from "@proto/utility";
-import {
-  Rules,
-  IpMask,
-  ServerFirewall_Request,
-  UpdateServerFirewall_Request,
-  DeleteServerFirewall_Request,
-} from "@proto/firewall";
+import { Rules, IpMask, ServerFirewall_Request, UpdateServerFirewall_Request, DeleteServerFirewall_Request } from "@proto/firewall";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
-const { proxy } = getCurrentInstance() as any;
-const data: any = ref({});
-const serverName: any = ref("");
-const country: any = ref({});
-const network: any = ref({});
-const error: any = useErrorStore();
+const serverStore = useServerStore();
+const pageData = ref<PageData>({
+  base: {
+    country: [],
+    search: [],
+  },
+  tmp: { // use for search
+    country: {},
+    network: {},
+  },
+  error: {},
+})
+
 const props = defineProps({
   projectId: String,
   serverId: String,
 });
 
+const getData = async () => {
+  const { projectId, serverId } = props;
+
+  try {
+    const queryParams = <ServerFirewall_Request>{
+      project_id: projectId,
+      server_id: serverId,
+    };
+
+    const res = await api().GET(`/v1/servers/firewall`, queryParams)
+    if (res.data) {
+      pageData.value.tmp.country = res.data.result.country;
+      pageData.value.tmp.network = res.data.result.network;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
+}
+
 // country
 const searchCountries = async () => {
-  if (data.value.country.length > 2) {
-    await countries(<Countries_Request>{
-      name: data.value.country,
-    }).then((res) => {
-      data.value.search = res.data.result;
-    });
+  if (pageData.value.base.country.length <= 2) return;
+  pageData.value.tmp.country.list = Array.isArray(pageData.value.tmp.country.list) ? pageData.value.tmp.country.list : [];
+  try {
+    const queryParams = <Countries_Request>{
+      name: pageData.value.base.country
+    };
 
-    //console.log(data.value.search)
-    if (data.value.search.countries.length > 0) {
-      Object.entries(country.value.list).forEach((n) => {
-        Object.entries(data.value.search.countries).forEach((s) => {
-          if ((s[1] as any)["code"] === (n[1] as any)["country_code"]) {
-            data.value.search.countries.splice(s[0], 1);
-          }
-        });
-      });
+    const res = await api(false).GET(`/country`, queryParams)
+    if (res.data) {
+      pageData.value.base.search = res.data.result;
+      if (pageData.value.base.search.countries && pageData.value.base.search.countries.length > 0) {
+        const countryCodes = new Set(Object.values(pageData.value.tmp.country.list).map((n: any) => n.country_code));
+        pageData.value.base.search.countries = pageData.value.base.search.countries.filter(
+          (s: any) => !countryCodes.has(s.code)
+        );
+      }
+      pageData.value.error.countries = null;
+    } else {
+      pageData.value.base.search.countries = [];
     }
+    if (res.error) {
+      pageData.value.error.countries = res.error.result.name;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
   }
 };
 
 const addCountry = async (index: number, rules: Rules) => {
-  const _country = data.value.search.countries[index];
-  create(_country.code, rules).then((res) => {
+  const data_country = pageData.value.base.search.countries[index];
+  try {
+    const res = await create(data_country.code, rules);
     if (res) {
-      country.value.list.push({
-        id: res,
-        country_name: _country.name,
-        country_code: _country.code,
+      pageData.value.tmp.country.list.push({
+        id: res.id,
+        country_name: data_country.name,
+        country_code: data_country.code,
       });
-
-      data.value.search.countries.splice(index, 1);
+      pageData.value.base.search.countries.splice(index, 1);
+      pageData.value.error.countries = null;
     }
-  });
+  } catch (error) {
+    pageData.value.error.countries = "Invalid country";
+  }
 };
 
 // ip
@@ -137,6 +170,8 @@ const addIp = async (ip: any, rules: Rules) => {
       address = new Address6(ip);
       if (address.isCorrect()) {
         address = address.to4();
+      } else {
+        throw new Error("Invalid address");
       }
     }
 
@@ -145,161 +180,140 @@ const addIp = async (ip: any, rules: Rules) => {
       end_ip: address.endAddress().addressMinusSuffix,
     };
 
-    //console.log(request)
-    //return;
-
     create(request, rules).then((res) => {
       if (res) {
-        network.value.list.push({
-          id: res,
+        pageData.value.tmp.network.list.push({
+          id: res.id,
           start_ip: request.start_ip,
           end_ip: request.end_ip,
         });
-
-        data.value.network = null;
+        pageData.value.base.network = null;
+        pageData.value.error.network = null;
       }
     });
-
-    error.$reset();
   } catch (e) {
-    error.errors.network = "Invalid address";
+    pageData.value.error.network = "Invalid address";
   }
 };
 
 // ---
 const create = async (record: any, rules: Rules) => {
-  let request: any;
+  const { projectId, serverId } = props;
 
-  switch (rules) {
-    case Rules.country:
-      request = {
-        project_id: props.projectId,
-        server_id: props.serverId,
-        country_code: record,
-      };
-      break;
+  try {
+    let bodyParams: any;
+    const commonParams = {
+      project_id: projectId,
+      server_id: serverId,
+    };
 
-    case Rules.ip:
-      request = {
-        project_id: props.projectId,
-        server_id: props.serverId,
-        ip: <IpMask>{
-          start_ip: record.start_ip,
-          end_ip: record.end_ip,
-        },
-      };
-      break;
+    switch (rules) {
+      case Rules.country:
+        bodyParams = {
+          ...commonParams,
+          country_code: record,
+        };
+        break;
 
-    default:
-      return;
-  }
+      case Rules.ip:
+        bodyParams = {
+          ...commonParams,
+          ip: <IpMask>{
+            start_ip: record.start_ip,
+            end_ip: record.end_ip,
+          },
+        };
+        break;
 
-  const id: string = await addFirewall(request).then((res) => {
-    if (res.data.code === 200) {
-      const eventError = new CustomEvent("connextSuccess", {
-        detail: res.data.message,
-      });
-      dispatchEvent(eventError);
+      default:
+        return;
+    }
 
+    const res = await api(false).POST(`/v1/servers/firewall`, {}, bodyParams);
+    if (res.data) {
+      showMessage(res.data.message);
+      pageData.value.error = {};
       return res.data.result;
     }
-  });
-
-  return id;
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 };
 
 const update = async (status: boolean, rules: Rules) => {
-  switch (rules) {
-    case Rules.country:
-      country.value.wite_list = status;
-      status = country.value.wite_list;
-      break;
+  const { projectId, serverId } = props;
 
-    case Rules.ip:
-      network.value.wite_list = status;
-      status = network.value.wite_list;
-      break;
+  try {
+    switch (rules) {
+      case Rules.country:
+        pageData.value.tmp.country.wite_list = status;
+        status = pageData.value.tmp.country.wite_list;
+        break;
 
-    default:
-      return;
-  }
+      case Rules.ip:
+        pageData.value.tmp.network.wite_list = status;
+        status = pageData.value.tmp.network.wite_list;
+        break;
 
-  await updateFirewall(<UpdateServerFirewall_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-    rule: rules,
-    status: status,
-  }).then((res) => {
-    if (res.data.code === 200) {
-      const eventError = new CustomEvent("connextSuccess", {
-        detail: res.data.message,
-      });
-      dispatchEvent(eventError);
+      default:
+        return;
     }
-  });
+
+    const bodyParams = <UpdateServerFirewall_Request>{
+      project_id: projectId,
+      server_id: serverId,
+      rule: rules,
+      status: status,
+    };
+
+    const res = await api(false).UPDATE(`/v1/servers/firewall`, {}, bodyParams);
+    if (res.data) {
+      showMessage(res.data.message);
+      pageData.value.error = {};
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 };
 
 const remove = async (index: number, rules: Rules) => {
-  var record_id: string;
+  const { projectId, serverId } = props;
 
-  switch (rules) {
-    case Rules.country:
-      record_id = country.value.list[index].id;
-      break;
-
-    case Rules.ip:
-      record_id = network.value.list[index].id;
-      break;
-
-    default:
+  try {
+    var record_id: string;
+    if (rules === Rules.country) {
+      record_id = pageData.value.tmp.country.list[index].id;
+    } else if (rules === Rules.ip) {
+      record_id = pageData.value.tmp.network.list[index].id;
+    } else {
       return;
-  }
-
-  await deleteFirewall(<DeleteServerFirewall_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-    rule: rules,
-    record_id: record_id,
-  }).then((res) => {
-    if (res.data.code === 200) {
-      switch (rules) {
-        case Rules.country:
-          country.value.list.splice(index, 1);
-          searchCountries();
-          break;
-
-        case Rules.ip:
-          network.value.list.splice(index, 1);
-          break;
-      }
-
-      const eventError = new CustomEvent("connextSuccess", {
-        detail: res.data.message,
-      });
-      dispatchEvent(eventError);
     }
-  });
+
+    const queryParams = <DeleteServerFirewall_Request>{
+      project_id: projectId,
+      server_id: serverId,
+      rule: rules,
+      record_id: record_id,
+    };
+
+    const res = await api(false).DELETE(`/v1/servers/firewall`, queryParams)
+    if (res.data) {
+      if (rules === Rules.country) {
+        pageData.value.tmp.country.list.splice(index, 1);
+        searchCountries();
+      } else if (rules === Rules.ip) {
+        pageData.value.tmp.network.list.splice(index, 1);
+      }
+      showMessage(res.data.message);
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 };
 
 onMounted(async () => {
   document.title = "Server firewall";
-
-  await serverNameByID(<ServerNameByID_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    server_id: props.serverId,
-    project_id: props.projectId,
-  }).then((res) => {
-    serverName.value = res.data.result.server_name;
-  });
-
-  await firewall(<ServerFirewall_Request>{
-    project_id: props.projectId,
-    server_id: props.serverId,
-  }).then((res) => {
-    country.value = res.data.result.country;
-    network.value = res.data.result.network;
-  });
+  serverStore.serverNameByID(props.projectId, props.serverId);
+  await getData();
 });
-
-onBeforeUnmount(() => error.$reset());
 </script>

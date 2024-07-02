@@ -8,7 +8,7 @@
         </div>
         <slot name="footer">
           <div class="form-control">
-            <button class="btn" @click="closeModal">Close</button>
+            <FormButton @click="closeModal()">Close</FormButton>
           </div>
         </slot>
       </div>
@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import { FormButton } from "@/components";
+
 const props = defineProps<{
   showModal: boolean;
   title: string;

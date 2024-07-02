@@ -1,12 +1,12 @@
 <template>
-  <div v-if="data.message == 'Invite is invalid'" class="artboard red">
+  <div v-if="pageData.base.message == 'Invite is invalid'" class="artboard red">
     <header>
       <h1>Invitation to join the project</h1>
     </header>
     <div class="desc">The link to join the project is invalid.</div>
   </div>
 
-  <div v-if="data.message == 'Wrong user'" class="artboard red">
+  <div v-if="pageData.base.message == 'Wrong user'" class="artboard red">
     <header>
       <h1>Invitation to join the project</h1>
     </header>
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div v-if="data.message == 'Invite is activated'" class="artboard yellow">
+  <div v-if="pageData.base.message == 'Invite is activated'" class="artboard yellow">
     <header>
       <h1>Invitation to join the project</h1>
     </header>
@@ -32,37 +32,44 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { getProjectMembersInviteActivate } from "@/api/member/project";
+import { useSystemStore } from "@/store";
+import { PageData, defaultPageData } from "@/interface/page";
 
-const { proxy } = getCurrentInstance() as any;
-const data: any = ref({});
+// API section
+import { api } from "@/api";
+
 const router = useRouter();
+const systemStore = useSystemStore();
+const pageData = ref<PageData>(defaultPageData);
+
 const props = defineProps({
   invite: String,
 });
 
 onMounted(async () => {
   document.title = "Invitation to join the project";
+  systemStore.invites.project = props.invite;
 
-  proxy.$systemStore.invites.project = props.invite;
-
-  await getProjectMembersInviteActivate(props.invite!)
-    .then((res) => {
-      data.value = res.data.result;
-      if (data.value.project_id) {
-        proxy.$systemStore.invites.project = null;
+  try {
+    const res = await api().POST(`/v1/members/invite/${props.invite}`);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+      if (pageData.value.base.project_id) {
+        systemStore.invites.project = null;
         router.push({ name: "index" });
       }
-    })
-    .catch((err) => {
-      data.value = err.response.data;
-      if (data.value.message == "New user") {
+    }
+    if (res.error) {
+      //showMessage(res.error.result, "connextError");
+      //data.value = res.error.result;
+      if (res.error.result == "New user") {
         router.push({ name: "auth-signup" });
       }
-    });
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 });
-
-onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

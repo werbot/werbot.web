@@ -5,7 +5,7 @@
     </header>
     <Tabs :tabs="tabMenu" />
 
-    <table v-if="data.total > 0">
+    <table v-if="pageData.base.total > 0">
       <thead>
         <tr>
           <th class="w-12"></th>
@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data.members" :key="index">
+        <tr v-for="(item, index) in pageData.base.members" :key="index">
           <td>
             <div class="flex items-center">
               <span class="dot" :class="item.online ? 'bg-green-500' : 'bg-gray-200'"></span>
@@ -65,72 +65,81 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "@/store";
 import { SvgIcon, Pagination, Badge, FormToggle, Tabs } from "@/components";
-import { showMessage } from "@/utils/message";
+import { PageData, defaultPageData } from "@/interface/page";
 
-import { getProjectMembers, updateProjectMemberStatus } from "@/api/member/project";
+// API section
+import { api } from "@/api";
 import { UpdateProjectMember_Request } from "@proto/member";
 import { Role } from "@proto/user";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
-const { proxy } = getCurrentInstance() as any;
 const route = useRoute();
-const data: any = ref({});
+const authStore = useAuthStore();
+const pageData = ref<PageData>(defaultPageData);
+
 const props = defineProps({
   projectId: String,
 });
 
 const getData = async (routeQuery: any) => {
-  if (proxy.$authStore.hasUserRole === 3) {
-    routeQuery.member_id = proxy.$authStore.hasUserID;
+  try {
+    if (authStore.hasUserRole === 3) {
+      routeQuery.member_id = authStore.hasUserID;
+    }
+
+    const queryParams = {
+      owner_id: routeQuery.member_id,
+      project_id: props.projectId,
+      ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
+      ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
+    };
+
+    const res = await api().GET(`/v1/members`, queryParams);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
   }
-  routeQuery.project_id = props.projectId;
-  await getProjectMembers(routeQuery.member_id, routeQuery.project_id, routeQuery).then((res) => {
-    data.value = res.data.result;
-  });
 };
 
 const onSelectPage = (e: any) => {
   getData(e);
 };
 
+const changeMemberActive = async (index: number, online: boolean) => {
+  try {
+    const bodyParams = <UpdateProjectMember_Request>{
+      owner_id: authStore.hasUserID,
+      project_id: props.projectId,
+      member_id: pageData.value.base.members[Number(index)].member_id,
+      setting: {
+        active: online,
+      },
+    };
+
+    const res = await api().UPDATE(`/v1/members/active`, {}, bodyParams);
+    if (res.data) {
+      pageData.value.base.members[Number(index)].active = online;
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
+};
+
 onMounted(async () => {
   document.title = "Members list";
-
-  getData(route.query);
+  await getData(route.query);
 });
-
-const changeMemberActive = async (index: number, online: boolean) => {
-  data.value.members[Number(index)].active = online;
-
-  await updateProjectMemberStatus(<UpdateProjectMember_Request>{
-    owner_id: proxy.$authStore.hasUserID,
-    project_id: props.projectId,
-    member_id: data.value.members[Number(index)].member_id,
-    setting: {
-      active: online,
-    },
-  })
-    .then((res) => {
-      if (!online) {
-        showMessage(res.data.message, "connextWarning");
-      } else {
-        showMessage(res.data.message);
-      }
-
-      proxy.$errorStore.$reset();
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-    });
-};
 </script>

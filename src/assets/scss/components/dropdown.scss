@@ -1,5 +1,5 @@
 .dropdown {
-  @apply inline-block rounded border border-solid border-gray-300 px-1 py-2 leading-tight;
+  @apply inline-block h-10 rounded border border-solid border-gray-300 px-1 py-2 leading-tight;
   @apply flex items-center whitespace-nowrap;
 
   svg {
@@ -22,7 +22,7 @@
 }
 
 .dropdown-menu {
-  @apply absolute z-50 float-left m-0 mt-1 min-w-max list-none rounded-lg border-none bg-gray-800 bg-clip-padding py-2 text-left shadow-lg;
+  @apply absolute z-50 float-left m-0 mt-1 min-w-max list-none rounded-lg border-none bg-gray-800 bg-clip-padding py-2 text-left shadow-2xl;
 
   hr {
     @apply my-2 h-0 border border-t-0 border-solid border-gray-300 opacity-25;

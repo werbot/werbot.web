@@ -5,19 +5,11 @@
     @apply flex items-center whitespace-nowrap py-5 pl-6;
 
     .breadcrumbs {
-      @apply border-l ml-4 pl-4 pt-1 pb-1 relative -bottom-0.5;
+      @apply border-l ml-4 pl-4 pt-1 pb-1 relative -bottom-0.5 flex;
     }
 
     span {
-      @apply before:mr-2 before:ml-2 before:text-gray-200 before:content-['/'];
-    }
-
-    .plus {
-      @apply ml-4 flex cursor-pointer items-center whitespace-nowrap border-l-2;
-
-      svg {
-        @apply ml-4 mr-2;
-      }
+      @apply before:mr-3 before:ml-2 before:text-gray-200 before:content-['/'];
     }
   }
 

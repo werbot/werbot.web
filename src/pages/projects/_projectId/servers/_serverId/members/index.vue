@@ -6,17 +6,15 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverName }}</div>
-      <router-link :to="{ name: 'projects-projectId-servers-serverId-members-add' }">
-        <label class="plus">
-          <SvgIcon name="plus_square" />
-          add new
-        </label>
+      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
+      <router-link :to="{ name: 'projects-projectId-servers-serverId-members-add' }" class="breadcrumbs">
+        <SvgIcon name="plus_square" class="mr-3" />
+        add new
       </router-link>
     </header>
     <Tabs :tabs="tabMenu" />
 
-    <table v-if="data.total > 0">
+    <table v-if="pageData.base.total > 0">
       <thead>
         <tr>
           <th class="w-12"></th>
@@ -29,7 +27,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data.members" :key="index">
+        <tr v-for="(item, index) in pageData.base.members" :key="index">
           <td>
             <div class="flex items-center">
               <span class="dot bg-green-500"></span>
@@ -57,133 +55,138 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="data.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
   </div>
 
-  <Modal :showModal="modalActive" @close="closeModal" title="Are you sure you want to delete this member?">
+  <Modal :showModal="pageData.modal" @close="closeModal()" title="Are you sure you want to delete this member?">
     <p>This action CANNOT be undone. But this member can be added again.<br /></p>
     <template v-slot:footer>
       <div class="flex flex-row justify-end">
-        <button class="btn btn-red" @click="removeMember(member.id)">Delete member</button>
-        <button class="btn ml-5" @click="closeModal">Close</button>
+        <FormButton class="red" @click="removeMember(pageData.tmp.id)">Delete member</FormButton>
+        <FormButton class="ml-5" @click="closeModal()">Close</FormButton>
       </div>
     </template>
   </Modal>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, getCurrentInstance } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { toDate } from "@/utils/time";
-import { Tabs, SvgIcon, Modal, FormToggle, Pagination } from "@/components";
-import { showMessage } from "@/utils/message";
-import { serverNameByID } from "@/api/server";
-import { ServerNameByID_Request } from "@proto/server";
-import {
-  getServerMembers,
-  updateServerMemberActive,
-  deleteServerMember,
-} from "@/api/member/server";
+import { useAuthStore, useServerStore } from "@/store";
+import { toDate, showMessage } from "@/utils";
+import { Tabs, SvgIcon, Modal, FormToggle, Pagination, FormButton } from "@/components";
+import { PageData, defaultPageData } from "@/interface/page";
+
+// API section
+import { api } from "@/api";
 import { UpdateServerMember_Request, DeleteServerMember_Request } from "@proto/member";
 
 // Tabs section
 import { tabMenu } from "../tab";
 
-const serverName: any = ref("");
-
-const { proxy } = getCurrentInstance() as any;
 const route = useRoute();
-const data: any = ref({});
-const member: any = ref({});
+const authStore = useAuthStore();
+const serverStore = useServerStore();
+const pageData = ref<PageData>(defaultPageData);
+
 const props = defineProps({
   projectId: String,
   serverId: String,
 });
-const modalActive = ref(false);
-
-const openModal = async (id: number) => {
-  modalActive.value = true;
-  member.value.id = id;
-};
-
-const closeModal = () => {
-  modalActive.value = false;
-};
-
-const removeMember = async (id: number) => {
-  await deleteServerMember(<DeleteServerMember_Request>{
-    owner_id: proxy.$authStore.hasUserID,
-    project_id: props.projectId,
-    server_id: props.serverId,
-    member_id: data.value.members[Number(id)].member_id,
-  }).then((res) => {
-    if (res.data.code === 200) {
-      closeModal();
-      data.value.members.splice(id, 1);
-      data.value.total = data.value.total - 1;
-
-      showMessage(res.data.message);
-      proxy.$errorStore.$reset();
-    }
-  });
-};
 
 const getData = async (routeQuery: any) => {
-  if (proxy.$authStore.hasUserRole === 3) {
-    routeQuery.member_id = proxy.$authStore.hasUserID;
+  const { projectId, serverId } = props;
+
+  try {
+    if (authStore.hasUserRole === 3) {
+      routeQuery.member_id = authStore.hasUserID;
+    }
+
+    const queryParams = {
+      owner_id: routeQuery.member_id,
+      project_id: projectId,
+      server_id: serverId,
+      ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
+      ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
+    };
+
+    const res = await api().GET(`/v1/members/server`, queryParams);
+    if (res.data) {
+      pageData.value.base = res.data.result;
+    }
+    if (res.error) {
+      showMessage(res.error.result, "connextError");
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
   }
-  routeQuery.project_id = props.projectId;
-  routeQuery.server_id = props.serverId;
-  await getServerMembers(
-    routeQuery.member_id,
-    routeQuery.project_id,
-    routeQuery.server_id,
-    routeQuery
-  ).then((res) => {
-    data.value = res.data.result;
-  });
 };
 
 const onSelectPage = (e: any) => {
   getData(e);
 };
 
+const changeMemberActive = async (index: number, online: boolean) => {
+  const { projectId, serverId } = props;
+
+  try {
+    const bodyParams = <UpdateServerMember_Request>{
+      owner_id: authStore.hasUserID,
+      project_id: projectId,
+      server_id: serverId,
+      member_id: pageData.value.base.members[Number(index)].member_id,
+      setting: {
+        active: online,
+      },
+    };
+
+    const res = await api().UPDATE(`/v1/members/server/active`, {}, bodyParams);
+    if (res.data) {
+      pageData.value.base.members[Number(index)].active = online;
+    }
+    if (res.error) {
+      showMessage(res.error.result, "connextError");
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
+};
+
+const removeMember = async (id: number) => {
+  const { projectId, serverId } = props;
+
+  try {
+    const queryParams = <DeleteServerMember_Request>{
+      owner_id: authStore.hasUserID,
+      project_id: projectId,
+      server_id: serverId,
+      member_id: pageData.value.base.members[Number(id)].member_id
+    };
+
+    const res = await api().DELETE(`/v1/members/server`, queryParams);
+    if (res.data) {
+      closeModal();
+      pageData.value.base.members.splice(id, 1);
+      pageData.value.base.total = pageData.value.base.total - 1;
+      showMessage(res.data.message);
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
+};
+
+const openModal = async (id: number) => {
+  pageData.value.modal = true;
+  pageData.value.tmp.id = id;
+};
+
+const closeModal = () => {
+  pageData.value.modal = false;
+};
+
 onMounted(async () => {
   document.title = "Server member";
-
-  getData(route.query);
-
-  await serverNameByID(<ServerNameByID_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    server_id: props.serverId,
-    project_id: props.projectId,
-  }).then((res) => {
-    serverName.value = res.data.result.server_name;
-  });
+  serverStore.serverNameByID(props.projectId, props.serverId);
+  await getData(route.query);
 });
-
-const changeMemberActive = async (index: number, online: boolean) => {
-  data.value.members[Number(index)].active = online;
-
-  await updateServerMemberActive(<UpdateServerMember_Request>{
-    owner_id: proxy.$authStore.hasUserID,
-    project_id: props.projectId,
-    member_id: data.value.members[Number(index)].member_id,
-    server_id: props.serverId,
-    setting: {
-      active: online,
-    },
-  })
-    .then((res) => {
-      if (!online) {
-        showMessage(res.data.message, "connextWarning");
-      } else {
-        showMessage(res.data.message);
-      }
-      proxy.$errorStore.$reset();
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-    });
-};
 </script>

@@ -1,4 +1,6 @@
-export const tabMenu = [
+import { MenuItem } from "@/interface/menu";
+
+export const tabMenu: MenuItem[] = [
   {
     name: "Main",
     link: { name: "profile-setting" },
@@ -10,5 +12,6 @@ export const tabMenu = [
   {
     name: "Destroy",
     link: { name: "profile-setting-destroy" },
+    danger: true,
   },
 ];

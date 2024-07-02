@@ -8,39 +8,51 @@
 
     <div class="content">
       <form @submit.prevent>
-        <button type="submit" class="btn" @click="onDelete">
-          <span>Delete this project</span>
-        </button>
+        <FormButton @click="onDelete()" class="red">Delete this project</FormButton>
       </form>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, getCurrentInstance } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { deleteProject } from "@/api/project";
+import { useAuthStore } from "@/store";
+import { Tabs, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+
+// API section
+import { api } from "@/api";
 import { DeleteProject_Request } from "@proto/project";
-import { Tabs } from "@/components";
-import { showMessage } from "@/utils/message";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
-const { proxy } = getCurrentInstance() as any;
+const authStore = useAuthStore();
 const router = useRouter();
+
 const props = defineProps({
   projectId: String,
 });
 
 const onDelete = async () => {
-  await deleteProject(<DeleteProject_Request>{
-    project_id: props.projectId,
-    owner_id: proxy.$authStore.hasUserID,
-  }).then((res) => {
-    showMessage(res.data.message);
-    router.push({ name: "projects" });
-  });
+  try {
+    const queryParams = <DeleteProject_Request>{
+      project_id: props.projectId,
+      owner_id: authStore.hasUserID,
+    };
+
+    const res = await api().DELETE(`/v1/projects`, queryParams)
+    if (res.data) {
+      showMessage(res.data.message);
+      router.push({ name: "projects" });
+    }
+    if (res.error) {
+      showMessage(res.error.result, "connextError");
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  }
 };
 
 onMounted(async () => {

@@ -1,4 +1,6 @@
-export const tabMenu = [
+import { MenuItem } from "@/interface/menu";
+
+export const tabMenu: MenuItem[] = [
   {
     name: "Info",
     link: { name: "projects-projectId-servers-serverId" },
@@ -22,5 +24,10 @@ export const tabMenu = [
   {
     name: "Setting",
     link: { name: "projects-projectId-servers-serverId-setting" },
+  },
+  {
+    name: "Destroy",
+    link: { name: "projects-projectId-servers-serverId-destroy" },
+    danger: true,
   },
 ];

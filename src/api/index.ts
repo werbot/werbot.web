@@ -1,80 +1,111 @@
-import axios from "axios";
-import * as NProgress from "nprogress";
+import { start, done } from "nprogress";
+import { getStorage, showMessage } from "@/utils";
 
-import { getStorage } from "@/utils/storage";
-import { useAuthStore, useErrorStore } from "@/store";
+export function api(progress: boolean = true) {
+  //const logoutPath = "/auth/logout";
+  const baseURL = import.meta.env.VITE_API_URL ?? "";
+  const timeout = 10000;
 
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-axios.defaults.timeout = 15000;
+  async function handleRequest(url: string, options: RequestInit, params: object): Promise<any> {
+    if (progress) start();
 
-axios.interceptors.response.use(
-  (response) => {
-    NProgress.done();
-    return response;
-  },
+    const queryString = new URLSearchParams(params as Record<string, string>).toString();
+    const fullUrl = queryString ? `${baseURL}${url}?${queryString}` : baseURL + url;
 
-  async (error) => {
-    NProgress.done();
-    const { status, config, data } = error.response;
+    const controller = new AbortController();
+    const fetchTimeout = setTimeout(() => controller.abort(), timeout);
+    options.signal = controller.signal;
 
-    if (status === 401 && !config.__isRetryRequest) {
-      if (data.result === "The token has been revoked") {
-        useAuthStore().resetStore();
-        window.location.reload();
+    try {
+      const response = await fetch(fullUrl, options);
+      clearTimeout(fetchTimeout);
+
+      //if (response.status === 401) {
+      //console.error(`401 error after ${attempts} attempts`);
+      //return { error: `Unauthorized after ${attempts} attempts`, response };
+      //document.location.href = logoutPath;
+      //return;
+      //}
+
+      //if (response.status === 401) {
+      //  // document.location.href = signinPath;
+      //  // return;
+      //  console.log("401 error");
+      //}
+
+      if (response.status === 204 || response.headers.get("Content-Length") === "0") {
+        return response.ok ? { data: {}, response } : { error: {}, response };
       }
 
+      if (response.ok) {
+        return { data: await response.json(), response };
+      }
+
+      // handle errors
+      let error: string | object = await response.text();
       try {
-        config.__isRetryRequest = true;
-        await useAuthStore().refreshToken();
-        config.headers.Authorization = `Bearer ${getStorage("access_token")}`;
-        return axios(config);
-      } catch (error) {
-        return Promise.reject(error);
-      }
-    } else if (status === 400 || status === 404 || status === 500) {
-      const { message, result } = data;
-      const errorStore = useErrorStore();
-      if (typeof result === "string") {
-        errorStore.resetStore();
-        errorStore.setErrorMessage(result);
-      } else {
-        errorStore.setErrorMessage(message);
-        if (result) {
-          errorStore.setErrors(result);
+        error = JSON.parse(error);
+
+        const statusMessageMap: { [key: number]: string } = {
+          401: "connextError",
+          404: "connextError",
+          500: "connextWarning"
+        };
+
+        const messageType = statusMessageMap[response.status];
+        if (messageType) {
+          const message = error["result"] || error["message"];
+          showMessage(message, messageType);
         }
+      } catch {
+        // noop
       }
+
+      return { error, response };
+    } catch (error) {
+      clearTimeout(fetchTimeout);
+      console.error("Unexpected error:", error);
+      showMessage("Network error or request aborted", "connextWarning");
+      return { error: "Network error or request aborted", response: null };
+    } finally {
+      if (progress) done();
     }
-    return Promise.reject(error);
-  },
-);
+  }
 
-axios.interceptors.request.use(
-  (config) => {
-    NProgress.start();
-    const token = getStorage("access_token");
+  function createOptions(method: string, body?: HeadersInit): RequestInit {
+    const accessToken = getStorage("access_token");
+    const headers: HeadersInit = {
+      ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      ...(body && Object.keys(body).length > 0 && { "Content-Type": "application/json" })
+    };
 
-    //var isoDateString = new Date().toISOString();
-    //if (isoDateString > getStorage("expires_at")) {
-    //  useAuthStore().refreshToken();
-    //}
+    return {
+      method,
+      ...(body && Object.keys(body).length > 0 && { body: JSON.stringify(body) }),
+      headers
+    };
+  }
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  return {
+    /** Call a GET endpoint */
+    async GET(url: string, params?: object): Promise<any> {
+      return handleRequest(url, createOptions("GET"), params);
+    },
+    /** Call a PUT endpoint */
+    async PUT(url: string, params?: object, body?: HeadersInit): Promise<any> {
+      return handleRequest(url, createOptions("PUT", body), params);
+    },
+    /** Call a POST endpoint */
+    async POST(url: string, params?: object, body?: HeadersInit): Promise<any> {
+      return handleRequest(url, createOptions("POST", body), params);
+    },
+    /** Call a UPDATE endpoint */
+    async UPDATE(url: string, params?: object, body?: HeadersInit): Promise<any> {
+      return handleRequest(url, createOptions("PATCH", body), params);
+    },
+    /** Call a DELETE endpoint */
+    async DELETE(url: string, params?: object, body?: HeadersInit): Promise<any> {
+      return handleRequest(url, createOptions("DELETE", body), params);
     }
-    return config;
-  },
-  (error) => {
-    NProgress.done();
-    return Promise.reject(error);
-  },
-);
-
-type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-export function http<T = any>(method: Method, route: string, options = {}): Promise<T> {
-  const config = {
-    method,
-    url: route,
-    ...options,
   };
-  return axios.request<T, T>(config);
 }

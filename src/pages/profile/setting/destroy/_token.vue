@@ -3,33 +3,38 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, getCurrentInstance } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { deleteUserStep2 } from "@/api/user";
-import { DeleteUser_Request } from "@proto/user";
-import { showMessage } from "@/utils/message";
+import { useAuthStore } from "@/store";
+import { showMessage } from "@/utils";
 
-const { proxy } = getCurrentInstance() as any;
+// API section
+import { api } from "@/api";
+
 const router = useRouter();
+const authStore = useAuthStore();
+
 const props = defineProps({
   token: String,
 });
 
 onMounted(async () => {
-  await deleteUserStep2(<DeleteUser_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    request: {
+  try {
+    const bodyParams = {
+      user_id: authStore.hasUserID,
       token: props.token,
-    }
-  })
-    .then((res) => {
+    };
+
+    const res = await api().DELETE(`/v1/users`, {}, bodyParams);
+    if (res.data) {
       showMessage(res.data.message);
-      proxy.$authStore.resetStore();
+      authStore.resetStore();
       router.push({ name: "auth-signin" });
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-      router.push({ name: "index" });
-    });
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    router.push({ name: "index" });
+  }
 });
 </script>

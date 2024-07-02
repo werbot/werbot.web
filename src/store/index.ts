@@ -3,7 +3,7 @@ import { createPinia } from "pinia";
 
 import { useAuthStore } from "@/store/modules/auth";
 import { useSystemStore } from "@/store/modules/system";
-import { useErrorStore } from "@/store/modules/error";
+import { useServerStore } from "@/store/modules/server";
 
 export default {
   install: (app: App) => {
@@ -12,24 +12,20 @@ export default {
     const stores = {
       authStore: useAuthStore(),
       systemStore: useSystemStore(),
-      errorStore: useErrorStore(),
+      serverStore: useServerStore(),
     };
 
-    Object.entries(stores).forEach(([name, store]) => {
-      app.config.globalProperties[`$${name}`] = store;
+    Object.keys(stores).forEach((name) => {
+      app.config.globalProperties[`$${name}`] = stores[name];
     });
 
     const { authStore, systemStore } = stores;
 
     if (authStore.logged_in) {
       authStore.getProfile();
-      //systemStore.getVersion(); // Get the version from the system store
+      systemStore.getVersion();
     }
   },
 };
 
-export {
-  useAuthStore, // This function is used to access and manipulate data related to authentication.
-  useSystemStore, // This function is used to access and manipulate system information data.
-  useErrorStore, // This function is used to access and manipulate error handling related data.
-};
+export { useAuthStore, useSystemStore, useServerStore };

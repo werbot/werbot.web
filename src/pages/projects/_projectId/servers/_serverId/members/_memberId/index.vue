@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverName }}
+      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}
         <span>
           <router-link :to="{ name: 'projects-projectId-servers-serverId-members', params: { projectId: props.projectId, serverId: props.serverId } }">
             Members
@@ -21,17 +21,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, getCurrentInstance, ref } from "vue";
+import { onMounted } from "vue";
+import { useServerStore } from "@/store";
 import { Tabs } from "@/components";
-import { serverNameByID } from "@/api/server";
-import { ServerNameByID_Request } from "@proto/server";
-
-const serverName: any = ref("");
 
 // Tabs section
 import { tabMenu } from "../../tab";
 
-const { proxy } = getCurrentInstance() as any;
+const serverStore = useServerStore();
+
 const props = defineProps({
   projectId: String,
   serverId: String,
@@ -40,13 +38,6 @@ const props = defineProps({
 
 onMounted(async () => {
   document.title = "Server member";
-
-  await serverNameByID(<ServerNameByID_Request>{
-    user_id: proxy.$authStore.hasUserID,
-    server_id: props.serverId,
-    project_id: props.projectId,
-  }).then((res) => {
-    serverName.value = res.data.result.server_name;
-  });
+  serverStore.serverNameByID(props.projectId, props.serverId);
 });
 </script>

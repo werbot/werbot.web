@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2017",
     "baseUrl": ".",
-    "module": "esnext", //"commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "composite": true,
@@ -23,6 +23,7 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",
+    "src/**/*.mjs",
     "src/main.ts",
     "src/utils/request.js",
 

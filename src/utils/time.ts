@@ -1,12 +1,5 @@
 type Method = "full" | "lite";
 
-/**
- * Convert timestamp to a formatted date string.
- *
- * @param timestamp - An object containing a timestamp in seconds and optional nanoseconds.
- * @param format - The format of the output string, either "full" or "lite". Defaults to "full".
- * @returns A formatted date string based on the input timestamp and format.
- */
 export function toDate(
   timestamp: { seconds: number; nanos?: number },
   format: Method = "full",
@@ -28,4 +21,14 @@ export function addMinutes(date: Date, minutes: number): Date {
 export function addHours(date: Date, hours: number) {
   date.setTime(date.getTime() + hours * 60 * 60 * 1000);
   return date;
+}
+
+export function checkTimestampDifference(timestamp: number) {
+  const currentTimestamp: number = new Date().getTime();
+  const differenceInMilliseconds: number = currentTimestamp - timestamp;
+
+  if (differenceInMilliseconds > 3600000) {
+    return false;
+  }
+   return true;
 }

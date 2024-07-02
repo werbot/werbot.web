@@ -10,56 +10,61 @@
 
     <div class="content">
       <form @submit.prevent>
-        <FormInput name="Title" v-model.trim="data.title" :error="$errorStore.errors['title']" :disabled="loading" class="w-80" />
-        <FormTextarea name="Key" v-model.trim="data.key" :error="$errorStore.errors['key']" :disabled="loading" :rows="6" class="mt-5"
+        <FormInput name="Title" v-model.trim="pageData.base.title" :error="pageData.error['title']" :disabled="pageData.loading" class="w-80" />
+        <FormTextarea name="Key" v-model.trim="pageData.base.key" :error="pageData.error['key']" :disabled="pageData.loading" :rows="6" class="mt-5"
           placeholder="Begins with 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519', 'sk-ecdsa-sha2-nistp256@openssh.com', or 'sk-ssh-ed25519@openssh.com'" />
 
-        <button type="submit" class="btn mt-8" @click="onSubmit" :disabled="loading">
-          <div v-if="loading">
-            <span>Loading...</span>
-          </div>
-          <span v-else>Add SSH key</span>
-        </button>
+        <FormButton class="mt-8" @click="onSubmit()" :loading="pageData.loading">Add SSH key</FormButton>
       </form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount, getCurrentInstance } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { FormInput, FormTextarea } from "@/components";
-import { showMessage } from "@/utils/message";
+import { FormInput, FormTextarea, FormButton } from "@/components";
+import { showMessage } from "@/utils";
+import { PageData, defaultPageData } from "@/interface/page";
 
-import { postKey } from "@/api/key";
+// API section
+import { api } from "@/api";
 import { AddKey_Request } from "@proto/key";
 
-const { proxy } = getCurrentInstance() as any;
-const data: any = ref({});
-const loading = ref(false);
 const router = useRouter();
+const pageData = ref<PageData>(defaultPageData)
 
 const onSubmit = async () => {
-  loading.value = !loading.value;
+  try {
+    pageData.value.loading = true;
+    const bodyParams = <AddKey_Request>{
+      title: pageData.value.base.title,
+      key: pageData.value.base.key,
+    };
 
-  await postKey(<AddKey_Request>{
-    title: data.value.title,
-    key: data.value.key,
-  })
-    .then((res) => {
+    const res = await api().POST(`/v1/keys`, {}, bodyParams)
+    if (res.data) {
       showMessage(res.data.message);
-      proxy.$errorStore.$reset();
+      pageData.value.error = {};
       router.push({ name: "profile-keys" });
-    })
-    .catch((err) => {
-      showMessage(err.response.data.message, "connextError");
-      loading.value = !loading.value;
-    });
+    }
+    if (res.error) {
+      const errorResult = res.error.result;
+      if (errorResult === 'The public key has a broken') {
+        pageData.value.error.key = errorResult;
+        return;
+      } else {
+        pageData.value.error = errorResult;
+      }
+    }
+  } catch (err) {
+    console.error('Unexpected error:', err);
+  } finally {
+    pageData.value.loading = false;
+  }
 };
 
 onMounted(async () => {
   document.title = "Add new key";
 });
-
-onBeforeUnmount(() => proxy.$errorStore.$reset());
 </script>

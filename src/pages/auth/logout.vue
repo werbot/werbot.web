@@ -3,19 +3,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, getCurrentInstance } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/store";
 
-const { proxy } = getCurrentInstance() as any;
+const authStore = useAuthStore();
 const router = useRouter();
 
 onMounted(async () => {
   document.title = "Please wait...";
 
   try {
-    await proxy.$authStore.logout();
-  } catch (error) {
-    console.error(error);
+    await authStore.logout();
+  } catch (err) {
+    console.error('Unexpected error:', err);
   } finally {
     router.push({ name: "auth-signin" });
   }
