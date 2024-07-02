@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
       - run: git fetch --force --tags
       - uses: mikefarah/yq@master
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: make build
         env:
