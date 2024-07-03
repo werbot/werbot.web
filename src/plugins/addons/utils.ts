@@ -3,9 +3,7 @@ import { promises as fs } from "fs";
 export async function scanFolder(path: string): Promise<string[]> {
   try {
     const directories = await fs.readdir(path, { withFileTypes: true });
-    return directories
-      .filter((directory) => directory.isDirectory())
-      .map((directory) => directory.name);
+    return directories.filter((directory) => directory.isDirectory()).map((directory) => directory.name);
   } catch (err) {
     console.error("Error reading directory:", err);
     return [];

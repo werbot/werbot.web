@@ -17,15 +17,15 @@ export const useSystemStore = defineStore("system", {
   state: (): SystemState => ({
     versions: {
       ui: "1.0 (00000000)",
-      api: "1.0 (00000000)",
+      api: "1.0 (00000000)"
     },
     invites: {
-      project: null,
-    },
+      project: null
+    }
   }),
 
   getters: {
-    getVersions: (state): SystemState["versions"] => state.versions,
+    getVersions: (state): SystemState["versions"] => state.versions
   },
 
   actions: {
@@ -44,6 +44,6 @@ export const useSystemStore = defineStore("system", {
       //} catch (err) {
       //  console.error("Unexpected error:", err);
       //}
-    },
-  },
+    }
+  }
 });

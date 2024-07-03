@@ -1,8 +1,8 @@
-type Event = "connextSuccess" | "connextError" | "connextWarning" | "connextInfo";
+export type Event = "connextSuccess" | "connextError" | "connextWarning" | "connextInfo";
 
-export function showMessage(message: string, event: string = "connextSuccess"): any {
+export function showMessage(message: string, event: Event = "connextSuccess"): void {
   const eventMessage = new CustomEvent(event, {
-    detail: message,
+    detail: message
   });
   dispatchEvent(eventMessage);
 }

@@ -34,12 +34,12 @@ export const useAuthStore = defineStore("auth", {
       name: null,
       surname: null,
       email: null,
-      role: null,
+      role: null
     },
     invites: {
-      project: null,
+      project: null
     },
-    error: {},
+    error: {}
   }),
 
   getters: {
@@ -50,7 +50,7 @@ export const useAuthStore = defineStore("auth", {
     hasUserSurname: (state) => state.user.surname,
     hasUserEmail: (state) => state.user.email,
     hasUserRole: (state) => state.user.role,
-    hasUserID: (state) => state.user.id,
+    hasUserID: (state) => state.user.id
   },
 
   actions: {
@@ -97,7 +97,7 @@ export const useAuthStore = defineStore("auth", {
     async refreshToken() {
       try {
         const token: RefreshTokenRequest = {
-          refresh_token: getStorage("refresh_token"),
+          refresh_token: getStorage("refresh_token")
         };
 
         const res = await api().POST(`/auth/refresh`, {}, token);
@@ -138,7 +138,7 @@ export const useAuthStore = defineStore("auth", {
           ...this.user,
           name: jwt.User.user_name,
           role: jwt.User.roles,
-          id: jwt.User.user_id,
+          id: jwt.User.user_id
         };
 
         this.session_id = jwt.sub;
@@ -147,7 +147,7 @@ export const useAuthStore = defineStore("auth", {
 
         // data from api
         const queryParams = <User_Request>{
-          user_id: jwt.User.user_id,
+          user_id: jwt.User.user_id
         };
 
         const res = await api(false).GET(`/v1/users`, queryParams);
@@ -155,12 +155,12 @@ export const useAuthStore = defineStore("auth", {
           this.user = {
             ...this.user,
             surname: res.data.result.surname,
-            email: res.data.result.email,
+            email: res.data.result.email
           };
         }
       } catch (err) {
         console.error("Unexpected error:", err);
       }
-    },
-  },
+    }
+  }
 });

@@ -8,18 +8,27 @@
     <div class="content">
       <form @submit.prevent>
         <div class="mb-5 flex flex-row">
-          <FormInput name="Title" v-model="pageData.base.title" :error="pageData.error['title']" class="mr-5 flex-grow" />
-          <FormInput name="Login" v-model.trim="pageData.base.login" :error="pageData.error['login']" class="flex-grow" />
+          <FormInput
+            v-model="pageData.base.title"
+            name="Title"
+            :error="pageData.error['title']"
+            class="mr-5 flex-grow"
+          />
+          <FormInput
+            v-model.trim="pageData.base.login"
+            name="Login"
+            :error="pageData.error['login']"
+            class="flex-grow"
+          />
         </div>
 
         <div class="mt-6">
           <div class="flex-none">
-            <FormButton @click="onUpdate()" class="mr-5" :loading="pageData.loading">Update</FormButton>
+            <FormButton class="mr-5" :loading="pageData.loading" @click="onUpdate()">Update</FormButton>
           </div>
         </div>
       </form>
     </div>
-
   </div>
 </template>
 
@@ -41,14 +50,17 @@ const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  projectId: String,
+  projectId: {
+    type: String,
+    default: null
+  }
 });
 
-const getData = async () => {
+const getData = async (): Promise<void> => {
   try {
     const queryParams = <Project_Request>{
       project_id: props.projectId,
-      owner_id: authStore.hasUserID,
+      owner_id: authStore.hasUserID
     };
 
     const res = await api().GET(`/v1/projects`, queryParams);
@@ -56,11 +68,11 @@ const getData = async () => {
       pageData.value.base = res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const onUpdate = async () => {
+const onUpdate = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
@@ -68,10 +80,10 @@ const onUpdate = async () => {
       project_id: props.projectId,
       owner_id: authStore.hasUserID,
       title: pageData.value.base.title,
-      login: pageData.value.base.login,
+      login: pageData.value.base.login
     };
 
-    const res = await api().UPDATE(`/v1/projects`, {}, bodyParams)
+    const res = await api().UPDATE(`/v1/projects`, {}, bodyParams);
     if (res.data) {
       showMessage(res.data.message);
       pageData.value.error = {};
@@ -80,7 +92,7 @@ const onUpdate = async () => {
       pageData.value.error = res.error.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.loading = false;
   }
@@ -89,5 +101,5 @@ const onUpdate = async () => {
 onMounted(async () => {
   document.title = "Project setting";
   await getData();
-})
+});
 </script>

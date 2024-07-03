@@ -2,7 +2,15 @@
   <div>
     <div class="drawer" :class="{ 'is-open': props.isOpen, 'is-visible': isVisible }">
       <div class="drawer__overlay" :style="{ transitionDuration: `${props.speed}ms` }"></div>
-      <div class="drawer__content" ref="drawer" :style="{ maxWidth: props.maxWidth, transitionDuration: `${props.speed}ms`, backgroundColor: props.backgroundColor }">
+      <div
+        ref="drawer"
+        class="drawer__content"
+        :style="{
+          maxWidth: props.maxWidth,
+          transitionDuration: `${props.speed}ms`,
+          backgroundColor: props.backgroundColor
+        }"
+      >
         <div class="pb-4">
           <h2>{{ props.title }}</h2>
         </div>
@@ -24,7 +32,7 @@ import { FormButton } from "@/components";
 import { onClickOutside } from "@vueuse/core";
 
 const drawer = ref(null);
-onClickOutside(drawer, (e) => closeDrawer());
+onClickOutside(drawer, () => closeDrawer());
 
 const isVisible = ref(false);
 const isTransitioning = ref(false);
@@ -33,40 +41,40 @@ const { emit } = getCurrentInstance();
 const props = defineProps({
   title: {
     type: String,
-    required: true,
+    required: true
   },
 
   isOpen: {
     type: Boolean,
     required: false,
-    default: false,
+    default: false
   },
 
   maxWidth: {
     type: String,
     required: false,
-    default: "500px",
+    default: "500px"
   },
 
   speed: {
     type: Number,
     required: false,
-    default: 200,
+    default: 200
   },
 
   backgroundColor: {
     type: String,
     required: false,
-    default: "#fafafa",
-  },
+    default: "#fafafa"
+  }
 });
 
-const toggleBackgroundScrolling = (enable) => {
+const toggleBackgroundScrolling = (enable): void => {
   const body = document.querySelector("body");
   body.style.overflow = enable ? "hidden" : null;
 };
 
-const closeDrawer = () => {
+const closeDrawer = (): void => {
   if (!isTransitioning.value) {
     emit("close");
   }
@@ -89,7 +97,7 @@ watch(
     }
 
     setTimeout(() => (isTransitioning.value = false), props.speed);
-  },
+  }
 );
 </script>
 
@@ -112,11 +120,11 @@ watch(
   }
 
   &__overlay {
-    @apply fixed inset-x-0 inset-y-0 w-full z-50 opacity-0 transition-opacity bg-black select-none;
+    @apply fixed inset-x-0 inset-y-0 z-50 w-full select-none bg-black opacity-0 transition-opacity;
   }
 
   &__content {
-    @apply fixed inset-y-0 h-full w-full right-0 overflow-auto flex transition-transform flex-col translate-x-full shadow-2xl z-[999];
+    @apply fixed inset-y-0 right-0 z-[999] flex h-full w-full translate-x-full flex-col overflow-auto shadow-2xl transition-transform;
     @apply bg-red-200 p-6;
   }
 }

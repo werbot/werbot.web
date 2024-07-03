@@ -32,18 +32,24 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { useAuthStore, useServerStore } from "@/store";
+import { onMounted } from "vue";
+import { useServerStore } from "@/store";
 import { Tabs } from "@/components";
 
 // Tabs section
-import { tabMenu } from "../tab";
+import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 
 const serverStore = useServerStore();
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  }
 });
 
 onMounted(async () => {

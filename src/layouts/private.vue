@@ -2,7 +2,7 @@
   <div class="px-6">
     <Header />
 
-    <div class="content" v-if="!router.currentRoute.value.meta.layoutStyle">
+    <div v-if="!router.currentRoute.value.meta.layoutStyle" class="content">
       <div class="left">
         <Navigation />
         <Version />
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="content" v-if="router.currentRoute.value.meta.layoutStyle === 'blank'">
+    <div v-if="router.currentRoute.value.meta.layoutStyle === 'blank'" class="content">
       <div id="alert"></div>
       <RouterView />
     </div>
@@ -34,20 +34,22 @@ const authStore = useAuthStore();
 const { status, data, send, open, close } = useWebSocket(
   import.meta.env.VITE_API_URL.replace("http", "ws") + "/ws/" + authStore.hasSessionID,
   {
-    autoReconnect: true,
-  },
+    autoReconnect: true
+  }
 );
 
 provide("wsStatus", status);
 provide("wsData", data);
 provide("wsSend", send);
 
-if (router.currentRoute.value.fullPath.startsWith('/admin') && authStore.hasUserRole != 3) {
+if (router.currentRoute.value.fullPath.startsWith("/admin") && authStore.hasUserRole != 3) {
   router.push({ name: "404" });
 }
 
 watchEffect(() => {
-  if (!data.value) return;
+  if (!data.value) {
+    return;
+  }
 
   const resp = JSON.parse(data.value);
   const { code, action } = resp;

@@ -16,7 +16,7 @@ onMounted(async () => {
   try {
     await authStore.logout();
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     router.push({ name: "auth-signin" });
   }

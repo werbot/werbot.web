@@ -12,7 +12,7 @@ export function routeAddon(routeList: Array<RouteParamsRaw>): string {
           }
           return value;
         },
-        2,
+        2
       );
       routes.push(route);
     });

@@ -9,8 +9,9 @@
       <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
-    <div class="desc">Several options for adding new members are available. Choose the right one and follow the instructions.</div>
-
+    <div class="desc">
+      Several options for adding new members are available. Choose the right one and follow the instructions.
+    </div>
   </div>
 </template>
 
@@ -25,8 +26,14 @@ import { tabMenu } from "./tab";
 const serverStore = useServerStore();
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  }
 });
 
 onMounted(async () => {

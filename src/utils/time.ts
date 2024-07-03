@@ -1,16 +1,9 @@
 type Method = "full" | "lite";
 
-export function toDate(
-  timestamp: { seconds: number; nanos?: number },
-  format: Method = "full",
-): string {
-  const dateMath = timestamp.nanos
-    ? timestamp.seconds * 1000 + timestamp.nanos / 1e6
-    : timestamp.seconds * 1000;
+export function toDate(timestamp: { seconds: number; nanos?: number }, format: Method = "full"): string {
+  const dateMath = timestamp.nanos ? timestamp.seconds * 1000 + timestamp.nanos / 1e6 : timestamp.seconds * 1000;
 
-  return format === "lite"
-    ? new Date(dateMath).toLocaleDateString()
-    : new Date(dateMath).toLocaleString();
+  return format === "lite" ? new Date(dateMath).toLocaleDateString() : new Date(dateMath).toLocaleString();
 }
 
 export function addMinutes(date: Date, minutes: number): Date {
@@ -18,17 +11,17 @@ export function addMinutes(date: Date, minutes: number): Date {
   return date;
 }
 
-export function addHours(date: Date, hours: number) {
+export function addHours(date: Date, hours: number): Date {
   date.setTime(date.getTime() + hours * 60 * 60 * 1000);
   return date;
 }
 
-export function checkTimestampDifference(timestamp: number) {
+export function checkTimestampDifference(timestamp: number): boolean {
   const currentTimestamp: number = new Date().getTime();
   const differenceInMilliseconds: number = currentTimestamp - timestamp;
 
   if (differenceInMilliseconds > 3600000) {
     return false;
   }
-   return true;
+  return true;
 }

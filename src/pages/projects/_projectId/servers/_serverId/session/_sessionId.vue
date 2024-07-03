@@ -9,7 +9,12 @@
       <div class="breadcrumbs">
         <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
         <span>
-          <router-link :to="{ name: 'projects-projectId-servers-serverId-sessions', params: { projectId: props.projectId, serverId: props.serverId } }">
+          <router-link
+            :to="{
+              name: 'projects-projectId-servers-serverId-sessions',
+              params: { projectId: props.projectId, serverId: props.serverId }
+            }"
+          >
             Sessions
           </router-link>
         </span>
@@ -25,9 +30,18 @@ import { useServerStore } from "@/store";
 const serverStore = useServerStore();
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
-  sessionId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  },
+  sessionId: {
+    type: String,
+    default: null
+  }
 });
 
 onMounted(async () => {

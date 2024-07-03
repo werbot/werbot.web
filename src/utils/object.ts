@@ -1,6 +1,6 @@
 type MenuItem = {
   name: string;
-  link: {};
+  link: object;
   icon: string;
 };
 
@@ -22,7 +22,7 @@ export function mergeMenus(menus: MenuGroup[]): MenuGroup {
     merged[key].sort((a, b) => a.name.localeCompare(b.name));
   });
 
-  const compareKeys = (a: string, b: string) => {
+  const compareKeys = (a: string, b: string): number => {
     const numA = parseInt(a.match(/\d+/)?.[0] || "0", 10);
     const numB = parseInt(b.match(/\d+/)?.[0] || "0", 10);
     if (numA !== numB) {

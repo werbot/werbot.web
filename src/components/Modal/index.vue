@@ -1,6 +1,6 @@
 <template>
   <transition name="animation">
-    <div class="modal" v-if="props.showModal">
+    <div v-if="props.showModal" class="modal">
       <div class="modal-box">
         <h1>{{ props.title }}</h1>
         <div class="py-4">
@@ -26,7 +26,7 @@ const props = defineProps<{
 
 const emit = defineEmits(["close"]);
 
-const closeModal = () => {
+const closeModal = (): void => {
   emit("close");
 };
 </script>

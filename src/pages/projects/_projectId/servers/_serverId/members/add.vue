@@ -6,8 +6,15 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}<span>
-          <router-link :to="{ name: 'projects-projectId-servers-serverId-members', params: { projectId: props.projectId, serverId: props.serverId } }">
+      <div class="breadcrumbs">
+        {{ serverStore.getServerNameByID(props.projectId, props.serverId) }}
+        <span>
+          <router-link
+            :to="{
+              name: 'projects-projectId-servers-serverId-members',
+              params: { projectId: props.projectId, serverId: props.serverId }
+            }"
+          >
             Members
           </router-link>
         </span>
@@ -35,7 +42,7 @@
           </td>
           <td>
             <div class="flex items-center">
-              <SvgIcon name="plus_square" @click="addingMember(index)" class="cursor-pointer" />
+              <SvgIcon name="plus_square" class="cursor-pointer" @click="addingMember(index)" />
             </div>
           </td>
         </tr>
@@ -43,14 +50,14 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" class="content" @select-page="onSelectPage" />
   </div>
 
   <div class="m-6">
     In order to add a new member, he must first be invited to the general list of
     <router-link :to="{ name: 'projects-projectId-members', params: { projectId: props.projectId } }">
-      project members
-    </router-link>.
+      project members </router-link
+    >.
   </div>
 </template>
 
@@ -67,7 +74,7 @@ import { api } from "@/api";
 import { MembersWithoutServer_Request, AddServerMember_Request } from "@proto/member";
 
 // Tabs section
-import { tabMenu } from "../tab";
+import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -75,15 +82,22 @@ const serverStore = useServerStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  }
 });
 
-const onSelectPage = (e: any) => {
+const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 
-const getData = async (routeQuery: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getData = async (routeQuery: any): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
@@ -104,11 +118,11 @@ const getData = async (routeQuery: any) => {
       pageData.value.base = res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const addingMember = async (index: number) => {
+const addingMember = async (index: number): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
@@ -118,10 +132,10 @@ const addingMember = async (index: number) => {
       project_id: projectId,
       server_id: serverId,
       member_id: pageData.value.base.members[Number(index)].member_id,
-      active: pageData.value.base.members[Number(index)].active,
+      active: pageData.value.base.members[Number(index)].active
     };
 
-    const res = await api().POST(`/v1/members/server`, {}, bodyParams)
+    const res = await api().POST(`/v1/members/server`, {}, bodyParams);
     if (res.data) {
       pageData.value.base.members.splice(index, 1);
       pageData.value.base.total = pageData.value.base.total - 1;
@@ -132,7 +146,7 @@ const addingMember = async (index: number) => {
       pageData.value.error = res.error.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.loading = false;
   }

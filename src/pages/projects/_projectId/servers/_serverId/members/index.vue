@@ -38,12 +38,17 @@
           <td>{{ item.updated_at.seconds > 0 ? toDate(item.updated_at) : "" }}</td>
           <td>
             <div class="flex items-center">
-              <FormToggle v-model="item.active" :id="index" @change="changeMemberActive(index, item.active)" />
+              <FormToggle :id="index" v-model="item.active" @change="changeMemberActive(index, item.active)" />
             </div>
           </td>
           <td>
-            <router-link active-class="current"
-              :to="{ name: 'projects-projectId-servers-serverId-members-memberId', params: { projectId: props.projectId, serverId: props.serverId, memberId: item.member_id } }">
+            <router-link
+              active-class="current"
+              :to="{
+                name: 'projects-projectId-servers-serverId-members-memberId',
+                params: { projectId: props.projectId, serverId: props.serverId, memberId: item.member_id }
+              }"
+            >
               <SvgIcon name="logs" class="text-gray-700" />
             </router-link>
           </td>
@@ -55,12 +60,12 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" class="content" @select-page="onSelectPage" />
   </div>
 
-  <Modal :showModal="pageData.modal" @close="closeModal()" title="Are you sure you want to delete this member?">
+  <Modal :show-modal="pageData.modal" title="Are you sure you want to delete this member?" @close="closeModal()">
     <p>This action CANNOT be undone. But this member can be added again.<br /></p>
-    <template v-slot:footer>
+    <template #footer>
       <div class="flex flex-row justify-end">
         <FormButton class="red" @click="removeMember(pageData.tmp.id)">Delete member</FormButton>
         <FormButton class="ml-5" @click="closeModal()">Close</FormButton>
@@ -82,7 +87,7 @@ import { api } from "@/api";
 import { UpdateServerMember_Request, DeleteServerMember_Request } from "@proto/member";
 
 // Tabs section
-import { tabMenu } from "../tab";
+import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -90,11 +95,18 @@ const serverStore = useServerStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  }
 });
 
-const getData = async (routeQuery: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getData = async (routeQuery: any): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
@@ -118,15 +130,15 @@ const getData = async (routeQuery: any) => {
       showMessage(res.error.result, "connextError");
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const onSelectPage = (e: any) => {
+const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 
-const changeMemberActive = async (index: number, online: boolean) => {
+const changeMemberActive = async (index: number, online: boolean): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
@@ -136,8 +148,8 @@ const changeMemberActive = async (index: number, online: boolean) => {
       server_id: serverId,
       member_id: pageData.value.base.members[Number(index)].member_id,
       setting: {
-        active: online,
-      },
+        active: online
+      }
     };
 
     const res = await api().UPDATE(`/v1/members/server/active`, {}, bodyParams);
@@ -148,11 +160,11 @@ const changeMemberActive = async (index: number, online: boolean) => {
       showMessage(res.error.result, "connextError");
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const removeMember = async (id: number) => {
+const removeMember = async (id: number): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
@@ -171,16 +183,16 @@ const removeMember = async (id: number) => {
       showMessage(res.data.message);
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const openModal = async (id: number) => {
+const openModal = async (id: number): Promise<void> => {
   pageData.value.modal = true;
   pageData.value.tmp.id = id;
 };
 
-const closeModal = () => {
+const closeModal = (): void => {
   pageData.value.modal = false;
 };
 

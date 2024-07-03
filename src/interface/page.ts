@@ -1,5 +1,4 @@
-import { ref } from "vue";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type PageData = {
   base?: any;
   tmp?: any;

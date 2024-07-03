@@ -15,14 +15,17 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 const props = defineProps({
-  token: String,
+  token: {
+    type: String,
+    default: null
+  }
 });
 
 onMounted(async () => {
   try {
     const bodyParams = {
       user_id: authStore.hasUserID,
-      token: props.token,
+      token: props.token
     };
 
     const res = await api().DELETE(`/v1/users`, {}, bodyParams);
@@ -32,7 +35,7 @@ onMounted(async () => {
       router.push({ name: "auth-signin" });
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     router.push({ name: "index" });
   }

@@ -29,19 +29,24 @@
             <Badge v-if="item.status == 'send'" :name="item.status" color="yellow" />
           </td>
           <td>
-            <SvgIcon v-if="item.status == 'send'" name="delete" class="cursor-pointer text-red-500" @click="openModal(index)" />
+            <SvgIcon
+              v-if="item.status == 'send'"
+              name="delete"
+              class="cursor-pointer text-red-500"
+              @click="openModal(index)"
+            />
           </td>
         </tr>
       </tbody>
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" class="content" @select-page="onSelectPage" />
   </div>
 
-  <Modal :showModal="pageData.modal" @close="closeModal" title="Are you sure you want to delete this invite">
+  <Modal :show-modal="pageData.modal" title="Are you sure you want to delete this invite" @close="closeModal">
     <p>This action CANNOT be undone.<br /></p>
-    <template v-slot:footer>
+    <template #footer>
       <div class="flex flex-row justify-end">
         <FormButton class="red" @click="removeInvite(pageData.tmp)">Delete invite</FormButton>
         <FormButton class="ml-5" @click="closeModal()">Close</FormButton>
@@ -70,10 +75,14 @@ const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  projectId: String,
+  projectId: {
+    type: String,
+    default: null
+  }
 });
 
-const getData = async (routeQuery: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getData = async (routeQuery: any): Promise<void> => {
   try {
     if (authStore.hasUserRole === 3) {
       routeQuery.member_id = authStore.hasUserID;
@@ -91,24 +100,24 @@ const getData = async (routeQuery: any) => {
       pageData.value.base = res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const onSelectPage = (e: any) => {
+const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 
-const openModal = async (id: number) => {
+const openModal = async (id: number): Promise<void> => {
   pageData.value.modal = true;
   pageData.value.tmp = id;
 };
 
-const closeModal = () => {
+const closeModal = (): void => {
   pageData.value.modal = false;
 };
 
-const removeInvite = async (id: number) => {
+const removeInvite = async (id: number): Promise<void> => {
   try {
     const queryParams = <DeleteMemberInvite_Request>{
       owner_id: authStore.hasUserID,
@@ -124,7 +133,7 @@ const removeInvite = async (id: number) => {
       showMessage(res.data.message);
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const route = [
   {
     path: "/admin",
@@ -7,45 +8,43 @@ export const route = [
         path: "",
         name: "admin",
         component: () => import("@pages/admin/index.vue"),
-        "props": true
+        props: true
       },
       {
         path: "licenses",
         name: "admin-license",
         meta: { name: "Licenses", icon: "ticket" },
         component: () => import("@pages/admin/license/index.vue"),
-        "props": true
+        props: true
       },
       {
         path: "projects",
         name: "admin-projects",
         meta: { name: "Projects", icon: "banknotes" },
         component: () => import("@pages/admin/projects/index.vue"),
-        "props": true
+        props: true
       },
       {
         path: "settings",
         name: "admin-settings",
         meta: { name: "Settings", icon: "tooth" },
         component: () => import("@pages/admin/settings/index.vue"),
-        "props": true
+        props: true
       },
       {
         path: "subscriptions",
         name: "admin-subscriptions",
         meta: { name: "Subscriptions", icon: "tooth" },
         component: () => import("@pages/admin/subscriptions/index.vue"),
-        "props": true
+        props: true
       },
       {
         path: "users",
         name: "admin-users",
         meta: { name: "Users", icon: "tooth" },
         component: () => import("@pages/admin/users/index.vue"),
-        "props": true
-      },
-    ],
-  },
+        props: true
+      }
+    ]
+  }
 ];
-
-

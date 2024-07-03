@@ -13,7 +13,12 @@
     <div class="content">
       <ol class="schemes">
         <li class="element">
-          <router-link :to="{ name: 'projects-projectId-servers-add-scheme', params: { projectId: props.projectId, scheme: ServerScheme[3] } }">
+          <router-link
+            :to="{
+              name: 'projects-projectId-servers-add-scheme',
+              params: { projectId: props.projectId, scheme: ServerScheme[3] }
+            }"
+          >
             <img src="/img/schemes/servers/ssh.svg" />
             <div>SSH</div>
           </router-link>
@@ -40,7 +45,10 @@ import { onMounted } from "vue";
 import { ServerScheme } from "@proto/server";
 
 const props = defineProps({
-  projectId: String,
+  projectId: {
+    type: String,
+    default: null
+  }
 });
 
 onMounted(async () => {

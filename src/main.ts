@@ -8,7 +8,9 @@ import menu from "virtual:werbot-addon/menu";
 import "@/assets/main.css";
 import "virtual:svg-icons-register";
 
-if (import.meta.env.MODE === "production") console.log = function () {};
+if (import.meta.env.MODE === "production") {
+  console.log = function (): void {};
+}
 
 const app = createApp(Vue);
 app.use(store);

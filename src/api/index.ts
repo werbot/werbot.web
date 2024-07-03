@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { start, done } from "nprogress";
-import { getStorage, showMessage } from "@/utils";
+import { getStorage, showMessage, Event } from "@/utils";
 
 export function api(progress: boolean = true) {
   //const logoutPath = "/auth/logout";
@@ -7,7 +9,9 @@ export function api(progress: boolean = true) {
   const timeout = 10000;
 
   async function handleRequest(url: string, options: RequestInit, params: object): Promise<any> {
-    if (progress) start();
+    if (progress) {
+      start();
+    }
 
     const queryString = new URLSearchParams(params as Record<string, string>).toString();
     const fullUrl = queryString ? `${baseURL}${url}?${queryString}` : baseURL + url;
@@ -52,7 +56,7 @@ export function api(progress: boolean = true) {
           500: "connextWarning"
         };
 
-        const messageType = statusMessageMap[response.status];
+        const messageType = <Event>statusMessageMap[response.status];
         if (messageType) {
           const message = error["result"] || error["message"];
           showMessage(message, messageType);
@@ -68,7 +72,9 @@ export function api(progress: boolean = true) {
       showMessage("Network error or request aborted", "connextWarning");
       return { error: "Network error or request aborted", response: null };
     } finally {
-      if (progress) done();
+      if (progress) {
+        done();
+      }
     }
   }
 
@@ -92,19 +98,19 @@ export function api(progress: boolean = true) {
       return handleRequest(url, createOptions("GET"), params);
     },
     /** Call a PUT endpoint */
-    async PUT(url: string, params?: object, body?: HeadersInit): Promise<any> {
+    async PUT(url: string, params?: object, body?: any): Promise<any> {
       return handleRequest(url, createOptions("PUT", body), params);
     },
     /** Call a POST endpoint */
-    async POST(url: string, params?: object, body?: HeadersInit): Promise<any> {
+    async POST(url: string, params?: object, body?: any): Promise<any> {
       return handleRequest(url, createOptions("POST", body), params);
     },
     /** Call a UPDATE endpoint */
-    async UPDATE(url: string, params?: object, body?: HeadersInit): Promise<any> {
+    async UPDATE(url: string, params?: object, body?: any): Promise<any> {
       return handleRequest(url, createOptions("PATCH", body), params);
     },
     /** Call a DELETE endpoint */
-    async DELETE(url: string, params?: object, body?: HeadersInit): Promise<any> {
+    async DELETE(url: string, params?: object, body?: any): Promise<any> {
       return handleRequest(url, createOptions("DELETE", body), params);
     }
   };

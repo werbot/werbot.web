@@ -4,17 +4,32 @@
     <span class="title">Reset password</span>
 
     <form @submit.prevent>
-      <FormInput name="New password" type="password" autocomplete="new-password" v-model.trim="pageData.base.password" :error="authStore.error['password']" :disabled="pageData.loading" />
-      <FormInput name="Repeat password" type="password" autocomplete="new-password" v-model.trim="pageData.base.password2" :error="authStore.error['password2']" :disabled="pageData.loading"
-        class="mt-5" />
+      <FormInput
+        v-model.trim="pageData.base.password"
+        name="New password"
+        type="password"
+        autocomplete="new-password"
+        :error="authStore.error['password']"
+        :disabled="pageData.loading"
+      />
+      <FormInput
+        v-model.trim="pageData.base.password2"
+        name="Repeat password"
+        type="password"
+        autocomplete="new-password"
+        :error="authStore.error['password2']"
+        :disabled="pageData.loading"
+        class="mt-5"
+      />
       <div class="form-control pt-8">
-        <FormButton @click="onSubmit()" :loading="pageData.loading">Save new password</FormButton>
+        <FormButton :loading="pageData.loading" @click="onSubmit()">Save new password</FormButton>
       </div>
     </form>
   </div>
 
   <div class="mt-10">
-    <p>Already have an account?
+    <p>
+      Already have an account?
       <router-link :to="{ name: 'auth-signin' }"> Sign in </router-link>
     </p>
   </div>
@@ -37,10 +52,13 @@ const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  token: String,
+  token: {
+    type: String,
+    default: null
+  }
 });
 
-const onSubmit = async () => {
+const onSubmit = async (): Promise<void> => {
   let errorMessage: string | null = null;
   if (pageData.value.base.password !== pageData.value.base.password2) {
     errorMessage = "Passwords do not match";
@@ -51,7 +69,7 @@ const onSubmit = async () => {
   if (errorMessage) {
     authStore.error = <Record<string, null>>{
       password: errorMessage,
-      password2: errorMessage,
+      password2: errorMessage
     };
     return;
   }
@@ -61,18 +79,22 @@ const onSubmit = async () => {
   try {
     pageData.value.loading = true;
 
-    const res = await api().POST(`/auth/password_reset`, {}, {
-      password: <ResetPassword_Password>{
-        password: pageData.value.base.password,
-        token: props.token,
-      },
-    })
+    const res = await api().POST(
+      `/auth/password_reset`,
+      {},
+      {
+        password: <ResetPassword_Password>{
+          password: pageData.value.base.password,
+          token: props.token
+        }
+      }
+    );
     if (res.data) {
       showMessage(res.data.result.message);
       router.push({ name: "auth-signin" });
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.loading = false;
   }
@@ -89,7 +111,7 @@ onMounted(async () => {
       }
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 });
 </script>

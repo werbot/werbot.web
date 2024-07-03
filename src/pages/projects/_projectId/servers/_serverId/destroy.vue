@@ -11,13 +11,13 @@
 
     <Tabs :tabs="tabMenu" />
     <div class="desc">
-      This action CANNOT be undone. This will permanently delete the server and if you’d like to use
-      it in the future, you will need to added it again.
+      This action CANNOT be undone. This will permanently delete the server and if you’d like to use it in the future,
+      you will need to added it again.
     </div>
 
     <div class="content">
       <form @submit.prevent>
-        <FormButton @click="onDelete()" class="red">Delete this server</FormButton>
+        <FormButton class="red" @click="onDelete()">Delete this server</FormButton>
       </form>
     </div>
   </div>
@@ -42,19 +42,25 @@ const authStore = useAuthStore();
 const serverStore = useServerStore();
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  }
 });
 
-const onDelete = async () => {
+const onDelete = async (): Promise<void> => {
   try {
     const queryParams = <DeleteServer_Request>{
       user_id: authStore.hasUserID,
       project_id: props.projectId,
-      server_id: props.serverId,
+      server_id: props.serverId
     };
 
-    const res = await api().DELETE(`/v1/servers`, queryParams)
+    const res = await api().DELETE(`/v1/servers`, queryParams);
     if (res.data) {
       showMessage(res.data.message);
       router.push({ name: "projects-projectId-servers" });
@@ -63,7 +69,7 @@ const onDelete = async () => {
       showMessage(res.error.result, "connextError");
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 

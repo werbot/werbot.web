@@ -16,13 +16,31 @@
         <table>
           <tr v-for="(itemDay, day) in pageData.base" :key="day">
             <td class="worktime-weekday select-none pr-5 outline-none">
-              <span class="cursor-pointer" @click="invertDay(day)" :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }">{{ day }}</span>
+              <span
+                class="cursor-pointer"
+                :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }"
+                @click="invertDay(day)"
+                >{{ day }}</span
+              >
             </td>
             <td>
               <div class="flex select-none outline-none">
-                <label v-for="(itemHour, hour) in itemDay" class="worktime-hours-item mr-1 cursor-pointer" @mousemove="invert('mousemove', day, hour)" @mousedown="startDrag">
-                  <input class="absolute -left-64 h-0 w-0" type="checkbox" :checked="itemHour" @click="invert('click', day, hour)" />
-                  <span class="square inline-flex h-8 w-8 select-none items-center justify-center rounded bg-gray-300 text-center text-white">{{ hour }}</span>
+                <label
+                  v-for="(itemHour, hour) in itemDay"
+                  class="worktime-hours-item mr-1 cursor-pointer"
+                  @mousemove="invert('mousemove', day, hour)"
+                  @mousedown="startDrag"
+                >
+                  <input
+                    class="absolute -left-64 h-0 w-0"
+                    type="checkbox"
+                    :checked="itemHour"
+                    @click="invert('click', day, hour)"
+                  />
+                  <span
+                    class="square inline-flex h-8 w-8 select-none items-center justify-center rounded bg-gray-300 text-center text-white"
+                    >{{ hour }}</span
+                  >
                 </label>
               </div>
             </td>
@@ -39,7 +57,7 @@
       <div class="divider"></div>
 
       <div class="content">
-        <FormButton class="mr-5" @click="onUpdate()" :loading="pageData.loading">Update</FormButton>
+        <FormButton class="mr-5" :loading="pageData.loading" @click="onUpdate()">Update</FormButton>
       </div>
     </form>
   </div>
@@ -63,15 +81,21 @@ const serverStore = useServerStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  }
 });
 
-const getData = async () => {
+const getData = async (): Promise<void> => {
   try {
     const queryParams = <ServerActivity_Request>{
       project_id: props.projectId,
-      server_id: props.serverId,
+      server_id: props.serverId
     };
 
     const res = await api().GET(`/v1/servers/activity`, queryParams);
@@ -83,7 +107,7 @@ const getData = async () => {
   }
 };
 
-const invert = (e: String, day: number, hour: number) => {
+const invert = (e: string, day: number, hour: number): void => {
   if (pageData.value.tmp.md && e == "mousemove") {
     if (pageData.value.tmp.prevDay == day && pageData.value.tmp.prevHour == hour) {
       return;
@@ -99,46 +123,47 @@ const invert = (e: String, day: number, hour: number) => {
   }
 };
 
-const startDrag = () => {
+const startDrag = (): void => {
   pageData.value.tmp.md = true;
   document.addEventListener("mouseup", stopDrag);
 };
 
-const stopDrag = () => {
+const stopDrag = (): void => {
   pageData.value.tmp.md = false;
   document.addEventListener("mouseup", stopDrag);
 };
 
-const invertDay = (day: number) => {
+const invertDay = (day: number): void => {
   pageData.value.base[day] = pageData.value.base[day].map((item: number) => Number(!item));
 };
 
-const selectAll = () => {
+const selectAll = (): void => {
   selectTimeWork(() => 1);
 };
 
-const selectNone = () => {
+const selectNone = (): void => {
   selectTimeWork(() => 0);
 };
 
-const selectWorkTime = () => {
+const selectWorkTime = (): void => {
   selectTimeWork((_, prop, hour) => templateWork[prop][hour]);
 };
 
-const selectTimeWork = (e: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const selectTimeWork = (e: any): void => {
   Object.keys(pageData.value.base).forEach((day) => {
     pageData.value.base[day] = pageData.value.base[day].map((item: number, hour: number) => e(item, day, hour));
   });
 };
 
-const onUpdate = async () => {
+const onUpdate = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
     const bodyParams = <UpdateServerActivity_Request>{
       project_id: props.projectId,
       server_id: props.serverId,
-      activity: pageData.value.base,
+      activity: pageData.value.base
     };
 
     const res = await api().UPDATE(`/v1/servers/activity`, {}, bodyParams);
@@ -153,7 +178,7 @@ const onUpdate = async () => {
 };
 
 // prettier-ignore
-const templateWork: any = {
+const templateWork = {
   //0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23
   monday: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
   tuesday: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
@@ -172,7 +197,7 @@ onMounted(async () => {
 </script>
 
 <style>
-.worktime-hours-item input:checked~.square {
+.worktime-hours-item input:checked ~ .square {
   background-color: #3dcc38;
 }
 </style>

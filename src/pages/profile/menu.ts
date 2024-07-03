@@ -3,34 +3,34 @@ export const topMenu = {
     {
       name: "Settings",
       link: { name: "profile-setting" },
-      icon: "profile",
+      icon: "profile"
     },
     {
       name: "SSH keys",
       link: { name: "profile-keys" },
-      icon: "key",
+      icon: "key"
     },
     {
       name: "Logs",
       link: { name: "profile-logs" },
-      icon: "logs",
-    },
+      icon: "logs"
+    }
   ],
   group20: [
     {
       name: "Admin",
       link: { name: "admin" },
       icon: "admin",
-      isUserRole: 3,
-    },
+      isUserRole: 3
+    }
   ],
   group100: [
     {
       name: "Logout",
       link: { name: "auth-logout" },
-      icon: "logout",
-    },
-  ],
+      icon: "logout"
+    }
+  ]
 };
 
 export const menu = {
@@ -38,17 +38,17 @@ export const menu = {
     {
       name: "Settings",
       link: { name: "profile-setting" },
-      icon: "profile",
+      icon: "profile"
     },
     {
       name: "SSH keys",
       link: { name: "profile-keys" },
-      icon: "key",
+      icon: "key"
     },
     {
       name: "Logs",
       link: { name: "profile-logs" },
-      icon: "logs",
-    },
-  ],
+      icon: "logs"
+    }
+  ]
 };

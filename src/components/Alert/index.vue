@@ -2,9 +2,17 @@
   <NotificationGroup group="alerts">
     <div class="alert">
       <div class="w-full max-w-sm">
-        <Notification v-slot="{ notifications }" enter="transform ease-out duration-300 transition" enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
-          enter-to="translate-y-0 opacity-100 sm:translate-x-0" leave="transition ease-in duration-500" leave-from="opacity-100" leave-to="opacity-0" move="transition duration-500"
-          move-delay="delay-300">
+        <Notification
+          v-slot="{ notifications }"
+          enter="transform ease-out duration-300 transition"
+          enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
+          enter-to="translate-y-0 opacity-100 sm:translate-x-0"
+          leave="transition ease-in duration-500"
+          leave-from="opacity-100"
+          leave-to="opacity-0"
+          move="transition duration-500"
+          move-delay="delay-300"
+        >
           <div v-for="notification in notifications" :key="notification.id" class="notification">
             <div :class="['ico', typeStyles[notification.type].bgColor]">
               <SvgIcon :name="typeStyles[notification.type].icon" class="text-white" />
@@ -12,7 +20,9 @@
 
             <div class="message">
               <div class="mx-3">
-                <span :class="['font-semibold', typeStyles[notification.type].textColor]">{{ typeStyles[notification.type].label }}</span>
+                <span :class="['font-semibold', typeStyles[notification.type].textColor]">{{
+                  typeStyles[notification.type].label
+                }}</span>
                 <p>{{ notification.text }}</p>
               </div>
             </div>
@@ -28,12 +38,13 @@ import { notify, Notification, NotificationGroup } from "notiwind";
 import { SvgIcon } from "@/components";
 import { computed } from "vue";
 
-const handleNotification = (eName: string, notificationType: string) => {
-  const callback = (e: Event) => {
+const handleNotification = (eName: string, notificationType: string): void => {
+  const callback = (e: Event): void => {
     notify(
       {
         group: "alerts",
         type: notificationType,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         text: (<any>e).detail
       },
       4000

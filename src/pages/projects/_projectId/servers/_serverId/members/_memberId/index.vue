@@ -6,9 +6,15 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}
+      <div class="breadcrumbs">
+        {{ serverStore.getServerNameByID(props.projectId, props.serverId) }}
         <span>
-          <router-link :to="{ name: 'projects-projectId-servers-serverId-members', params: { projectId: props.projectId, serverId: props.serverId } }">
+          <router-link
+            :to="{
+              name: 'projects-projectId-servers-serverId-members',
+              params: { projectId: props.projectId, serverId: props.serverId }
+            }"
+          >
             Members
           </router-link>
         </span>
@@ -16,7 +22,6 @@
       </div>
     </header>
     <Tabs :tabs="tabMenu" />
-
   </div>
 </template>
 
@@ -26,14 +31,23 @@ import { useServerStore } from "@/store";
 import { Tabs } from "@/components";
 
 // Tabs section
-import { tabMenu } from "../../tab";
+import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 
 const serverStore = useServerStore();
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
-  memberId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  },
+  memberId: {
+    type: String,
+    default: null
+  }
 });
 
 onMounted(async () => {

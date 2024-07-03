@@ -1,7 +1,7 @@
 <template>
-  <Skeleton class="text-gray-200" v-if="!pageData.base.total" />
+  <Skeleton v-if="!pageData.base.total" class="text-gray-200" />
 
-  <div class="artboard" v-else>
+  <div v-else class="artboard">
     <header>
       <h1>SSH keys</h1>
       <router-link :to="{ name: 'profile-keys-add' }" class="breadcrumbs">
@@ -9,7 +9,9 @@
         add new
       </router-link>
     </header>
-    <div class="desc">This is a list of SSH keys associated with your account. Remove any keys that you do not recognize.</div>
+    <div class="desc">
+      This is a list of SSH keys associated with your account. Remove any keys that you do not recognize.
+    </div>
 
     <table v-if="pageData.base.total > 0">
       <tbody>
@@ -23,9 +25,7 @@
             <div v-if="item.updated_at.seconds > 0">
               <span class="font-bold">Last used:</span> {{ toDate(item.updated_at, "lite") }}
             </div>
-            <div v-else class="text-gray-400">
-              <span class="font-bold">Last used:</span> no used
-            </div>
+            <div v-else class="text-gray-400"><span class="font-bold">Last used:</span> no used</div>
           </td>
           <td class="w-6">
             <SvgIcon name="delete" class="cursor-pointer text-red-500" @click="openModal(index)" />
@@ -35,20 +35,19 @@
     </table>
     <div v-else class="content p-5">Empty</div>
 
-    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" class="content" @select-page="onSelectPage" />
   </div>
 
   <div class="m-6">
-    Check out our guide to <a href="#">generating SSH keys</a> or troubleshoot
-    <a href="#">common SSH problems</a>.
+    Check out our guide to <a href="#">generating SSH keys</a> or troubleshoot <a href="#">common SSH problems</a>.
   </div>
 
-  <Modal :showModal="pageData.modal" @close="closeModal" title="Are you sure you want to delete this SSH key?">
+  <Modal :show-modal="pageData.modal" title="Are you sure you want to delete this SSH key?" @close="closeModal">
     <p>
-      This action CANNOT be undone. This will permanently delete the SSH key and if you’d like to
-      use it in the future, you will need to upload it again. <br />
+      This action CANNOT be undone. This will permanently delete the SSH key and if you’d like to use it in the future,
+      you will need to upload it again. <br />
     </p>
-    <template v-slot:footer>
+    <template #footer>
       <div class="flex flex-row justify-end">
         <FormButton class="red" @click="removeKey(pageData.tmp.id)">Delete SSH key</FormButton>
         <FormButton class="ml-5" @click="closeModal()">Close</FormButton>
@@ -73,7 +72,8 @@ const route = useRoute();
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
-const getData = async (routeQuery: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getData = async (routeQuery: any): Promise<void> => {
   try {
     if (authStore.hasUserRole === 3) {
       routeQuery.user_id = authStore.hasUserID;
@@ -90,31 +90,31 @@ const getData = async (routeQuery: any) => {
       pageData.value.base = res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const onSelectPage = (e: any) => {
+const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 
-const openModal = async (id: number) => {
+const openModal = async (id: number): Promise<void> => {
   pageData.value.modal = true;
   pageData.value.tmp.id = id;
 };
 
-const closeModal = () => {
+const closeModal = (): void => {
   pageData.value.modal = false;
 };
 
-const removeKey = async (id: number) => {
+const removeKey = async (id: number): Promise<void> => {
   try {
     const queryParams = <DeleteKey_Request>{
       user_id: authStore.hasUserID,
-      key_id: pageData.value.base.public_keys[id].key_id,
+      key_id: pageData.value.base.public_keys[id].key_id
     };
 
-    const res = await api().DELETE(`/v1/keys`, queryParams)
+    const res = await api().DELETE(`/v1/keys`, queryParams);
     if (res.data) {
       closeModal();
       pageData.value.base.public_keys.splice(id, 1);
@@ -125,7 +125,7 @@ const removeKey = async (id: number) => {
       closeModal();
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 

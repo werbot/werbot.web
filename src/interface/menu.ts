@@ -1,7 +1,7 @@
 export type MenuItem = {
   name: string;
   link: {
-    name?: string,
+    name?: string;
   };
   icon?: string;
   danger?: boolean;

@@ -14,9 +14,8 @@
       <b>Possible reasons for this warning:</b><br />
       1. You are not authorized. To continue -
       <router-link :to="{ name: 'index' }">login</router-link>.<br />
-      2. You are authorized, but the invite is not intended for the current account. You must be
-      logged in with the correct account (the email address you received the invitation to is the
-      correct account)
+      2. You are authorized, but the invite is not intended for the current account. You must be logged in with the
+      correct account (the email address you received the invitation to is the correct account)
     </div>
   </div>
 
@@ -25,8 +24,7 @@
       <h1>Invitation to join the project</h1>
     </header>
     <div class="desc">
-      This prompt is not valid because it has already been used to add the current account to the
-      project.
+      This prompt is not valid because it has already been used to add the current account to the project.
     </div>
   </div>
 </template>
@@ -45,7 +43,10 @@ const systemStore = useSystemStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  invite: String,
+  invite: {
+    type: String,
+    default: null
+  }
 });
 
 onMounted(async () => {
@@ -69,7 +70,7 @@ onMounted(async () => {
       }
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 });
 </script>

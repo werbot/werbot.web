@@ -1,10 +1,17 @@
 <template>
   <label :for="toggleId" class="toggle">
-    <input type="checkbox" :id="toggleId" class="peer sr-only" v-model="value" :checked="Boolean(value)" :disabled="props.disabled" />
+    <input
+      :id="toggleId"
+      v-model="value"
+      type="checkbox"
+      class="peer sr-only"
+      :checked="Boolean(value)"
+      :disabled="props.disabled"
+    />
     <div
-      class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white">
-    </div>
-    <span v-if="props.name" class="ml-3 ">{{ props.name }}</span>
+      class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white"
+    ></div>
+    <span v-if="props.name" class="ml-3">{{ props.name }}</span>
   </label>
 </template>
 
@@ -12,15 +19,18 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  name: String,
+  name: {
+    type: String,
+    default: null
+  },
   modelValue: {
-    required: false,
+    required: false
   },
   disabled: {
     type: Boolean,
-    default: false,
+    default: false
   },
-  id: {},
+  id: {}
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -29,7 +39,7 @@ const toggleId = `toggle_${props.id}`;
 
 const value = computed({
   get: () => props.modelValue,
-  set: (val) => emits("update:modelValue", val),
+  set: (val) => emits("update:modelValue", val)
 });
 </script>
 

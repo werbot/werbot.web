@@ -1,4 +1,4 @@
-import { MenuList } from "../types";
+import { MenuList } from "@/plugins/addons/types";
 
 export function menuAddon(addonMenu: MenuList): string {
   let importLines: string = `import { ref } from "vue";
@@ -10,7 +10,7 @@ import { menu as mainProjectMenu } from "@pages/projects/menu";\n\n`;
   const exclude: string[] = ["mainAdminMenu", "mainProfileMenu", "mainProjectMenu"];
 
   for (const key in addonMenu) {
-    if (addonMenu.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(addonMenu, key)) {
       addonMenu[key]
         .filter((value: string) => !exclude.includes(value))
         .forEach((filteredValue: string) => {

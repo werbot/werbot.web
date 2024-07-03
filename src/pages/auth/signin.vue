@@ -3,11 +3,24 @@
   <div class="card w-[22rem]">
     <span class="title">Sign In</span>
     <form @submit.prevent>
-      <FormInput name="Email" v-model.trim="pageData.base.email" :error="authStore.error['email']" autocomplete="username" :disabled="pageData.loading" />
-      <FormInput name="Password" v-model.trim="pageData.base.password" :error="authStore.error['password']" type="password" autocomplete="current-password"
-        :disabled="pageData.loading" class="mt-5" />
+      <FormInput
+        v-model.trim="pageData.base.email"
+        name="Email"
+        :error="authStore.error['email']"
+        autocomplete="username"
+        :disabled="pageData.loading"
+      />
+      <FormInput
+        v-model.trim="pageData.base.password"
+        name="Password"
+        :error="authStore.error['password']"
+        type="password"
+        autocomplete="current-password"
+        :disabled="pageData.loading"
+        class="mt-5"
+      />
       <div class="form-control pt-8">
-        <FormButton @click="onSubmit()" :loading="pageData.loading">Login</FormButton>
+        <FormButton :loading="pageData.loading" @click="onSubmit()">Login</FormButton>
       </div>
     </form>
   </div>
@@ -31,13 +44,13 @@ const systemStore = useSystemStore();
 
 const pageData = ref<PageData>(defaultPageData);
 
-const onSubmit = async () => {
+const onSubmit = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
     await authStore.login(<SignIn_Request>{
       email: pageData.value.base.email,
-      password: pageData.value.base.password,
+      password: pageData.value.base.password
     });
 
     if (systemStore.invites.project) {

@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted} from "vue";
+import { onMounted } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import { Alert } from "@/components";
 

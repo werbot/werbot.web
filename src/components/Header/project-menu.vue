@@ -1,6 +1,11 @@
 <template>
-  <div class="relative" ref="projectMenu">
-    <button class="dropdown" :class="{ active: (route.name as string).startsWith('projects') }" type="button" @click="toggleDropdown">
+  <div ref="projectMenu" class="relative">
+    <button
+      class="dropdown"
+      :class="{ active: (route.name as string).startsWith('projects') }"
+      type="button"
+      @click="toggleDropdown"
+    >
       <SvgIcon name="project" />
       <span class="hidden md:block">{{ projectTitle }}</span>
       <SvgIcon name="chevron_down" />
@@ -8,7 +13,10 @@
 
     <ul v-if="isDropdownOpen" class="dropdown-menu" @click="closeDropdown()">
       <li v-for="(item, index) in data.projects" :key="index">
-        <router-link active-class="current" :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }">
+        <router-link
+          active-class="current"
+          :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }"
+        >
           <SvgIcon name="project" />
           <span>{{ item.title }}</span>
         </router-link>
@@ -50,23 +58,23 @@ import { ListProjects_Request } from "@proto/project";
 const route = useRoute();
 
 const projectMenu = ref(null);
-const data: any = ref({});
+const data = ref({});
 const isDropdownOpen = ref(false);
 
 const props = defineProps<{
   isLoading?: boolean;
 }>();
 
-onClickOutside(projectMenu, e => closeDropdown());
+onClickOutside(projectMenu, () => closeDropdown());
 
-const openDropdown = () => !props.isLoading && (isDropdownOpen.value = !isDropdownOpen.value);
-const closeDropdown = () => isDropdownOpen.value = false;
-const toggleDropdown = () => isDropdownOpen.value ? closeDropdown() : openDropdown();
+const openDropdown = (): boolean => !props.isLoading && (isDropdownOpen.value = !isDropdownOpen.value);
+const closeDropdown = (): boolean => (isDropdownOpen.value = false);
+const toggleDropdown = (): boolean => (isDropdownOpen.value ? closeDropdown() : openDropdown());
 
 const projectTitle = computed(() => {
   const projects = data.value?.projects || [];
-  const project = projects.find(p => p.project_id === route.params.projectId);
-  return project ? project.title : 'Projects';
+  const project = projects.find((p) => p.project_id === route.params.projectId);
+  return project ? project.title : "Projects";
 });
 
 watch(
@@ -81,7 +89,7 @@ watch(
 onMounted(async () => {
   try {
     const queryParams = <ListProjects_Request>{
-      limit: 5,
+      limit: 5
     };
 
     const res = await api().GET(`/v1/projects`, queryParams);
@@ -89,7 +97,7 @@ onMounted(async () => {
       data.value = res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 });
 </script>

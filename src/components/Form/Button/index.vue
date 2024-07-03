@@ -14,7 +14,7 @@ const props = defineProps({
   disabled: Boolean,
   rotate: Boolean,
   lite: Boolean,
-  loading: Boolean,
+  loading: Boolean
 });
 </script>
 
@@ -96,7 +96,6 @@ button {
 
     &.loading,
     & .loading {
-
       &.btn-square:before,
       &.btn-circle:before {
         @apply mr-0;
@@ -115,15 +114,15 @@ button {
   }
 
   &.lite {
-    @apply h-10 inline-block rounded border border-gray-300 text-gray-400 px-2;
+    @apply inline-block h-10 rounded border border-gray-300 px-2 text-gray-400;
 
     &:hover,
     &:focus {
-      @apply bg-gray-800 border-gray-800 text-gray-100;
+      @apply border-gray-800 bg-gray-800 text-gray-100;
     }
 
     &:active {
-      @apply bg-green-600 border-green-600;
+      @apply border-green-600 bg-green-600;
     }
 
     &[disabled],

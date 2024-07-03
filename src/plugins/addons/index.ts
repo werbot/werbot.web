@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Plugin } from "vite";
 
 import {
@@ -6,7 +7,7 @@ import {
   MODULE_ROUTE_ID,
   RESOLVED_MODULE_ROUTE_ID,
   MODULE_MENU_ID,
-  RESOLVED_MODULE_MENU_ID,
+  RESOLVED_MODULE_MENU_ID
 } from "./options";
 import { createContext } from "./context";
 
@@ -17,9 +18,7 @@ export default function AddonsRouter(): Plugin {
     name: "werbotAddon",
     enforce: "pre",
 
-    buildStart: () => {
-      return ctx.init();
-    },
+    buildStart: () => ctx.init(),
 
     resolveId(id: string | undefined) {
       if (id === MODULE_ID) {
@@ -50,6 +49,6 @@ export default function AddonsRouter(): Plugin {
       if (id === RESOLVED_MODULE_MENU_ID) {
         return ctx.menuGen().trimStart();
       }
-    },
+    }
   };
 }

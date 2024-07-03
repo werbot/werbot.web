@@ -42,7 +42,7 @@ const route = useRoute();
     @apply mr-4 flex items-center whitespace-nowrap text-gray-700;
 
     &.current {
-      @apply border rounded bg-gray-200 p-2 text-gray-700;
+      @apply rounded border bg-gray-200 p-2 text-gray-700;
 
       svg {
         @apply fill-gray-700;

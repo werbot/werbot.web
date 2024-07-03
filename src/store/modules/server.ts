@@ -14,13 +14,15 @@ interface ServerState {
 
 export const useServerStore = defineStore("server", {
   state: () => ({
-    base: <ServerState>{},
+    base: <ServerState>{}
   }),
 
   getters: {
-    getServerNameByID: (state) => (project_id: string, server_id: string) => {
-      return state.base?.[project_id]?.[server_id]?.name ?? undefined;
-    },
+    getServerNameByID:
+      (state) =>
+      (project_id: string, server_id: string): string => {
+        return state.base?.[project_id]?.[server_id]?.name ?? undefined;
+      }
   },
 
   actions: {
@@ -40,7 +42,7 @@ export const useServerStore = defineStore("server", {
         const queryParams = <ServerNameByID_Request>{
           //user_id
           project_id: project_id,
-          server_id: server_id,
+          server_id: server_id
         };
 
         const res = await api(false).GET(`/v1/servers/name`, queryParams);
@@ -51,9 +53,9 @@ export const useServerStore = defineStore("server", {
               ...this.base[project_id],
               [server_id]: {
                 name: res.data.result.server_name,
-                timestamp: new Date().getTime(),
-              },
-            },
+                timestamp: new Date().getTime()
+              }
+            }
           };
         }
       } catch (err) {
@@ -64,8 +66,8 @@ export const useServerStore = defineStore("server", {
     async updateServerNameByID(project_id: string, server_id: string, new_name: string) {
       this.base[project_id][server_id] = {
         name: new_name,
-        timestamp: new Date().getTime(),
+        timestamp: new Date().getTime()
       };
-    },
-  },
+    }
+  }
 });

@@ -52,11 +52,14 @@
           </td>
           <td>
             <div class="flex items-center">
-              <FormToggle v-model="item.active" :id="index" @change="changeMemberActive(index, item.active)" />
+              <FormToggle :id="index" v-model="item.active" @change="changeMemberActive(index, item.active)" />
             </div>
           </td>
           <td>
-            <router-link active-class="current" :to="{ name: 'projects-projectId-members', params: { projectId: props.projectId } }">
+            <router-link
+              active-class="current"
+              :to="{ name: 'projects-projectId-members', params: { projectId: props.projectId } }"
+            >
               <SvgIcon name="setting" class="text-gray-700" />
             </router-link>
           </td>
@@ -65,7 +68,7 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" class="content" @select-page="onSelectPage" />
   </div>
 </template>
 
@@ -89,10 +92,14 @@ const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  projectId: String,
+  projectId: {
+    type: String,
+    default: null
+  }
 });
 
-const getData = async (routeQuery: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getData = async (routeQuery: any): Promise<void> => {
   try {
     if (authStore.hasUserRole === 3) {
       routeQuery.member_id = authStore.hasUserID;
@@ -110,23 +117,23 @@ const getData = async (routeQuery: any) => {
       pageData.value.base = res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const onSelectPage = (e: any) => {
+const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 
-const changeMemberActive = async (index: number, online: boolean) => {
+const changeMemberActive = async (index: number, online: boolean): Promise<void> => {
   try {
     const bodyParams = <UpdateProjectMember_Request>{
       owner_id: authStore.hasUserID,
       project_id: props.projectId,
       member_id: pageData.value.base.members[Number(index)].member_id,
       setting: {
-        active: online,
-      },
+        active: online
+      }
     };
 
     const res = await api().UPDATE(`/v1/members/active`, {}, bodyParams);
@@ -134,7 +141,7 @@ const changeMemberActive = async (index: number, online: boolean) => {
       pageData.value.base.members[Number(index)].active = online;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 

@@ -1,29 +1,54 @@
 import eslint from "@eslint/js";
-import tslint from "typescript-eslint";
-import eslintPluginVue from "eslint-plugin-vue";
-import eslintConfigPrettier from "eslint-config-prettier";
+import tseslint from "typescript-eslint";
 
-export default tslint.config(
-  eslint.configs.recommended,
-  ...tslint.configs.strict,
-  ...eslintPluginVue.configs["flat/recommended"],
+import configPrettier from "eslint-config-prettier";
+
+import vueParser from "vue-eslint-parser";
+
+import pluginVue from "eslint-plugin-vue";
+import pluginPrettier from "eslint-plugin-prettier";
+import pluginImportPath from "eslint-plugin-no-relative-import-paths";
+import pluginUnusedImports from "eslint-plugin-unused-imports";
+
+//export default tseslint.config(
+export default [
   {
-    files: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
     ignores: [
-      "*.config.{js,ts}",
+      "*.config.{js,ts,mjs}",
       "*.json",
       "**/proto/",
-      "tsconfig.json"
+      "*.d.ts",
+      "dist/"
     ],
+  },
+
+  eslint.configs.recommended,
+  ...tseslint.configs.strict,
+  ...pluginVue.configs["flat/recommended"],
+  configPrettier,
+
+  {
+    //files: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
+
     languageOptions: {
-      sourceType: "commonjs",
+      parser: vueParser,
       parserOptions: {
-        parser: "@typescript-eslint/parser"
+        parser: tseslint.parser,
+        project: './tsconfig.json',
+        extraFileExtensions: [".vue"],
       }
     },
+
+    plugins: {
+      'prettier': pluginPrettier,
+      'no-relative-import-paths': pluginImportPath,
+      'unused-imports': pluginUnusedImports,
+    },
+
     rules: {
       'vue/component-tags-order': ['error', { order: ['template', 'script', 'style'] }],
-      'vue/multi-word-component-names': 'off',
+      "vue/multi-word-component-names": "off",
+      "vue/singleline-html-element-content-newline": "off",
 
       'vue/component-api-style': ['error', ['script-setup']], // Use script setup
       'vue/component-name-in-template-casing': ['error', 'PascalCase'], // PascalCase component names
@@ -45,19 +70,13 @@ export default tslint.config(
       'no-var': 2, // Disallow 'var' keyword
       'prettier/prettier': 'warn', // Integrate Prettier and warn about style discrepancies
       'no-void': ['error', { allowAsStatement: true }], // Disallow 'void' operator, except as a statement
-      'no-relative-import-paths/no-relative-import-paths': [
-        'warn',
-        { allowSameFolder: true, rootDir: 'src', prefix: '@' }
-      ], // No relative imports
+      'no-relative-import-paths/no-relative-import-paths': ['warn', { allowSameFolder: true, rootDir: 'src', prefix: '@' }], // No relative imports
 
       // Find and remove unused ES6 module imports.
       'no-unused-vars': 'off', // Disable ESLint's 'no-unused-vars'
       'unused-imports/no-unused-imports': 'error', // Disallow unused imports
-      'unused-imports/no-unused-vars': [
-        'error',
-        { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' }
-      ] // Disallow unused variables and arguments
+      'unused-imports/no-unused-vars': ['error', { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' }] // Disallow unused variables and arguments
     }
-  },
-  eslintConfigPrettier
-);
+  }
+];
+//);

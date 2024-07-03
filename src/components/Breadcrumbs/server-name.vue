@@ -1,5 +1,7 @@
 <template>
-  <router-link :to="{ name: 'projects-projectId-servers' }"> {{ serverStore.getServerNameByID(props.projectId, props.serverId) }} </router-link>
+  <router-link :to="{ name: 'projects-projectId-servers' }">
+    {{ serverStore.getServerNameByID(props.projectId, props.serverId) }}
+  </router-link>
 </template>
 
 <script lang="ts" setup>

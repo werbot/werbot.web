@@ -1,7 +1,7 @@
 <template>
-  <Skeleton class="text-gray-200" v-if="!pageData.base.total" />
+  <Skeleton v-if="!pageData.base.total" class="text-gray-200" />
 
-  <div class="artboard" v-else>
+  <div v-else class="artboard">
     <header>
       <h1>Servers</h1>
       <router-link :to="{ name: 'projects-projectId-servers-add' }" class="breadcrumbs">
@@ -34,7 +34,13 @@
             </div>
           </td>
           <td>
-            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-session', params: { projectId: props.projectId, serverId: item.server_id } }">
+            <router-link
+              active-class="current"
+              :to="{
+                name: 'projects-projectId-servers-serverId-session',
+                params: { projectId: props.projectId, serverId: item.server_id }
+              }"
+            >
               {{ item.title }}
             </router-link>
           </td>
@@ -59,26 +65,50 @@
           </td>
           <td>
             <div class="flex items-center">
-              <FormToggle v-model="item.active" :id="index" @change="changeServerActive(index, item.active)" />
+              <FormToggle :id="index" v-model="item.active" @change="changeServerActive(index, item.active)" />
             </div>
           </td>
           <td>
-            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-members', params: { projectId: props.projectId, serverId: item.server_id } }">
+            <router-link
+              active-class="current"
+              :to="{
+                name: 'projects-projectId-servers-serverId-members',
+                params: { projectId: props.projectId, serverId: item.server_id }
+              }"
+            >
               <SvgIcon name="users" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-activity', params: { projectId: props.projectId, serverId: item.server_id } }">
+            <router-link
+              active-class="current"
+              :to="{
+                name: 'projects-projectId-servers-serverId-activity',
+                params: { projectId: props.projectId, serverId: item.server_id }
+              }"
+            >
               <SvgIcon name="clock" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-firewall', params: { projectId: props.projectId, serverId: item.server_id } }">
+            <router-link
+              active-class="current"
+              :to="{
+                name: 'projects-projectId-servers-serverId-firewall',
+                params: { projectId: props.projectId, serverId: item.server_id }
+              }"
+            >
               <SvgIcon name="firewall" class="text-gray-700" />
             </router-link>
           </td>
           <td>
-            <router-link active-class="current" :to="{ name: 'projects-projectId-servers-serverId-setting', params: { projectId: props.projectId, serverId: item.server_id } }">
+            <router-link
+              active-class="current"
+              :to="{
+                name: 'projects-projectId-servers-serverId-setting',
+                params: { projectId: props.projectId, serverId: item.server_id }
+              }"
+            >
               <SvgIcon name="setting" class="text-gray-700" />
             </router-link>
           </td>
@@ -87,7 +117,7 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" class="content" @select-page="onSelectPage" />
   </div>
 </template>
 
@@ -101,17 +131,21 @@ import { PageData, defaultPageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { ListServers_Request, ServerScheme, UpdateServer_Request } from "@proto/server";
+import { ListServers_Request, ServerScheme } from "@proto/server";
 
 const route = useRoute();
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  projectId: String,
+  projectId: {
+    type: String,
+    default: null
+  }
 });
 
-const getData = async (routeQuery: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getData = async (routeQuery: any): Promise<void> => {
   try {
     if (authStore.hasUserRole === 3) {
       routeQuery.user_id = authStore.hasUserID;
@@ -128,23 +162,21 @@ const getData = async (routeQuery: any) => {
       pageData.value.base = res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const onSelectPage = (e: any) => {
+const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 
-const changeServerActive = async (index: number, online: boolean) => {
+const changeServerActive = async (index: number, online: boolean): Promise<void> => {
   try {
-    const bodyParams = <UpdateServer_Request>{
+    const bodyParams = {
       user_id: authStore.hasUserID,
       server_id: pageData.value.base.servers[Number(index)].server_id,
       project_id: props.projectId,
-      setting: {
-        active: online,
-      },
+      active: online
     };
 
     const res = await api(false).UPDATE(`/v1/servers`, {}, bodyParams);
@@ -152,14 +184,14 @@ const changeServerActive = async (index: number, online: boolean) => {
       showMessage(res.data.message, online ? undefined : "connextWarning");
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
 function addressColor(address: string): string {
   const addressToColorMap = {
-    "IPv4": addressToColor[1],
-    "IPv6": addressToColor[2]
+    IPv4: addressToColor[1],
+    IPv6: addressToColor[2]
   };
 
   return addressToColorMap[address] || addressToColor[3];

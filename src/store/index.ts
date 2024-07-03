@@ -6,13 +6,14 @@ import { useSystemStore } from "@/store/modules/system";
 import { useServerStore } from "@/store/modules/server";
 
 export default {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   install: (app: App) => {
     app.use(createPinia());
 
     const stores = {
       authStore: useAuthStore(),
       systemStore: useSystemStore(),
-      serverStore: useServerStore(),
+      serverStore: useServerStore()
     };
 
     Object.keys(stores).forEach((name) => {
@@ -25,7 +26,7 @@ export default {
       authStore.getProfile();
       systemStore.getVersion();
     }
-  },
+  }
 };
 
 export { useAuthStore, useSystemStore, useServerStore };

@@ -8,15 +8,33 @@
     <div class="content">
       <form @submit.prevent>
         <div class="flex flex-row">
-          <FormInput name="Email" v-model.trim="authStore.user.email" :error="pageData.error['info.email']" :disabled="pageData.loading" class="flex-grow" />
+          <FormInput
+            v-model.trim="authStore.user.email"
+            name="Email"
+            :error="pageData.error['info.email']"
+            :disabled="pageData.loading"
+            class="flex-grow"
+          />
         </div>
 
-        <div class="flex flex-row mt-5">
-          <FormInput name="Name" v-model.trim="authStore.user.name" :error="pageData.error['info.name']" :disabled="pageData.loading" class="mr-5 flex-grow" />
-          <FormInput name="Surname" v-model.trim="authStore.user.surname" :error="pageData.error['info.surname']" :disabled="pageData.loading" class="flex-grow" />
+        <div class="mt-5 flex flex-row">
+          <FormInput
+            v-model.trim="authStore.user.name"
+            name="Name"
+            :error="pageData.error['info.name']"
+            :disabled="pageData.loading"
+            class="mr-5 flex-grow"
+          />
+          <FormInput
+            v-model.trim="authStore.user.surname"
+            name="Surname"
+            :error="pageData.error['info.surname']"
+            :disabled="pageData.loading"
+            class="flex-grow"
+          />
         </div>
 
-        <FormButton class="mt-8" @click="onUpdateProfile()" :loading="pageData.loading">Update profile</FormButton>
+        <FormButton class="mt-8" :loading="pageData.loading" @click="onUpdateProfile()">Update profile</FormButton>
       </form>
     </div>
   </div>
@@ -39,7 +57,7 @@ import { tabMenu } from "./tab";
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
-const onUpdateProfile = async () => {
+const onUpdateProfile = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
@@ -48,8 +66,8 @@ const onUpdateProfile = async () => {
       info: <UpdateUser_Info>{
         email: authStore.user.email,
         name: authStore.user.name,
-        surname: authStore.user.surname,
-      },
+        surname: authStore.user.surname
+      }
     };
 
     const res = await api().UPDATE(`/v1/users`, {}, bodyParams);
@@ -58,10 +76,10 @@ const onUpdateProfile = async () => {
       pageData.value.error = {};
     }
     if (res.error) {
-      pageData.value.error = res.error.result
+      pageData.value.error = res.error.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.loading = false;
   }

@@ -9,26 +9,64 @@
       <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
-    <div class="desc">Several options for adding new members are available. Choose the right one and follow the instructions.</div>
+    <div class="desc">
+      Several options for adding new members are available. Choose the right one and follow the instructions.
+    </div>
 
     <form @submit.prevent>
       <div class="content">
-        <FormInput name="Title" v-model="pageData.base.host.title" :error="pageData.error['title']" class="flex-grow" />
+        <FormInput v-model="pageData.base.host.title" name="Title" :error="pageData.error['title']" class="flex-grow" />
 
         <div class="mt-5 w-full">
           <div class="flex">
-            <FormInput name="Address" v-model.trim="pageData.base.host.address" :error="pageData.error['info.address']" class="mr-5 flex-grow" :required="true" />
-            <FormInput name="Port" v-model.number="pageData.base.host.port" :error="pageData.error['info.port']" class="mr-5 flex-grow" :required="true" />
-            <FormInput name="Login" v-model.trim="pageData.base.host.login" :error="pageData.error['info.login']" class="flex-grow" :required="true" />
+            <FormInput
+              v-model.trim="pageData.base.host.address"
+              name="Address"
+              :error="pageData.error['info.address']"
+              class="mr-5 flex-grow"
+              :required="true"
+            />
+            <FormInput
+              v-model.number="pageData.base.host.port"
+              name="Port"
+              :error="pageData.error['info.port']"
+              class="mr-5 flex-grow"
+              :required="true"
+            />
+            <FormInput
+              v-model.trim="pageData.base.host.login"
+              name="Login"
+              :error="pageData.error['info.login']"
+              class="flex-grow"
+              :required="true"
+            />
           </div>
 
           <div class="mt-5 flex">
-            <FormTextarea name="Description" v-model="pageData.base.host.description" :error="pageData.error['info.description']" :rows="6" class="flex-grow" />
+            <FormTextarea
+              v-model="pageData.base.host.description"
+              name="Description"
+              :error="pageData.error['info.description']"
+              :rows="6"
+              class="flex-grow"
+            />
           </div>
 
           <div class="mt-5 flex">
-            <FormToggle name="Active" v-model="pageData.base.host.active" class="mr-5 flex-grow" id="active" @change="onUpdate('active')" />
-            <FormToggle name="Audit" v-model="pageData.base.host.audit" class="flex-grow" id="audit" @change="onUpdate('audit')" />
+            <FormToggle
+              id="active"
+              v-model="pageData.base.host.active"
+              name="Active"
+              class="mr-5 flex-grow"
+              @change="onUpdate('active')"
+            />
+            <FormToggle
+              id="audit"
+              v-model="pageData.base.host.audit"
+              name="Audit"
+              class="flex-grow"
+              @change="onUpdate('audit')"
+            />
           </div>
         </div>
       </div>
@@ -36,7 +74,9 @@
       <div class="divider before:bg-gray-100 after:bg-gray-100"></div>
 
       <div class="content">
-        <FormButton @click="onUpdate('info')" :disabled="pageData.loading" :loading="pageData.loading">Update</FormButton>
+        <FormButton :disabled="pageData.loading" :loading="pageData.loading" @click="onUpdate('info')"
+          >Update</FormButton
+        >
       </div>
     </form>
   </div>
@@ -49,25 +89,50 @@
     <div class="content">
       <form @submit.prevent>
         <div v-if="pageData.base.host.auth == Auth.password">
-          <FormInput name="Password (hidden, can only be overwritten)" v-model.trim="pageData.base.access.password" :error="pageData.error['password']" class="flex-grow"
-            type="password" autocomplete="current-password" />
+          <FormInput
+            v-model.trim="pageData.base.access.password"
+            name="Password (hidden, can only be overwritten)"
+            :error="pageData.error['password']"
+            class="flex-grow"
+            type="password"
+            autocomplete="current-password"
+          />
         </div>
 
         <div v-if="pageData.base.host.auth == Auth.key" class="flex-grow">
           <div class="flex">
-            <FormInput name="Public key" v-model="pageData.base.access.public_key" :error="pageData.error['public_key']" class="grow" :disabled="true" :required="true" />
+            <FormInput
+              v-model="pageData.base.access.public_key"
+              name="Public key"
+              :error="pageData.error['public_key']"
+              class="grow"
+              :disabled="true"
+              :required="true"
+            />
 
             <FormButton lite class="ml-2 mt-8 flex-none" @click="copy(pageData.base.access.public_key)">
-              <span>{{ (copied ? 'Copied' : 'Copy') }}</span>
+              <span>{{ copied ? "Copied" : "Copy" }}</span>
             </FormButton>
-            <FormButton lite :disabled="pageData.tmp.new_key" :rotate="pageData.tmp.new_key" class="ml-2 mt-8 flex-none" @click="genNewKey()">
+            <FormButton
+              lite
+              :disabled="pageData.tmp.new_key"
+              :rotate="pageData.tmp.new_key"
+              class="ml-2 mt-8 flex-none"
+              @click="genNewKey()"
+            >
               <SvgIcon name="refresh" />
             </FormButton>
           </div>
         </div>
 
-        <FormButton v-if="pageData.base.access.key || pageData.base.access.password > 3" class="mt-8" @click="onUpdateAccess()" :disabled="pageData.tmp.loading_key"
-          :loading="pageData.tmp.loading_key">Update key</FormButton>
+        <FormButton
+          v-if="pageData.base.access.key || pageData.base.access.password > 3"
+          class="mt-8"
+          :disabled="pageData.tmp.loading_key"
+          :loading="pageData.tmp.loading_key"
+          @click="onUpdateAccess()"
+          >Update key</FormButton
+        >
       </form>
     </div>
   </div>
@@ -76,14 +141,14 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from "vue";
 import { useServerStore } from "@/store";
-import { useClipboard } from '@vueuse/core'
+import { useClipboard } from "@vueuse/core";
 import { SvgIcon, Tabs, FormInput, FormTextarea, FormToggle, FormButton } from "@/components";
 import { showMessage } from "@/utils";
 import { PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Server_Request, UpdateServer_Info, ServerAccess_Request, UpdateServerAccess_Request, Auth } from "@proto/server";
+import { Server_Request, ServerAccess_Request, Auth } from "@proto/server";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -92,32 +157,38 @@ const serverStore = useServerStore();
 const pageData = ref<PageData>({
   base: {
     host: {},
-    access: {},
+    access: {}
   },
   tmp: {
     new_key: false,
-    loading_key: false,
+    loading_key: false
   },
-  error: {},
+  error: {}
 });
 
 const props = defineProps({
-  projectId: String,
-  serverId: String,
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  }
 });
 
-const getData = async () => {
+const getData = async (): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
     const serverRequestParams = <Server_Request>{
       project_id: projectId,
-      server_id: serverId,
+      server_id: serverId
     };
 
     const accessRequestParams = <ServerAccess_Request>{
       project_id: projectId,
-      server_id: serverId,
+      server_id: serverId
     };
 
     const [serverRes, accessRes] = await Promise.all([
@@ -143,26 +214,26 @@ const getData = async () => {
       }
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
-}
+};
 
-const onUpdate = async (typeData: string) => {
+const onUpdate = async (typeData: string): Promise<void> => {
   delete pageData.value.base.scheme;
 
   const { projectId, serverId } = props;
   const { address, port, login, title, description, active, audit } = pageData.value.base.host;
   const bodyParams: any = {
     project_id: projectId,
-    server_id: serverId,
+    server_id: serverId
   };
 
   let message: any = {
     warn: false,
-    text: "",
+    text: ""
   };
 
-  const setMessage = (text: string, warn: boolean = false) => {
+  const setMessage = (text: string, warn: boolean = false): void => {
     message.text = text;
     message.warn = warn;
   };
@@ -194,7 +265,7 @@ const onUpdate = async (typeData: string) => {
     if (res.data) {
       if (typeData === "info") {
         serverStore.updateServerNameByID(props.projectId, props.serverId, title);
-        ['address', 'port', 'login', 'description'].forEach(field => {
+        ["address", "port", "login", "description"].forEach((field) => {
           pageData.value.error[`info.${field}`] = null;
         });
       }
@@ -205,13 +276,13 @@ const onUpdate = async (typeData: string) => {
       pageData.value.error = res.error.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.loading = false;
   }
 };
 
-const onUpdateAccess = async () => {
+const onUpdateAccess = async (): Promise<void> => {
   const { projectId, serverId } = props;
   const { base, tmp, error } = pageData.value;
 
@@ -221,7 +292,7 @@ const onUpdateAccess = async () => {
     let bodyParams = {
       project_id: projectId,
       server_id: serverId,
-      access: {},
+      access: {}
     };
 
     switch (base.access.auth) {
@@ -247,24 +318,24 @@ const onUpdateAccess = async () => {
       error.password = res.error.result.password;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     tmp.loading_key = false;
   }
 };
 
-const genNewKey = async () => {
+const genNewKey = async (): Promise<void> => {
   const { tmp, base } = pageData.value;
 
   try {
     tmp.new_key = true;
-    const res = await api().GET(`/v1/keys/generate`)
+    const res = await api().GET(`/v1/keys/generate`);
     if (res.data) {
       base.access.public_key = res.data.result.public;
       base.access.key = res.data.result.uuid;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     tmp.new_key = false;
   }

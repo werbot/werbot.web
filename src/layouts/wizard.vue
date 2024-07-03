@@ -1,7 +1,7 @@
 <template>
   <div class="px-6">
     <Header />
-    
+
     <div class="content">
       <div class="left">
         <nav class="sidebar">

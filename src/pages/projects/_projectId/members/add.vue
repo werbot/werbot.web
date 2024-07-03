@@ -14,12 +14,30 @@
     <div class="content">
       <form @submit.prevent>
         <div class="flex flex-row">
-          <FormInput name="Name" v-model.trim="pageData.base.name" :error="pageData.error['user_name']" :disabled="pageData.loading" class="mr-5 flex-grow" />
-          <FormInput name="Surname" v-model.trim="pageData.base.surname" :error="pageData.error['user_surname']" :disabled="pageData.loading" class="flex-grow" />
+          <FormInput
+            v-model.trim="pageData.base.name"
+            name="Name"
+            :error="pageData.error['user_name']"
+            :disabled="pageData.loading"
+            class="mr-5 flex-grow"
+          />
+          <FormInput
+            v-model.trim="pageData.base.surname"
+            name="Surname"
+            :error="pageData.error['user_surname']"
+            :disabled="pageData.loading"
+            class="flex-grow"
+          />
         </div>
-        <FormInput name="Email" v-model.trim="pageData.base.email" :error="pageData.error['email']" :disabled="pageData.loading" class="flex-grow mt-5" />
+        <FormInput
+          v-model.trim="pageData.base.email"
+          name="Email"
+          :error="pageData.error['email']"
+          :disabled="pageData.loading"
+          class="mt-5 flex-grow"
+        />
 
-        <FormButton class="mt-8" @click="onSendInvite()" :loading="pageData.loading">Send invite</FormButton>
+        <FormButton class="mt-8" :loading="pageData.loading" @click="onSendInvite()">Send invite</FormButton>
       </form>
     </div>
   </div>
@@ -45,10 +63,13 @@ const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
-  projectId: String,
+  projectId: {
+    type: String,
+    default: null
+  }
 });
 
-const onSendInvite = async () => {
+const onSendInvite = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
@@ -57,7 +78,7 @@ const onSendInvite = async () => {
       project_id: props.projectId,
       user_name: pageData.value.base.name,
       user_surname: pageData.value.base.surname,
-      email: pageData.value.base.email,
+      email: pageData.value.base.email
     };
 
     const res = await api().POST(`/v1/members/invite`, {}, bodyParams);
@@ -67,15 +88,15 @@ const onSendInvite = async () => {
       router.push({
         name: "projects-projectId-members-invites",
         params: {
-          projectId: props.projectId,
-        },
+          projectId: props.projectId
+        }
       });
     }
     if (res.error) {
       pageData.value.error = res.error.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.loading = false;
   }

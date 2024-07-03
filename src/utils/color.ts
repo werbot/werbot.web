@@ -12,7 +12,7 @@ export const eventTypeToColor: Record<EventType, string> = {
   [EventType.onInactive]: "yellow",
   [EventType.onChange]: "blue",
   [EventType.onLogin]: "green",
-  [EventType.onLogoff]: "yellow",
+  [EventType.onLogoff]: "yellow"
 };
 
 export const addressToColor: Record<Address, string> = {

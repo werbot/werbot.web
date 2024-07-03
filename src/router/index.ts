@@ -9,20 +9,20 @@ const routes: RouteRecordRaw[] = [
     path: "/",
     name: "index",
     meta: { layout: "private", layoutStyle: "blank", requiresAuth: true },
-    component: () => import("@pages/index.vue"),
+    component: () => import("@pages/index.vue")
   },
   ...route,
   {
     path: "/:pathMatch(.*)*",
     name: "404",
     meta: { layout: "404", requiresAuth: false },
-    component: () => import("@pages/404.vue"),
-  },
+    component: () => import("@pages/404.vue")
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes
 });
 
 router.beforeEach(async (to, _from, next) => {
@@ -34,7 +34,9 @@ router.beforeEach(async (to, _from, next) => {
 
   if (!isAuthenticated && to.meta.requiresAuth) {
     next({ name: "auth-signin" });
-  } else next();
+  } else {
+    next();
+  }
 });
 
 router.afterEach(() => {

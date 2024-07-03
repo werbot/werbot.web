@@ -9,11 +9,20 @@
     <div class="content">
       <form @submit.prevent>
         <div class="flex flex-row">
-          <FormInput name="Password" v-model="pageData.base.password" :error="pageData.error['password']" :disabled="pageData.loading" class="w-80" type="password"
-            autocomplete="current-password" />
+          <FormInput
+            v-model="pageData.base.password"
+            name="Password"
+            :error="pageData.error['password']"
+            :disabled="pageData.loading"
+            class="w-80"
+            type="password"
+            autocomplete="current-password"
+          />
         </div>
 
-        <FormButton class="red mt-8" @click="onDelete()" :loading="pageData.loading">Send me email for delete</FormButton>
+        <FormButton class="red mt-8" :loading="pageData.loading" @click="onDelete()">
+          Send me email for delete
+        </FormButton>
       </form>
     </div>
   </div>
@@ -30,12 +39,12 @@ import { PageData, defaultPageData } from "@/interface/page";
 import { api } from "@/api";
 
 // Tabs section
-import { tabMenu } from "../tab";
+import { tabMenu } from "@/pages/profile/setting/tab";
 
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
-const onDelete = async () => {
+const onDelete = async (): Promise<void> => {
   if (!pageData.value.base.password) {
     pageData.value.error["password"] = "Password required";
     return;
@@ -52,7 +61,7 @@ const onDelete = async () => {
 
     const bodyParams = {
       user_id: authStore.hasUserID,
-      password: pageData.value.base.password,
+      password: pageData.value.base.password
     };
 
     const res = await api().DELETE(`/v1/users`, {}, bodyParams);
@@ -64,11 +73,11 @@ const onDelete = async () => {
     }
     if (res.error) {
       if (res.error.result === "Password is not valid") {
-        pageData.value.error['password'] = res.error.result;
+        pageData.value.error["password"] = res.error.result;
       }
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.loading = false;
   }

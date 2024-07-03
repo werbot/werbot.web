@@ -15,19 +15,40 @@
       <div class="w-28 flex-none">Countries:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
-        <FormToggle name="Black-list" v-model="pageData.tmp.country.wite_list" class="flex-grow" id="country" @change="update(pageData.tmp.country.wite_list, Rules.country)" />
+        <FormToggle
+          id="country"
+          v-model="pageData.tmp.country.wite_list"
+          name="Black-list"
+          class="flex-grow"
+          @change="update(pageData.tmp.country.wite_list, Rules.country)"
+        />
       </div>
 
       <div class="w-full pt-3">
-        <FormInput v-model.trim="pageData.base.country" :error="pageData.error.country" class="flex-grow" placeholder="Search country ..." @keyup="searchCountries()" />
+        <FormInput
+          v-model.trim="pageData.base.country"
+          :error="pageData.error.country"
+          class="flex-grow"
+          placeholder="Search country ..."
+          @keyup="searchCountries()"
+        />
       </div>
 
       <div class="flex-col">
         <div v-if="pageData.base.search" class="mt-3">
-          <Badge v-for="(item, index) in pageData.base.search['countries']" :key="index" :name="item.name" color="green" class="mr-1 cursor-pointer"
-            @click="addCountry(index, Rules.country)" />
+          <Badge
+            v-for="(item, index) in pageData.base.search['countries']"
+            :key="index"
+            :name="item.name"
+            color="green"
+            class="mr-1 cursor-pointer"
+            @click="addCountry(index, Rules.country)"
+          />
         </div>
-        <span class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2" v-for="(item, index) in pageData.tmp.country.list">
+        <span
+          v-for="(item, index) in pageData.tmp.country.list"
+          class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2"
+        >
           <span class="ml-1">{{ item.country_name }}</span>
           <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.country)" />
         </span>
@@ -40,19 +61,31 @@
       <div class="mt-1 w-28 flex-none">Networks:</div>
       <div class="grow"></div>
       <div class="w-30 flex-none">
-        <FormToggle name="Black-list" v-model="pageData.tmp.network.wite_list" class="flex-grow" id="network" @change="update(pageData.tmp.network.wite_list, Rules.ip)" />
+        <FormToggle
+          id="network"
+          v-model="pageData.tmp.network.wite_list"
+          name="Black-list"
+          class="flex-grow"
+          @change="update(pageData.tmp.network.wite_list, Rules.ip)"
+        />
       </div>
 
       <div class="w-full pt-3">
-        <FormInput v-model="pageData.base.network" :error="pageData.error.network" class="flex-grow" placeholder="IP address or mask"
-          v-on:keyup.enter="addIp(pageData.base.network, Rules.ip)" />
+        <FormInput
+          v-model="pageData.base.network"
+          :error="pageData.error.network"
+          class="flex-grow"
+          placeholder="IP address or mask"
+          @keyup.enter="addIp(pageData.base.network, Rules.ip)"
+        />
       </div>
 
       <div class="flex-col">
-        <span class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2" v-for="(item, index) in pageData.tmp.network.list">
-          <span class="ml-1" v-if="item.start_ip !== item.end_ip">
-            {{ item.start_ip }} - {{ item.end_ip }}
-          </span>
+        <span
+          v-for="(item, index) in pageData.tmp.network.list"
+          class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2"
+        >
+          <span v-if="item.start_ip !== item.end_ip" class="ml-1"> {{ item.start_ip }} - {{ item.end_ip }} </span>
           <span v-else>{{ item.start_ip }}</span>
           <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.ip)" />
         </span>
@@ -72,7 +105,13 @@ import { PageData } from "@/interface/page";
 // API section
 import { api } from "@/api";
 import { Countries_Request } from "@proto/utility";
-import { Rules, IpMask, ServerFirewall_Request, UpdateServerFirewall_Request, DeleteServerFirewall_Request } from "@proto/firewall";
+import {
+  Rules,
+  IpMask,
+  ServerFirewall_Request,
+  UpdateServerFirewall_Request,
+  DeleteServerFirewall_Request
+} from "@proto/firewall";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -81,49 +120,60 @@ const serverStore = useServerStore();
 const pageData = ref<PageData>({
   base: {
     country: [],
-    search: [],
+    search: []
   },
-  tmp: { // use for search
+  tmp: {
+    // use for search
     country: {},
-    network: {},
+    network: {}
   },
-  error: {},
-})
-
-const props = defineProps({
-  projectId: String,
-  serverId: String,
+  error: {}
 });
 
-const getData = async () => {
+const props = defineProps({
+  projectId: {
+    type: String,
+    default: null
+  },
+  serverId: {
+    type: String,
+    default: null
+  }
+});
+
+const getData = async (): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
     const queryParams = <ServerFirewall_Request>{
       project_id: projectId,
-      server_id: serverId,
+      server_id: serverId
     };
 
-    const res = await api().GET(`/v1/servers/firewall`, queryParams)
+    const res = await api().GET(`/v1/servers/firewall`, queryParams);
     if (res.data) {
       pageData.value.tmp.country = res.data.result.country;
       pageData.value.tmp.network = res.data.result.network;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
-}
+};
 
 // country
-const searchCountries = async () => {
-  if (pageData.value.base.country.length <= 2) return;
-  pageData.value.tmp.country.list = Array.isArray(pageData.value.tmp.country.list) ? pageData.value.tmp.country.list : [];
+const searchCountries = async (): Promise<void> => {
+  if (pageData.value.base.country.length <= 2) {
+    return;
+  }
+  pageData.value.tmp.country.list = Array.isArray(pageData.value.tmp.country.list)
+    ? pageData.value.tmp.country.list
+    : [];
   try {
     const queryParams = <Countries_Request>{
       name: pageData.value.base.country
     };
 
-    const res = await api(false).GET(`/country`, queryParams)
+    const res = await api(false).GET(`/country`, queryParams);
     if (res.data) {
       pageData.value.base.search = res.data.result;
       if (pageData.value.base.search.countries && pageData.value.base.search.countries.length > 0) {
@@ -140,11 +190,11 @@ const searchCountries = async () => {
       pageData.value.error.countries = res.error.result.name;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const addCountry = async (index: number, rules: Rules) => {
+const addCountry = async (index: number, rules: Rules): Promise<void> => {
   const data_country = pageData.value.base.search.countries[index];
   try {
     const res = await create(data_country.code, rules);
@@ -152,7 +202,7 @@ const addCountry = async (index: number, rules: Rules) => {
       pageData.value.tmp.country.list.push({
         id: res.id,
         country_name: data_country.name,
-        country_code: data_country.code,
+        country_code: data_country.code
       });
       pageData.value.base.search.countries.splice(index, 1);
       pageData.value.error.countries = null;
@@ -163,9 +213,9 @@ const addCountry = async (index: number, rules: Rules) => {
 };
 
 // ip
-const addIp = async (ip: any, rules: Rules) => {
+const addIp = async (ip: string, rules: Rules): Promise<void> => {
   try {
-    var address: Address4 | Address6 = new Address4(ip);
+    let address: Address4 | Address6 = new Address4(ip);
     if (!address.isCorrect()) {
       address = new Address6(ip);
       if (address.isCorrect()) {
@@ -177,7 +227,7 @@ const addIp = async (ip: any, rules: Rules) => {
 
     const request = <IpMask>{
       start_ip: address.startAddress().addressMinusSuffix,
-      end_ip: address.endAddress().addressMinusSuffix,
+      end_ip: address.endAddress().addressMinusSuffix
     };
 
     create(request, rules).then((res) => {
@@ -185,7 +235,7 @@ const addIp = async (ip: any, rules: Rules) => {
         pageData.value.tmp.network.list.push({
           id: res.id,
           start_ip: request.start_ip,
-          end_ip: request.end_ip,
+          end_ip: request.end_ip
         });
         pageData.value.base.network = null;
         pageData.value.error.network = null;
@@ -197,21 +247,21 @@ const addIp = async (ip: any, rules: Rules) => {
 };
 
 // ---
-const create = async (record: any, rules: Rules) => {
+const create = async (record: any, rules: Rules): Promise<unknown> => {
   const { projectId, serverId } = props;
 
   try {
     let bodyParams: any;
     const commonParams = {
       project_id: projectId,
-      server_id: serverId,
+      server_id: serverId
     };
 
     switch (rules) {
       case Rules.country:
         bodyParams = {
           ...commonParams,
-          country_code: record,
+          country_code: record
         };
         break;
 
@@ -220,8 +270,8 @@ const create = async (record: any, rules: Rules) => {
           ...commonParams,
           ip: <IpMask>{
             start_ip: record.start_ip,
-            end_ip: record.end_ip,
-          },
+            end_ip: record.end_ip
+          }
         };
         break;
 
@@ -236,11 +286,11 @@ const create = async (record: any, rules: Rules) => {
       return res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const update = async (status: boolean, rules: Rules) => {
+const update = async (status: boolean, rules: Rules): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
@@ -263,7 +313,7 @@ const update = async (status: boolean, rules: Rules) => {
       project_id: projectId,
       server_id: serverId,
       rule: rules,
-      status: status,
+      status: status
     };
 
     const res = await api(false).UPDATE(`/v1/servers/firewall`, {}, bodyParams);
@@ -272,15 +322,15 @@ const update = async (status: boolean, rules: Rules) => {
       pageData.value.error = {};
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const remove = async (index: number, rules: Rules) => {
+const remove = async (index: number, rules: Rules): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
-    var record_id: string;
+    let record_id: string;
     if (rules === Rules.country) {
       record_id = pageData.value.tmp.country.list[index].id;
     } else if (rules === Rules.ip) {
@@ -293,10 +343,10 @@ const remove = async (index: number, rules: Rules) => {
       project_id: projectId,
       server_id: serverId,
       rule: rules,
-      record_id: record_id,
+      record_id: record_id
     };
 
-    const res = await api(false).DELETE(`/v1/servers/firewall`, queryParams)
+    const res = await api(false).DELETE(`/v1/servers/firewall`, queryParams);
     if (res.data) {
       if (rules === Rules.country) {
         pageData.value.tmp.country.list.splice(index, 1);
@@ -307,7 +357,7 @@ const remove = async (index: number, rules: Rules) => {
       showMessage(res.data.message);
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 

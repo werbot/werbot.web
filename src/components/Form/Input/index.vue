@@ -1,11 +1,18 @@
 <template>
-  <div class="form-control" :for="id" :class="class">
+  <div class="form-control" :for="id" :class="props.class">
     <label class="label">
       <span v-if="props.name" class="text">{{ fullName }}</span>
       <span v-if="props.error" class="error">{{ props.error }}</span>
     </label>
-    <input :type="props.type" v-model="value" class="input" :class="props.error ? 'error' : ''" :disabled="props.disabled" :placeholder="props.placeholder"
-      :autocomplete="props.autocomplete" />
+    <input
+      v-model="value"
+      :type="props.type"
+      class="input"
+      :class="props.error ? 'error' : ''"
+      :disabled="props.disabled"
+      :placeholder="props.placeholder"
+      :autocomplete="props.autocomplete"
+    />
   </div>
 </template>
 
@@ -13,28 +20,46 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  name: String,
-  modelValue: {
-    required: true,
+  name: {
+    type: String,
+    default: null
   },
-  id: String,
+  modelValue: {
+    required: true
+  },
+  id: {
+    type: String,
+    default: null
+  },
   type: {
     type: String,
-    default: "text",
+    default: "text"
   },
-  error: String,
-  class: String,
+  error: {
+    type: String,
+    default: null
+  },
+  class: {
+    type: String,
+    default: null
+  },
   disabled: Boolean,
   required: Boolean,
-  placeholder: String,
-  autocomplete: String,
+  placeholder: {
+    type: String,
+    default: null
+  },
+  autocomplete: {
+    type: String,
+    default: null
+  }
 });
 
 const emits = defineEmits(["update:modelValue"]);
 
 const value = computed({
   get: () => props.modelValue,
-  set: (val) => emits("update:modelValue", val),
+  set: (val) => emits("update:modelValue", val)
 });
 
 const fullName = computed(() => `${props.name}${props.required ? "*" : ""}`);

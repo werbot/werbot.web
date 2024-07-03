@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const route = [
   {
     path: "/profile",
@@ -6,14 +7,14 @@ export const route = [
       {
         path: "",
         name: "profile",
-        redirect: { name: "profile-setting" },
+        redirect: { name: "profile-setting" }
       },
       {
         path: "logs",
         name: "profile-logs",
         meta: { name: "Profile logs" },
         component: () => import("@pages/profile/logs.vue"),
-        "props": true
+        props: true
       },
       {
         path: "keys",
@@ -23,15 +24,15 @@ export const route = [
             name: "profile-keys",
             meta: { name: "SSH keys" },
             component: () => import("@pages/profile/keys/index.vue"),
-            "props": true
+            props: true
           },
           {
             path: "add",
             name: "profile-keys-add",
             component: () => import("@pages/profile/keys/add.vue"),
-            "props": true
-          },
-        ],
+            props: true
+          }
+        ]
       },
       {
         path: "setting",
@@ -41,14 +42,14 @@ export const route = [
             name: "profile-setting",
             meta: { name: "Profile settings" },
             component: () => import("@pages/profile/setting/index.vue"),
-            "props": true
+            props: true
           },
           {
             path: "password",
             name: "profile-setting-password",
             meta: { name: "Password" },
             component: () => import("@pages/profile/setting/password.vue"),
-            "props": true
+            props: true
           },
           {
             path: "destroy",
@@ -58,18 +59,18 @@ export const route = [
                 name: "profile-setting-destroy",
                 meta: { name: "Destroy" },
                 component: () => import("@pages/profile/setting/destroy/index.vue"),
-                "props": true
+                props: true
               },
               {
                 path: ":token",
                 name: "profile-setting-destroy-token",
                 component: () => import("@pages/profile/setting/destroy/_token.vue"),
-                "props": true
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+                props: true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 ];

@@ -10,13 +10,16 @@ import { computed } from "vue";
 const props = defineProps({
   prefix: {
     type: String,
-    default: "icon",
+    default: "icon"
   },
   name: {
     type: String,
-    required: true,
+    required: true
   },
-  class: String
+  class: {
+    type: String,
+    default: null
+  }
 });
 
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);

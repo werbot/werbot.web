@@ -8,7 +8,7 @@
 
     <div class="content">
       <form @submit.prevent>
-        <FormButton @click="onDelete()" class="red">Delete this project</FormButton>
+        <FormButton class="red" @click="onDelete()">Delete this project</FormButton>
       </form>
     </div>
   </div>
@@ -32,17 +32,20 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 const props = defineProps({
-  projectId: String,
+  projectId: {
+    type: String,
+    default: null
+  }
 });
 
-const onDelete = async () => {
+const onDelete = async (): Promise<void> => {
   try {
     const queryParams = <DeleteProject_Request>{
       project_id: props.projectId,
-      owner_id: authStore.hasUserID,
+      owner_id: authStore.hasUserID
     };
 
-    const res = await api().DELETE(`/v1/projects`, queryParams)
+    const res = await api().DELETE(`/v1/projects`, queryParams);
     if (res.data) {
       showMessage(res.data.message);
       router.push({ name: "projects" });
@@ -51,7 +54,7 @@ const onDelete = async () => {
       showMessage(res.error.result, "connextError");
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 

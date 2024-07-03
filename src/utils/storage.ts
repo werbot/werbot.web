@@ -2,19 +2,19 @@
 
 const invalids = [undefined, null, "undefined", "null"];
 
-export function getStorage(key: string) {
+export function getStorage(key: string): string {
   return localStorage.getItem(key) as string;
 }
 
-export function setStorage(key: string, val: string) {
+export function setStorage(key: string, val: string): void {
   localStorage.setItem(key, val);
 }
 
-export function removeStorage(key: string) {
+export function removeStorage(key: string): void {
   localStorage.removeItem(key);
 }
 
-export function saveSetting(key: string, val: string) {
+export function saveSetting(key: string, val: string): void {
   if (invalids.includes(val)) {
     console.warn("Don't use an invalid value!");
     return;
@@ -22,7 +22,8 @@ export function saveSetting(key: string, val: string) {
   localStorage.setItem(key, JSON.stringify(val));
 }
 
-export function batchSaveSetting(keys: any, obj: any) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function batchSaveSetting(keys: any, obj: any): void {
   keys.forEach((key: string) => saveSetting(key, obj[key]));
 }
 

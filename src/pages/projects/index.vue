@@ -26,7 +26,10 @@
       <tbody>
         <tr v-for="(item, index) in pageData.base.projects" :key="index">
           <td>
-            <router-link active-class="current" :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }">
+            <router-link
+              active-class="current"
+              :to="{ name: 'projects-projectId', params: { projectId: item.project_id } }"
+            >
               {{ item.title }}
             </router-link>
           </td>
@@ -35,7 +38,10 @@
           <td>{{ item.servers_count }}</td>
           <td>{{ toDate(item.created_at, "lite") }}</td>
           <td>
-            <router-link active-class="current" :to="{ name: 'projects-projectId-setting', params: { projectId: item.project_id } }">
+            <router-link
+              active-class="current"
+              :to="{ name: 'projects-projectId-setting', params: { projectId: item.project_id } }"
+            >
               <SvgIcon name="setting" class="text-gray-700" />
             </router-link>
           </td>
@@ -44,7 +50,7 @@
     </table>
     <div v-else class="desc">Empty</div>
 
-    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" class="content" @select-page="onSelectPage" />
   </div>
 </template>
 
@@ -64,11 +70,12 @@ const route = useRoute();
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
-const onSelectPage = (e: any) => {
+const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 
-const getData = async (routeQuery: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getData = async (routeQuery: any): Promise<void> => {
   try {
     if (authStore.hasUserRole === 3) {
       routeQuery.member_id = authStore.hasUserID;
@@ -84,7 +91,7 @@ const getData = async (routeQuery: any) => {
       pageData.value.base = res.data.result;
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 

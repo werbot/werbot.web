@@ -2,10 +2,16 @@
   <img class="mb-8 w-32" src="/img/logo_mini.svg" alt="Werbot" />
   <div class="card w-[22rem]">
     <span class="title">Reset password</span>
-    <form @submit.prevent v-if="!pageData.base.message">
-      <FormInput name="Email" v-model.trim="pageData.base.email" :error="authStore.error['email']" autocomplete="email" :disabled="pageData.loading" />
+    <form v-if="!pageData.base.message" @submit.prevent>
+      <FormInput
+        v-model.trim="pageData.base.email"
+        name="Email"
+        :error="authStore.error['email']"
+        autocomplete="email"
+        :disabled="pageData.loading"
+      />
       <div class="form-control pt-8">
-        <FormButton @click="onSubmit()" :loading="pageData.loading">Send me message</FormButton>
+        <FormButton :loading="pageData.loading" @click="onSubmit()">Send me message</FormButton>
       </div>
     </form>
 
@@ -41,13 +47,17 @@ import { api } from "@/api";
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
-const onSubmit = async () => {
+const onSubmit = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
-    const res = await api().POST(`/auth/password_reset`, {}, {
-      email: pageData.value.base.email
-    })
+    const res = await api().POST(
+      `/auth/password_reset`,
+      {},
+      {
+        email: pageData.value.base.email
+      }
+    );
     if (res.data) {
       pageData.value.base = res.data.result;
       authStore.resetError();
@@ -56,7 +66,7 @@ const onSubmit = async () => {
       authStore.setError(res.error.result);
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.loading = false;
   }

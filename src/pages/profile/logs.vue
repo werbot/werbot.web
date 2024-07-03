@@ -1,7 +1,7 @@
 <template>
-  <Skeleton class="text-gray-200" v-if="!pageData.base.total" />
+  <Skeleton v-if="!pageData.base.total" class="text-gray-200" />
 
-  <div class="artboard" v-else>
+  <div v-else class="artboard">
     <header>
       <h1>Profile logs</h1>
     </header>
@@ -33,10 +33,10 @@
       </tbody>
     </table>
 
-    <Pagination :total="pageData.base.total" @selectPage="onSelectPage" class="content" />
+    <Pagination :total="pageData.base.total" class="content" @select-page="onSelectPage" />
   </div>
 
-  <Drawer :is-open="pageData.modal" @close="closeDrawer()" title="Name" maxWidth="600px">
+  <Drawer :is-open="pageData.modal" title="Name" max-width="600px" @close="closeDrawer()">
     <table class="mini">
       <tr v-if="pageData.tmp.event">
         <td width="120">Event</td>
@@ -69,12 +69,11 @@
         <td>{{ decodeBase64(pageData.tmp.meta_data) }}</td>
       </tr>
     </table>
-
   </Drawer>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
 import { Skeleton, SvgIcon, Pagination, Drawer, Badge } from "@/components";
@@ -89,9 +88,9 @@ const route = useRoute();
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
-const openDrawer = async (id: string) => {
+const openDrawer = async (id: string): Promise<void> => {
   try {
-    const res = await api().GET(`/v1/event/profile/${authStore.hasUserID}/${id}`)
+    const res = await api().GET(`/v1/event/profile/${authStore.hasUserID}/${id}`);
     if (res.data) {
       pageData.value.tmp = res.data.result;
     }
@@ -99,18 +98,19 @@ const openDrawer = async (id: string) => {
       showMessage(res.error.result, "connextError");
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   } finally {
     pageData.value.modal = true;
   }
 };
 
-const closeDrawer = async () => {
+const closeDrawer = async (): Promise<void> => {
   pageData.value.tmp = {};
   pageData.value.modal = false;
 };
 
-const getData = async (routeQuery?: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getData = async (routeQuery?: any): Promise<void> => {
   try {
     const queryParams = {
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
@@ -122,15 +122,15 @@ const getData = async (routeQuery?: any) => {
       pageData.value.base = res.data.result;
     }
     if (res.error) {
-      console.log(res)
+      console.log(res);
       showMessage(res.error.result, "connextError");
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error("Unexpected error:", err);
   }
 };
 
-const onSelectPage = (e: any) => {
+const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 

@@ -3,32 +3,31 @@ export const menu = {
     {
       name: "Users",
       link: { name: "admin-users" },
-      icon: "users",
+      icon: "users"
     },
     {
       name: "Projects",
       link: { name: "admin-projects" },
-      icon: "project",
-    },
+      icon: "project"
+    }
   ],
   group20: [
     {
       name: "Subscriptions",
       link: { name: "admin-subscriptions" },
-      icon: "subscriptions",
+      icon: "subscriptions"
     },
     {
       name: "License",
       link: { name: "admin-license" },
-      icon: "license",
-    },
+      icon: "license"
+    }
   ],
   group100: [
     {
       name: "Settings",
       link: { name: "admin-settings" },
-      icon: "setting",
-    },
-  ],
+      icon: "setting"
+    }
+  ]
 };
-
