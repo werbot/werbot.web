@@ -3,17 +3,20 @@ export const topMenu = {
     {
       name: "Settings",
       link: { name: "profile-setting" },
-      icon: "profile"
+      icon: "profile",
+      sort: 10
     },
     {
       name: "SSH keys",
       link: { name: "profile-keys" },
-      icon: "key"
+      icon: "key",
+      sort: 20
     },
     {
       name: "Logs",
       link: { name: "profile-logs" },
-      icon: "logs"
+      icon: "logs",
+      sort: 30
     }
   ],
   group20: [
@@ -21,6 +24,7 @@ export const topMenu = {
       name: "Admin",
       link: { name: "admin" },
       icon: "admin",
+      sort: 10,
       isUserRole: 3
     }
   ],
@@ -38,17 +42,26 @@ export const menu = {
     {
       name: "Settings",
       link: { name: "profile-setting" },
-      icon: "profile"
+      icon: "profile",
+      sort: 10
     },
     {
       name: "SSH keys",
       link: { name: "profile-keys" },
-      icon: "key"
+      icon: "key",
+      sort: 20
     },
     {
       name: "Logs",
       link: { name: "profile-logs" },
-      icon: "logs"
+      icon: "logs",
+      sort: 30
+    },
+    {
+      name: "Logs2",
+      link: { name: "profile-logs" },
+      icon: "logs",
+      sort: 40
     }
   ]
 };

@@ -2,6 +2,8 @@ type MenuItem = {
   name: string;
   link: object;
   icon: string;
+  sort?: number;
+  isUserRole?: number;
 };
 
 type MenuGroup = Record<string, MenuItem[]>;
@@ -19,7 +21,8 @@ export function mergeMenus(menus: MenuGroup[]): MenuGroup {
   }, {} as MenuGroup);
 
   Object.keys(merged).forEach((key) => {
-    merged[key].sort((a, b) => a.name.localeCompare(b.name));
+    merged[key].sort((a, b) => a.sort - b.sort);
+    //merged[key].sort((a, b) => a.name.localeCompare(b.name));
   });
 
   const compareKeys = (a: string, b: string): number => {

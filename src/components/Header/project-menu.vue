@@ -58,7 +58,7 @@ import { ListProjects_Request } from "@proto/project";
 const route = useRoute();
 
 const projectMenu = ref(null);
-const data = ref({});
+const data: any = ref({});
 const isDropdownOpen = ref(false);
 
 const props = defineProps<{

@@ -15,7 +15,7 @@
 
     <ul v-show="isDropdownOpen" class="dropdown-menu right-0" @click="closeDropdown()">
       <template v-for="(group, key, index) in topMenu">
-        <template v-for="(item, iindex) in group">
+        <template v-for="(item, _index) in group">
           <li v-if="isUserRole(item.isUserRole)">
             <router-link
               active-class="current"
@@ -25,7 +25,7 @@
               <SvgIcon :name="item.icon" />
               <span>{{ item.name }}</span>
             </router-link>
-            <hr v-if="iindex === group.length - 1 && index != Object.keys(topMenu).length - 1" />
+            <hr v-if="_index === group.length - 1 && index != Object.keys(topMenu).length - 1" />
           </li>
         </template>
       </template>
@@ -42,8 +42,6 @@ import { topMenu } from "@pages/profile/menu";
 import { onClickOutside } from "@vueuse/core";
 
 const profileMenu = ref(null);
-onClickOutside(profileMenu, () => closeDropdown());
-
 const wsStatus = inject("wsStatus");
 
 const route = useRoute();
@@ -54,11 +52,13 @@ const props = defineProps<{
 const isDropdownOpen = ref(false);
 
 const authStore = useAuthStore();
-const isUserRole = (role): boolean => role === undefined || role === authStore.hasUserRole;
+const isUserRole = (role?: number): boolean => role === undefined || role === authStore.hasUserRole;
 
 const openDropdown = (): boolean => !props.isLoading && (isDropdownOpen.value = !isDropdownOpen.value);
 const closeDropdown = (): boolean => (isDropdownOpen.value = false);
 const toggleDropdown = (): boolean => (isDropdownOpen.value ? closeDropdown() : openDropdown());
+
+onClickOutside(profileMenu, () => closeDropdown());
 
 watch(
   () => props.isLoading,
