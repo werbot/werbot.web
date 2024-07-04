@@ -1,41 +1,36 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { start, done } from "nprogress";
-import { getStorage, showMessage, Event } from "@/utils";
+import { showMessage, Event } from "@/utils";
+import { useAuthStore } from "@/store";
 
 export function api(progress: boolean = true) {
-  //const logoutPath = "/auth/logout";
   const baseURL = import.meta.env.VITE_API_URL ?? "";
-  const timeout = 10000;
+  const timeoutDuration = 5000;
+  const retry = 3;
+  const retryDelay = 500;
 
-  async function handleRequest(url: string, options: RequestInit, params: object): Promise<any> {
+  async function handleRequest(url: string, options: RequestInit, params: Record<string, any> = {}): Promise<any> {
     if (progress) {
       start();
     }
 
-    const queryString = new URLSearchParams(params as Record<string, string>).toString();
+    const queryString = new URLSearchParams(params).toString();
     const fullUrl = queryString ? `${baseURL}${url}?${queryString}` : baseURL + url;
 
-    const controller = new AbortController();
-    const fetchTimeout = setTimeout(() => controller.abort(), timeout);
-    options.signal = controller.signal;
-
     try {
-      const response = await fetch(fullUrl, options);
-      clearTimeout(fetchTimeout);
+      let response = await fetchRetry(fullUrl, retryDelay, retry, options);
 
-      //if (response.status === 401) {
-      //console.error(`401 error after ${attempts} attempts`);
-      //return { error: `Unauthorized after ${attempts} attempts`, response };
-      //document.location.href = logoutPath;
-      //return;
-      //}
+      if (response.status === 401) {
+        const authStore = useAuthStore();
+        await authStore.refreshToken();
 
-      //if (response.status === 401) {
-      //  // document.location.href = signinPath;
-      //  // return;
-      //  console.log("401 error");
-      //}
+        const newToken = authStore.getToken();
+        options.headers = {
+          ...options.headers,
+          Authorization: `Bearer ${newToken}`
+        };
+        response = await fetchRetry(fullUrl, retryDelay, retry, options);
+      }
 
       if (response.status === 204 || response.headers.get("Content-Length") === "0") {
         return response.ok ? { data: {}, response } : { error: {}, response };
@@ -47,17 +42,14 @@ export function api(progress: boolean = true) {
 
       // handle errors
       let error: string | object = await response.text();
+      const statusMessageMap: { [key: number]: string } = {
+        404: "connextError",
+        500: "connextWarning"
+      };
       try {
-        error = JSON.parse(error);
-
-        const statusMessageMap: { [key: number]: string } = {
-          401: "connextError",
-          404: "connextError",
-          500: "connextWarning"
-        };
-
         const messageType = <Event>statusMessageMap[response.status];
         if (messageType) {
+          error = JSON.parse(error);
           const message = error["result"] || error["message"];
           showMessage(message, messageType);
         }
@@ -67,7 +59,6 @@ export function api(progress: boolean = true) {
 
       return { error, response };
     } catch (error) {
-      clearTimeout(fetchTimeout);
       console.error("Unexpected error:", error);
       showMessage("Network error or request aborted", "connextWarning");
       return { error: "Network error or request aborted", response: null };
@@ -79,9 +70,11 @@ export function api(progress: boolean = true) {
   }
 
   function createOptions(method: string, body?: HeadersInit): RequestInit {
-    const accessToken = getStorage("access_token");
+    const authStore = useAuthStore();
+    const token = authStore.getToken();
+
     const headers: HeadersInit = {
-      ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+      ...(token && { Authorization: `Bearer ${token}` }),
       ...(body && Object.keys(body).length > 0 && { "Content-Type": "application/json" })
     };
 
@@ -92,24 +85,55 @@ export function api(progress: boolean = true) {
     };
   }
 
+  function wait(delay: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, delay));
+  }
+
+  async function fetchWithTimeout(url: string, options: RequestInit, timeout: number): Promise<Response> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    options.signal = controller.signal;
+
+    try {
+      const response = await fetch(url, options);
+      clearTimeout(timeoutId);
+      return response;
+    } catch (err) {
+      clearTimeout(timeoutId);
+      throw err;
+    }
+  }
+
+  async function fetchRetry(url: string, delay: number, tries: number, fetchOptions: RequestInit): Promise<Response> {
+    for (let attempt = 1; attempt <= tries; attempt++) {
+      try {
+        return await fetchWithTimeout(url, fetchOptions, timeoutDuration);
+      } catch (err) {
+        if (attempt === tries) {
+          throw err;
+        }
+        await wait(delay);
+      }
+    }
+  }
+
   return {
-    /** Call a GET endpoint */
     async GET(url: string, params?: object): Promise<any> {
       return handleRequest(url, createOptions("GET"), params);
     },
-    /** Call a PUT endpoint */
+
     async PUT(url: string, params?: object, body?: any): Promise<any> {
       return handleRequest(url, createOptions("PUT", body), params);
     },
-    /** Call a POST endpoint */
+
     async POST(url: string, params?: object, body?: any): Promise<any> {
       return handleRequest(url, createOptions("POST", body), params);
     },
-    /** Call a UPDATE endpoint */
+
     async UPDATE(url: string, params?: object, body?: any): Promise<any> {
       return handleRequest(url, createOptions("PATCH", body), params);
     },
-    /** Call a DELETE endpoint */
+
     async DELETE(url: string, params?: object, body?: any): Promise<any> {
       return handleRequest(url, createOptions("DELETE", body), params);
     }

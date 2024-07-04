@@ -3,7 +3,6 @@
   "description": "app",
   "version": "1.0",
   "commit": "00000000",
-  "private": true,
   "scripts": {
     "dev": "VITE_CJS_IGNORE_WARNING=true bun x vite ",
     "build": "VITE_CJS_IGNORE_WARNING=true bun x vite build --mode production",

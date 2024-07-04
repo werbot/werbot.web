@@ -109,7 +109,6 @@ const closeDrawer = async (): Promise<void> => {
   pageData.value.modal = false;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getData = async (routeQuery?: any): Promise<void> => {
   try {
     const queryParams = {

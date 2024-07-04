@@ -44,7 +44,6 @@ const handleNotification = (eName: string, notificationType: string): void => {
       {
         group: "alerts",
         type: notificationType,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         text: (<any>e).detail
       },
       4000

@@ -56,7 +56,6 @@ export default [
       radix: ['error', 'always'], // Enforce radix when using parseInt()
       curly: 1, // Enforce curly braces for control statements
       '@typescript-eslint/explicit-function-return-type': [2], // Enforce explicit return types for functions
-      '@typescript-eslint/no-explicit-any': [2], // Disallow 'any' type
       '@typescript-eslint/prefer-ts-expect-error': [2], // Prefer @ts-expect-error over @ts-ignore
       '@typescript-eslint/ban-ts-comment': [0], // Allow @ts-comment
       'ordered-imports': [0], // Allow/disallow ordered imports
@@ -71,6 +70,9 @@ export default [
       'prettier/prettier': 'warn', // Integrate Prettier and warn about style discrepancies
       'no-void': ['error', { allowAsStatement: true }], // Disallow 'void' operator, except as a statement
       'no-relative-import-paths/no-relative-import-paths': ['warn', { allowSameFolder: true, rootDir: 'src', prefix: '@' }], // No relative imports
+
+      //'@typescript-eslint/no-explicit-any': [2], // Disallow 'any' type
+      "@typescript-eslint/no-explicit-any": "off",
 
       // Find and remove unused ES6 module imports.
       'no-unused-vars': 'off', // Disable ESLint's 'no-unused-vars'

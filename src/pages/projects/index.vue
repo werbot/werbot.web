@@ -74,7 +74,6 @@ const onSelectPage = (e: unknown): void => {
   getData(e);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getData = async (routeQuery: any): Promise<void> => {
   try {
     if (authStore.hasUserRole === 3) {

@@ -57,7 +57,6 @@ export const useAuthStore = defineStore("auth", {
     resetStore() {
       removeStorage("access_token");
       removeStorage("refresh_token");
-      //removeStorage("expires_at");
 
       this.logged_in = false;
       this.$reset();
@@ -107,15 +106,12 @@ export const useAuthStore = defineStore("auth", {
             setStorage("refresh_token", res.data.result.refresh_token);
           }
 
-          //const jwt = parseJwt(res.result.access_token);
-          //const expires_at = new Date(jwt.exp * 1000).toISOString();
-          //setStorage("expires_at", expires_at);
+          this.logged_in = true;
           this.getProfile();
         }
       } catch (err) {
-        console.error("Unexpected error:", err);
-      } finally {
         this.resetStore();
+        console.error("Unexpected error:", err);
       }
     },
 
@@ -130,6 +126,10 @@ export const useAuthStore = defineStore("auth", {
       this.resetStore();
     },
 
+    getToken() {
+      return getStorage("access_token");
+    },
+
     async getProfile() {
       try {
         // data from jwt
@@ -142,7 +142,6 @@ export const useAuthStore = defineStore("auth", {
         };
 
         this.session_id = jwt.sub;
-        //this.expires_at = getStorage("expires_at");
         this.expires_at = jwt.exp;
 
         // data from api

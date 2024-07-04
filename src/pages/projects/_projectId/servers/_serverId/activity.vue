@@ -149,7 +149,6 @@ const selectWorkTime = (): void => {
   selectTimeWork((_, prop, hour) => templateWork[prop][hour]);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const selectTimeWork = (e: any): void => {
   Object.keys(pageData.value.base).forEach((day) => {
     pageData.value.base[day] = pageData.value.base[day].map((item: number, hour: number) => e(item, day, hour));

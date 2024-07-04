@@ -41,7 +41,6 @@ import { PageData, defaultPageData } from "@/interface/page";
 const router = useRouter();
 const authStore = useAuthStore();
 const systemStore = useSystemStore();
-
 const pageData = ref<PageData>(defaultPageData);
 
 const onSubmit = async (): Promise<void> => {

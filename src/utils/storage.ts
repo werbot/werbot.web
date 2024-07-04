@@ -22,7 +22,6 @@ export function saveSetting(key: string, val: string): void {
   localStorage.setItem(key, JSON.stringify(val));
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function batchSaveSetting(keys: any, obj: any): void {
   keys.forEach((key: string) => saveSetting(key, obj[key]));
 }

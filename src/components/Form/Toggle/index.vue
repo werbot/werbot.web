@@ -30,7 +30,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  id: {}
+  id: {
+    type: [String, Number],
+    default: null
+  }
 });
 
 const emits = defineEmits(["update:modelValue"]);

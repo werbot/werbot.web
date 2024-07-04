@@ -72,7 +72,6 @@ const route = useRoute();
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getData = async (routeQuery: any): Promise<void> => {
   try {
     if (authStore.hasUserRole === 3) {
