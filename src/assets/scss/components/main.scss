@@ -10,7 +10,7 @@ body {
   @apply relative flex w-full flex-row pt-5;
 
   & .left {
-    @apply flex-none pr-8;
+    @apply flex-none pr-6 sm:pr-8 sm:w-44 ;
 
   }
 

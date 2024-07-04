@@ -3,7 +3,7 @@
     <ul>
       <template v-for="(group, key, index) in profileMenu" :key="key">
         <li v-for="item in group" :key="item.link.name">
-          <router-link active-class="current" :to="item.link" :class="{ current: isActive(item.link.name) }">
+          <router-link :to="item.link" :class="{ current: isActive(item.link.name) }">
             <SvgIcon :name="item.icon" />
             <span>{{ item.name }}</span>
           </router-link>
@@ -20,7 +20,6 @@
       <template v-for="(group, key, index) in projectMenu" :key="key">
         <li v-for="item in group" :key="item.link.name">
           <router-link
-            active-class="current"
             :to="{ name: item.link.name, params: { projectId: route.params.projectId } }"
             :class="{ current: isActive(item.link.name) }"
           >
@@ -39,7 +38,7 @@
     <ul>
       <template v-for="(group, key, index) in adminMenu" :key="key">
         <li v-for="item in group" :key="item.link.name">
-          <router-link active-class="current" :to="item.link">
+          <router-link :to="item.link">
             <SvgIcon :name="item.icon" />
             <span>{{ item.name }}</span>
           </router-link>
@@ -72,16 +71,20 @@ const isActive = (linkName: string): boolean => (route.name as string).startsWit
 
 <style lang="scss">
 .sidebar {
-  @apply mb-6;
+  @apply mb-6 mt-2;
+
+  hr {
+    @apply my-4;
+  }
 
   li {
-    @apply mb-4;
+    @apply mb-3;
 
     a {
-      @apply leading-5 text-gray-400;
+      @apply -m-2 flex items-center rounded p-2 leading-5 text-gray-400 no-underline;
 
       &:hover {
-        @apply -m-2 rounded bg-gray-100 p-2;
+        @apply bg-gray-100;
       }
 
       span {
@@ -89,11 +92,11 @@ const isActive = (linkName: string): boolean => (route.name as string).startsWit
       }
 
       svg {
-        @apply inline-block w-5 fill-gray-400 pr-0 align-middle sm:mr-2.5;
+        @apply inline-block w-5 fill-gray-400 pr-0 align-middle sm:mr-2;
       }
 
       &.current {
-        @apply -m-2 rounded bg-gray-200 p-2 text-gray-700;
+        @apply bg-gray-200 text-gray-700;
 
         svg {
           @apply fill-gray-700;

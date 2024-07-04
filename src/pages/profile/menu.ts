@@ -56,12 +56,6 @@ export const menu = {
       link: { name: "profile-logs" },
       icon: "logs",
       sort: 30
-    },
-    {
-      name: "Logs2",
-      link: { name: "profile-logs" },
-      icon: "logs",
-      sort: 40
     }
   ]
 };
