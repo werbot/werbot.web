@@ -99,7 +99,7 @@ const getData = async (routeQuery: any): Promise<void> => {
       pageData.value.base = res.data.result;
     }
     if (res.error) {
-      showApiError(res.error);
+      showApiError(res.error, [404]);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
