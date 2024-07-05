@@ -30,10 +30,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useSystemStore } from "@/store";
-import { PageData, defaultPageData } from "@/interface/page";
+import { showApiError } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -63,8 +64,7 @@ onMounted(async () => {
       }
     }
     if (res.error) {
-      //showMessage(res.error.result, "connextError");
-      //data.value = res.error.result;
+      showApiError(res.error);
       if (res.error.result == "New user") {
         router.push({ name: "auth-signup" });
       }

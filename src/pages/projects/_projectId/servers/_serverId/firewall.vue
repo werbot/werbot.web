@@ -47,6 +47,7 @@
         </div>
         <span
           v-for="(item, index) in pageData.tmp.country.list"
+          :key="index"
           class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2"
         >
           <span class="ml-1">{{ item.country_name }}</span>
@@ -83,6 +84,7 @@
       <div class="flex-col">
         <span
           v-for="(item, index) in pageData.tmp.network.list"
+          :key="index"
           class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2"
         >
           <span v-if="item.start_ip !== item.end_ip" class="ml-1"> {{ item.start_ip }} - {{ item.end_ip }} </span>
@@ -95,22 +97,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { Address4, Address6 } from "ip-address";
 import { useServerStore } from "@/store";
-import { showMessage } from "@/utils";
-import { Tabs, SvgIcon, FormInput, FormToggle, Badge } from "@/components";
+import { showApiError, showMessage } from "@/utils";
+import { Badge, FormInput, FormToggle, SvgIcon, Tabs } from "@/components";
 import { PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
 import { Countries_Request } from "@proto/utility";
 import {
-  Rules,
+  DeleteServerFirewall_Request,
   IpMask,
+  Rules,
   ServerFirewall_Request,
-  UpdateServerFirewall_Request,
-  DeleteServerFirewall_Request
+  UpdateServerFirewall_Request
 } from "@proto/firewall";
 
 // Tabs section
@@ -155,6 +157,9 @@ const getData = async (): Promise<void> => {
       pageData.value.tmp.country = res.data.result.country;
       pageData.value.tmp.network = res.data.result.network;
     }
+    if (res.error) {
+      showApiError(res.error);
+    }
   } catch (err) {
     console.error("Unexpected error:", err);
   }
@@ -188,6 +193,7 @@ const searchCountries = async (): Promise<void> => {
     }
     if (res.error) {
       pageData.value.error.countries = res.error.result.name;
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -285,6 +291,9 @@ const create = async (record: any, rules: Rules): Promise<unknown> => {
       pageData.value.error = {};
       return res.data.result;
     }
+    if (res.error) {
+      showApiError(res.error);
+    }
   } catch (err) {
     console.error("Unexpected error:", err);
   }
@@ -321,6 +330,9 @@ const update = async (status: boolean, rules: Rules): Promise<void> => {
       showMessage(res.data.message);
       pageData.value.error = {};
     }
+    if (res.error) {
+      showApiError(res.error);
+    }
   } catch (err) {
     console.error("Unexpected error:", err);
   }
@@ -355,6 +367,9 @@ const remove = async (index: number, rules: Rules): Promise<void> => {
         pageData.value.tmp.network.list.splice(index, 1);
       }
       showMessage(res.data.message);
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

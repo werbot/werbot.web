@@ -62,16 +62,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore, useServerStore } from "@/store";
-import { Tabs, SvgIcon, Badge, Pagination } from "@/components";
-import { showMessage } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { Badge, Pagination, SvgIcon, Tabs } from "@/components";
+import { showApiError, showMessage } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { MembersWithoutServer_Request, AddServerMember_Request } from "@proto/member";
+import { AddServerMember_Request, MembersWithoutServer_Request } from "@proto/member";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
@@ -116,6 +116,9 @@ const getData = async (routeQuery: any): Promise<void> => {
     if (res.data) {
       pageData.value.base = res.data.result;
     }
+    if (res.error) {
+      showApiError(res.error);
+    }
   } catch (err) {
     console.error("Unexpected error:", err);
   }
@@ -143,6 +146,7 @@ const addingMember = async (index: number): Promise<void> => {
     }
     if (res.error) {
       pageData.value.error = res.error.result;
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

@@ -73,11 +73,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
-import { SvgIcon, Pagination, Badge, FormToggle, Tabs } from "@/components";
-import { PageData, defaultPageData } from "@/interface/page";
+import { Badge, FormToggle, Pagination, SvgIcon, Tabs } from "@/components";
+import { showApiError } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -115,6 +116,9 @@ const getData = async (routeQuery: any): Promise<void> => {
     if (res.data) {
       pageData.value.base = res.data.result;
     }
+    if (res.error) {
+      showApiError(res.error);
+    }
   } catch (err) {
     console.error("Unexpected error:", err);
   }
@@ -138,6 +142,9 @@ const changeMemberActive = async (index: number, online: boolean): Promise<void>
     const res = await api().UPDATE(`/v1/members/active`, {}, bodyParams);
     if (res.data) {
       pageData.value.base.members[Number(index)].active = online;
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

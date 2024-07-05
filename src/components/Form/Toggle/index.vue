@@ -23,8 +23,9 @@ const props = defineProps({
     type: String,
     default: null
   },
+  // eslint-disable-next-line vue/require-prop-types
   modelValue: {
-    required: false
+    required: true
   },
   disabled: {
     type: Boolean,

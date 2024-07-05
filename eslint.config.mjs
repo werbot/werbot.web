@@ -10,7 +10,6 @@ import pluginPrettier from "eslint-plugin-prettier";
 import pluginImportPath from "eslint-plugin-no-relative-import-paths";
 import pluginUnusedImports from "eslint-plugin-unused-imports";
 
-//export default tseslint.config(
 export default [
   {
     ignores: [
@@ -71,8 +70,8 @@ export default [
       'no-void': ['error', { allowAsStatement: true }], // Disallow 'void' operator, except as a statement
       'no-relative-import-paths/no-relative-import-paths': ['warn', { allowSameFolder: true, rootDir: 'src', prefix: '@' }], // No relative imports
 
-      //'@typescript-eslint/no-explicit-any': [2], // Disallow 'any' type
-      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-explicit-any": "off", // Disallow 'any' type
+      "sort-imports": ["error", { "ignoreCase": true, "ignoreDeclarationSort": true}], // Enforce sorted import declarations within modules
 
       // Find and remove unused ES6 module imports.
       'no-unused-vars': 'off', // Disable ESLint's 'no-unused-vars'
@@ -81,4 +80,3 @@ export default [
     }
   }
 ];
-//);

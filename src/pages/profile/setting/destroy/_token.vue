@@ -6,7 +6,7 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store";
-import { showMessage } from "@/utils";
+import { showApiError, showMessage } from "@/utils";
 
 // API section
 import { api } from "@/api";
@@ -33,6 +33,9 @@ onMounted(async () => {
       showMessage(res.data.message);
       authStore.resetStore();
       router.push({ name: "auth-signin" });
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

@@ -9,8 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
-import { PageData, defaultPageData } from "@/interface/page";
+import { onMounted, ref, watch } from "vue";
+import { showApiError } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -34,6 +35,9 @@ const getData = async (): Promise<void> => {
     const res = await api().GET(`/v1/projects`, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

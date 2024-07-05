@@ -3,11 +3,11 @@ import { Plugin } from "vite";
 
 import {
   MODULE_ID,
-  RESOLVED_MODULE_ID,
-  MODULE_ROUTE_ID,
-  RESOLVED_MODULE_ROUTE_ID,
   MODULE_MENU_ID,
-  RESOLVED_MODULE_MENU_ID
+  MODULE_ROUTE_ID,
+  RESOLVED_MODULE_ID,
+  RESOLVED_MODULE_MENU_ID,
+  RESOLVED_MODULE_ROUTE_ID
 } from "./options";
 import { createContext } from "./context";
 

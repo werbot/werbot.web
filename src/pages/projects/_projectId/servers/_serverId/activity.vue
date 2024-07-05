@@ -20,13 +20,15 @@
                 class="cursor-pointer"
                 :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }"
                 @click="invertDay(day)"
-                >{{ day }}</span
               >
+                {{ day }}
+              </span>
             </td>
             <td>
               <div class="flex select-none outline-none">
                 <label
                   v-for="(itemHour, hour) in itemDay"
+                  :key="hour"
                   class="worktime-hours-item mr-1 cursor-pointer"
                   @mousemove="invert('mousemove', day, hour)"
                   @mousedown="startDrag"
@@ -39,8 +41,9 @@
                   />
                   <span
                     class="square inline-flex h-8 w-8 select-none items-center justify-center rounded bg-gray-300 text-center text-white"
-                    >{{ hour }}</span
                   >
+                    {{ hour }}
+                  </span>
                 </label>
               </div>
             </td>
@@ -64,11 +67,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useServerStore } from "@/store";
-import { showMessage } from "@/utils";
-import { Tabs, Badge, FormButton } from "@/components";
-import { PageData, defaultPageData } from "@/interface/page";
+import { showApiError, showMessage } from "@/utils";
+import { Badge, FormButton, Tabs } from "@/components";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -101,6 +104,9 @@ const getData = async (): Promise<void> => {
     const res = await api().GET(`/v1/servers/activity`, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -168,6 +174,9 @@ const onUpdate = async (): Promise<void> => {
     const res = await api().UPDATE(`/v1/servers/activity`, {}, bodyParams);
     if (res.data) {
       showMessage(res.data.message);
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

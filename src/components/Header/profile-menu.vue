@@ -15,7 +15,7 @@
 
     <ul v-show="isDropdownOpen" class="dropdown-menu right-0" @click="closeDropdown()">
       <template v-for="(group, key, index) in topMenu">
-        <template v-for="(item, _index) in group">
+        <template v-for="(item, _index) in group" :key="_index">
           <li v-if="isUserRole(item.isUserRole)">
             <router-link
               active-class="current"
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, inject } from "vue";
+import { inject, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
 import { SvgIcon } from "@/components";

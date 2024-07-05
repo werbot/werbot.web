@@ -58,9 +58,9 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
-import { SvgIcon, Pagination } from "@/components";
-import { toDate } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { Pagination, SvgIcon } from "@/components";
+import { showApiError, toDate } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -88,6 +88,9 @@ const getData = async (routeQuery: any): Promise<void> => {
     const res = await api().GET(`/v1/projects`, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

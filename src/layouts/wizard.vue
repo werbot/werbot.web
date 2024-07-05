@@ -32,5 +32,5 @@
 </template>
 
 <script setup lang="ts">
-import { Header, Version, SvgIcon } from "@/components";
+import { Header, SvgIcon, Version } from "@/components";
 </script>

@@ -12,7 +12,7 @@
       </button>
 
       <ul v-if="open">
-        <li v-for="item in props.options" @click="setLanguage(item)">
+        <li v-for="(item, index) in props.options" :key="index" @click="setLanguage(item)">
           {{ item }}
         </li>
       </ul>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed, ref } from "vue";
 import { SvgIcon } from "@/components";
 import { onClickOutside } from "@vueuse/core";
 
@@ -35,8 +35,9 @@ const props = defineProps({
     type: String,
     default: null
   },
+  // eslint-disable-next-line vue/require-prop-types
   modelValue: {
-    required: false
+    required: true
   },
   error: {
     type: String,

@@ -38,8 +38,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useAuthStore } from "@/store";
-import { FormInput, FormButton } from "@/components";
-import { PageData, defaultPageData } from "@/interface/page";
+import { FormButton, FormInput } from "@/components";
+import { showApiError } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -64,6 +65,7 @@ const onSubmit = async (): Promise<void> => {
     }
     if (res.error) {
       authStore.setError(res.error.result);
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

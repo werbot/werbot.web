@@ -41,11 +41,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useAuthStore } from "@/store";
-import { FormInput, Tabs, FormButton } from "@/components";
-import { showMessage } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { FormButton, FormInput, Tabs } from "@/components";
+import { showApiError, showMessage } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -77,6 +77,7 @@ const onUpdateProfile = async (): Promise<void> => {
     }
     if (res.error) {
       pageData.value.error = res.error.result;
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, getCurrentInstance } from "vue";
+import { getCurrentInstance, ref, watch } from "vue";
 import { FormButton } from "@/components";
 import { onClickOutside } from "@vueuse/core";
 

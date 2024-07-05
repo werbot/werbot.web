@@ -8,7 +8,7 @@
     "build": "VITE_CJS_IGNORE_WARNING=true bun x vite build --mode production",
     "preview": "bun x vite preview --port 4173",
     "typecheck": "bun x vue-tsc --noEmit --skipLibCheck",
-    "lint": "eslint .",
+    "lint": "eslint --cache .",
     "update": "bunx --bun ncu -i --format group"
   },
   "dependencies": {
@@ -28,7 +28,7 @@
     "@vitejs/plugin-vue": "^5.0.5",
     "@vueuse/core": "^10.11.0",
     "autoprefixer": "^10.4.19",
-    "cssnano": "^7.0.3",
+    "cssnano": "^7.0.4",
     "eslint": "^9.6.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-no-relative-import-paths": "^1.5.5",

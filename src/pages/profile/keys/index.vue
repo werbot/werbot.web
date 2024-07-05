@@ -60,9 +60,9 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
-import { showMessage, toDate } from "@/utils";
-import { Skeleton, SvgIcon, Modal, Pagination, FormButton } from "@/components";
-import { PageData, defaultPageData } from "@/interface/page";
+import { showApiError, showMessage, toDate } from "@/utils";
+import { FormButton, Modal, Pagination, Skeleton, SvgIcon } from "@/components";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -87,6 +87,9 @@ const getData = async (routeQuery: any): Promise<void> => {
     const res = await api().GET(`/v1/keys`, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -122,6 +125,7 @@ const removeKey = async (id: number): Promise<void> => {
     }
     if (res.error) {
       closeModal();
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

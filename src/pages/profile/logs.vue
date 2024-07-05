@@ -73,16 +73,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
-import { Skeleton, SvgIcon, Pagination, Drawer, Badge } from "@/components";
-import { showMessage, toDate, decodeBase64, eventTypeToColor } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { Badge, Drawer, Pagination, Skeleton, SvgIcon } from "@/components";
+import { decodeBase64, eventTypeToColor, showApiError, toDate } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Profile_Section, EventType } from "@proto/event";
+import { EventType, Profile_Section } from "@proto/event";
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -95,7 +95,7 @@ const openDrawer = async (id: string): Promise<void> => {
       pageData.value.tmp = res.data.result;
     }
     if (res.error) {
-      showMessage(res.error.result, "connextError");
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -121,8 +121,7 @@ const getData = async (routeQuery?: any): Promise<void> => {
       pageData.value.base = res.data.result;
     }
     if (res.error) {
-      console.log(res);
-      showMessage(res.error.result, "connextError");
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

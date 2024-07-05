@@ -31,12 +31,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore, useSystemStore } from "@/store";
-import { FormInput, FormButton } from "@/components";
+import { FormButton, FormInput } from "@/components";
 import { SignIn_Request } from "@proto/account";
-import { PageData, defaultPageData } from "@/interface/page";
+import { defaultPageData, PageData } from "@/interface/page";
 
 const router = useRouter();
 const authStore = useAuthStore();

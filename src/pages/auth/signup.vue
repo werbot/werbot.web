@@ -34,8 +34,8 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store";
-import { FormInput, FormButton } from "@/components";
-import { PageData, defaultPageData } from "@/interface/page";
+import { FormButton, FormInput } from "@/components";
+import { defaultPageData, PageData } from "@/interface/page";
 
 const router = useRouter();
 const authStore = useAuthStore();

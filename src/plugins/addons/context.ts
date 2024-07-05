@@ -1,6 +1,6 @@
 import type { RouteParamsRaw } from "vue-router";
 import type { MenuList } from "./types";
-import { scanFolder, checkFileExists } from "./utils";
+import { checkFileExists, scanFolder } from "./utils";
 import { menuAddon } from "./codegen/menu";
 import { routeAddon } from "./codegen/route";
 

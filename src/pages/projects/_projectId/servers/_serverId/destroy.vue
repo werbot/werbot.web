@@ -27,8 +27,8 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore, useServerStore } from "@/store";
-import { Tabs, FormButton } from "@/components";
-import { showMessage } from "@/utils";
+import { FormButton, Tabs } from "@/components";
+import { showApiError, showMessage } from "@/utils";
 
 // API section
 import { api } from "@/api";
@@ -66,7 +66,7 @@ const onDelete = async (): Promise<void> => {
       router.push({ name: "projects-projectId-servers" });
     }
     if (res.error) {
-      showMessage(res.error.result, "connextError");
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

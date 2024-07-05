@@ -120,16 +120,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useClipboard } from "@vueuse/core";
-import { SvgIcon, FormInput, FormTextarea, FormToggle, FormSelect, FormButton } from "@/components";
-import { showMessage } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { FormButton, FormInput, FormSelect, FormTextarea, FormToggle, SvgIcon } from "@/components";
+import { showApiError, showMessage } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Auth, ServerScheme, AddServer_Request } from "@proto/server";
+import { AddServer_Request, Auth, ServerScheme } from "@proto/server";
 
 const { copy, copied } = useClipboard();
 const router = useRouter();
@@ -157,7 +157,7 @@ const genNewKey = async (): Promise<void> => {
       base.access.key = res.data.result.uuid;
     }
     if (res.error) {
-      showMessage(res.error.result, "connextError");
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -207,6 +207,7 @@ const onSubmit = async (): Promise<void> => {
     }
     if (res.error) {
       pageData.value.error = res.error.result;
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

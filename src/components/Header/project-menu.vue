@@ -46,9 +46,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { SvgIcon } from "@/components";
+import { showApiError } from "@/utils";
 import { onClickOutside } from "@vueuse/core";
 
 // API section
@@ -95,6 +96,9 @@ onMounted(async () => {
     const res = await api().GET(`/v1/projects`, queryParams);
     if (res.data) {
       data.value = res.data.result;
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

@@ -75,16 +75,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore, useServerStore } from "@/store";
-import { toDate, showMessage } from "@/utils";
-import { Tabs, SvgIcon, Modal, FormToggle, Pagination, FormButton } from "@/components";
-import { PageData, defaultPageData } from "@/interface/page";
+import { showApiError, showMessage, toDate } from "@/utils";
+import { FormButton, FormToggle, Modal, Pagination, SvgIcon, Tabs } from "@/components";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { UpdateServerMember_Request, DeleteServerMember_Request } from "@proto/member";
+import { DeleteServerMember_Request, UpdateServerMember_Request } from "@proto/member";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
@@ -126,7 +126,7 @@ const getData = async (routeQuery: any): Promise<void> => {
       pageData.value.base = res.data.result;
     }
     if (res.error) {
-      showMessage(res.error.result, "connextError");
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -156,7 +156,7 @@ const changeMemberActive = async (index: number, online: boolean): Promise<void>
       pageData.value.base.members[Number(index)].active = online;
     }
     if (res.error) {
-      showMessage(res.error.result, "connextError");
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -180,6 +180,9 @@ const removeMember = async (id: number): Promise<void> => {
       pageData.value.base.members.splice(id, 1);
       pageData.value.base.total = pageData.value.base.total - 1;
       showMessage(res.data.message);
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

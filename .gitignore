@@ -49,3 +49,4 @@ docker/haproxy/data
 .sequence
 rest.http
 
+.eslintcache

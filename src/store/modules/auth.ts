@@ -5,7 +5,7 @@ import { api } from "@/api";
 import { RefreshTokenRequest, SignIn_Request } from "@proto/account";
 import { User_Request } from "@proto/user";
 
-import { parseJwt, getStorage, setStorage, removeStorage } from "@/utils";
+import { getStorage, parseJwt, removeStorage, setStorage } from "@/utils";
 
 interface AuthState {
   logged_in: boolean;

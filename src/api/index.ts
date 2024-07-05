@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { start, done } from "nprogress";
-import { showMessage, Event } from "@/utils";
+import { done, start } from "nprogress";
 import { useAuthStore } from "@/store";
 
 export function api(progress: boolean = true) {
@@ -42,17 +41,8 @@ export function api(progress: boolean = true) {
 
       // handle errors
       let error: string | object = await response.text();
-      const statusMessageMap: { [key: number]: string } = {
-        404: "connextError",
-        500: "connextWarning"
-      };
       try {
-        const messageType = <Event>statusMessageMap[response.status];
-        if (messageType) {
-          error = JSON.parse(error);
-          const message = error["result"] || error["message"];
-          showMessage(message, messageType);
-        }
+        error = JSON.parse(error);
       } catch {
         // noop
       }
@@ -60,7 +50,6 @@ export function api(progress: boolean = true) {
       return { error, response };
     } catch (error) {
       console.error("Unexpected error:", error);
-      showMessage("Network error or request aborted", "connextWarning");
       return { error: "Network error or request aborted", response: null };
     } finally {
       if (progress) {

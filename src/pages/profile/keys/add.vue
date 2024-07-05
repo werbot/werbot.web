@@ -38,9 +38,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { FormInput, FormTextarea, FormButton } from "@/components";
-import { showMessage } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { FormButton, FormInput, FormTextarea } from "@/components";
+import { showApiError, showMessage } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -71,6 +71,7 @@ const onSubmit = async (): Promise<void> => {
       } else {
         pageData.value.error = errorResult;
       }
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

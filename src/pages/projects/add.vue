@@ -33,11 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { FormInput, FormButton } from "@/components";
-import { showMessage } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { FormButton, FormInput } from "@/components";
+import { showApiError, showMessage } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -64,6 +64,7 @@ const onSubmit = async (): Promise<void> => {
     }
     if (res.error) {
       pageData.value.error = res.error.result;
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

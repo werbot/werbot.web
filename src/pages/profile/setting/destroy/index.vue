@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useAuthStore } from "@/store";
-import { FormInput, Tabs, FormButton } from "@/components";
-import { showMessage } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { FormButton, FormInput, Tabs } from "@/components";
+import { showApiError, showMessage } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -75,6 +75,7 @@ const onDelete = async (): Promise<void> => {
       if (res.error.result === "Password is not valid") {
         pageData.value.error["password"] = res.error.result;
       }
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

@@ -1,9 +1,8 @@
 <template>
-  <Skeleton v-if="!pageData.base.total" class="text-gray-200" />
-
-  <div v-else class="artboard">
+  <div class="artboard">
     <header>
       <h1>Servers</h1>
+
       <router-link :to="{ name: 'projects-projectId-servers-add' }" class="breadcrumbs">
         <SvgIcon name="plus_square" class="mr-3" />
         add new
@@ -122,12 +121,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
-import { Skeleton, SvgIcon, Pagination, FormToggle, Badge } from "@/components";
-import { getAddressType, showMessage, addressToColor, serverSchemeToColor } from "@/utils";
-import { PageData, defaultPageData } from "@/interface/page";
+import { Badge, FormToggle, Pagination, SvgIcon } from "@/components";
+import { addressToColor, getAddressType, serverSchemeToColor, showApiError, showMessage } from "@/utils";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -160,6 +159,9 @@ const getData = async (routeQuery: any): Promise<void> => {
     if (res.data) {
       pageData.value.base = res.data.result;
     }
+    if (res.error) {
+      showApiError(res.error, [404]);
+    }
   } catch (err) {
     console.error("Unexpected error:", err);
   }
@@ -181,6 +183,9 @@ const changeServerActive = async (index: number, online: boolean): Promise<void>
     const res = await api(false).UPDATE(`/v1/servers`, {}, bodyParams);
     if (res.data) {
       showMessage(res.data.message, online ? undefined : "connextWarning");
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

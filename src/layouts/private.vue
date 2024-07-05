@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { watchEffect, provide, ref } from "vue";
+import { provide, ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store";
 import { useWebSocket } from "@vueuse/core";

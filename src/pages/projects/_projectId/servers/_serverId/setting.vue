@@ -131,24 +131,25 @@
           :disabled="pageData.tmp.loading_key"
           :loading="pageData.tmp.loading_key"
           @click="onUpdateAccess()"
-          >Update key</FormButton
         >
+          Update key
+        </FormButton>
       </form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useServerStore } from "@/store";
 import { useClipboard } from "@vueuse/core";
-import { SvgIcon, Tabs, FormInput, FormTextarea, FormToggle, FormButton } from "@/components";
-import { showMessage } from "@/utils";
+import { FormButton, FormInput, FormTextarea, FormToggle, SvgIcon, Tabs } from "@/components";
+import { showApiError, showMessage } from "@/utils";
 import { PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Server_Request, ServerAccess_Request, Auth } from "@proto/server";
+import { Auth, Server_Request, ServerAccess_Request } from "@proto/server";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -274,6 +275,7 @@ const onUpdate = async (typeData: string): Promise<void> => {
 
     if (res.error && typeData === "info") {
       pageData.value.error = res.error.result;
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -316,6 +318,7 @@ const onUpdateAccess = async (): Promise<void> => {
     }
     if (res.error && base.access.auth === Auth.password) {
       error.password = res.error.result.password;
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -333,6 +336,9 @@ const genNewKey = async (): Promise<void> => {
     if (res.data) {
       base.access.public_key = res.data.result.public;
       base.access.key = res.data.result.uuid;
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);

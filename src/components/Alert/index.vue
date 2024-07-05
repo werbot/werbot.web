@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { notify, Notification, NotificationGroup } from "notiwind";
+import { Notification, NotificationGroup, notify } from "notiwind";
 import { SvgIcon } from "@/components";
 import { computed } from "vue";
 

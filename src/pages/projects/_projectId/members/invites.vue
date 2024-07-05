@@ -59,13 +59,13 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
-import { toDate, showMessage } from "@/utils";
-import { SvgIcon, Pagination, Tabs, Badge, Modal, FormButton } from "@/components";
-import { PageData, defaultPageData } from "@/interface/page";
+import { showApiError, showMessage, toDate } from "@/utils";
+import { Badge, FormButton, Modal, Pagination, SvgIcon, Tabs } from "@/components";
+import { defaultPageData, PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { ListMembersInvite_Request, DeleteMemberInvite_Request } from "@proto/member";
+import { DeleteMemberInvite_Request, ListMembersInvite_Request } from "@proto/member";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -97,6 +97,9 @@ const getData = async (routeQuery: any): Promise<void> => {
     const res = await api().GET(`/v1/members/invite`, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
@@ -130,6 +133,9 @@ const removeInvite = async (id: number): Promise<void> => {
       pageData.value.base.invites.splice(id, 1);
       pageData.value.base.total = pageData.value.base.total - 1;
       showMessage(res.data.message);
+    }
+    if (res.error) {
+      showApiError(res.error);
     }
   } catch (err) {
     console.error("Unexpected error:", err);
