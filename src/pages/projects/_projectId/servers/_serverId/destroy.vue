@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
+      <div class="breadcrumbs">{{ projectStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
 
     <Tabs :tabs="tabMenu" />
@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore, useServerStore } from "@/store";
+import { useAuthStore, useProjectStore } from "@/store";
 import { FormButton, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
 
@@ -39,7 +39,7 @@ import { tabMenu } from "./tab";
 
 const router = useRouter();
 const authStore = useAuthStore();
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 
 const props = defineProps({
   projectId: {
@@ -75,6 +75,6 @@ const onDelete = async (): Promise<void> => {
 
 onMounted(async () => {
   document.title = "Destroy server";
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
 });
 </script>

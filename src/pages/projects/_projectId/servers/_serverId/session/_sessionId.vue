@@ -7,7 +7,7 @@
         </router-link>
       </h1>
       <div class="breadcrumbs">
-        <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
+        <div class="breadcrumbs">{{ projectStore.getServerNameByID(props.projectId, props.serverId) }}</div>
         <span>
           <router-link
             :to="{
@@ -25,9 +25,9 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useServerStore } from "@/store";
+import { useProjectStore } from "@/store";
 
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 
 const props = defineProps({
   projectId: {
@@ -46,6 +46,6 @@ const props = defineProps({
 
 onMounted(async () => {
   document.title = "Server session info";
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
 });
 </script>

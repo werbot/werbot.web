@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
+      <div class="breadcrumbs">{{ projectStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">
@@ -141,7 +141,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
-import { useServerStore } from "@/store";
+import { useProjectStore } from "@/store";
 import { useClipboard } from "@vueuse/core";
 import { FormButton, FormInput, FormTextarea, FormToggle, SvgIcon, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
@@ -154,7 +154,7 @@ import { Auth, Server_Request, ServerAccess_Request } from "@proto/server";
 // Tabs section
 import { tabMenu } from "./tab";
 
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 const pageData = ref<PageData>({
   base: {
     host: {},
@@ -265,7 +265,7 @@ const onUpdate = async (typeData: string): Promise<void> => {
     const res = await api(false).UPDATE(`/v1/servers`, {}, bodyParams);
     if (res.data) {
       if (typeData === "info") {
-        serverStore.updateServerNameByID(props.projectId, props.serverId, title);
+        projectStore.updateServerNameByID(props.projectId, props.serverId, title);
         ["address", "port", "login", "description"].forEach((field) => {
           pageData.value.error[`info.${field}`] = null;
         });
@@ -356,7 +356,7 @@ watch(copied, (val) => {
 
 onMounted(async () => {
   document.title = "Server setting";
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
   await getData();
 
   if (pageData.value.base.host.audit === undefined) {

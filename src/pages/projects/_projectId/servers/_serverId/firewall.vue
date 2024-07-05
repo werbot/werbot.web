@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
+      <div class="breadcrumbs">{{ projectStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">In addition to creating your own, some add-ons come with their own.</div>
@@ -99,7 +99,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { Address4, Address6 } from "ip-address";
-import { useServerStore } from "@/store";
+import { useProjectStore } from "@/store";
 import { showApiError, showMessage } from "@/utils";
 import { Badge, FormInput, FormToggle, SvgIcon, Tabs } from "@/components";
 import { PageData } from "@/interface/page";
@@ -118,7 +118,7 @@ import {
 // Tabs section
 import { tabMenu } from "./tab";
 
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 const pageData = ref<PageData>({
   base: {
     country: [],
@@ -253,7 +253,7 @@ const addIp = async (ip: string, rules: Rules): Promise<void> => {
 };
 
 // ---
-const create = async (record: any, rules: Rules): Promise<unknown> => {
+const create = async (record: any, rules: Rules): Promise<any> => {
   const { projectId, serverId } = props;
 
   try {
@@ -378,7 +378,7 @@ const remove = async (index: number, rules: Rules): Promise<void> => {
 
 onMounted(async () => {
   document.title = "Server firewall";
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
   await getData();
 });
 </script>

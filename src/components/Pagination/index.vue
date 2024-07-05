@@ -39,7 +39,7 @@ const getQuery = (page: number) => ({
   offset: (page - 1) * limit.value
 });
 
-const onSelectPage = (query: Record<string, unknown>): void => {
+const onSelectPage = (query: Record<string, any>): void => {
   emits("selectPage", query);
 };
 </script>

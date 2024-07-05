@@ -70,7 +70,7 @@ const route = useRoute();
 const authStore = useAuthStore();
 const pageData = ref<PageData>(defaultPageData);
 
-const onSelectPage = (e: unknown): void => {
+const onSelectPage = (e: any): void => {
   getData(e);
 };
 

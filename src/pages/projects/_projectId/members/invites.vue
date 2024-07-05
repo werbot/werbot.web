@@ -106,7 +106,7 @@ const getData = async (routeQuery: any): Promise<void> => {
   }
 };
 
-const onSelectPage = (e: unknown): void => {
+const onSelectPage = (e: any): void => {
   getData(e);
 };
 

@@ -86,27 +86,47 @@ export interface Project_Response {
      */
     login: string;
     /**
-     * @generated from protobuf field: int32 members_count = 5;
-     */
-    members_count: number;
-    /**
      * @generated from protobuf field: int32 servers_count = 6;
      */
     servers_count: number;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 7;
+     * @generated from protobuf field: int32 databases_count = 7;
+     */
+    databases_count: number;
+    /**
+     * @generated from protobuf field: int32 applications_count = 8;
+     */
+    applications_count: number;
+    /**
+     * @generated from protobuf field: int32 desktops_count = 9;
+     */
+    desktops_count: number;
+    /**
+     * @generated from protobuf field: int32 containers_count = 10;
+     */
+    containers_count: number;
+    /**
+     * @generated from protobuf field: int32 clouds_count = 11;
+     */
+    clouds_count: number;
+    /**
+     * @generated from protobuf field: int32 members_count = 12;
+     */
+    members_count: number;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 13;
      */
     locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 8;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 14;
      */
     archived_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 9;
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 15;
      */
     updated_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created_at = 10;
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 16;
      */
     created_at?: Timestamp;
 }
@@ -398,12 +418,17 @@ class Project_Response$Type extends MessageType<Project_Response> {
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "members_count", kind: "scalar", localName: "members_count", T: 5 /*ScalarType.INT32*/ },
             { no: 6, name: "servers_count", kind: "scalar", localName: "servers_count", T: 5 /*ScalarType.INT32*/ },
-            { no: 7, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
-            { no: 8, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
-            { no: 9, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
-            { no: 10, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
+            { no: 7, name: "databases_count", kind: "scalar", localName: "databases_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 8, name: "applications_count", kind: "scalar", localName: "applications_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 9, name: "desktops_count", kind: "scalar", localName: "desktops_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 10, name: "containers_count", kind: "scalar", localName: "containers_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 11, name: "clouds_count", kind: "scalar", localName: "clouds_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 12, name: "members_count", kind: "scalar", localName: "members_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 13, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
+            { no: 14, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
+            { no: 15, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
+            { no: 16, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }

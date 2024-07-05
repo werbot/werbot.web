@@ -7,7 +7,7 @@
         </router-link>
       </h1>
       <div class="breadcrumbs">
-        {{ serverStore.getServerNameByID(props.projectId, props.serverId) }}
+        {{ projectStore.getServerNameByID(props.projectId, props.serverId) }}
         <span>
           <router-link
             :to="{
@@ -64,7 +64,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useAuthStore, useServerStore } from "@/store";
+import { useAuthStore, useProjectStore } from "@/store";
 import { Badge, Pagination, SvgIcon, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
 import { defaultPageData, PageData } from "@/interface/page";
@@ -78,7 +78,7 @@ import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 
 const route = useRoute();
 const authStore = useAuthStore();
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
@@ -92,7 +92,7 @@ const props = defineProps({
   }
 });
 
-const onSelectPage = (e: unknown): void => {
+const onSelectPage = (e: any): void => {
   getData(e);
 };
 
@@ -157,7 +157,7 @@ const addingMember = async (index: number): Promise<void> => {
 
 onMounted(async () => {
   document.title = "Server member add";
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
   await getData(route.query);
 });
 </script>

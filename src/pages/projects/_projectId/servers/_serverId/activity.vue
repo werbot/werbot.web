@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
+      <div class="breadcrumbs">{{ projectStore.getServerNameByID(props.projectId, props.serverId) }}</div>
     </header>
     <Tabs :tabs="tabMenu" />
     <div class="desc">Time at which access to the server is possible</div>
@@ -68,7 +68,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { useServerStore } from "@/store";
+import { useProjectStore } from "@/store";
 import { showApiError, showMessage } from "@/utils";
 import { Badge, FormButton, Tabs } from "@/components";
 import { defaultPageData, PageData } from "@/interface/page";
@@ -80,7 +80,7 @@ import { ServerActivity_Request, UpdateServerActivity_Request } from "@proto/ser
 // Tabs section
 import { tabMenu } from "./tab";
 
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
@@ -199,7 +199,7 @@ const templateWork = {
 
 onMounted(async () => {
   document.title = "Server activity";
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
   await getData();
 });
 </script>

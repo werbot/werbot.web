@@ -1,22 +1,35 @@
 <template>
   <div class="artboard">
     <header>
-      <h1>Project information</h1>
+      <h1>{{ pageData.base.title }}</h1>
     </header>
 
-    <div class="content">{{ pageData.base }}</div>
+    <div class="desc">Project information</div>
+
+    <div class="content">
+      <dl class="info">
+        <router-link
+          v-for="item in infoItems"
+          :key="item.countKey"
+          :to="{ name: item.routeName, params: { projectId: props.projectId } }"
+        >
+          <div>
+            <dt>{{ item.label }}</dt>
+            <dd>{{ projectStore.projects[props.projectId]?.info[item.countKey] || 0 }}</dd>
+          </div>
+        </router-link>
+      </dl>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
-import { showApiError } from "@/utils";
 import { defaultPageData, PageData } from "@/interface/page";
+import { useProjectStore } from "@/store";
 
 // API section
-import { api } from "@/api";
-import { Project_Request } from "@proto/project";
-
+const projectStore = useProjectStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
@@ -27,21 +40,7 @@ const props = defineProps({
 });
 
 const getData = async (): Promise<void> => {
-  try {
-    const queryParams = <Project_Request>{
-      project_id: props.projectId
-    };
-
-    const res = await api().GET(`/v1/projects`, queryParams);
-    if (res.data) {
-      pageData.value.base = res.data.result;
-    }
-    if (res.error) {
-      showApiError(res.error);
-    }
-  } catch (err) {
-    console.error("Unexpected error:", err);
-  }
+  projectStore.projectInfo(props.projectId);
 };
 
 watch(() => props.projectId, getData);
@@ -50,4 +49,35 @@ onMounted(async () => {
   document.title = "Project information";
   await getData();
 });
+
+const infoItems = [
+  { label: "Servers", routeName: "projects-projectId-servers", countKey: "servers_count" },
+  { label: "Databases", routeName: "projects-projectId-databases", countKey: "database_count" },
+  { label: "Applications", routeName: "projects-projectId-applications", countKey: "applications_count" },
+  { label: "Desktops", routeName: "projects-projectId-desktops", countKey: "desktops_count" },
+  { label: "Containers", routeName: "projects-projectId-containers", countKey: "containers_count" },
+  { label: "Clouds", routeName: "projects-projectId-clouds", countKey: "clouds_count" }
+];
 </script>
+
+<style lang="scss">
+dl.info {
+  @apply flex flex-wrap gap-4;
+
+  a {
+    @apply no-underline;
+  }
+
+  div {
+    @apply flex w-32 flex-col rounded border border-gray-100 px-4 py-8 text-center;
+
+    dt {
+      @apply order-last text-lg font-medium text-gray-500;
+    }
+
+    dd {
+      @apply text-4xl font-extrabold text-gray-600 md:text-5xl;
+    }
+  }
+}
+</style>

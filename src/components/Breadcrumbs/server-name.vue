@@ -1,14 +1,14 @@
 <template>
   <router-link :to="{ name: 'projects-projectId-servers' }">
-    {{ serverStore.getServerNameByID(props.projectId, props.serverId) }}
+    {{ projectStore.getServerNameByID(props.projectId, props.serverId) }}
   </router-link>
 </template>
 
 <script lang="ts" setup>
 import { onMounted } from "vue";
-import { useServerStore } from "@/store";
+import { useProjectStore } from "@/store";
 
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 
 const props = defineProps<{
   memberId: string;
@@ -17,6 +17,6 @@ const props = defineProps<{
 }>();
 
 onMounted(async () => {
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
 });
 </script>

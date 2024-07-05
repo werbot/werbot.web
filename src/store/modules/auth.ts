@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { useServerStore } from "@/store";
+import { useProjectStore } from "@/store";
 
 import { api } from "@/api";
 import { RefreshTokenRequest, SignIn_Request } from "@proto/account";
@@ -60,7 +60,7 @@ export const useAuthStore = defineStore("auth", {
 
       this.logged_in = false;
       this.$reset();
-      useServerStore().resetStore();
+      useProjectStore().resetStore();
     },
 
     resetError() {

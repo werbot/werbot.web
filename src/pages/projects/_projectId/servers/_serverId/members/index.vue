@@ -6,7 +6,7 @@
           Servers
         </router-link>
       </h1>
-      <div class="breadcrumbs">{{ serverStore.getServerNameByID(props.projectId, props.serverId) }}</div>
+      <div class="breadcrumbs">{{ projectStore.getServerNameByID(props.projectId, props.serverId) }}</div>
       <router-link :to="{ name: 'projects-projectId-servers-serverId-members-add' }" class="breadcrumbs">
         <SvgIcon name="plus_square" class="mr-3" />
         add new
@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useAuthStore, useServerStore } from "@/store";
+import { useAuthStore, useProjectStore } from "@/store";
 import { showApiError, showMessage, toDate } from "@/utils";
 import { FormButton, FormToggle, Modal, Pagination, SvgIcon, Tabs } from "@/components";
 import { defaultPageData, PageData } from "@/interface/page";
@@ -91,7 +91,7 @@ import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 
 const route = useRoute();
 const authStore = useAuthStore();
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 const pageData = ref<PageData>(defaultPageData);
 
 const props = defineProps({
@@ -133,7 +133,7 @@ const getData = async (routeQuery: any): Promise<void> => {
   }
 };
 
-const onSelectPage = (e: unknown): void => {
+const onSelectPage = (e: any): void => {
   getData(e);
 };
 
@@ -200,7 +200,7 @@ const closeModal = (): void => {
 
 onMounted(async () => {
   document.title = "Server member";
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
   await getData(route.query);
 });
 </script>

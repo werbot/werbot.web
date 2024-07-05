@@ -3,7 +3,7 @@ import { createPinia } from "pinia";
 
 import { useAuthStore } from "@/store/modules/auth";
 import { useSystemStore } from "@/store/modules/system";
-import { useServerStore } from "@/store/modules/server";
+import { useProjectStore } from "@/store/modules/project";
 
 export default {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -13,7 +13,7 @@ export default {
     const stores = {
       authStore: useAuthStore(),
       systemStore: useSystemStore(),
-      serverStore: useServerStore()
+      projectStore: useProjectStore()
     };
 
     Object.keys(stores).forEach((name) => {
@@ -29,4 +29,4 @@ export default {
   }
 };
 
-export { useAuthStore, useSystemStore, useServerStore };
+export { useAuthStore, useSystemStore, useProjectStore };

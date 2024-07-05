@@ -7,7 +7,7 @@
         </router-link>
       </h1>
       <div class="breadcrumbs">
-        {{ serverStore.getServerNameByID(props.projectId, props.serverId) }}
+        {{ projectStore.getServerNameByID(props.projectId, props.serverId) }}
         <span>
           <router-link
             :to="{
@@ -27,13 +27,13 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useServerStore } from "@/store";
+import { useProjectStore } from "@/store";
 import { Tabs } from "@/components";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 
-const serverStore = useServerStore();
+const projectStore = useProjectStore();
 
 const props = defineProps({
   projectId: {
@@ -52,6 +52,6 @@ const props = defineProps({
 
 onMounted(async () => {
   document.title = "Server member";
-  serverStore.serverNameByID(props.projectId, props.serverId);
+  projectStore.serverNameByID(props.projectId, props.serverId);
 });
 </script>

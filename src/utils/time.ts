@@ -16,11 +16,11 @@ export function addHours(date: Date, hours: number): Date {
   return date;
 }
 
-export function checkTimestampDifference(timestamp: number): boolean {
+export function checkTimestampDifference(timestamp: number, lifeTimeSec: number): boolean {
   const currentTimestamp: number = new Date().getTime();
   const differenceInMilliseconds: number = currentTimestamp - timestamp;
 
-  if (differenceInMilliseconds > 3600000) {
+  if (differenceInMilliseconds > lifeTimeSec) {
     return false;
   }
   return true;
