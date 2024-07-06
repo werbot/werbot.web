@@ -4,12 +4,12 @@
   "version": "1.0",
   "commit": "00000000",
   "scripts": {
-    "dev": "VITE_CJS_IGNORE_WARNING=true bun x vite ",
-    "build": "VITE_CJS_IGNORE_WARNING=true bun x vite build --mode production",
-    "preview": "bun x vite preview --port 4173",
-    "typecheck": "bun x vue-tsc --noEmit --skipLibCheck",
+    "dev": "VITE_CJS_IGNORE_WARNING=true bunx --bun vite ",
+    "build": "VITE_CJS_IGNORE_WARNING=true bun vite build --mode production",
+    "preview": "bunx --bun vite preview --port 4173",
+    "typecheck": "bun vue-tsc --noEmit --skipLibCheck",
     "lint": "eslint --cache .",
-    "update": "bunx --bun ncu -i --format group"
+    "update": "bun update --latest"
   },
   "dependencies": {
     "notiwind": "^2.0.2",

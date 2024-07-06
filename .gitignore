@@ -50,3 +50,4 @@ docker/haproxy/data
 rest.http
 
 .eslintcache
+tsconfig.tsbuildinfo
