@@ -153,8 +153,6 @@ export interface ListAccounts {
  */
 export interface ListAccounts_Request {
     /**
-     * for pagination
-     *
      * @generated from protobuf field: int32 limit = 1;
      */
     limit: number;
@@ -165,11 +163,7 @@ export interface ListAccounts_Request {
     /**
      * @generated from protobuf field: string sort_by = 3;
      */
-    sort_by: string; // ---
-    /**
-     * @generated from protobuf field: string query = 4;
-     */
-    query: string;
+    sort_by: string;
 }
 /**
  * @generated from protobuf message account.ListAccounts.Response
@@ -564,8 +558,7 @@ class ListAccounts_Request$Type extends MessageType<ListAccounts_Request> {
         super("account.ListAccounts.Request", [
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "query", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

@@ -38,7 +38,7 @@ export interface ListServers_Request {
     /**
      * @generated from protobuf field: string sort_by = 6;
      */
-    sort_by: string; // string query = 4;
+    sort_by: string;
 }
 /**
  * @generated from protobuf message server.ListServers.Response
@@ -67,15 +67,15 @@ export interface Server_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
     /**
      * @generated from protobuf field: string server_id = 2;
      */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
+    server_id: string; // @gotags: query:"server_id"
     /**
      * @generated from protobuf field: string project_id = 3;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
 }
 /**
  * @generated from protobuf message server.Server.Response
@@ -656,15 +656,15 @@ export interface ServerNameByID_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
+    server_id: string; // @gotags: query:"server_id"
 }
 /**
  * @generated from protobuf message server.ServerNameByID.Response
@@ -701,7 +701,7 @@ export interface ListShareServers_Request {
     /**
      * @generated from protobuf field: string user_id = 4;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
 }
 /**
  * @generated from protobuf message server.ListShareServers.Response
@@ -763,15 +763,15 @@ export interface AddShareServer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
     /**
      * @generated from protobuf field: string server_id = 3;
      */
-    server_id: string; // @gotags: query:"server_id" params:"server_id"
+    server_id: string; // @gotags: query:"server_id"
 }
 /**
  * @generated from protobuf message server.AddShareServer.Response
@@ -792,15 +792,15 @@ export interface UpdateShareServer_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
     /**
      * @generated from protobuf field: string share_id = 3;
      */
-    share_id: string; // @gotags: query:"share_id" params:"share_id"
+    share_id: string; // @gotags: query:"share_id" 
 }
 /**
  * @generated from protobuf message server.UpdateShareServer.Response

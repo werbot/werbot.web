@@ -16,21 +16,21 @@ export interface ListProjects {
  */
 export interface ListProjects_Request {
     /**
-     * @generated from protobuf field: int32 limit = 1;
+     * @generated from protobuf field: string user_id = 1;
+     */
+    user_id: string;
+    /**
+     * @generated from protobuf field: int32 limit = 2;
      */
     limit: number;
     /**
-     * @generated from protobuf field: int32 offset = 2;
+     * @generated from protobuf field: int32 offset = 3;
      */
     offset: number;
     /**
-     * @generated from protobuf field: string sort_by = 3;
+     * @generated from protobuf field: string sort_by = 4;
      */
     sort_by: string;
-    /**
-     * @generated from protobuf field: string query = 4;
-     */
-    query: string;
 }
 /**
  * @generated from protobuf message project.ListProjects.Response
@@ -59,11 +59,11 @@ export interface Project_Request {
     /**
      * @generated from protobuf field: string owner_id = 1;
      */
-    owner_id: string; // @gotags: query:"owner_id" params:"owner_id"
+    owner_id: string; // @gotags: query:"owner_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
 }
 /**
  * @generated from protobuf message project.Project.Response
@@ -177,19 +177,19 @@ export interface UpdateProject_Request {
     /**
      * @generated from protobuf field: string project_id = 1;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
     /**
      * @generated from protobuf field: string owner_id = 2;
      */
-    owner_id: string; // @gotags: query:"owner_id" params:"owner_id"
+    owner_id: string; // @gotags: query:"owner_id"
     /**
      * @generated from protobuf field: string title = 3;
      */
-    title: string; // @gotags: query:"title" params:"title"
+    title: string; // @gotags: query:"title"
     /**
      * @generated from protobuf field: string login = 4;
      */
-    login: string; // @gotags: query:"login" params:"login"
+    login: string; // @gotags: query:"login"
 }
 /**
  * @generated from protobuf message project.UpdateProject.Response
@@ -210,11 +210,11 @@ export interface DeleteProject_Request {
     /**
      * @generated from protobuf field: string owner_id = 1;
      */
-    owner_id: string; // @gotags: query:"owner_id" params:"owner_id"
+    owner_id: string; // @gotags: query:"owner_id"
     /**
      * @generated from protobuf field: string project_id = 2;
      */
-    project_id: string; // @gotags: query:"project_id" params:"project_id"
+    project_id: string; // @gotags: query:"project_id"
 }
 /**
  * @generated from protobuf message project.DeleteProject.Response
@@ -349,6 +349,35 @@ export interface DeleteKey_Request {
  */
 export interface DeleteKey_Response {
 }
+/**
+ * rpc ProjectByKey
+ *
+ * @generated from protobuf message project.ProjectByKey
+ */
+export interface ProjectByKey {
+}
+/**
+ * @generated from protobuf message project.ProjectByKey.Request
+ */
+export interface ProjectByKey_Request {
+    /**
+     * @generated from protobuf field: string key = 1;
+     */
+    key: string; // @gotags: query:"key"
+}
+/**
+ * @generated from protobuf message project.ProjectByKey.Response
+ */
+export interface ProjectByKey_Response {
+    /**
+     * @generated from protobuf field: string project_id = 1;
+     */
+    project_id: string;
+    /**
+     * @generated from protobuf field: bool online = 2;
+     */
+    online: boolean;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class ListProjects$Type extends MessageType<ListProjects> {
     constructor() {
@@ -363,10 +392,10 @@ export const ListProjects = new ListProjects$Type();
 class ListProjects_Request$Type extends MessageType<ListProjects_Request> {
     constructor() {
         super("project.ListProjects.Request", [
-            { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "query", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 3, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -682,6 +711,41 @@ class DeleteKey_Response$Type extends MessageType<DeleteKey_Response> {
  * @generated MessageType for protobuf message project.DeleteKey.Response
  */
 export const DeleteKey_Response = new DeleteKey_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ProjectByKey$Type extends MessageType<ProjectByKey> {
+    constructor() {
+        super("project.ProjectByKey", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message project.ProjectByKey
+ */
+export const ProjectByKey = new ProjectByKey$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ProjectByKey_Request$Type extends MessageType<ProjectByKey_Request> {
+    constructor() {
+        super("project.ProjectByKey.Request", [
+            { no: 1, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message project.ProjectByKey.Request
+ */
+export const ProjectByKey_Request = new ProjectByKey_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ProjectByKey_Response$Type extends MessageType<ProjectByKey_Response> {
+    constructor() {
+        super("project.ProjectByKey.Response", [
+            { no: 1, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message project.ProjectByKey.Response
+ */
+export const ProjectByKey_Response = new ProjectByKey_Response$Type();
 /**
  * @generated ServiceType for protobuf service project.ProjectHandlers
  */
@@ -694,5 +758,6 @@ export const ProjectHandlers = new ServiceType("project.ProjectHandlers", [
     { name: "Key", options: {}, I: Key_Request, O: Key_Response },
     { name: "AddKey", options: {}, I: AddKey_Request, O: AddKey_Response },
     { name: "UpdateKey", options: {}, I: UpdateKey_Request, O: UpdateKey_Response },
-    { name: "DeleteKey", options: {}, I: DeleteKey_Request, O: DeleteKey_Response }
+    { name: "DeleteKey", options: {}, I: DeleteKey_Request, O: DeleteKey_Response },
+    { name: "ProjectByKey", options: {}, I: ProjectByKey_Request, O: ProjectByKey_Response }
 ]);

@@ -16,7 +16,7 @@ export interface License {
  */
 export interface License_Request {
     /**
-     * string license = 1 [(buf.validate.field).string.pattern = '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$']; // @gotags: query:"license" params:"license"
+     * string license = 1 [(buf.validate.field).string.pattern = '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$']; // @gotags: query:"license"
      *
      * @generated from protobuf field: bytes license = 1;
      */

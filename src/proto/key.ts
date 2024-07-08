@@ -16,21 +16,21 @@ export interface ListKeys {
  */
 export interface ListKeys_Request {
     /**
-     * @generated from protobuf field: int32 limit = 1;
+     * @generated from protobuf field: string user_id = 1;
+     */
+    user_id: string;
+    /**
+     * @generated from protobuf field: int32 limit = 2;
      */
     limit: number;
     /**
-     * @generated from protobuf field: int32 offset = 2;
+     * @generated from protobuf field: int32 offset = 3;
      */
     offset: number;
     /**
-     * @generated from protobuf field: string sort_by = 3;
+     * @generated from protobuf field: string sort_by = 4;
      */
     sort_by: string;
-    /**
-     * @generated from protobuf field: string query = 4;
-     */
-    query: string;
 }
 /**
  * @generated from protobuf message key.ListKeys.Response
@@ -59,11 +59,11 @@ export interface Key_Request {
     /**
      * @generated from protobuf field: string key_id = 1;
      */
-    key_id: string; // @gotags: query:"key_id" params:"key_id"
+    key_id: string; // @gotags: query:"key_id"
     /**
      * @generated from protobuf field: string user_id = 2;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
 }
 /**
  * @generated from protobuf message key.Key.Response
@@ -157,19 +157,19 @@ export interface UpdateKey_Request {
     /**
      * @generated from protobuf field: string key_id = 1;
      */
-    key_id: string; // @gotags: query:"key_id" params:"key_id"
+    key_id: string; // @gotags: query:"key_id"
     /**
      * @generated from protobuf field: string user_id = 2;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
     /**
      * @generated from protobuf field: string title = 3;
      */
-    title: string; // @gotags: query:"title" params:"title";
+    title: string; // @gotags: query:"title"
     /**
      * @generated from protobuf field: string key = 4;
      */
-    key: string; // @gotags: query:"key" params:"key";
+    key: string; // @gotags: query:"key"
 }
 /**
  * @generated from protobuf message key.UpdateKey.Response
@@ -190,11 +190,11 @@ export interface DeleteKey_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id"
     /**
      * @generated from protobuf field: string key_id = 2;
      */
-    key_id: string; // @gotags: query:"key_id" params:"key_id"
+    key_id: string; // @gotags: query:"key_id"
 }
 /**
  * @generated from protobuf message key.DeleteKey.Response
@@ -296,10 +296,10 @@ export const ListKeys = new ListKeys$Type();
 class ListKeys_Request$Type extends MessageType<ListKeys_Request> {
     constructor() {
         super("key.ListKeys.Request", [
-            { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "query", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 3, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

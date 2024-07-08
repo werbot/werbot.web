@@ -17,21 +17,25 @@ export interface ListProjectMembers {
  */
 export interface ListProjectMembers_Request {
     /**
-     * @generated from protobuf field: int32 limit = 1;
+     * @generated from protobuf field: string owner_id = 1;
+     */
+    owner_id: string;
+    /**
+     * @generated from protobuf field: string project_id = 2;
+     */
+    project_id: string;
+    /**
+     * @generated from protobuf field: int32 limit = 3;
      */
     limit: number;
     /**
-     * @generated from protobuf field: int32 offset = 2;
+     * @generated from protobuf field: int32 offset = 4;
      */
     offset: number;
     /**
-     * @generated from protobuf field: string sort_by = 3;
+     * @generated from protobuf field: string sort_by = 5;
      */
     sort_by: string;
-    /**
-     * @generated from protobuf field: string query = 4;
-     */
-    query: string;
 }
 /**
  * @generated from protobuf message member.ListProjectMembers.Response
@@ -813,10 +817,11 @@ export const ListProjectMembers = new ListProjectMembers$Type();
 class ListProjectMembers_Request$Type extends MessageType<ListProjectMembers_Request> {
     constructor() {
         super("member.ListProjectMembers.Request", [
-            { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "query", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 5, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

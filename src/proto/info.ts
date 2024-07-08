@@ -18,7 +18,7 @@ export interface UserMetrics_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id" 
     /**
      * @generated from protobuf field: user.Role role = 2;
      */

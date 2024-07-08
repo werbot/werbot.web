@@ -27,10 +27,6 @@ export interface ListUsers_Request {
      * @generated from protobuf field: string sort_by = 3;
      */
     sort_by: string;
-    /**
-     * @generated from protobuf field: string query = 4;
-     */
-    query: string;
 }
 /**
  * @generated from protobuf message user.ListUsers.Response
@@ -80,7 +76,7 @@ export interface User_Request {
     /**
      * @generated from protobuf field: string user_id = 1;
      */
-    user_id: string; // @gotags: query:"user_id" params:"user_id"
+    user_id: string; // @gotags: query:"user_id" 
 }
 /**
  * @generated from protobuf message user.User.Response
@@ -377,8 +373,7 @@ class ListUsers_Request$Type extends MessageType<ListUsers_Request> {
         super("user.ListUsers.Request", [
             { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "query", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
