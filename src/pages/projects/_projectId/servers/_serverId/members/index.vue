@@ -35,7 +35,7 @@
           </td>
           <td>{{ item.user_name }} {{ item.user_surname }}</td>
           <td>{{ item.user_login }}</td>
-          <td>{{ item.updated_at.seconds > 0 ? toDate(item.updated_at) : "" }}</td>
+          <td>{{ item.updated_at?.seconds > 0 ? toDate(item.updated_at) : "" }}</td>
           <td>
             <div class="flex items-center">
               <FormToggle :id="index" v-model="item.active" @change="changeMemberActive(index, item.active)" />
@@ -75,12 +75,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore, useProjectStore } from "@/store";
 import { showApiError, showMessage, toDate } from "@/utils";
 import { FormButton, FormToggle, Modal, Pagination, SvgIcon, Tabs } from "@/components";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -92,7 +92,7 @@ import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 const route = useRoute();
 const authStore = useAuthStore();
 const projectStore = useProjectStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const props = defineProps({
   projectId: {

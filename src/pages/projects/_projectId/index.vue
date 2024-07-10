@@ -24,13 +24,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
-import { defaultPageData, PageData } from "@/interface/page";
+import { onMounted, watch } from "vue";
+import { usePageData } from "@/interface/page";
 import { useProjectStore } from "@/store";
 
 // API section
 const projectStore = useProjectStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const props = defineProps({
   projectId: {

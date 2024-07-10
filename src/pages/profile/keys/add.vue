@@ -40,14 +40,14 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { FormButton, FormInput, FormTextarea } from "@/components";
 import { showApiError, showMessage } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
 import { AddKey_Request } from "@proto/key";
 
 const router = useRouter();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const onSubmit = async (): Promise<void> => {
   try {

@@ -1,7 +1,5 @@
 <template>
-  <Skeleton v-if="!pageData.base.total" class="text-gray-200" />
-
-  <div v-else class="artboard">
+  <div class="artboard">
     <header>
       <h1>Profile logs</h1>
     </header>
@@ -73,12 +71,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
-import { Badge, Drawer, Pagination, Skeleton, SvgIcon } from "@/components";
+import { Badge, Drawer, Pagination, SvgIcon } from "@/components";
 import { decodeBase64, eventTypeToColor, showApiError, toDate } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -86,7 +84,7 @@ import { EventType, Profile_Section } from "@proto/event";
 
 const route = useRoute();
 const authStore = useAuthStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const openDrawer = async (id: string): Promise<void> => {
   try {

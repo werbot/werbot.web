@@ -30,18 +30,18 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useSystemStore } from "@/store";
 import { showApiError } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
 
 const router = useRouter();
 const systemStore = useSystemStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const props = defineProps({
   invite: {

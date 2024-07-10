@@ -1,7 +1,5 @@
 <template>
-  <Skeleton v-if="!pageData.base.total" class="text-gray-200" />
-
-  <div v-else class="artboard">
+  <div class="artboard">
     <header>
       <h1>SSH keys</h1>
       <router-link :to="{ name: 'profile-keys-add' }" class="breadcrumbs">
@@ -57,12 +55,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
 import { showApiError, showMessage, toDate } from "@/utils";
-import { FormButton, Modal, Pagination, Skeleton, SvgIcon } from "@/components";
-import { defaultPageData, PageData } from "@/interface/page";
+import { FormButton, Modal, Pagination, SvgIcon } from "@/components";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -70,7 +68,7 @@ import { DeleteKey_Request } from "@proto/key";
 
 const route = useRoute();
 const authStore = useAuthStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const getData = async (routeQuery: any): Promise<void> => {
   try {

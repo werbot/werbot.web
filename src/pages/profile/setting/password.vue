@@ -48,11 +48,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useAuthStore } from "@/store";
 import { FormButton, FormInput, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -62,7 +62,7 @@ import { UpdatePassword_Request } from "@proto/user";
 import { tabMenu } from "./tab";
 
 const authStore = useAuthStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const onUpdatePassword = async (): Promise<void> => {
   try {

@@ -12,44 +12,42 @@
     <div class="desc">Time at which access to the server is possible</div>
 
     <form @submit.prevent>
-      <div class="flex w-full flex-row">
-        <table>
-          <tr v-for="(itemDay, day) in pageData.base" :key="day">
-            <td class="worktime-weekday select-none pr-5 outline-none">
-              <span
-                class="cursor-pointer"
-                :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }"
-                @click="invertDay(day)"
+      <table>
+        <tr v-for="(itemDay, day) in pageData.base" :key="day">
+          <td class="worktime-weekday w-10 select-none pr-5 outline-none">
+            <span
+              class="cursor-pointer"
+              :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }"
+              @click="invertDay(day)"
+            >
+              {{ day }}
+            </span>
+          </td>
+          <td>
+            <div class="flex outline-none">
+              <label
+                v-for="(itemHour, hour) in itemDay"
+                :key="hour"
+                class="worktime-hours-item mr-1 grow cursor-pointer"
+                @mousemove="invert('mousemove', day, hour)"
+                @mousedown="startDrag"
               >
-                {{ day }}
-              </span>
-            </td>
-            <td>
-              <div class="flex select-none outline-none">
-                <label
-                  v-for="(itemHour, hour) in itemDay"
-                  :key="hour"
-                  class="worktime-hours-item mr-1 cursor-pointer"
-                  @mousemove="invert('mousemove', day, hour)"
-                  @mousedown="startDrag"
+                <input
+                  class="absolute -left-64 h-0 w-0"
+                  type="checkbox"
+                  :checked="itemHour"
+                  @click="invert('click', day, hour)"
+                />
+                <span
+                  class="square inline-flex h-8 w-6 items-center justify-center rounded bg-gray-300 text-white lg:w-full"
                 >
-                  <input
-                    class="absolute -left-64 h-0 w-0"
-                    type="checkbox"
-                    :checked="itemHour"
-                    @click="invert('click', day, hour)"
-                  />
-                  <span
-                    class="square inline-flex h-8 w-8 select-none items-center justify-center rounded bg-gray-300 text-center text-white"
-                  >
-                    {{ hour }}
-                  </span>
-                </label>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
+                  {{ hour }}
+                </span>
+              </label>
+            </div>
+          </td>
+        </tr>
+      </table>
 
       <div class="content">
         <Badge name="Select All" class="cursor-pointer" @click.prevent="selectAll" />
@@ -67,11 +65,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useProjectStore } from "@/store";
 import { showApiError, showMessage } from "@/utils";
 import { Badge, FormButton, Tabs } from "@/components";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -81,7 +79,7 @@ import { ServerActivity_Request, UpdateServerActivity_Request } from "@proto/ser
 import { tabMenu } from "./tab";
 
 const projectStore = useProjectStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const props = defineProps({
   projectId: {

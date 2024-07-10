@@ -120,12 +120,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useClipboard } from "@vueuse/core";
 import { FormButton, FormInput, FormSelect, FormTextarea, FormToggle, SvgIcon } from "@/components";
 import { showApiError, showMessage } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -133,7 +133,7 @@ import { AddServer_Request, Auth, ServerScheme } from "@proto/server";
 
 const { copy, copied } = useClipboard();
 const router = useRouter();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const props = defineProps({
   projectId: {

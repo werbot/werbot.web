@@ -55,12 +55,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/store";
 import { Pagination, SvgIcon } from "@/components";
 import { showApiError, toDate } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -68,7 +68,7 @@ import { ListProjects_Request } from "@proto/project";
 
 const route = useRoute();
 const authStore = useAuthStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const onSelectPage = (e: any): void => {
   getData(e);

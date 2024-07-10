@@ -36,17 +36,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useAuthStore } from "@/store";
 import { FormButton, FormInput } from "@/components";
 import { showApiError } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
 
 const authStore = useAuthStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const onSubmit = async (): Promise<void> => {
   try {

@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useAuthStore } from "@/store";
 import { FormButton, FormInput, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -42,7 +42,7 @@ import { api } from "@/api";
 import { tabMenu } from "@/pages/profile/setting/tab";
 
 const authStore = useAuthStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const onDelete = async (): Promise<void> => {
   if (!pageData.value.base.password) {

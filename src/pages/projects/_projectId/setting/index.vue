@@ -33,11 +33,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useAuthStore } from "@/store";
 import { FormButton, FormInput, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -47,7 +47,7 @@ import { Project_Request, UpdateProject_Request } from "@proto/project";
 import { tabMenu } from "./tab";
 
 const authStore = useAuthStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const props = defineProps({
   projectId: {

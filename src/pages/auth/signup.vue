@@ -31,15 +31,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store";
 import { FormButton, FormInput } from "@/components";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 const router = useRouter();
 const authStore = useAuthStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const onSubmit = async (): Promise<void> => {
   pageData.value.loading = true;

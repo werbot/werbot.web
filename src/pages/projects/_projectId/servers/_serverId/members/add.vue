@@ -62,12 +62,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore, useProjectStore } from "@/store";
 import { Badge, Pagination, SvgIcon, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
-import { defaultPageData, PageData } from "@/interface/page";
+import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
@@ -79,7 +79,7 @@ import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
 const route = useRoute();
 const authStore = useAuthStore();
 const projectStore = useProjectStore();
-const pageData = ref<PageData>(defaultPageData);
+const pageData = usePageData();
 
 const props = defineProps({
   projectId: {

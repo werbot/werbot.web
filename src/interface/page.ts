@@ -1,3 +1,5 @@
+import { Ref, ref } from "vue";
+
 export type PageData = {
   base?: any;
   tmp?: any;
@@ -7,11 +9,15 @@ export type PageData = {
   error?: Record<string, string | null>;
 };
 
-export const defaultPageData: PageData = {
-  base: {},
-  tmp: {},
-  modal: false,
-  skeleton: false,
-  loading: false,
-  error: {}
-};
+export function usePageData(): Ref<PageData> {
+  const pageData = ref<PageData>({
+    base: {},
+    tmp: {},
+    modal: false,
+    skeleton: false,
+    loading: false,
+    error: {}
+  });
+
+  return pageData;
+}
