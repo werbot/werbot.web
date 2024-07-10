@@ -71,6 +71,12 @@ export const route = [
             props: true
           },
           {
+            path: "api",
+            name: "projects-projectId-setting-api",
+            component: () => import("@/pages/projects/_projectId/setting/api.vue"),
+            props: true
+          },
+          {
             path: "destroy",
             name: "projects-projectId-setting-destroy",
             component: () => import("@/pages/projects/_projectId/setting/destroy.vue"),

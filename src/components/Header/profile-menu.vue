@@ -41,17 +41,17 @@ import { SvgIcon } from "@/components";
 import { topMenu } from "@pages/profile/menu";
 import { onClickOutside } from "@vueuse/core";
 
+const route = useRoute();
+const authStore = useAuthStore();
+
 const profileMenu = ref(null);
 const wsStatus = inject("wsStatus");
+const isDropdownOpen = ref(false);
 
-const route = useRoute();
 const props = defineProps<{
   isLoading?: boolean;
 }>();
 
-const isDropdownOpen = ref(false);
-
-const authStore = useAuthStore();
 const isUserRole = (role?: number): boolean => role === undefined || role === authStore.hasUserRole;
 
 const openDropdown = (): boolean => !props.isLoading && (isDropdownOpen.value = !isDropdownOpen.value);
