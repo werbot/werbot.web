@@ -1123,8 +1123,8 @@ class AddMemberInvite_Request$Type extends MessageType<AddMemberInvite_Request> 
         super("member.AddMemberInvite.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
-            { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_user_name", message: "required field (3 to 30 characters)", expression: "this.matches('^[a-z0-9]{3,20}$')" }] } } },
-            { no: 4, name: "user_surname", kind: "scalar", localName: "user_surname", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_user_surname", message: "required field (3 to 30 characters)", expression: "this.matches('^[a-z0-9]{3,20}$')" }] } } },
+            { no: 3, name: "user_name", kind: "scalar", localName: "user_name", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_user_name", message: "required field (3 to 30 characters)", expression: "this.matches('^[A-Za-z0-9]{3,20}$')" }] } } },
+            { no: 4, name: "user_surname", kind: "scalar", localName: "user_surname", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_user_surname", message: "required field (3 to 30 characters)", expression: "this.matches('^[A-Za-z0-9]{3,20}$')" }] } } },
             { no: 5, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_email", message: "must be a valid email", expression: "this.isEmail()" }] } } }
         ]);
     }
