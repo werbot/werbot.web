@@ -106,13 +106,11 @@ const getData = async (routeQuery: any): Promise<void> => {
     }
 
     const queryParams = {
-      owner_id: routeQuery.member_id,
-      project_id: props.projectId,
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
       ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
     };
 
-    const res = await api().GET(`/v1/members`, queryParams);
+    const res = await api().GET(`/v1/members/project/${props.projectId}`, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
     }

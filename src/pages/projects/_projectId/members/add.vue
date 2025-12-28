@@ -46,20 +46,18 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/store";
 import { FormButton, FormInput, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
 import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddMemberInvite_Request } from "@proto/member";
+import { AddMemberToken_Request } from "@proto/member";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
 const router = useRouter();
-const authStore = useAuthStore();
 const pageData = usePageData();
 
 const props = defineProps({
@@ -73,15 +71,13 @@ const onSendInvite = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
-    const bodyParams = <AddMemberInvite_Request>{
-      owner_id: authStore.hasUserID,
-      project_id: props.projectId,
+    const bodyParams = <AddMemberToken_Request>{
       user_name: pageData.value.base.name,
       user_surname: pageData.value.base.surname,
       email: pageData.value.base.email
     };
 
-    const res = await api().POST(`/v1/members/invite`, {}, bodyParams);
+    const res = await api().POST(`/v1/members/invite/project/${props.projectId}`, {}, bodyParams);
     if (res.data) {
       showMessage(res.data.result);
       pageData.value.error = {};

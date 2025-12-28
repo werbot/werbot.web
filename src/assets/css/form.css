@@ -1,0 +1,186 @@
+form {
+  @apply w-full;
+}
+
+form .label {
+  @apply flex select-none items-center justify-between pb-2;
+}
+
+form .label .error {
+  @apply text-right text-red-500;
+}
+
+.form-control {
+  @apply flex flex-col;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+.input {
+  @apply h-10 w-full rounded-sm border border-solid border-gray-300 bg-gray-50 pl-3;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+.input:focus {
+  @apply border-sky-600;
+}
+
+input[type="text"].warning,
+input[type="text"].error,
+input[type="email"].warning,
+input[type="email"].error,
+input[type="password"].warning,
+input[type="password"].error,
+input[type="number"].warning,
+input[type="number"].error,
+input[type="tel"].warning,
+input[type="tel"].error,
+input[type="url"].warning,
+input[type="url"].error,
+input[type="search"].warning,
+input[type="search"].error,
+.input.warning,
+.input.error {
+  @apply border-red-300 bg-red-50;
+}
+
+input[type="text"].warning:focus,
+input[type="text"].error:focus,
+input[type="email"].warning:focus,
+input[type="email"].error:focus,
+input[type="password"].warning:focus,
+input[type="password"].error:focus,
+input[type="number"].warning:focus,
+input[type="number"].error:focus,
+input[type="tel"].warning:focus,
+input[type="tel"].error:focus,
+input[type="url"].warning:focus,
+input[type="url"].error:focus,
+input[type="search"].warning:focus,
+input[type="search"].error:focus,
+.input.warning:focus,
+.input.error:focus {
+  @apply border-red-600 ring-red-600;
+}
+
+input[type="text"].disabled,
+input[type="text"][disabled],
+input[type="email"].disabled,
+input[type="email"][disabled],
+input[type="password"].disabled,
+input[type="password"][disabled],
+input[type="number"].disabled,
+input[type="number"][disabled],
+input[type="tel"].disabled,
+input[type="tel"][disabled],
+input[type="url"].disabled,
+input[type="url"][disabled],
+input[type="search"].disabled,
+input[type="search"][disabled],
+.input.disabled,
+.input[disabled] {
+  @apply cursor-not-allowed border-transparent bg-gray-300;
+}
+
+button.main {
+  @apply inline-block rounded-sm bg-sky-600 p-3.5 text-white transition duration-100 ease-in-out;
+}
+
+button.main:hover:not(:disabled),
+button.main:focus:not(:disabled) {
+  @apply bg-sky-700;
+}
+
+button.main:active:not(:disabled) {
+  @apply bg-sky-800;
+}
+
+button.main.red {
+  @apply bg-red-600;
+}
+
+button.main.red:hover:not(:disabled),
+button.main.red:focus:not(:disabled) {
+  @apply bg-red-700;
+}
+
+button.main.red:active:not(:disabled) {
+  @apply bg-red-800;
+}
+
+button.main.green {
+  @apply bg-green-600;
+}
+
+button.main.green:hover:not(:disabled),
+button.main.green:focus:not(:disabled) {
+  @apply bg-green-700;
+}
+
+button.main.green:active:not(:disabled) {
+  @apply bg-green-800;
+}
+
+button.main.yellow {
+  @apply bg-yellow-600;
+}
+
+button.main.yellow:hover:not(:disabled),
+button.main.yellow:focus:not(:disabled) {
+  @apply bg-yellow-700;
+}
+
+button.main.yellow:active:not(:disabled) {
+  @apply bg-yellow-800;
+}
+
+button.main.gray {
+  @apply bg-gray-600;
+}
+
+button.main.gray:hover:not(:disabled),
+button.main.gray:focus:not(:disabled) {
+  @apply bg-gray-700;
+}
+
+button.main.gray:active:not(:disabled) {
+  @apply bg-gray-800;
+}
+
+button.main.disabled,
+button.main.disabled:hover,
+button.main .disabled,
+button.main .disabled:hover,
+button.main[disabled],
+button.main[disabled]:hover {
+  @apply cursor-not-allowed border-transparent bg-gray-300 text-gray-500;
+}
+
+button.lite {
+  @apply inline-block h-10 rounded-sm border border-gray-300 px-2 text-gray-400 transition duration-100 ease-in-out;
+}
+
+button.lite:hover:not(:disabled),
+button.lite:focus:not(:disabled) {
+  @apply border-gray-800 bg-gray-800 text-gray-100;
+}
+
+button.lite:active:not(:disabled) {
+  @apply border-green-600 bg-green-600;
+}
+
+button.lite[disabled],
+button.lite[disabled]:hover {
+  @apply cursor-not-allowed border-transparent bg-gray-300 text-gray-400;
+}

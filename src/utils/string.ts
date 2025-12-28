@@ -1,8 +1,7 @@
-export function decodeBase64(encodedString: string): string {
+export function decodeBase64(base64String: string): string {
   try {
-    return atob(encodedString);
+    return atob(base64String);
   } catch (e) {
-    console.error("Error decoding Base64 string:", e);
     return "";
   }
 }

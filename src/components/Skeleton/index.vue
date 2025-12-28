@@ -2,19 +2,19 @@
   <div class="animate-pulse">
     <div class="flex items-center justify-between space-x-4">
       <div v-if="avatar" class="h-12 w-12 shrink-0 rounded-full bg-current"></div>
-      <div v-if="title" class="h-8 w-full rounded bg-current"></div>
+      <div v-if="title" class="h-8 w-full rounded-sm bg-current"></div>
     </div>
 
     <div v-if="lines > 0" class="mt-6 space-y-2">
       <div
         v-for="(setting, index) in lineSettings"
         :key="index"
-        class="h-4 rounded bg-current"
+        class="h-4 rounded-sm bg-current"
         :class="`mr-${setting}`"
       ></div>
     </div>
 
-    <div v-if="footer" class="mt-6 h-10 w-1/3 rounded bg-current"></div>
+    <div v-if="footer" class="mt-6 h-10 w-1/3 rounded-sm bg-current"></div>
   </div>
 </template>
 

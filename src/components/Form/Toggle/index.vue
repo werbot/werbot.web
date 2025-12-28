@@ -47,7 +47,9 @@ const value = computed({
 });
 </script>
 
-<style lang="scss">
+<style>
+@reference "tailwindcss";
+
 .toggle {
   @apply relative inline-flex cursor-pointer select-none items-center;
 }

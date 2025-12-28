@@ -101,7 +101,9 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .drawer {
   @apply invisible;
 

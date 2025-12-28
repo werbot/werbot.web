@@ -27,7 +27,7 @@ const props = defineProps({
 const emits = defineEmits(["selectPage"]);
 const route = useRoute();
 
-const limit = computed(() => Number(route.query.limit) || 10);
+const limit = computed(() => Number(route.query.limit) || 25);
 const offset = computed(() => Number(route.query.offset) || 0);
 
 const totalPages = computed(() => Math.ceil(props.total / limit.value));
@@ -44,12 +44,14 @@ const onSelectPage = (query: Record<string, any>): void => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .pagination {
   @apply flex;
 
   &.btn {
-    @apply mr-2 inline-block rounded bg-gray-200 px-3 py-1.5 text-gray-700;
+    @apply mr-2 inline-block rounded-sm bg-gray-200 px-3 py-1.5 text-gray-700;
 
     &-active {
       @apply bg-gray-700 text-gray-200;

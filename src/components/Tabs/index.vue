@@ -2,7 +2,7 @@
   <ul id="mainTab" class="flex flex-wrap bg-gray-100 pl-3 text-center text-gray-700" role="tablist">
     <li v-for="(item, index) in props.tabs" :key="index">
       <div :id="'tab-' + index" role="tab" :aria-controls="'control-' + index" :aria-selected="isActive(item)">
-        <router-link :to="item.link" class="inline-block p-4 focus:outline-none" :class="getClass(item)">
+        <router-link :to="item.link" class="inline-block p-4 focus:outline-hidden" :class="getClass(item)">
           {{ item.name }}
         </router-link>
       </div>

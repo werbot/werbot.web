@@ -69,40 +69,41 @@ const isAdminRoute = computed(() => (route.name as string).startsWith("admin") &
 const isActive = (linkName: string): boolean => (route.name as string).startsWith(linkName);
 </script>
 
-<style lang="scss">
+<style>
+@reference "tailwindcss";
 .sidebar {
   @apply mb-6 mt-2;
+}
 
-  hr {
-    @apply my-4;
-  }
+.sidebar hr {
+  @apply my-4;
+}
 
-  li {
-    @apply mb-3;
+.sidebar li {
+  @apply mb-3;
+}
 
-    a {
-      @apply -m-2 flex items-center rounded p-2 leading-5 text-gray-400 no-underline;
+.sidebar li a {
+  @apply -m-2 flex items-center rounded-sm p-2 leading-5 text-gray-400 no-underline;
+}
 
-      &:hover {
-        @apply bg-gray-100;
-      }
+.sidebar li a:hover {
+  @apply bg-gray-100;
+}
 
-      span {
-        @apply hidden sm:inline-block;
-      }
+.sidebar li a span {
+  @apply hidden sm:inline-block;
+}
 
-      svg {
-        @apply inline-block w-5 fill-gray-400 pr-0 align-middle sm:mr-2;
-      }
+.sidebar li a svg {
+  @apply inline-block w-5 fill-gray-400 pr-0 align-middle sm:mr-2;
+}
 
-      &.current {
-        @apply bg-gray-200 text-gray-700;
+.sidebar li a.current {
+  @apply bg-gray-200 text-gray-700;
+}
 
-        svg {
-          @apply fill-gray-700;
-        }
-      }
-    }
-  }
+.sidebar li a.current svg {
+  @apply fill-gray-700;
 }
 </style>

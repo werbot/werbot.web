@@ -1,5 +1,6 @@
-import { EventType } from "@proto/event";
-import { Address, ServerScheme } from "@proto/server";
+import { Type as EventType } from "@/proto/event/enum";
+import { Address } from "@/proto/scheme/scheme";
+import { SchemeType as ServerScheme } from "@/proto/scheme/access";
 
 export const eventTypeToColor: Record<EventType, string> = {
   [EventType.event_unspecified]: "gray",
@@ -12,7 +13,9 @@ export const eventTypeToColor: Record<EventType, string> = {
   [EventType.onInactive]: "yellow",
   [EventType.onChange]: "blue",
   [EventType.onLogin]: "green",
-  [EventType.onLogoff]: "yellow"
+  [EventType.onLogoff]: "yellow",
+  [EventType.onReset]: "red",
+  [EventType.onUpdate]: "yellow"
 };
 
 export const addressToColor: Record<Address, string> = {
@@ -23,9 +26,9 @@ export const addressToColor: Record<Address, string> = {
 };
 
 export const serverSchemeToColor: Record<ServerScheme, string> = {
-  [ServerScheme.server_unspecified]: "gray",
-  [ServerScheme.tcp]: "gray",
-  [ServerScheme.udp]: "gray",
-  [ServerScheme.ssh]: "gray",
-  [ServerScheme.telnet]: "gray"
+  [ServerScheme.scheme_unspecified]: "gray",
+  [ServerScheme.server_tcp]: "gray",
+  [ServerScheme.server_udp]: "gray",
+  [ServerScheme.server_ssh]: "gray",
+  [ServerScheme.server_telnet]: "gray"
 };

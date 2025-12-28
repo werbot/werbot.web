@@ -16,9 +16,10 @@ export interface License {
  */
 export interface License_Request {
     /**
-     * string license = 1 [(buf.validate.field).string.pattern = '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$']; // @gotags: query:"license"
+     * string license = 1 [(buf.validate.field).string.pattern =
+     * '^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$'];
      *
-     * @generated from protobuf field: bytes license = 1;
+     * @generated from protobuf field: bytes license = 1
      */
     license: Uint8Array;
 }
@@ -27,49 +28,49 @@ export interface License_Request {
  */
 export interface License_Response {
     /**
-     * @generated from protobuf field: int32 version = 1;
+     * @generated from protobuf field: int32 version = 1
      */
     version: number;
     /**
-     * @generated from protobuf field: string issued = 2;
+     * @generated from protobuf field: string issued = 2
      */
     issued: string;
     /**
-     * @generated from protobuf field: string customer = 3;
+     * @generated from protobuf field: string customer = 3
      */
     customer: string;
     /**
-     * @generated from protobuf field: string subscriber = 4;
+     * @generated from protobuf field: string subscriber = 4
      */
     subscriber: string;
     /**
-     * @generated from protobuf field: string type = 5;
+     * @generated from protobuf field: string type = 5
      */
     type: string;
     /**
-     * @generated from protobuf field: repeated string ip = 6;
+     * @generated from protobuf field: repeated string ip = 6
      */
     ip: string[];
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp issued_at = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp issued_at = 7
      */
     issued_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp expires_at = 8;
+     * @generated from protobuf field: google.protobuf.Timestamp expires_at = 8
      */
     expires_at?: Timestamp;
     /**
-     * @generated from protobuf field: map<string, int32> limits = 9;
+     * @generated from protobuf field: map<string, int32> limits = 9
      */
     limits: {
         [key: string]: number;
     };
     /**
-     * @generated from protobuf field: repeated string modules = 10;
+     * @generated from protobuf field: repeated string modules = 10
      */
     modules: string[];
     /**
-     * @generated from protobuf field: bool expired = 11;
+     * @generated from protobuf field: bool expired = 11
      */
     expired: boolean;
 }

@@ -64,6 +64,7 @@ export const route = [
               {
                 path: ":token",
                 name: "profile-setting-destroy-token",
+                meta: { layout: "auth" },
                 component: () => import("@pages/profile/setting/destroy/_token.vue"),
                 props: true
               }

@@ -66,9 +66,11 @@ const value = computed({
 const fullName = computed(() => `${props.name}${props.required ? "*" : ""}`);
 </script>
 
-<style lang="scss">
+<style>
+@reference "tailwindcss";
+
 .input {
-  @apply h-10 rounded border border-solid border-gray-300 bg-gray-50 pl-3;
+  @apply h-10 rounded-sm border border-solid border-gray-300 bg-gray-50 pl-3;
 
   &:focus {
     @apply border-sky-600;

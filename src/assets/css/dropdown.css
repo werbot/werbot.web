@@ -1,0 +1,64 @@
+.dropdown {
+  @apply inline-block h-10 rounded-sm border border-solid border-gray-300 px-1 py-2 leading-tight;
+  @apply flex items-center whitespace-nowrap;
+}
+
+.dropdown svg {
+  @apply mx-2 inline-block w-5;
+}
+
+.dropdown:hover,
+.dropdown:active {
+  @apply border-gray-800 bg-gray-800 text-gray-300;
+}
+
+.dropdown.active {
+  @apply border-gray-200 bg-gray-200;
+}
+
+.dropdown.active:hover,
+.dropdown.active:active {
+  @apply border-gray-800 bg-gray-800 text-gray-300;
+}
+
+.dropdown-menu {
+  @apply absolute z-50 float-left m-0 mt-1 min-w-max list-none rounded-lg border-none bg-gray-800 bg-clip-padding py-2 text-left shadow-2xl;
+}
+
+.dropdown-menu hr {
+  @apply my-2 h-0 border border-t-0 border-solid border-gray-400 opacity-25;
+}
+
+.dropdown-menu a {
+  @apply block w-full whitespace-nowrap bg-transparent py-2 px-4 text-gray-300;
+}
+
+.dropdown-menu a svg {
+  @apply mr-2.5 inline-block w-5;
+}
+
+.dropdown-menu a:hover {
+  @apply bg-gray-700 text-white no-underline;
+}
+
+.dropdown-menu a:focus {
+  @apply bg-gray-700 text-white;
+}
+
+.dropdown-menu a.active,
+.dropdown-menu a:active {
+  text-decoration: none;
+}
+
+.dropdown-menu a:disabled {
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.dropdown-menu a.current {
+  @apply bg-gray-700 text-white;
+}
+
+.dropdown-menu.show {
+  display: block;
+}

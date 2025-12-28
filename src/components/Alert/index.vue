@@ -68,7 +68,9 @@ const typeStyles = computed(() => ({
 }));
 </script>
 
-<style lang="scss">
+<style>
+@reference "tailwindcss";
+
 .alert {
   @apply pointer-events-none fixed bottom-0 right-0 z-50 flex items-start justify-end p-6 px-4 py-6;
 

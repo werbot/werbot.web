@@ -65,7 +65,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { DeleteMemberInvite_Request, ListMembersInvite_Request } from "@proto/member";
+import { DeleteMemberToken_Request, ListMembersToken_Request } from "@proto/member";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -87,14 +87,12 @@ const getData = async (routeQuery: any): Promise<void> => {
       routeQuery.member_id = authStore.hasUserID;
     }
 
-    const queryParams = <ListMembersInvite_Request>{
-      owner_id: routeQuery.member_id,
-      project_id: props.projectId,
+    const queryParams = <ListMembersToken_Request>{
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
       ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
     };
 
-    const res = await api().GET(`/v1/members/invite`, queryParams);
+    const res = await api().GET(`/v1/members/invite/project/${props.projectId}`, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
     }
@@ -121,7 +119,7 @@ const closeModal = (): void => {
 
 const removeInvite = async (id: number): Promise<void> => {
   try {
-    const queryParams = <DeleteMemberInvite_Request>{
+    const queryParams = <DeleteMemberToken_Request>{
       owner_id: authStore.hasUserID,
       project_id: props.projectId,
       invite_id: pageData.value.base.invites[id].id

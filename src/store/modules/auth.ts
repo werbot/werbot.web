@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useProjectStore } from "@/store";
 
 import { api } from "@/api";
-import { RefreshTokenRequest, SignIn_Request } from "@proto/account";
+import { SignIn_Request, Token_Request } from "@proto/account";
 import { User_Request } from "@proto/user";
 
 import { getStorage, parseJwt, removeStorage, setStorage } from "@/utils";
@@ -95,8 +95,8 @@ export const useAuthStore = defineStore("auth", {
 
     async refreshToken() {
       try {
-        const token: RefreshTokenRequest = {
-          refresh_token: getStorage("refresh_token")
+        const token: Token_Request = {
+          refresh: getStorage("refresh_token")
         };
 
         const res = await api().POST(`/auth/refresh`, {}, token);
@@ -136,20 +136,20 @@ export const useAuthStore = defineStore("auth", {
         const jwt = parseJwt(getStorage("access_token"));
         this.user = {
           ...this.user,
-          name: jwt.User.user_name,
+          name: jwt.User.name,
           role: jwt.User.roles,
-          id: jwt.User.user_id
+          id: jwt.User.profile_id
         };
 
         this.session_id = jwt.sub;
         this.expires_at = jwt.exp;
 
         // data from api
-        const queryParams = <User_Request>{
-          user_id: jwt.User.user_id
+        const queryParams = {
+          profile_id: jwt.User.profile_id
         };
 
-        const res = await api(false).GET(`/v1/users`, queryParams);
+        const res = await api(false).GET(`/v1/profiles`, queryParams);
         if (res.data) {
           this.user = {
             ...this.user,

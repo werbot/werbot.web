@@ -130,7 +130,8 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { ListServers_Request, ServerScheme } from "@proto/server";
+import { Schemes_Request as ListServers_Request } from "@/proto/scheme/scheme";
+import { SchemeType as ServerScheme } from "@/proto/scheme/access";
 
 const route = useRoute();
 const authStore = useAuthStore();

@@ -7,7 +7,7 @@
       <FormInput
         v-model.trim="pageData.base.password"
         name="Password"
-        :error="authStore.error['password']"
+        :error="authStore.error?.['password']"
         type="password"
         autocomplete="current-password"
         :disabled="pageData.loading"
@@ -16,7 +16,7 @@
       <FormInput
         v-model.trim="pageData.base.password2"
         name="Re-Type Password"
-        :error="authStore.error['password2']"
+        :error="authStore.error?.['password2']"
         type="password"
         autocomplete="current-password"
         :disabled="pageData.loading"

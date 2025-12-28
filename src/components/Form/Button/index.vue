@@ -18,10 +18,12 @@ const props = defineProps({
 });
 </script>
 
-<style lang="scss">
+<style>
+@reference "tailwindcss";
+
 button {
   &.main {
-    @apply inline-block rounded bg-sky-600 p-3.5 text-white;
+    @apply inline-block rounded-sm bg-sky-600 p-3.5 text-white;
     @apply transition duration-100 ease-in-out;
 
     &:hover,
@@ -114,7 +116,7 @@ button {
   }
 
   &.lite {
-    @apply inline-block h-10 rounded border border-gray-300 px-2 text-gray-400;
+    @apply inline-block h-10 rounded-sm border border-gray-300 px-2 text-gray-400;
 
     &:hover,
     &:focus {

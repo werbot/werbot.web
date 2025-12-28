@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { FormButton, FormInput, FormTextarea } from "@/components";
 import { showApiError, showMessage } from "@/utils";

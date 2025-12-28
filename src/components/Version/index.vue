@@ -5,7 +5,9 @@
   </div>
 </template>
 
-<style lang="scss">
+<style>
+@reference "tailwindcss";
+
 .versions {
   @apply hidden text-xs text-gray-200 sm:inline-block;
 }

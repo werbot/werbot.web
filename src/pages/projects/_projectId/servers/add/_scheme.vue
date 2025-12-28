@@ -129,7 +129,9 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddServer_Request, Auth, ServerScheme } from "@proto/server";
+import { AddScheme_Request as AddServer_Request } from "@/proto/scheme/scheme";
+import { Auth } from "@/proto/scheme/auth";
+import { SchemeType as ServerScheme } from "@/proto/scheme/access";
 
 const { copy, copied } = useClipboard();
 const router = useRouter();
@@ -154,7 +156,7 @@ const genNewKey = async (): Promise<void> => {
     const res = await api(false).GET(`/v1/keys/generate`);
     if (res.data) {
       base.public_key = res.data.result.public;
-      base.access.key = res.data.result.uuid;
+      base.access.key_id = res.data.result.uuid;
     }
     if (res.error) {
       showApiError(res.error);

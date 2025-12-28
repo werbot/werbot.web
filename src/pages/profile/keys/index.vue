@@ -19,9 +19,9 @@
             <div>{{ item.fingerprint }}</div>
           </td>
           <td class="adaptive-md">
-            <div><span class="font-bold">Added on:</span> {{ toDate(item.created_at, "lite") }}</div>
+            <div><span class="font-bold">Added on:</span> {{ toDate(item.created_at) }}</div>
             <div v-if="item.updated_at.seconds > 0">
-              <span class="font-bold">Last used:</span> {{ toDate(item.updated_at, "lite") }}
+              <span class="font-bold">Last used:</span> {{ toDate(item.updated_at) }}
             </div>
             <div v-else class="text-gray-400"><span class="font-bold">Last used:</span> no used</div>
           </td>
@@ -57,27 +57,19 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { useAuthStore } from "@/store";
 import { showApiError, showMessage, toDate } from "@/utils";
 import { FormButton, Modal, Pagination, SvgIcon } from "@/components";
 import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { DeleteKey_Request } from "@proto/key";
 
 const route = useRoute();
-const authStore = useAuthStore();
 const pageData = usePageData();
 
 const getData = async (routeQuery: any): Promise<void> => {
   try {
-    if (authStore.hasUserRole === 3) {
-      routeQuery.user_id = authStore.hasUserID;
-    }
-
     const queryParams = {
-      user_id: routeQuery?.user_id,
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
       ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
     };
@@ -109,12 +101,7 @@ const closeModal = (): void => {
 
 const removeKey = async (id: number): Promise<void> => {
   try {
-    const queryParams = <DeleteKey_Request>{
-      user_id: authStore.hasUserID,
-      key_id: pageData.value.base.public_keys[id].key_id
-    };
-
-    const res = await api().DELETE(`/v1/keys`, queryParams);
+    const res = await api().DELETE(`/v1/keys/${pageData.value.base.public_keys[id].key_id}`);
     if (res.data) {
       closeModal();
       pageData.value.base.public_keys.splice(id, 1);

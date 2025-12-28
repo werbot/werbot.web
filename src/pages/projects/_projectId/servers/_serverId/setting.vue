@@ -149,7 +149,8 @@ import { PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Auth, Server_Request, ServerAccess_Request } from "@proto/server";
+import { Auth } from "@/proto/scheme/auth";
+import { Scheme_Request as Server_Request, SchemeAccess_Request as ServerAccess_Request } from "@/proto/scheme/scheme";
 
 // Tabs section
 import { tabMenu } from "./tab";

@@ -9,7 +9,7 @@
         name="New password"
         type="password"
         autocomplete="new-password"
-        :error="authStore.error['password']"
+        :error="pageData.error['password']"
         :disabled="pageData.loading"
       />
       <FormInput
@@ -17,7 +17,7 @@
         name="Repeat password"
         type="password"
         autocomplete="new-password"
-        :error="authStore.error['password2']"
+        :error="pageData.error['password2']"
         :disabled="pageData.loading"
         class="mt-5"
       />
@@ -38,7 +38,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/store";
 import { FormButton, FormInput } from "@/components";
 import { showApiError, showMessage } from "@/utils";
 import { usePageData } from "@/interface/page";
@@ -48,7 +47,6 @@ import { api } from "@/api";
 import { ResetPassword_Password } from "@proto/account";
 
 const router = useRouter();
-const authStore = useAuthStore();
 const pageData = usePageData();
 
 const props = defineProps({
@@ -62,19 +60,17 @@ const onSubmit = async (): Promise<void> => {
   let errorMessage: string | null = null;
   if (pageData.value.base.password !== pageData.value.base.password2) {
     errorMessage = "Passwords do not match";
-  } else if (pageData.value.base.password.length < 8) {
+  } else if (pageData.value.base?.password?.length < 8) {
     errorMessage = "Weak password";
   }
 
   if (errorMessage) {
-    authStore.error = <Record<string, null>>{
+    pageData.value.error = <Record<string, null>>{
       password: errorMessage,
       password2: errorMessage
     };
     return;
   }
-
-  authStore.resetError();
 
   try {
     pageData.value.loading = true;
@@ -94,6 +90,7 @@ const onSubmit = async (): Promise<void> => {
       router.push({ name: "auth-signin" });
     }
     if (res.error) {
+      pageData.value.error.password = res.error.result["password.password"];
       showApiError(res.error);
     }
   } catch (err) {

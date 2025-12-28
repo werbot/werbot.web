@@ -6,14 +6,14 @@
       <FormInput
         v-model.trim="pageData.base.email"
         name="Email"
-        :error="authStore.error['email']"
+        :error="authStore.error?.['email']"
         autocomplete="username"
         :disabled="pageData.loading"
       />
       <FormInput
         v-model.trim="pageData.base.password"
         name="Password"
-        :error="authStore.error['password']"
+        :error="authStore.error?.['password']"
         type="password"
         autocomplete="current-password"
         :disabled="pageData.loading"

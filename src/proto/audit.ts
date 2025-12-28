@@ -16,20 +16,20 @@ export interface ListAudits {
  */
 export interface ListAudits_Request {
     /**
-     * @generated from protobuf field: string server_id = 1;
+     * @generated from protobuf field: string server_id = 1
      */
-    server_id: string;
+    server_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message audit.ListAudits.Response
  */
 export interface ListAudits_Response {
     /**
-     * @generated from protobuf field: int32 total = 1;
+     * @generated from protobuf field: int32 total = 1
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated audit.Audit.Response accounts = 2;
+     * @generated from protobuf field: repeated audit.Audit.Response accounts = 2
      */
     accounts: Audit_Response[];
 }
@@ -45,20 +45,20 @@ export interface Audit {
  */
 export interface Audit_Request {
     /**
-     * @generated from protobuf field: string audit_id = 1;
+     * @generated from protobuf field: string audit_id = 1
      */
-    audit_id: string;
+    audit_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message audit.Audit.Response
  */
 export interface Audit_Response {
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 1;
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 1
      */
     updated_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created_at = 2;
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 2
      */
     created_at?: Timestamp;
 }
@@ -74,51 +74,51 @@ export interface AddAudit {
  */
 export interface AddAudit_Request {
     /**
-     * @generated from protobuf field: string server_id = 1;
+     * @generated from protobuf field: string server_id = 1
      */
-    server_id: string;
+    server_id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: string account_id = 2;
+     * @generated from protobuf field: string account_id = 2
      */
-    account_id: string;
+    account_id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp time_start = 3;
+     * @generated from protobuf field: google.protobuf.Timestamp time_start = 3
      */
     time_start?: Timestamp;
     /**
-     * @generated from protobuf field: int32 version = 4;
+     * @generated from protobuf field: int32 version = 4
      */
     version: number;
     /**
-     * @generated from protobuf field: string session = 5;
+     * @generated from protobuf field: string session = 5
      */
     session: string;
     /**
-     * @generated from protobuf field: string client_ip = 6;
+     * @generated from protobuf field: string client_ip = 6
      */
     client_ip: string;
     /**
-     * @generated from protobuf field: int32 width = 7;
+     * @generated from protobuf field: int32 width = 7
      */
     width: number;
     /**
-     * @generated from protobuf field: int32 height = 8;
+     * @generated from protobuf field: int32 height = 8
      */
     height: number;
     /**
-     * @generated from protobuf field: string command = 9;
+     * @generated from protobuf field: string command = 9
      */
     command: string;
     /**
-     * @generated from protobuf field: string title = 10;
+     * @generated from protobuf field: string title = 10
      */
     title: string;
     /**
-     * @generated from protobuf field: string env_term = 11;
+     * @generated from protobuf field: string env_term = 11
      */
     env_term: string;
     /**
-     * @generated from protobuf field: string env_shell = 12;
+     * @generated from protobuf field: string env_shell = 12
      */
     env_shell: string;
 }
@@ -127,7 +127,7 @@ export interface AddAudit_Request {
  */
 export interface AddAudit_Response {
     /**
-     * @generated from protobuf field: string audit_id = 1;
+     * @generated from protobuf field: string audit_id = 1
      */
     audit_id: string;
 }
@@ -143,27 +143,27 @@ export interface UpdateAudit {
  */
 export interface UpdateAudit_Request {
     /**
-     * @generated from protobuf field: string audit_id = 1;
+     * @generated from protobuf field: string audit_id = 1
      */
-    audit_id: string;
+    audit_id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: int32 width = 2;
+     * @generated from protobuf field: int32 width = 2
      */
     width: number;
     /**
-     * @generated from protobuf field: int32 height = 3;
+     * @generated from protobuf field: int32 height = 3
      */
     height: number;
     /**
-     * @generated from protobuf field: string env_term = 4;
+     * @generated from protobuf field: string env_term = 4
      */
     env_term: string;
     /**
-     * @generated from protobuf field: string duration = 5;
+     * @generated from protobuf field: string duration = 5
      */
     duration: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp time_end = 6;
+     * @generated from protobuf field: google.protobuf.Timestamp time_end = 6
      */
     time_end?: Timestamp;
 }
@@ -184,9 +184,9 @@ export interface DeleteAudit {
  */
 export interface DeleteAudit_Request {
     /**
-     * @generated from protobuf field: string audit_id = 1;
+     * @generated from protobuf field: string audit_id = 1
      */
-    audit_id: string;
+    audit_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message audit.DeleteAudit.Response
@@ -200,23 +200,23 @@ export interface DeleteAudit_Response {
  */
 export interface Record {
     /**
-     * @generated from protobuf field: string id = 1;
+     * @generated from protobuf field: string id = 1
      */
-    id: string;
+    id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: bool audit = 2;
+     * @generated from protobuf field: bool audit = 2
      */
     audit: boolean;
     /**
-     * @generated from protobuf field: string duration = 3;
+     * @generated from protobuf field: string duration = 3
      */
     duration: string;
     /**
-     * @generated from protobuf field: string screen = 4;
+     * @generated from protobuf field: string screen = 4
      */
     screen: string;
     /**
-     * @generated from protobuf field: string type = 5;
+     * @generated from protobuf field: string type = 5
      */
     type: string;
 }
@@ -232,16 +232,16 @@ export interface ListRecords {
  */
 export interface ListRecords_Request {
     /**
-     * @generated from protobuf field: string audit_id = 1;
+     * @generated from protobuf field: string audit_id = 1
      */
-    audit_id: string;
+    audit_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message audit.ListRecords.Response
  */
 export interface ListRecords_Response {
     /**
-     * @generated from protobuf field: repeated audit.Record records = 1;
+     * @generated from protobuf field: repeated audit.Record records = 1
      */
     records: Record[];
 }
@@ -257,11 +257,11 @@ export interface AddRecord {
  */
 export interface AddRecord_Request {
     /**
-     * @generated from protobuf field: string audit_id = 1;
+     * @generated from protobuf field: string audit_id = 1
      */
-    audit_id: string;
+    audit_id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: repeated audit.Record records = 2;
+     * @generated from protobuf field: repeated audit.Record records = 2
      */
     records: Record[];
 }
@@ -297,7 +297,7 @@ class ListAudits_Response$Type extends MessageType<ListAudits_Response> {
     constructor() {
         super("audit.ListAudits.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "accounts", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Audit_Response }
+            { no: 2, name: "accounts", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Audit_Response }
         ]);
     }
 }
@@ -354,12 +354,12 @@ export const AddAudit = new AddAudit$Type();
 class AddAudit_Request$Type extends MessageType<AddAudit_Request> {
     constructor() {
         super("audit.AddAudit.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
-            { no: 2, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
+            { no: 2, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "time_start", kind: "message", localName: "time_start", T: () => Timestamp },
-            { no: 4, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 5, name: "session", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { required: true } } },
+            { no: 5, name: "session", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true } } },
+            { no: 6, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true } } },
             { no: 7, name: "width", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 8, name: "height", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 9, name: "command", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -496,7 +496,7 @@ export const ListRecords_Request = new ListRecords_Request$Type();
 class ListRecords_Response$Type extends MessageType<ListRecords_Response> {
     constructor() {
         super("audit.ListRecords.Response", [
-            { no: 1, name: "records", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Record }
+            { no: 1, name: "records", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Record }
         ]);
     }
 }
@@ -519,7 +519,7 @@ class AddRecord_Request$Type extends MessageType<AddRecord_Request> {
     constructor() {
         super("audit.AddRecord.Request", [
             { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
-            { no: 2, name: "records", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Record }
+            { no: 2, name: "records", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Record }
         ]);
     }
 }

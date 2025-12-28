@@ -2,7 +2,8 @@ import { defineConfig } from "vite";
 import path from "path";
 import Vue from "@vitejs/plugin-vue";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
-import VueDevTools from "vite-plugin-vue-devtools";
+//import VueDevTools from "vite-plugin-vue-devtools";
+import tailwindcss from "@tailwindcss/vite";
 import AddonsRouter from "./src/plugins/addons";
 
 export default defineConfig({
@@ -24,7 +25,8 @@ export default defineConfig({
   },
 
   plugins: [
-    VueDevTools(),
+    tailwindcss(),
+    // VueDevTools(),
     AddonsRouter(),
     Vue(),
     createSvgIconsPlugin({

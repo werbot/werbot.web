@@ -60,7 +60,9 @@ const infoItems = [
 ];
 </script>
 
-<style lang="scss">
+<style>
+@reference "tailwindcss";
+
 dl.info {
   @apply flex flex-wrap gap-4;
 
@@ -69,7 +71,7 @@ dl.info {
   }
 
   div {
-    @apply flex w-32 flex-col rounded border border-gray-100 px-4 py-8 text-center;
+    @apply flex w-32 flex-col rounded-sm border border-gray-100 px-4 py-8 text-center;
 
     dt {
       @apply order-last text-lg font-medium text-gray-500;

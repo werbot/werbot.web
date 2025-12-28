@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 [v-cloak] {
   display: none;
 }
@@ -8,15 +10,14 @@ body {
 
 .content {
   @apply relative flex w-full flex-row pt-5;
+}
 
-  & .left {
-    @apply flex-none pr-6 sm:pr-8 sm:w-44 ;
+.content .left {
+  @apply flex-none pr-6 sm:pr-8 sm:w-44;
+}
 
-  }
-
-  & .right {
-    @apply flex-grow;
-  }
+.content .right {
+  @apply flex-grow;
 }
 
 .fon {
@@ -29,14 +30,14 @@ body {
 
 a {
   @apply text-sky-700;
+}
 
-  &:hover {
-    @apply underline;
-  }
+a:hover {
+  @apply underline;
+}
 
-  &:focus {
-    @apply outline-none;
-  }
+a:focus {
+  @apply outline-hidden;
 }
 
 h1 {
@@ -49,4 +50,8 @@ h2 {
 
 .dot {
   @apply relative inline-flex h-3 w-3 rounded-full;
+}
+
+hr {
+  @apply border-gray-400 opacity-25;
 }

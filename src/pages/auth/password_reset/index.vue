@@ -6,7 +6,7 @@
       <FormInput
         v-model.trim="pageData.base.email"
         name="Email"
-        :error="authStore.error['email']"
+        :error="authStore.error?.['email']"
         autocomplete="email"
         :disabled="pageData.loading"
       />

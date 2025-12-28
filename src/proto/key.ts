@@ -5,43 +5,68 @@ import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
- * rpc ListKeys
- *
- * @generated from protobuf message key.ListKeys
+ * @generated from protobuf message key.SchemeKey
  */
-export interface ListKeys {
+export interface SchemeKey {
+    /**
+     * @generated from protobuf field: string public = 1
+     */
+    public: string;
+    /**
+     * @generated from protobuf field: string private = 2
+     */
+    private: string;
+    /**
+     * @generated from protobuf field: string passphrase = 3
+     */
+    passphrase: string;
+    /**
+     * @generated from protobuf field: string finger_print = 4
+     */
+    finger_print: string;
 }
 /**
- * @generated from protobuf message key.ListKeys.Request
+ * rpc Keys
+ *
+ * @generated from protobuf message key.Keys
  */
-export interface ListKeys_Request {
+export interface Keys {
+}
+/**
+ * @generated from protobuf message key.Keys.Request
+ */
+export interface Keys_Request {
     /**
-     * @generated from protobuf field: string user_id = 1;
+     * @generated from protobuf field: bool is_admin = 1
      */
-    user_id: string;
+    is_admin: boolean; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: int32 limit = 2;
+     * @generated from protobuf field: string profile_id = 2
+     */
+    profile_id: string; // @gotags: json:"-"
+    /**
+     * @generated from protobuf field: int32 limit = 3
      */
     limit: number;
     /**
-     * @generated from protobuf field: int32 offset = 3;
+     * @generated from protobuf field: int32 offset = 4
      */
     offset: number;
     /**
-     * @generated from protobuf field: string sort_by = 4;
+     * @generated from protobuf field: string sort_by = 5
      */
-    sort_by: string;
+    sort_by: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message key.ListKeys.Response
+ * @generated from protobuf message key.Keys.Response
  */
-export interface ListKeys_Response {
+export interface Keys_Response {
     /**
-     * @generated from protobuf field: int32 total = 1;
+     * @generated from protobuf field: int32 total = 1
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated key.Key.Response public_keys = 3;
+     * @generated from protobuf field: repeated key.Key.Response public_keys = 3
      */
     public_keys: Key_Response[];
 }
@@ -57,56 +82,56 @@ export interface Key {
  */
 export interface Key_Request {
     /**
-     * @generated from protobuf field: string key_id = 1;
+     * @generated from protobuf field: bool is_admin = 1
      */
-    key_id: string; // @gotags: query:"key_id"
+    is_admin: boolean; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: string user_id = 2;
+     * @generated from protobuf field: string profile_id = 2
      */
-    user_id: string; // @gotags: query:"user_id"
+    profile_id: string; // @gotags: json:"-"
+    /**
+     * @generated from protobuf field: string key_id = 3
+     */
+    key_id: string;
 }
 /**
  * @generated from protobuf message key.Key.Response
  */
 export interface Key_Response {
     /**
-     * @generated from protobuf field: string key_id = 1;
+     * @generated from protobuf field: string key_id = 1
      */
     key_id: string;
     /**
-     * @generated from protobuf field: string user_id = 2;
+     * @generated from protobuf field: string profile_id = 2
      */
-    user_id: string;
+    profile_id: string;
     /**
-     * @generated from protobuf field: string user_login = 3;
-     */
-    user_login: string;
-    /**
-     * @generated from protobuf field: string title = 4;
+     * @generated from protobuf field: string title = 3
      */
     title: string;
     /**
-     * @generated from protobuf field: string key = 5;
+     * @generated from protobuf field: string key = 4
      */
     key: string;
     /**
-     * @generated from protobuf field: string fingerprint = 6;
+     * @generated from protobuf field: string fingerprint = 5
      */
     fingerprint: string;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 7;
+     * @generated from protobuf field: google.protobuf.Timestamp locked_at = 6
      */
     locked_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 8;
+     * @generated from protobuf field: google.protobuf.Timestamp archived_at = 7
      */
     archived_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 9;
+     * @generated from protobuf field: google.protobuf.Timestamp updated_at = 8
      */
     updated_at?: Timestamp;
     /**
-     * @generated from protobuf field: google.protobuf.Timestamp created_at = 10;
+     * @generated from protobuf field: google.protobuf.Timestamp created_at = 9
      */
     created_at?: Timestamp;
 }
@@ -122,15 +147,15 @@ export interface AddKey {
  */
 export interface AddKey_Request {
     /**
-     * @generated from protobuf field: string user_id = 1;
+     * @generated from protobuf field: string profile_id = 1
      */
-    user_id: string;
+    profile_id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: string title = 2;
+     * @generated from protobuf field: string title = 2
      */
     title: string;
     /**
-     * @generated from protobuf field: string key = 3;
+     * @generated from protobuf field: string key = 3
      */
     key: string;
 }
@@ -139,9 +164,13 @@ export interface AddKey_Request {
  */
 export interface AddKey_Response {
     /**
-     * @generated from protobuf field: string key_id = 1;
+     * @generated from protobuf field: string key_id = 1
      */
     key_id: string;
+    /**
+     * @generated from protobuf field: string fingerprint = 2
+     */
+    fingerprint: string;
 }
 /**
  * rpc UpdateKey
@@ -155,21 +184,17 @@ export interface UpdateKey {
  */
 export interface UpdateKey_Request {
     /**
-     * @generated from protobuf field: string key_id = 1;
+     * @generated from protobuf field: string profile_id = 1
      */
-    key_id: string; // @gotags: query:"key_id"
+    profile_id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: string user_id = 2;
+     * @generated from protobuf field: string key_id = 2
      */
-    user_id: string; // @gotags: query:"user_id"
+    key_id: string;
     /**
-     * @generated from protobuf field: string title = 3;
+     * @generated from protobuf field: string title = 3
      */
-    title: string; // @gotags: query:"title"
-    /**
-     * @generated from protobuf field: string key = 4;
-     */
-    key: string; // @gotags: query:"key"
+    title: string;
 }
 /**
  * @generated from protobuf message key.UpdateKey.Response
@@ -188,13 +213,13 @@ export interface DeleteKey {
  */
 export interface DeleteKey_Request {
     /**
-     * @generated from protobuf field: string user_id = 1;
+     * @generated from protobuf field: string profile_id = 1
      */
-    user_id: string; // @gotags: query:"user_id"
+    profile_id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: string key_id = 2;
+     * @generated from protobuf field: string key_id = 2
      */
-    key_id: string; // @gotags: query:"key_id"
+    key_id: string;
 }
 /**
  * @generated from protobuf message key.DeleteKey.Response
@@ -213,7 +238,7 @@ export interface GenerateSSHKey {
  */
 export interface GenerateSSHKey_Request {
     /**
-     * @generated from protobuf field: key.KeyType key_type = 1;
+     * @generated from protobuf field: key.KeyType key_type = 1
      */
     key_type: KeyType;
 }
@@ -222,44 +247,27 @@ export interface GenerateSSHKey_Request {
  */
 export interface GenerateSSHKey_Response {
     /**
-     * @generated from protobuf field: key.KeyType key_type = 1;
+     * @generated from protobuf field: key.KeyType key_type = 1
      */
     key_type: KeyType;
     /**
-     * @generated from protobuf field: string uuid = 2;
+     * @generated from protobuf field: string uuid = 2
      */
     uuid: string;
     /**
-     * @generated from protobuf field: string passphrase = 3;
+     * @generated from protobuf field: string passphrase = 3
      */
     passphrase: string;
     /**
      * bytes private = 3;
      *
-     * @generated from protobuf field: bytes public = 4;
-     */
-    public: Uint8Array;
-    /**
-     * @generated from protobuf field: string finger_print = 5;
-     */
-    finger_print: string;
-}
-/**
- * @generated from protobuf message key.GenerateSSHKey.Key
- */
-export interface GenerateSSHKey_Key {
-    /**
-     * @generated from protobuf field: string public = 1;
+     * @generated from protobuf field: string public = 4
      */
     public: string;
     /**
-     * @generated from protobuf field: string private = 2;
+     * @generated from protobuf field: string finger_print = 5
      */
-    private: string;
-    /**
-     * @generated from protobuf field: string password = 3;
-     */
-    password: string;
+    finger_print: string;
 }
 /**
  * @generated from protobuf enum key.KeyType
@@ -283,43 +291,59 @@ export enum KeyType {
     rsa = 3
 }
 // @generated message type with reflection information, may provide speed optimized methods
-class ListKeys$Type extends MessageType<ListKeys> {
+class SchemeKey$Type extends MessageType<SchemeKey> {
     constructor() {
-        super("key.ListKeys", []);
-    }
-}
-/**
- * @generated MessageType for protobuf message key.ListKeys
- */
-export const ListKeys = new ListKeys$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class ListKeys_Request$Type extends MessageType<ListKeys_Request> {
-    constructor() {
-        super("key.ListKeys.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 4, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ }
+        super("key.SchemeKey", [
+            { no: 1, name: "public", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "private", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
+            { no: 3, name: "passphrase", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
+            { no: 4, name: "finger_print", kind: "scalar", localName: "finger_print", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message key.ListKeys.Request
+ * @generated MessageType for protobuf message key.SchemeKey
  */
-export const ListKeys_Request = new ListKeys_Request$Type();
+export const SchemeKey = new SchemeKey$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class ListKeys_Response$Type extends MessageType<ListKeys_Response> {
+class Keys$Type extends MessageType<Keys> {
     constructor() {
-        super("key.ListKeys.Response", [
+        super("key.Keys", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message key.Keys
+ */
+export const Keys = new Keys$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Keys_Request$Type extends MessageType<Keys_Request> {
+    constructor() {
+        super("key.Keys.Request", [
+            { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
+            { no: 3, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 4, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 5, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message key.Keys.Request
+ */
+export const Keys_Request = new Keys_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class Keys_Response$Type extends MessageType<Keys_Response> {
+    constructor() {
+        super("key.Keys.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 3, name: "public_keys", kind: "message", localName: "public_keys", repeat: 1 /*RepeatType.PACKED*/, T: () => Key_Response }
+            { no: 3, name: "public_keys", kind: "message", localName: "public_keys", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Key_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message key.ListKeys.Response
+ * @generated MessageType for protobuf message key.Keys.Response
  */
-export const ListKeys_Response = new ListKeys_Response$Type();
+export const Keys_Response = new Keys_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Key$Type extends MessageType<Key> {
     constructor() {
@@ -334,8 +358,9 @@ export const Key = new Key$Type();
 class Key_Request$Type extends MessageType<Key_Request> {
     constructor() {
         super("key.Key.Request", [
-            { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true }, ignoreEmpty: true } } },
-            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true }, ignoreEmpty: true } } }
+            { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
+            { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
+            { no: 3, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -348,15 +373,14 @@ class Key_Response$Type extends MessageType<Key_Response> {
     constructor() {
         super("key.Key.Response", [
             { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "user_login", kind: "scalar", localName: "user_login", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp },
-            { no: 8, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp },
-            { no: 9, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp },
-            { no: 10, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
+            { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
+            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
+            { no: 5, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp, options: { "ghoster.secret": true } },
+            { no: 7, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp, options: { "ghoster.secret": true } },
+            { no: 8, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp, options: { "ghoster.secret": true } },
+            { no: 9, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
         ]);
     }
 }
@@ -378,9 +402,9 @@ export const AddKey = new AddKey$Type();
 class AddKey_Request$Type extends MessageType<AddKey_Request> {
     constructor() {
         super("key.AddKey.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true }, ignoreEmpty: true } } },
-            { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 3, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "70" } } } }
+            { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
+            { no: 2, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "3", maxLen: "128" } } } },
+            { no: 3, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "70" } } } }
         ]);
     }
 }
@@ -392,7 +416,8 @@ export const AddKey_Request = new AddKey_Request$Type();
 class AddKey_Response$Type extends MessageType<AddKey_Response> {
     constructor() {
         super("key.AddKey.Response", [
-            { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
@@ -414,10 +439,9 @@ export const UpdateKey = new UpdateKey$Type();
 class UpdateKey_Request$Type extends MessageType<UpdateKey_Request> {
     constructor() {
         super("key.UpdateKey.Request", [
-            { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
-            { no: 2, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true }, ignoreEmpty: true } } },
-            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 4, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "128" } } } }
+            { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
+            { no: 2, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
+            { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "3", maxLen: "128" } } } }
         ]);
     }
 }
@@ -449,8 +473,8 @@ export const DeleteKey = new DeleteKey$Type();
 class DeleteKey_Request$Type extends MessageType<DeleteKey_Request> {
     constructor() {
         super("key.DeleteKey.Request", [
-            { no: 1, name: "user_id", kind: "scalar", localName: "user_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true }, ignoreEmpty: true } } },
-            { no: 2, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
+            { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
+            { no: 2, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -482,7 +506,7 @@ export const GenerateSSHKey = new GenerateSSHKey$Type();
 class GenerateSSHKey_Request$Type extends MessageType<GenerateSSHKey_Request> {
     constructor() {
         super("key.GenerateSSHKey.Request", [
-            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType] }
+            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType], options: { "buf.validate.field": { required: true } } }
         ]);
     }
 }
@@ -497,7 +521,7 @@ class GenerateSSHKey_Response$Type extends MessageType<GenerateSSHKey_Response> 
             { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType] },
             { no: 2, name: "uuid", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "passphrase", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "public", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
+            { no: 4, name: "public", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "finger_print", kind: "scalar", localName: "finger_print", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -506,25 +530,11 @@ class GenerateSSHKey_Response$Type extends MessageType<GenerateSSHKey_Response> 
  * @generated MessageType for protobuf message key.GenerateSSHKey.Response
  */
 export const GenerateSSHKey_Response = new GenerateSSHKey_Response$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GenerateSSHKey_Key$Type extends MessageType<GenerateSSHKey_Key> {
-    constructor() {
-        super("key.GenerateSSHKey.Key", [
-            { no: 1, name: "public", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "private", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-}
-/**
- * @generated MessageType for protobuf message key.GenerateSSHKey.Key
- */
-export const GenerateSSHKey_Key = new GenerateSSHKey_Key$Type();
 /**
  * @generated ServiceType for protobuf service key.KeyHandlers
  */
 export const KeyHandlers = new ServiceType("key.KeyHandlers", [
-    { name: "ListKeys", options: {}, I: ListKeys_Request, O: ListKeys_Response },
+    { name: "Keys", options: {}, I: Keys_Request, O: Keys_Response },
     { name: "Key", options: {}, I: Key_Request, O: Key_Response },
     { name: "AddKey", options: {}, I: AddKey_Request, O: AddKey_Response },
     { name: "UpdateKey", options: {}, I: UpdateKey_Request, O: UpdateKey_Response },

@@ -14,7 +14,7 @@
     <form @submit.prevent>
       <table>
         <tr v-for="(itemDay, day) in pageData.base" :key="day">
-          <td class="worktime-weekday w-10 select-none pr-5 outline-none">
+          <td class="worktime-weekday w-10 select-none pr-5 outline-hidden">
             <span
               class="cursor-pointer"
               :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }"
@@ -24,7 +24,7 @@
             </span>
           </td>
           <td>
-            <div class="flex outline-none">
+            <div class="flex outline-hidden">
               <label
                 v-for="(itemHour, hour) in itemDay"
                 :key="hour"
@@ -39,7 +39,7 @@
                   @click="invert('click', day, hour)"
                 />
                 <span
-                  class="square inline-flex h-8 w-6 items-center justify-center rounded bg-gray-300 text-white lg:w-full"
+                  class="square inline-flex h-8 w-6 items-center justify-center rounded-sm bg-gray-300 text-white lg:w-full"
                 >
                   {{ hour }}
                 </span>
@@ -73,7 +73,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { ServerActivity_Request, UpdateServerActivity_Request } from "@proto/server";
+import { SchemeActivity_Request as ServerActivity_Request, UpdateSchemeActivity_Request as UpdateServerActivity_Request } from "@/proto/scheme/scheme";
 
 // Tabs section
 import { tabMenu } from "./tab";

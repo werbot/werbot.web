@@ -31,7 +31,9 @@ const closeModal = (): void => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .animation-enter-active,
 .animation-leave-active {
   @apply transition;
@@ -44,7 +46,7 @@ const closeModal = (): void => {
 
 .modal {
   @apply fixed inset-0 flex justify-center;
-  @apply pointer-events-auto bg-slate-900 bg-opacity-70 backdrop-blur-sm;
+  @apply pointer-events-auto bg-slate-900/70 backdrop-blur-xs;
   @apply z-[999];
 }
 
@@ -54,6 +56,6 @@ const closeModal = (): void => {
 
 .modal-box {
   max-height: calc(100vh - 5em);
-  @apply w-11/12 max-w-xl overflow-y-auto overscroll-contain rounded bg-white p-6 shadow-2xl;
+  @apply w-11/12 max-w-xl overflow-y-auto overscroll-contain rounded-sm bg-white p-6 shadow-2xl;
 }
 </style>

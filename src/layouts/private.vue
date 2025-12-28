@@ -31,12 +31,13 @@ const router = useRouter();
 
 const isSubscribe = ref(false);
 const authStore = useAuthStore();
-const { status, data, send, open, close } = useWebSocket(
-  import.meta.env.VITE_API_URL.replace("http", "ws") + "/ws/" + authStore.hasSessionID,
-  {
-    autoReconnect: true
-  }
-);
+const wsUrl = authStore.hasSessionID
+  ? import.meta.env.VITE_API_URL.replace("http", "ws") + "/ws/" + authStore.hasSessionID
+  : null;
+const { status, data, send, open, close } = useWebSocket(wsUrl, {
+  autoReconnect: true,
+  immediate: !!wsUrl
+});
 
 provide("wsStatus", status);
 provide("wsData", data);

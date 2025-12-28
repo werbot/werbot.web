@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { api } from "@/api";
 import { Project_Request } from "@proto/project";
-import { ServerNameByID_Request } from "@proto/server";
+import { Scheme_Request as ServerNameByID_Request } from "@/proto/scheme/scheme";
 import { checkTimestampDifference } from "@/utils";
 
 interface ProjectState {

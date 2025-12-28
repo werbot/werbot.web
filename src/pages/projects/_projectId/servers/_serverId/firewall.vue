@@ -48,7 +48,7 @@
         <span
           v-for="(item, index) in pageData.tmp.country.list"
           :key="index"
-          class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2"
+          class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded-sm border bg-gray-50 px-2"
         >
           <span class="ml-1">{{ item.country_name }}</span>
           <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.country)" />
@@ -85,7 +85,7 @@
         <span
           v-for="(item, index) in pageData.tmp.network.list"
           :key="index"
-          class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded border bg-gray-50 px-2"
+          class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded-sm border bg-gray-50 px-2"
         >
           <span v-if="item.start_ip !== item.end_ip" class="ml-1"> {{ item.start_ip }} - {{ item.end_ip }} </span>
           <span v-else>{{ item.start_ip }}</span>

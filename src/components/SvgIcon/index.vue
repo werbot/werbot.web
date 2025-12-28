@@ -25,7 +25,9 @@ const props = defineProps({
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>
 
-<style lang="scss">
+<style>
+@reference "tailwindcss";
+
 svg {
   @apply h-6 w-6 align-middle;
 }

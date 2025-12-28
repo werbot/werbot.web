@@ -7,7 +7,8 @@
     <div class="desc">This operation will permanently delete your user account. It CAN NOT be undone.</div>
 
     <div class="content">
-      <form @submit.prevent>
+      <span v-if="destroyMessage">{{ destroyMessage }}</span>
+      <form v-else @submit.prevent>
         <div class="flex flex-row">
           <FormInput
             v-model="pageData.base.password"
@@ -29,10 +30,10 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useAuthStore } from "@/store";
 import { FormButton, FormInput, Tabs } from "@/components";
-import { showApiError, showMessage } from "@/utils";
+import { showApiError } from "@/utils";
 import { usePageData } from "@/interface/page";
 
 // API section
@@ -43,6 +44,7 @@ import { tabMenu } from "@/pages/profile/setting/tab";
 
 const authStore = useAuthStore();
 const pageData = usePageData();
+const destroyMessage = ref("");
 
 const onDelete = async (): Promise<void> => {
   if (!pageData.value.base.password) {
@@ -68,7 +70,9 @@ const onDelete = async (): Promise<void> => {
     if (res.data) {
       pageData.value.base.password = "";
       pageData.value.error = {};
-      showMessage(res.data.message);
+
+      destroyMessage.value = res.data.message;
+      //showMessage(res.data.message);
       authStore.refreshToken();
     }
     if (res.error) {

@@ -36,19 +36,19 @@
 
   <Drawer :is-open="pageData.modal" title="Name" max-width="600px" @close="closeDrawer()">
     <table class="mini">
-      <tr v-if="pageData.tmp.event">
-        <td width="120">Event</td>
-        <td>
-          <Badge :name="EventType[pageData.tmp.event]" :color="eventTypeToColor[pageData.tmp.event]" />
-        </td>
-      </tr>
       <tr>
         <td>ID</td>
         <td>{{ pageData.tmp.id }}</td>
       </tr>
       <tr>
-        <td>User ID</td>
-        <td>{{ pageData.tmp.user_id }}</td>
+        <td>Session ID</td>
+        <td>{{ pageData.tmp.session_id }}</td>
+      </tr>
+      <tr v-if="pageData.tmp.event">
+        <td width="120">Event</td>
+        <td>
+          <Badge :name="EventType[pageData.tmp.event]" :color="eventTypeToColor[pageData.tmp.event]" />
+        </td>
       </tr>
       <tr>
         <td>Remote IP</td>
@@ -62,9 +62,11 @@
         <td>Created</td>
         <td>{{ toDate(Object(pageData.tmp.created_at), "full") }}</td>
       </tr>
-      <tr v-if="pageData.tmp.meta_data">
+      <tr>
         <td>Metadata</td>
-        <td>{{ decodeBase64(pageData.tmp.meta_data) }}</td>
+        <td>
+          {{ decodeBase64(pageData.tmp.meta_data) }}
+        </td>
       </tr>
     </table>
   </Drawer>
@@ -80,7 +82,8 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { EventType, Profile_Section } from "@proto/event";
+import { Type as EventType } from "@/proto/event/enum";
+import { Profile_Section } from "@/proto/event/message";
 
 const route = useRoute();
 const authStore = useAuthStore();

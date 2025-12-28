@@ -1,0 +1,45 @@
+table {
+  @apply min-w-full;
+}
+
+table th {
+  @apply bg-gray-200 py-4 text-left text-gray-700 first:pl-6 last:pr-6;
+}
+
+table tr {
+  @apply border-b border-gray-100;
+}
+
+table tr.cursor:hover,
+table tr.cursor:active {
+  @apply bg-gray-100 cursor-pointer;
+}
+
+table td {
+  @apply whitespace-nowrap py-4 first:pl-6 last:pr-6;
+}
+
+table .adaptive-sm {
+  @apply hidden sm:table-cell;
+}
+
+table .adaptive-md {
+  @apply hidden md:table-cell;
+}
+
+table .adaptive-lg {
+  @apply hidden lg:table-cell;
+}
+
+table.mini {
+  @apply inline-block rounded-sm border border-solid border-gray-300 scroll-my-0;
+}
+
+table.mini tr {
+  @apply border-b border-gray-300 bg-transparent last:border-b-0;
+}
+
+table.mini td {
+  @apply py-4 first:pl-4 first:pr-2 last:pl-2 last:pr-4;
+  @apply whitespace-normal break-all first:font-bold;
+}
