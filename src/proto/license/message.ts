@@ -1,18 +1,17 @@
-// @generated from protobuf file "license.proto" (package "license", syntax proto3)
+// @generated from protobuf file "message.proto" (package "licensemessage", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Timestamp } from "./google/protobuf/timestamp";
+import { Timestamp } from "../google/protobuf/timestamp";
 /**
  * rpc License
  *
- * @generated from protobuf message license.License
+ * @generated from protobuf message licensemessage.License
  */
 export interface License {
 }
 /**
- * @generated from protobuf message license.License.Request
+ * @generated from protobuf message licensemessage.License.Request
  */
 export interface License_Request {
     /**
@@ -24,7 +23,7 @@ export interface License_Request {
     license: Uint8Array;
 }
 /**
- * @generated from protobuf message license.License.Response
+ * @generated from protobuf message licensemessage.License.Response
  */
 export interface License_Response {
     /**
@@ -77,29 +76,29 @@ export interface License_Response {
 // @generated message type with reflection information, may provide speed optimized methods
 class License$Type extends MessageType<License> {
     constructor() {
-        super("license.License", []);
+        super("licensemessage.License", []);
     }
 }
 /**
- * @generated MessageType for protobuf message license.License
+ * @generated MessageType for protobuf message licensemessage.License
  */
 export const License = new License$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class License_Request$Type extends MessageType<License_Request> {
     constructor() {
-        super("license.License.Request", [
+        super("licensemessage.License.Request", [
             { no: 1, name: "license", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message license.License.Request
+ * @generated MessageType for protobuf message licensemessage.License.Request
  */
 export const License_Request = new License_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class License_Response$Type extends MessageType<License_Response> {
     constructor() {
-        super("license.License.Response", [
+        super("licensemessage.License.Response", [
             { no: 1, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "issued", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "customer", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -115,12 +114,6 @@ class License_Response$Type extends MessageType<License_Response> {
     }
 }
 /**
- * @generated MessageType for protobuf message license.License.Response
+ * @generated MessageType for protobuf message licensemessage.License.Response
  */
 export const License_Response = new License_Response$Type();
-/**
- * @generated ServiceType for protobuf service license.LicenseHandlers
- */
-export const LicenseHandlers = new ServiceType("license.LicenseHandlers", [
-    { name: "License", options: {}, I: License_Request, O: License_Response }
-]);

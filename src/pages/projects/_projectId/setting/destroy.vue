@@ -23,7 +23,7 @@ import { showApiError, showMessage } from "@/utils";
 
 // API section
 import { api } from "@/api";
-import { DeleteProject_Request } from "@proto/project";
+import { DeleteProject_Request } from "@proto/project/message";
 
 // Tabs section
 import { tabMenu } from "./tab";

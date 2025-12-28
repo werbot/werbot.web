@@ -1,11 +1,12 @@
-// @generated from protobuf file "profile.proto" (package "profile", syntax proto3)
+// @generated from protobuf file "message.proto" (package "profilemessage", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Timestamp } from "./google/protobuf/timestamp";
+import { Status } from "./enum";
+import { Timestamp } from "../google/protobuf/timestamp";
+import { Role } from "./enum";
 /**
- * @generated from protobuf message profile.ProfileParameters
+ * @generated from protobuf message profilemessage.ProfileParameters
  */
 export interface ProfileParameters {
     /**
@@ -17,7 +18,7 @@ export interface ProfileParameters {
      */
     name: string;
     /**
-     * @generated from protobuf field: profile.Role roles = 3
+     * @generated from protobuf field: profileenum.Role roles = 3
      */
     roles: Role;
     /**
@@ -28,12 +29,12 @@ export interface ProfileParameters {
 /**
  * rpc SignIn
  *
- * @generated from protobuf message profile.SignIn
+ * @generated from protobuf message profilemessage.SignIn
  */
 export interface SignIn {
 }
 /**
- * @generated from protobuf message profile.SignIn.Request
+ * @generated from protobuf message profilemessage.SignIn.Request
  */
 export interface SignIn_Request {
     /**
@@ -46,19 +47,19 @@ export interface SignIn_Request {
     password: string;
 }
 /**
- * @generated from protobuf message profile.SignIn.Response
+ * @generated from protobuf message profilemessage.SignIn.Response
  */
 export interface SignIn_Response {
 }
 /**
  * rpc Token
  *
- * @generated from protobuf message profile.Token
+ * @generated from protobuf message profilemessage.Token
  */
 export interface Token {
 }
 /**
- * @generated from protobuf message profile.Token.Request
+ * @generated from protobuf message profilemessage.Token.Request
  */
 export interface Token_Request {
     /**
@@ -67,7 +68,7 @@ export interface Token_Request {
     refresh: string;
 }
 /**
- * @generated from protobuf message profile.Token.Response
+ * @generated from protobuf message profilemessage.Token.Response
  */
 export interface Token_Response {
     /**
@@ -82,12 +83,12 @@ export interface Token_Response {
 /**
  * rpc ResetPassword
  *
- * @generated from protobuf message profile.ResetPassword
+ * @generated from protobuf message profilemessage.ResetPassword
  */
 export interface ResetPassword {
 }
 /**
- * @generated from protobuf message profile.ResetPassword.Request
+ * @generated from protobuf message profilemessage.ResetPassword.Request
  */
 export interface ResetPassword_Request {
     /**
@@ -108,7 +109,7 @@ export interface ResetPassword_Request {
     } | {
         oneofKind: "password";
         /**
-         * @generated from protobuf field: profile.ResetPassword.Password password = 3
+         * @generated from protobuf field: profilemessage.ResetPassword.Password password = 3
          */
         password: ResetPassword_Password;
     } | {
@@ -116,7 +117,7 @@ export interface ResetPassword_Request {
     };
 }
 /**
- * @generated from protobuf message profile.ResetPassword.Response
+ * @generated from protobuf message profilemessage.ResetPassword.Response
  */
 export interface ResetPassword_Response {
     /**
@@ -125,7 +126,7 @@ export interface ResetPassword_Response {
     profile_id: string;
 }
 /**
- * @generated from protobuf message profile.ResetPassword.Password
+ * @generated from protobuf message profilemessage.ResetPassword.Password
  */
 export interface ResetPassword_Password {
     /**
@@ -140,12 +141,12 @@ export interface ResetPassword_Password {
 /**
  * rpc Profiles
  *
- * @generated from protobuf message profile.Profiles
+ * @generated from protobuf message profilemessage.Profiles
  */
 export interface Profiles {
 }
 /**
- * @generated from protobuf message profile.Profiles.Request
+ * @generated from protobuf message profilemessage.Profiles.Request
  */
 export interface Profiles_Request {
     /**
@@ -166,7 +167,7 @@ export interface Profiles_Request {
     sort_by: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message profile.Profiles.Response
+ * @generated from protobuf message profilemessage.Profiles.Response
  */
 export interface Profiles_Response {
     /**
@@ -174,19 +175,19 @@ export interface Profiles_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated profile.Profile.Response profiles = 2
+     * @generated from protobuf field: repeated profilemessage.Profile.Response profiles = 2
      */
     profiles: Profile_Response[];
 }
 /**
  * rpc Profile
  *
- * @generated from protobuf message profile.Profile
+ * @generated from protobuf message profilemessage.Profile
  */
 export interface Profile {
 }
 /**
- * @generated from protobuf message profile.Profile.Request
+ * @generated from protobuf message profilemessage.Profile.Request
  */
 export interface Profile_Request {
     /**
@@ -199,7 +200,7 @@ export interface Profile_Request {
     profile_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message profile.Profile.Response
+ * @generated from protobuf message profilemessage.Profile.Response
  */
 export interface Profile_Response {
     /**
@@ -231,7 +232,7 @@ export interface Profile_Response {
      */
     confirmed: boolean;
     /**
-     * @generated from protobuf field: profile.Role role = 8
+     * @generated from protobuf field: profileenum.Role role = 8
      */
     role: Role;
     /**
@@ -270,12 +271,12 @@ export interface Profile_Response {
 /**
  * rpc AddProfile
  *
- * @generated from protobuf message profile.AddProfile
+ * @generated from protobuf message profilemessage.AddProfile
  */
 export interface AddProfile {
 }
 /**
- * @generated from protobuf message profile.AddProfile.Request
+ * @generated from protobuf message profilemessage.AddProfile.Request
  */
 export interface AddProfile_Request {
     /**
@@ -312,7 +313,7 @@ export interface AddProfile_Request {
     password: string;
 }
 /**
- * @generated from protobuf message profile.AddProfile.Response
+ * @generated from protobuf message profilemessage.AddProfile.Response
  */
 export interface AddProfile_Response {
     /**
@@ -323,12 +324,12 @@ export interface AddProfile_Response {
 /**
  * rpc UpdateProfile
  *
- * @generated from protobuf message profile.UpdateProfile
+ * @generated from protobuf message profilemessage.UpdateProfile
  */
 export interface UpdateProfile {
 }
 /**
- * @generated from protobuf message profile.UpdateProfile.Request
+ * @generated from protobuf message profilemessage.UpdateProfile.Request
  */
 export interface UpdateProfile_Request {
     /**
@@ -391,19 +392,19 @@ export interface UpdateProfile_Request {
     };
 }
 /**
- * @generated from protobuf message profile.UpdateProfile.Response
+ * @generated from protobuf message profilemessage.UpdateProfile.Response
  */
 export interface UpdateProfile_Response {
 }
 /**
  * rpc DeleteProfile
  *
- * @generated from protobuf message profile.DeleteProfile
+ * @generated from protobuf message profilemessage.DeleteProfile
  */
 export interface DeleteProfile {
 }
 /**
- * @generated from protobuf message profile.DeleteProfile.Request
+ * @generated from protobuf message profilemessage.DeleteProfile.Request
  */
 export interface DeleteProfile_Request {
     /**
@@ -430,19 +431,19 @@ export interface DeleteProfile_Request {
     };
 }
 /**
- * @generated from protobuf message profile.DeleteProfile.Response
+ * @generated from protobuf message profilemessage.DeleteProfile.Response
  */
 export interface DeleteProfile_Response {
 }
 /**
  * rpc UpdatePassword
  *
- * @generated from protobuf message profile.UpdatePassword
+ * @generated from protobuf message profilemessage.UpdatePassword
  */
 export interface UpdatePassword {
 }
 /**
- * @generated from protobuf message profile.UpdatePassword.Request
+ * @generated from protobuf message profilemessage.UpdatePassword.Request
  */
 export interface UpdatePassword_Request {
     /**
@@ -459,7 +460,7 @@ export interface UpdatePassword_Request {
     new_password: string;
 }
 /**
- * @generated from protobuf message profile.UpdatePassword.Response
+ * @generated from protobuf message profilemessage.UpdatePassword.Response
  */
 export interface UpdatePassword_Response {
     /**
@@ -470,12 +471,12 @@ export interface UpdatePassword_Response {
 /**
  * rpc ProfileIDByLogin
  *
- * @generated from protobuf message profile.ProfileIDByLogin
+ * @generated from protobuf message profilemessage.ProfileIDByLogin
  */
 export interface ProfileIDByLogin {
 }
 /**
- * @generated from protobuf message profile.ProfileIDByLogin.Request
+ * @generated from protobuf message profilemessage.ProfileIDByLogin.Request
  */
 export interface ProfileIDByLogin_Request {
     /**
@@ -492,7 +493,7 @@ export interface ProfileIDByLogin_Request {
     client_ip: string;
 }
 /**
- * @generated from protobuf message profile.ProfileIDByLogin.Response
+ * @generated from protobuf message profilemessage.ProfileIDByLogin.Response
  */
 export interface ProfileIDByLogin_Response {
     /**
@@ -503,12 +504,12 @@ export interface ProfileIDByLogin_Response {
 /**
  * rpc ProfileByEmail
  *
- * @generated from protobuf message profile.ProfileByEmail
+ * @generated from protobuf message profilemessage.ProfileByEmail
  */
 export interface ProfileByEmail {
 }
 /**
- * @generated from protobuf message profile.ProfileByEmail.Request
+ * @generated from protobuf message profilemessage.ProfileByEmail.Request
  */
 export interface ProfileByEmail_Request {
     /**
@@ -517,19 +518,19 @@ export interface ProfileByEmail_Request {
     email: string;
 }
 /**
- * @generated from protobuf message profile.ProfileByEmail.Response
+ * @generated from protobuf message profilemessage.ProfileByEmail.Response
  */
 export interface ProfileByEmail_Response {
 }
 /**
  * rpc UpdateStatus
  *
- * @generated from protobuf message profile.UpdateStatus
+ * @generated from protobuf message profilemessage.UpdateStatus
  */
 export interface UpdateStatus {
 }
 /**
- * @generated from protobuf message profile.UpdateStatus.Request
+ * @generated from protobuf message profilemessage.UpdateStatus.Request
  */
 export interface UpdateStatus_Request {
     /**
@@ -537,150 +538,112 @@ export interface UpdateStatus_Request {
      */
     account_id: string; // @gotags: json:"-"
     /**
-     * @generated from protobuf field: profile.Status status = 2
+     * @generated from protobuf field: profileenum.Status status = 2
      */
     status: Status;
 }
 /**
- * @generated from protobuf message profile.UpdateStatus.Response
+ * @generated from protobuf message profilemessage.UpdateStatus.Response
  */
 export interface UpdateStatus_Response {
-}
-/**
- * @generated from protobuf enum profile.Role
- */
-export enum Role {
-    /**
-     * @generated from protobuf enum value: role_unspecified = 0;
-     */
-    role_unspecified = 0,
-    /**
-     * @generated from protobuf enum value: user = 1;
-     */
-    user = 1,
-    /**
-     * @generated from protobuf enum value: manager = 2;
-     */
-    manager = 2,
-    /**
-     * @generated from protobuf enum value: admin = 3;
-     */
-    admin = 3
-}
-/**
- * @generated from protobuf enum profile.Status
- */
-export enum Status {
-    /**
-     * @generated from protobuf enum value: unspecified = 0;
-     */
-    unspecified = 0,
-    /**
-     * @generated from protobuf enum value: offline = 1;
-     */
-    offline = 1,
-    /**
-     * @generated from protobuf enum value: online = 2;
-     */
-    online = 2
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileParameters$Type extends MessageType<ProfileParameters> {
     constructor() {
-        super("profile.ProfileParameters", [
+        super("profilemessage.ProfileParameters", [
             { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "roles", kind: "enum", T: () => ["profile.Role", Role] },
+            { no: 3, name: "roles", kind: "enum", T: () => ["profileenum.Role", Role] },
             { no: 4, name: "session_id", kind: "scalar", localName: "session_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ProfileParameters
+ * @generated MessageType for protobuf message profilemessage.ProfileParameters
  */
 export const ProfileParameters = new ProfileParameters$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SignIn$Type extends MessageType<SignIn> {
     constructor() {
-        super("profile.SignIn", []);
+        super("profilemessage.SignIn", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.SignIn
+ * @generated MessageType for protobuf message profilemessage.SignIn
  */
 export const SignIn = new SignIn$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SignIn_Request$Type extends MessageType<SignIn_Request> {
     constructor() {
-        super("profile.SignIn.Request", [
+        super("profilemessage.SignIn.Request", [
             { no: 1, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "request.email", message: "value must be a valid email address", expression: "this.isEmail()" }], required: true } } },
             { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "8", maxLen: "32" } }, "ghoster.secret": true } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.SignIn.Request
+ * @generated MessageType for protobuf message profilemessage.SignIn.Request
  */
 export const SignIn_Request = new SignIn_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SignIn_Response$Type extends MessageType<SignIn_Response> {
     constructor() {
-        super("profile.SignIn.Response", []);
+        super("profilemessage.SignIn.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.SignIn.Response
+ * @generated MessageType for protobuf message profilemessage.SignIn.Response
  */
 export const SignIn_Response = new SignIn_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Token$Type extends MessageType<Token> {
     constructor() {
-        super("profile.Token", []);
+        super("profilemessage.Token", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Token
+ * @generated MessageType for protobuf message profilemessage.Token
  */
 export const Token = new Token$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Token_Request$Type extends MessageType<Token_Request> {
     constructor() {
-        super("profile.Token.Request", [
+        super("profilemessage.Token.Request", [
             { no: 1, name: "refresh", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Token.Request
+ * @generated MessageType for protobuf message profilemessage.Token.Request
  */
 export const Token_Request = new Token_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Token_Response$Type extends MessageType<Token_Response> {
     constructor() {
-        super("profile.Token.Response", [
+        super("profilemessage.Token.Response", [
             { no: 1, name: "access", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "refresh", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Token.Response
+ * @generated MessageType for protobuf message profilemessage.Token.Response
  */
 export const Token_Response = new Token_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ResetPassword$Type extends MessageType<ResetPassword> {
     constructor() {
-        super("profile.ResetPassword", []);
+        super("profilemessage.ResetPassword", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ResetPassword
+ * @generated MessageType for protobuf message profilemessage.ResetPassword
  */
 export const ResetPassword = new ResetPassword$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ResetPassword_Request$Type extends MessageType<ResetPassword_Request> {
     constructor() {
-        super("profile.ResetPassword.Request", [
+        super("profilemessage.ResetPassword.Request", [
             { no: 1, name: "email", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_email", message: "must be a valid email", expression: "this.isEmail()" }] } } },
             { no: 2, name: "token", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 3, name: "password", kind: "message", oneof: "request", T: () => ResetPassword_Password }
@@ -688,48 +651,48 @@ class ResetPassword_Request$Type extends MessageType<ResetPassword_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ResetPassword.Request
+ * @generated MessageType for protobuf message profilemessage.ResetPassword.Request
  */
 export const ResetPassword_Request = new ResetPassword_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ResetPassword_Response$Type extends MessageType<ResetPassword_Response> {
     constructor() {
-        super("profile.ResetPassword.Response", [
+        super("profilemessage.ResetPassword.Response", [
             { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ResetPassword.Response
+ * @generated MessageType for protobuf message profilemessage.ResetPassword.Response
  */
 export const ResetPassword_Response = new ResetPassword_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ResetPassword_Password$Type extends MessageType<ResetPassword_Password> {
     constructor() {
-        super("profile.ResetPassword.Password", [
+        super("profilemessage.ResetPassword.Password", [
             { no: 1, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } }, "ghoster.secret": true } },
             { no: 2, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ResetPassword.Password
+ * @generated MessageType for protobuf message profilemessage.ResetPassword.Password
  */
 export const ResetPassword_Password = new ResetPassword_Password$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Profiles$Type extends MessageType<Profiles> {
     constructor() {
-        super("profile.Profiles", []);
+        super("profilemessage.Profiles", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Profiles
+ * @generated MessageType for protobuf message profilemessage.Profiles
  */
 export const Profiles = new Profiles$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Profiles_Request$Type extends MessageType<Profiles_Request> {
     constructor() {
-        super("profile.Profiles.Request", [
+        super("profilemessage.Profiles.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 5, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
@@ -738,49 +701,49 @@ class Profiles_Request$Type extends MessageType<Profiles_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Profiles.Request
+ * @generated MessageType for protobuf message profilemessage.Profiles.Request
  */
 export const Profiles_Request = new Profiles_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Profiles_Response$Type extends MessageType<Profiles_Response> {
     constructor() {
-        super("profile.Profiles.Response", [
+        super("profilemessage.Profiles.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "profiles", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Profile_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Profiles.Response
+ * @generated MessageType for protobuf message profilemessage.Profiles.Response
  */
 export const Profiles_Response = new Profiles_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Profile$Type extends MessageType<Profile> {
     constructor() {
-        super("profile.Profile", []);
+        super("profilemessage.Profile", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Profile
+ * @generated MessageType for protobuf message profilemessage.Profile
  */
 export const Profile = new Profile$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Profile_Request$Type extends MessageType<Profile_Request> {
     constructor() {
-        super("profile.Profile.Request", [
+        super("profilemessage.Profile.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Profile.Request
+ * @generated MessageType for protobuf message profilemessage.Profile.Request
  */
 export const Profile_Request = new Profile_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Profile_Response$Type extends MessageType<Profile_Response> {
     constructor() {
-        super("profile.Profile.Response", [
+        super("profilemessage.Profile.Response", [
             { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "alias", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -788,7 +751,7 @@ class Profile_Response$Type extends MessageType<Profile_Response> {
             { no: 5, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 7, name: "confirmed", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 8, name: "role", kind: "enum", T: () => ["profile.Role", Role], options: { "ghoster.secret": true } },
+            { no: 8, name: "role", kind: "enum", T: () => ["profileenum.Role", Role], options: { "ghoster.secret": true } },
             { no: 9, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 10, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp, options: { "ghoster.secret": true } },
             { no: 11, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp, options: { "ghoster.secret": true } },
@@ -801,23 +764,23 @@ class Profile_Response$Type extends MessageType<Profile_Response> {
     }
 }
 /**
- * @generated MessageType for protobuf message profile.Profile.Response
+ * @generated MessageType for protobuf message profilemessage.Profile.Response
  */
 export const Profile_Response = new Profile_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProfile$Type extends MessageType<AddProfile> {
     constructor() {
-        super("profile.AddProfile", []);
+        super("profilemessage.AddProfile", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.AddProfile
+ * @generated MessageType for protobuf message profilemessage.AddProfile
  */
 export const AddProfile = new AddProfile$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProfile_Request$Type extends MessageType<AddProfile_Request> {
     constructor() {
-        super("profile.AddProfile.Request", [
+        super("profilemessage.AddProfile.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "alias", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "3", maxLen: "32", pattern: "^[a-z0-9]+$" } } } },
             { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_email", message: "must be a valid email", expression: "this.isEmail()" }], required: true } } },
@@ -830,35 +793,35 @@ class AddProfile_Request$Type extends MessageType<AddProfile_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message profile.AddProfile.Request
+ * @generated MessageType for protobuf message profilemessage.AddProfile.Request
  */
 export const AddProfile_Request = new AddProfile_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProfile_Response$Type extends MessageType<AddProfile_Response> {
     constructor() {
-        super("profile.AddProfile.Response", [
+        super("profilemessage.AddProfile.Response", [
             { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.AddProfile.Response
+ * @generated MessageType for protobuf message profilemessage.AddProfile.Response
  */
 export const AddProfile_Response = new AddProfile_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProfile$Type extends MessageType<UpdateProfile> {
     constructor() {
-        super("profile.UpdateProfile", []);
+        super("profilemessage.UpdateProfile", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdateProfile
+ * @generated MessageType for protobuf message profilemessage.UpdateProfile
  */
 export const UpdateProfile = new UpdateProfile$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProfile_Request$Type extends MessageType<UpdateProfile_Request> {
     constructor() {
-        super("profile.UpdateProfile.Request", [
+        super("profilemessage.UpdateProfile.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 3, name: "name", kind: "scalar", oneof: "setting", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "32" } } } },
@@ -872,33 +835,33 @@ class UpdateProfile_Request$Type extends MessageType<UpdateProfile_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdateProfile.Request
+ * @generated MessageType for protobuf message profilemessage.UpdateProfile.Request
  */
 export const UpdateProfile_Request = new UpdateProfile_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProfile_Response$Type extends MessageType<UpdateProfile_Response> {
     constructor() {
-        super("profile.UpdateProfile.Response", []);
+        super("profilemessage.UpdateProfile.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdateProfile.Response
+ * @generated MessageType for protobuf message profilemessage.UpdateProfile.Response
  */
 export const UpdateProfile_Response = new UpdateProfile_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProfile$Type extends MessageType<DeleteProfile> {
     constructor() {
-        super("profile.DeleteProfile", []);
+        super("profilemessage.DeleteProfile", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.DeleteProfile
+ * @generated MessageType for protobuf message profilemessage.DeleteProfile
  */
 export const DeleteProfile = new DeleteProfile$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProfile_Request$Type extends MessageType<DeleteProfile_Request> {
     constructor() {
-        super("profile.DeleteProfile.Request", [
+        super("profilemessage.DeleteProfile.Request", [
             { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "password", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } }, "ghoster.secret": true } },
             { no: 3, name: "token", kind: "scalar", oneof: "request", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignore: "IGNORE_IF_ZERO_VALUE", string: { uuid: true } } } }
@@ -906,33 +869,33 @@ class DeleteProfile_Request$Type extends MessageType<DeleteProfile_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message profile.DeleteProfile.Request
+ * @generated MessageType for protobuf message profilemessage.DeleteProfile.Request
  */
 export const DeleteProfile_Request = new DeleteProfile_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProfile_Response$Type extends MessageType<DeleteProfile_Response> {
     constructor() {
-        super("profile.DeleteProfile.Response", []);
+        super("profilemessage.DeleteProfile.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.DeleteProfile.Response
+ * @generated MessageType for protobuf message profilemessage.DeleteProfile.Response
  */
 export const DeleteProfile_Response = new DeleteProfile_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdatePassword$Type extends MessageType<UpdatePassword> {
     constructor() {
-        super("profile.UpdatePassword", []);
+        super("profilemessage.UpdatePassword", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdatePassword
+ * @generated MessageType for protobuf message profilemessage.UpdatePassword
  */
 export const UpdatePassword = new UpdatePassword$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdatePassword_Request$Type extends MessageType<UpdatePassword_Request> {
     constructor() {
-        super("profile.UpdatePassword.Request", [
+        super("profilemessage.UpdatePassword.Request", [
             { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "old_password", kind: "scalar", localName: "old_password", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "8", maxLen: "32" } }, "ghoster.secret": true } },
             { no: 3, name: "new_password", kind: "scalar", localName: "new_password", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "8", maxLen: "32" } }, "ghoster.secret": true } }
@@ -940,35 +903,35 @@ class UpdatePassword_Request$Type extends MessageType<UpdatePassword_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdatePassword.Request
+ * @generated MessageType for protobuf message profilemessage.UpdatePassword.Request
  */
 export const UpdatePassword_Request = new UpdatePassword_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdatePassword_Response$Type extends MessageType<UpdatePassword_Response> {
     constructor() {
-        super("profile.UpdatePassword.Response", [
+        super("profilemessage.UpdatePassword.Response", [
             { no: 1, name: "message", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdatePassword.Response
+ * @generated MessageType for protobuf message profilemessage.UpdatePassword.Response
  */
 export const UpdatePassword_Response = new UpdatePassword_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileIDByLogin$Type extends MessageType<ProfileIDByLogin> {
     constructor() {
-        super("profile.ProfileIDByLogin", []);
+        super("profilemessage.ProfileIDByLogin", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ProfileIDByLogin
+ * @generated MessageType for protobuf message profilemessage.ProfileIDByLogin
  */
 export const ProfileIDByLogin = new ProfileIDByLogin$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileIDByLogin_Request$Type extends MessageType<ProfileIDByLogin_Request> {
     constructor() {
-        super("profile.ProfileIDByLogin.Request", [
+        super("profilemessage.ProfileIDByLogin.Request", [
             { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "fingerprint", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { ip: true } } } }
@@ -976,99 +939,83 @@ class ProfileIDByLogin_Request$Type extends MessageType<ProfileIDByLogin_Request
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ProfileIDByLogin.Request
+ * @generated MessageType for protobuf message profilemessage.ProfileIDByLogin.Request
  */
 export const ProfileIDByLogin_Request = new ProfileIDByLogin_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileIDByLogin_Response$Type extends MessageType<ProfileIDByLogin_Response> {
     constructor() {
-        super("profile.ProfileIDByLogin.Response", [
+        super("profilemessage.ProfileIDByLogin.Response", [
             { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ProfileIDByLogin.Response
+ * @generated MessageType for protobuf message profilemessage.ProfileIDByLogin.Response
  */
 export const ProfileIDByLogin_Response = new ProfileIDByLogin_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileByEmail$Type extends MessageType<ProfileByEmail> {
     constructor() {
-        super("profile.ProfileByEmail", []);
+        super("profilemessage.ProfileByEmail", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ProfileByEmail
+ * @generated MessageType for protobuf message profilemessage.ProfileByEmail
  */
 export const ProfileByEmail = new ProfileByEmail$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileByEmail_Request$Type extends MessageType<ProfileByEmail_Request> {
     constructor() {
-        super("profile.ProfileByEmail.Request", [
+        super("profilemessage.ProfileByEmail.Request", [
             { no: 1, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "request.email", message: "value must be a valid email address", expression: "this.isEmail()" }], required: true } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ProfileByEmail.Request
+ * @generated MessageType for protobuf message profilemessage.ProfileByEmail.Request
  */
 export const ProfileByEmail_Request = new ProfileByEmail_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileByEmail_Response$Type extends MessageType<ProfileByEmail_Response> {
     constructor() {
-        super("profile.ProfileByEmail.Response", []);
+        super("profilemessage.ProfileByEmail.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.ProfileByEmail.Response
+ * @generated MessageType for protobuf message profilemessage.ProfileByEmail.Response
  */
 export const ProfileByEmail_Response = new ProfileByEmail_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateStatus$Type extends MessageType<UpdateStatus> {
     constructor() {
-        super("profile.UpdateStatus", []);
+        super("profilemessage.UpdateStatus", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdateStatus
+ * @generated MessageType for protobuf message profilemessage.UpdateStatus
  */
 export const UpdateStatus = new UpdateStatus$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateStatus_Request$Type extends MessageType<UpdateStatus_Request> {
     constructor() {
-        super("profile.UpdateStatus.Request", [
+        super("profilemessage.UpdateStatus.Request", [
             { no: 1, name: "account_id", kind: "scalar", localName: "account_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
-            { no: 2, name: "status", kind: "enum", T: () => ["profile.Status", Status] }
+            { no: 2, name: "status", kind: "enum", T: () => ["profileenum.Status", Status] }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdateStatus.Request
+ * @generated MessageType for protobuf message profilemessage.UpdateStatus.Request
  */
 export const UpdateStatus_Request = new UpdateStatus_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateStatus_Response$Type extends MessageType<UpdateStatus_Response> {
     constructor() {
-        super("profile.UpdateStatus.Response", []);
+        super("profilemessage.UpdateStatus.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message profile.UpdateStatus.Response
+ * @generated MessageType for protobuf message profilemessage.UpdateStatus.Response
  */
 export const UpdateStatus_Response = new UpdateStatus_Response$Type();
-/**
- * @generated ServiceType for protobuf service profile.ProfileHandlers
- */
-export const ProfileHandlers = new ServiceType("profile.ProfileHandlers", [
-    { name: "SignIn", options: {}, I: SignIn_Request, O: Profile_Response },
-    { name: "ResetPassword", options: {}, I: ResetPassword_Request, O: ResetPassword_Response },
-    { name: "Profiles", options: {}, I: Profiles_Request, O: Profiles_Response },
-    { name: "Profile", options: {}, I: Profile_Request, O: Profile_Response },
-    { name: "AddProfile", options: {}, I: AddProfile_Request, O: AddProfile_Response },
-    { name: "UpdateProfile", options: {}, I: UpdateProfile_Request, O: UpdateProfile_Response },
-    { name: "DeleteProfile", options: {}, I: DeleteProfile_Request, O: DeleteProfile_Response },
-    { name: "UpdatePassword", options: {}, I: UpdatePassword_Request, O: UpdatePassword_Response },
-    { name: "ProfileIDByLogin", options: {}, I: ProfileIDByLogin_Request, O: ProfileIDByLogin_Response },
-    { name: "ProfileByEmail", options: {}, I: ProfileByEmail_Request, O: Profile_Response },
-    { name: "UpdateStatus", options: {}, I: UpdateStatus_Request, O: UpdateStatus_Response }
-]);

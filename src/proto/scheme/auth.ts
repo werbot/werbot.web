@@ -2,7 +2,7 @@
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";
-import { SchemeKey } from "../key";
+import { SchemeKey } from "../key/message";
 /**
  * -----------------------------------
  *

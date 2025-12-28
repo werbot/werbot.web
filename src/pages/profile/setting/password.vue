@@ -56,7 +56,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { UpdatePassword_Request } from "@proto/user";
+import { UpdatePassword_Request } from "@proto/profile/message";
 
 // Tabs section
 import { tabMenu } from "./tab";

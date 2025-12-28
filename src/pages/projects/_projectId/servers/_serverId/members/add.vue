@@ -71,7 +71,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddServerMember_Request, MembersWithoutServer_Request } from "@proto/member";
+import { AddServerMember_Request, MembersWithoutServer_Request } from "@proto/member/message";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";

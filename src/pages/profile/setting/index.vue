@@ -49,10 +49,16 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { UpdateUser_Info } from "@proto/user";
+import { UpdateProfile_Request } from "@proto/profile/message";
 
 // Tabs section
 import { tabMenu } from "./tab";
+
+interface UpdateUser_Info {
+  email: string;
+  name: string;
+  surname: string;
+}
 
 const authStore = useAuthStore();
 const pageData = usePageData();

@@ -52,7 +52,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddMemberToken_Request } from "@proto/member";
+import { AddMemberToken_Request } from "@proto/member/message";
 
 // Tabs section
 import { tabMenu } from "./tab";

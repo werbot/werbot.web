@@ -1,9 +1,9 @@
-// @generated from protobuf file "key.proto" (package "key", syntax proto3)
+// @generated from protobuf file "message.proto" (package "key", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Timestamp } from "./google/protobuf/timestamp";
+import { KeyType } from "./enum";
+import { Timestamp } from "../google/protobuf/timestamp";
 /**
  * @generated from protobuf message key.SchemeKey
  */
@@ -238,7 +238,7 @@ export interface GenerateSSHKey {
  */
 export interface GenerateSSHKey_Request {
     /**
-     * @generated from protobuf field: key.KeyType key_type = 1
+     * @generated from protobuf field: keyenum.KeyType key_type = 1
      */
     key_type: KeyType;
 }
@@ -247,7 +247,7 @@ export interface GenerateSSHKey_Request {
  */
 export interface GenerateSSHKey_Response {
     /**
-     * @generated from protobuf field: key.KeyType key_type = 1
+     * @generated from protobuf field: keyenum.KeyType key_type = 1
      */
     key_type: KeyType;
     /**
@@ -268,27 +268,6 @@ export interface GenerateSSHKey_Response {
      * @generated from protobuf field: string finger_print = 5
      */
     finger_print: string;
-}
-/**
- * @generated from protobuf enum key.KeyType
- */
-export enum KeyType {
-    /**
-     * @generated from protobuf enum value: unspecified = 0;
-     */
-    unspecified = 0,
-    /**
-     * @generated from protobuf enum value: ed25519 = 1;
-     */
-    ed25519 = 1,
-    /**
-     * @generated from protobuf enum value: ecdsa = 2;
-     */
-    ecdsa = 2,
-    /**
-     * @generated from protobuf enum value: rsa = 3;
-     */
-    rsa = 3
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class SchemeKey$Type extends MessageType<SchemeKey> {
@@ -506,7 +485,7 @@ export const GenerateSSHKey = new GenerateSSHKey$Type();
 class GenerateSSHKey_Request$Type extends MessageType<GenerateSSHKey_Request> {
     constructor() {
         super("key.GenerateSSHKey.Request", [
-            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType], options: { "buf.validate.field": { required: true } } }
+            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["keyenum.KeyType", KeyType], options: { "buf.validate.field": { required: true } } }
         ]);
     }
 }
@@ -518,7 +497,7 @@ export const GenerateSSHKey_Request = new GenerateSSHKey_Request$Type();
 class GenerateSSHKey_Response$Type extends MessageType<GenerateSSHKey_Response> {
     constructor() {
         super("key.GenerateSSHKey.Response", [
-            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["key.KeyType", KeyType] },
+            { no: 1, name: "key_type", kind: "enum", localName: "key_type", T: () => ["keyenum.KeyType", KeyType] },
             { no: 2, name: "uuid", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "passphrase", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "public", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -530,14 +509,3 @@ class GenerateSSHKey_Response$Type extends MessageType<GenerateSSHKey_Response> 
  * @generated MessageType for protobuf message key.GenerateSSHKey.Response
  */
 export const GenerateSSHKey_Response = new GenerateSSHKey_Response$Type();
-/**
- * @generated ServiceType for protobuf service key.KeyHandlers
- */
-export const KeyHandlers = new ServiceType("key.KeyHandlers", [
-    { name: "Keys", options: {}, I: Keys_Request, O: Keys_Response },
-    { name: "Key", options: {}, I: Key_Request, O: Key_Response },
-    { name: "AddKey", options: {}, I: AddKey_Request, O: AddKey_Response },
-    { name: "UpdateKey", options: {}, I: UpdateKey_Request, O: UpdateKey_Response },
-    { name: "DeleteKey", options: {}, I: DeleteKey_Request, O: DeleteKey_Response },
-    { name: "GenerateSSHKey", options: {}, I: GenerateSSHKey_Request, O: GenerateSSHKey_Response }
-]);

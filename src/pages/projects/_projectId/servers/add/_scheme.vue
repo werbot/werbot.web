@@ -129,9 +129,9 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddScheme_Request as AddServer_Request } from "@/proto/scheme/scheme";
-import { Auth } from "@/proto/scheme/auth";
-import { SchemeType as ServerScheme } from "@/proto/scheme/access";
+import { AddScheme_Request as AddServer_Request } from "@proto/scheme/scheme";
+import { Auth } from "@proto/scheme/auth";
+import { SchemeType as ServerScheme } from "@proto/scheme/access";
 
 const { copy, copied } = useClipboard();
 const router = useRouter();

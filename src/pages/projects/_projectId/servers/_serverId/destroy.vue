@@ -32,7 +32,7 @@ import { showApiError, showMessage } from "@/utils";
 
 // API section
 import { api } from "@/api";
-import { DeleteScheme_Request as DeleteServer_Request } from "@/proto/scheme/scheme";
+import { DeleteScheme_Request as DeleteServer_Request } from "@proto/scheme/scheme";
 
 // Tabs section
 import { tabMenu } from "./tab";

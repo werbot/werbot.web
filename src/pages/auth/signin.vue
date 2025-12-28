@@ -35,7 +35,7 @@ import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore, useSystemStore } from "@/store";
 import { FormButton, FormInput } from "@/components";
-import { SignIn_Request } from "@proto/account";
+import { SignIn_Request } from "@proto/profile/message";
 import { usePageData } from "@/interface/page";
 
 const router = useRouter();

@@ -73,7 +73,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { SchemeActivity_Request as ServerActivity_Request, UpdateSchemeActivity_Request as UpdateServerActivity_Request } from "@/proto/scheme/scheme";
+import { SchemeActivity_Request as ServerActivity_Request, UpdateSchemeActivity_Request as UpdateServerActivity_Request } from "@proto/scheme/scheme";
 
 // Tabs section
 import { tabMenu } from "./tab";

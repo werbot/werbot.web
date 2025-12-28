@@ -82,8 +82,8 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { UpdateProjectMember_Request } from "@proto/member";
-import { Role } from "@proto/user";
+import { UpdateProjectMember_Request } from "@proto/member/message";
+import { Role } from "@proto/profile/enum";
 
 // Tabs section
 import { tabMenu } from "./tab";

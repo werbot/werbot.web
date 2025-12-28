@@ -1,7 +1,6 @@
-// @generated from protobuf file "firewall.proto" (package "firewall", syntax proto3)
+// @generated from protobuf file "message.proto" (package "firewall", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 /**
  * -----------------------------------------------------
@@ -102,23 +101,6 @@ export interface UpdateFirewallListData_Request {
  * @generated from protobuf message firewall.UpdateFirewallListData.Response
  */
 export interface UpdateFirewallListData_Response {
-}
-/**
- * @generated from protobuf enum firewall.Rules
- */
-export enum Rules {
-    /**
-     * @generated from protobuf enum value: unspecified = 0;
-     */
-    unspecified = 0,
-    /**
-     * @generated from protobuf enum value: country = 1;
-     */
-    country = 1,
-    /**
-     * @generated from protobuf enum value: ip = 2;
-     */
-    ip = 2
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class AccessPolicy$Type extends MessageType<AccessPolicy> {
@@ -227,10 +209,3 @@ class UpdateFirewallListData_Response$Type extends MessageType<UpdateFirewallLis
  * @generated MessageType for protobuf message firewall.UpdateFirewallListData.Response
  */
 export const UpdateFirewallListData_Response = new UpdateFirewallListData_Response$Type();
-/**
- * @generated ServiceType for protobuf service firewall.FirewallHandlers
- */
-export const FirewallHandlers = new ServiceType("firewall.FirewallHandlers", [
-    { name: "IPAccess", options: {}, I: IPAccess_Request, O: IPAccess_Response },
-    { name: "UpdateFirewallListData", options: {}, I: UpdateFirewallListData_Request, O: UpdateFirewallListData_Response }
-]);

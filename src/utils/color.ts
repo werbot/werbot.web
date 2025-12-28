@@ -1,6 +1,6 @@
-import { Type as EventType } from "@/proto/event/enum";
-import { Address } from "@/proto/scheme/scheme";
-import { SchemeType as ServerScheme } from "@/proto/scheme/access";
+import { Type as EventType } from "@proto/event/enum";
+import { Address } from "@proto/scheme/scheme";
+import { SchemeType as ServerScheme } from "@proto/scheme/access";
 
 export const eventTypeToColor: Record<EventType, string> = {
   [EventType.event_unspecified]: "gray",

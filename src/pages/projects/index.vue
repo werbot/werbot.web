@@ -64,7 +64,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { ListProjects_Request } from "@proto/project";
+import { Projects_Request as ListProjects_Request } from "@proto/project/message";
 
 const route = useRoute();
 const authStore = useAuthStore();

@@ -1,17 +1,16 @@
-// @generated from protobuf file "system.proto" (package "system", syntax proto3)
+// @generated from protobuf file "message.proto" (package "systemmessage", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 /**
  * rpc ProfileMetrics
  *
- * @generated from protobuf message system.ProfileMetrics
+ * @generated from protobuf message systemmessage.ProfileMetrics
  */
 export interface ProfileMetrics {
 }
 /**
- * @generated from protobuf message system.ProfileMetrics.Request
+ * @generated from protobuf message systemmessage.ProfileMetrics.Request
  */
 export interface ProfileMetrics_Request {
     /**
@@ -24,7 +23,7 @@ export interface ProfileMetrics_Request {
     profile_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message system.ProfileMetrics.Response
+ * @generated from protobuf message systemmessage.ProfileMetrics.Response
  */
 export interface ProfileMetrics_Response {
     /**
@@ -43,12 +42,12 @@ export interface ProfileMetrics_Response {
 /**
  * rpc GetInfo
  *
- * @generated from protobuf message system.Countries
+ * @generated from protobuf message systemmessage.Countries
  */
 export interface Countries {
 }
 /**
- * @generated from protobuf message system.Countries.Request
+ * @generated from protobuf message systemmessage.Countries.Request
  */
 export interface Countries_Request {
     /**
@@ -57,16 +56,16 @@ export interface Countries_Request {
     name: string;
 }
 /**
- * @generated from protobuf message system.Countries.Response
+ * @generated from protobuf message systemmessage.Countries.Response
  */
 export interface Countries_Response {
     /**
-     * @generated from protobuf field: repeated system.Countries.Country countries = 1
+     * @generated from protobuf field: repeated systemmessage.Countries.Country countries = 1
      */
     countries: Countries_Country[];
 }
 /**
- * @generated from protobuf message system.Countries.Country
+ * @generated from protobuf message systemmessage.Countries.Country
  */
 export interface Countries_Country {
     /**
@@ -81,12 +80,12 @@ export interface Countries_Country {
 /**
  * rpc CountryByIP
  *
- * @generated from protobuf message system.CountryByIP
+ * @generated from protobuf message systemmessage.CountryByIP
  */
 export interface CountryByIP {
 }
 /**
- * @generated from protobuf message system.CountryByIP.Request
+ * @generated from protobuf message systemmessage.CountryByIP.Request
  */
 export interface CountryByIP_Request {
     /**
@@ -95,7 +94,7 @@ export interface CountryByIP_Request {
     ip: string;
 }
 /**
- * @generated from protobuf message system.CountryByIP.Response
+ * @generated from protobuf message systemmessage.CountryByIP.Response
  */
 export interface CountryByIP_Response {
     /**
@@ -110,30 +109,30 @@ export interface CountryByIP_Response {
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileMetrics$Type extends MessageType<ProfileMetrics> {
     constructor() {
-        super("system.ProfileMetrics", []);
+        super("systemmessage.ProfileMetrics", []);
     }
 }
 /**
- * @generated MessageType for protobuf message system.ProfileMetrics
+ * @generated MessageType for protobuf message systemmessage.ProfileMetrics
  */
 export const ProfileMetrics = new ProfileMetrics$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileMetrics_Request$Type extends MessageType<ProfileMetrics_Request> {
     constructor() {
-        super("system.ProfileMetrics.Request", [
+        super("systemmessage.ProfileMetrics.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message system.ProfileMetrics.Request
+ * @generated MessageType for protobuf message systemmessage.ProfileMetrics.Request
  */
 export const ProfileMetrics_Request = new ProfileMetrics_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfileMetrics_Response$Type extends MessageType<ProfileMetrics_Response> {
     constructor() {
-        super("system.ProfileMetrics.Response", [
+        super("systemmessage.ProfileMetrics.Response", [
             { no: 1, name: "profiles", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "projects", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "schemes", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
@@ -141,96 +140,88 @@ class ProfileMetrics_Response$Type extends MessageType<ProfileMetrics_Response> 
     }
 }
 /**
- * @generated MessageType for protobuf message system.ProfileMetrics.Response
+ * @generated MessageType for protobuf message systemmessage.ProfileMetrics.Response
  */
 export const ProfileMetrics_Response = new ProfileMetrics_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Countries$Type extends MessageType<Countries> {
     constructor() {
-        super("system.Countries", []);
+        super("systemmessage.Countries", []);
     }
 }
 /**
- * @generated MessageType for protobuf message system.Countries
+ * @generated MessageType for protobuf message systemmessage.Countries
  */
 export const Countries = new Countries$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Countries_Request$Type extends MessageType<Countries_Request> {
     constructor() {
-        super("system.Countries.Request", [
+        super("systemmessage.Countries.Request", [
             { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "3" } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message system.Countries.Request
+ * @generated MessageType for protobuf message systemmessage.Countries.Request
  */
 export const Countries_Request = new Countries_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Countries_Response$Type extends MessageType<Countries_Response> {
     constructor() {
-        super("system.Countries.Response", [
+        super("systemmessage.Countries.Response", [
             { no: 1, name: "countries", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Countries_Country }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message system.Countries.Response
+ * @generated MessageType for protobuf message systemmessage.Countries.Response
  */
 export const Countries_Response = new Countries_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Countries_Country$Type extends MessageType<Countries_Country> {
     constructor() {
-        super("system.Countries.Country", [
+        super("systemmessage.Countries.Country", [
             { no: 1, name: "code", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message system.Countries.Country
+ * @generated MessageType for protobuf message systemmessage.Countries.Country
  */
 export const Countries_Country = new Countries_Country$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class CountryByIP$Type extends MessageType<CountryByIP> {
     constructor() {
-        super("system.CountryByIP", []);
+        super("systemmessage.CountryByIP", []);
     }
 }
 /**
- * @generated MessageType for protobuf message system.CountryByIP
+ * @generated MessageType for protobuf message systemmessage.CountryByIP
  */
 export const CountryByIP = new CountryByIP$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class CountryByIP_Request$Type extends MessageType<CountryByIP_Request> {
     constructor() {
-        super("system.CountryByIP.Request", [
+        super("systemmessage.CountryByIP.Request", [
             { no: 1, name: "ip", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { ip: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message system.CountryByIP.Request
+ * @generated MessageType for protobuf message systemmessage.CountryByIP.Request
  */
 export const CountryByIP_Request = new CountryByIP_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class CountryByIP_Response$Type extends MessageType<CountryByIP_Response> {
     constructor() {
-        super("system.CountryByIP.Response", [
+        super("systemmessage.CountryByIP.Response", [
             { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "code", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message system.CountryByIP.Response
+ * @generated MessageType for protobuf message systemmessage.CountryByIP.Response
  */
 export const CountryByIP_Response = new CountryByIP_Response$Type();
-/**
- * @generated ServiceType for protobuf service system.SystemHandlers
- */
-export const SystemHandlers = new ServiceType("system.SystemHandlers", [
-    { name: "ProfileMetrics", options: {}, I: ProfileMetrics_Request, O: ProfileMetrics_Response },
-    { name: "Countries", options: {}, I: Countries_Request, O: Countries_Response },
-    { name: "CountryByIP", options: {}, I: CountryByIP_Request, O: CountryByIP_Response }
-]);

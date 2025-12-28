@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { SchemeType as ServerScheme } from "@/proto/scheme/access";
+import { SchemeType as ServerScheme } from "@proto/scheme/access";
 
 const props = defineProps({
   projectId: {

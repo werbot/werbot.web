@@ -1,18 +1,17 @@
-// @generated from protobuf file "project.proto" (package "project", syntax proto3)
+// @generated from protobuf file "message.proto" (package "projectmessage", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Timestamp } from "./google/protobuf/timestamp";
+import { Timestamp } from "../google/protobuf/timestamp";
 /**
  * rpc Projects
  *
- * @generated from protobuf message project.Projects
+ * @generated from protobuf message projectmessage.Projects
  */
 export interface Projects {
 }
 /**
- * @generated from protobuf message project.Projects.Request
+ * @generated from protobuf message projectmessage.Projects.Request
  */
 export interface Projects_Request {
     /**
@@ -37,7 +36,7 @@ export interface Projects_Request {
     sort_by: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message project.Projects.Response
+ * @generated from protobuf message projectmessage.Projects.Response
  */
 export interface Projects_Response {
     /**
@@ -45,19 +44,19 @@ export interface Projects_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated project.Project.Response projects = 2
+     * @generated from protobuf field: repeated projectmessage.Project.Response projects = 2
      */
     projects: Project_Response[];
 }
 /**
  * rpc Project
  *
- * @generated from protobuf message project.Project
+ * @generated from protobuf message projectmessage.Project
  */
 export interface Project {
 }
 /**
- * @generated from protobuf message project.Project.Request
+ * @generated from protobuf message projectmessage.Project.Request
  */
 export interface Project_Request {
     /**
@@ -74,7 +73,7 @@ export interface Project_Request {
     project_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message project.Project.Response
+ * @generated from protobuf message projectmessage.Project.Response
  */
 export interface Project_Response {
     /**
@@ -141,12 +140,12 @@ export interface Project_Response {
 /**
  * rpc AddProject
  *
- * @generated from protobuf message project.AddProject
+ * @generated from protobuf message projectmessage.AddProject
  */
 export interface AddProject {
 }
 /**
- * @generated from protobuf message project.AddProject.Request
+ * @generated from protobuf message projectmessage.AddProject.Request
  */
 export interface AddProject_Request {
     /**
@@ -163,7 +162,7 @@ export interface AddProject_Request {
     title: string;
 }
 /**
- * @generated from protobuf message project.AddProject.Response
+ * @generated from protobuf message projectmessage.AddProject.Response
  */
 export interface AddProject_Response {
     /**
@@ -174,12 +173,12 @@ export interface AddProject_Response {
 /**
  * rpc UpdateProject
  *
- * @generated from protobuf message project.UpdateProject
+ * @generated from protobuf message projectmessage.UpdateProject
  */
 export interface UpdateProject {
 }
 /**
- * @generated from protobuf message project.UpdateProject.Request
+ * @generated from protobuf message projectmessage.UpdateProject.Request
  */
 export interface UpdateProject_Request {
     /**
@@ -214,19 +213,19 @@ export interface UpdateProject_Request {
     };
 }
 /**
- * @generated from protobuf message project.UpdateProject.Response
+ * @generated from protobuf message projectmessage.UpdateProject.Response
  */
 export interface UpdateProject_Response {
 }
 /**
  * rpc DeleteProject
  *
- * @generated from protobuf message project.DeleteProject
+ * @generated from protobuf message projectmessage.DeleteProject
  */
 export interface DeleteProject {
 }
 /**
- * @generated from protobuf message project.DeleteProject.Request
+ * @generated from protobuf message projectmessage.DeleteProject.Request
  */
 export interface DeleteProject_Request {
     /**
@@ -239,19 +238,19 @@ export interface DeleteProject_Request {
     project_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message project.DeleteProject.Response
+ * @generated from protobuf message projectmessage.DeleteProject.Response
  */
 export interface DeleteProject_Response {
 }
 /**
  * rpc ProjectKeys
  *
- * @generated from protobuf message project.ProjectKeys
+ * @generated from protobuf message projectmessage.ProjectKeys
  */
 export interface ProjectKeys {
 }
 /**
- * @generated from protobuf message project.ProjectKeys.Request
+ * @generated from protobuf message projectmessage.ProjectKeys.Request
  */
 export interface ProjectKeys_Request {
     /**
@@ -280,7 +279,7 @@ export interface ProjectKeys_Request {
     sort_by: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message project.ProjectKeys.Response
+ * @generated from protobuf message projectmessage.ProjectKeys.Response
  */
 export interface ProjectKeys_Response {
     /**
@@ -288,19 +287,19 @@ export interface ProjectKeys_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated project.ProjectKey.Response keys = 2
+     * @generated from protobuf field: repeated projectmessage.ProjectKey.Response keys = 2
      */
     keys: ProjectKey_Response[];
 }
 /**
  * rpc ProjectKey
  *
- * @generated from protobuf message project.ProjectKey
+ * @generated from protobuf message projectmessage.ProjectKey
  */
 export interface ProjectKey {
 }
 /**
- * @generated from protobuf message project.ProjectKey.Request
+ * @generated from protobuf message projectmessage.ProjectKey.Request
  */
 export interface ProjectKey_Request {
     /**
@@ -309,13 +308,13 @@ export interface ProjectKey_Request {
     type: {
         oneofKind: "public";
         /**
-         * @generated from protobuf field: project.ProjectKey.Public public = 3
+         * @generated from protobuf field: projectmessage.ProjectKey.Public public = 3
          */
         public: ProjectKey_Public;
     } | {
         oneofKind: "private";
         /**
-         * @generated from protobuf field: project.ProjectKey.Private private = 4
+         * @generated from protobuf field: projectmessage.ProjectKey.Private private = 4
          */
         private: ProjectKey_Private;
     } | {
@@ -323,7 +322,7 @@ export interface ProjectKey_Request {
     };
 }
 /**
- * @generated from protobuf message project.ProjectKey.Public
+ * @generated from protobuf message projectmessage.ProjectKey.Public
  */
 export interface ProjectKey_Public {
     /**
@@ -332,7 +331,7 @@ export interface ProjectKey_Public {
     key: string;
 }
 /**
- * @generated from protobuf message project.ProjectKey.Private
+ * @generated from protobuf message projectmessage.ProjectKey.Private
  */
 export interface ProjectKey_Private {
     /**
@@ -353,7 +352,7 @@ export interface ProjectKey_Private {
     key_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message project.ProjectKey.Response
+ * @generated from protobuf message projectmessage.ProjectKey.Response
  */
 export interface ProjectKey_Response {
     /**
@@ -396,12 +395,12 @@ export interface ProjectKey_Response {
 /**
  * rpc AddProjectKey
  *
- * @generated from protobuf message project.AddProjectKey
+ * @generated from protobuf message projectmessage.AddProjectKey
  */
 export interface AddProjectKey {
 }
 /**
- * @generated from protobuf message project.AddProjectKey.Request
+ * @generated from protobuf message projectmessage.AddProjectKey.Request
  */
 export interface AddProjectKey_Request {
     /**
@@ -414,7 +413,7 @@ export interface AddProjectKey_Request {
     project_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message project.AddProjectKey.Response
+ * @generated from protobuf message projectmessage.AddProjectKey.Response
  */
 export interface AddProjectKey_Response {
     /**
@@ -429,12 +428,12 @@ export interface AddProjectKey_Response {
 /**
  * rpc DeleteProjectKey
  *
- * @generated from protobuf message project.DeleteProjectKey
+ * @generated from protobuf message projectmessage.DeleteProjectKey
  */
 export interface DeleteProjectKey {
 }
 /**
- * @generated from protobuf message project.DeleteProjectKey.Request
+ * @generated from protobuf message projectmessage.DeleteProjectKey.Request
  */
 export interface DeleteProjectKey_Request {
     /**
@@ -451,24 +450,24 @@ export interface DeleteProjectKey_Request {
     key_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message project.DeleteProjectKey.Response
+ * @generated from protobuf message projectmessage.DeleteProjectKey.Response
  */
 export interface DeleteProjectKey_Response {
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class Projects$Type extends MessageType<Projects> {
     constructor() {
-        super("project.Projects", []);
+        super("projectmessage.Projects", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.Projects
+ * @generated MessageType for protobuf message projectmessage.Projects
  */
 export const Projects = new Projects$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Projects_Request$Type extends MessageType<Projects_Request> {
     constructor() {
-        super("project.Projects.Request", [
+        super("projectmessage.Projects.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 4, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
@@ -478,36 +477,36 @@ class Projects_Request$Type extends MessageType<Projects_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message project.Projects.Request
+ * @generated MessageType for protobuf message projectmessage.Projects.Request
  */
 export const Projects_Request = new Projects_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Projects_Response$Type extends MessageType<Projects_Response> {
     constructor() {
-        super("project.Projects.Response", [
+        super("projectmessage.Projects.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "projects", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Project_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.Projects.Response
+ * @generated MessageType for protobuf message projectmessage.Projects.Response
  */
 export const Projects_Response = new Projects_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Project$Type extends MessageType<Project> {
     constructor() {
-        super("project.Project", []);
+        super("projectmessage.Project", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.Project
+ * @generated MessageType for protobuf message projectmessage.Project
  */
 export const Project = new Project$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Project_Request$Type extends MessageType<Project_Request> {
     constructor() {
-        super("project.Project.Request", [
+        super("projectmessage.Project.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
@@ -515,13 +514,13 @@ class Project_Request$Type extends MessageType<Project_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message project.Project.Request
+ * @generated MessageType for protobuf message projectmessage.Project.Request
  */
 export const Project_Request = new Project_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Project_Response$Type extends MessageType<Project_Response> {
     constructor() {
-        super("project.Project.Response", [
+        super("projectmessage.Project.Response", [
             { no: 1, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -541,23 +540,23 @@ class Project_Response$Type extends MessageType<Project_Response> {
     }
 }
 /**
- * @generated MessageType for protobuf message project.Project.Response
+ * @generated MessageType for protobuf message projectmessage.Project.Response
  */
 export const Project_Response = new Project_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProject$Type extends MessageType<AddProject> {
     constructor() {
-        super("project.AddProject", []);
+        super("projectmessage.AddProject", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.AddProject
+ * @generated MessageType for protobuf message projectmessage.AddProject
  */
 export const AddProject = new AddProject$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProject_Request$Type extends MessageType<AddProject_Request> {
     constructor() {
-        super("project.AddProject.Request", [
+        super("projectmessage.AddProject.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "alias", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "3", maxLen: "32", pattern: "^[a-z0-9]+$" } } } },
             { no: 3, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { minLen: "3", maxLen: "128" } } } }
@@ -565,35 +564,35 @@ class AddProject_Request$Type extends MessageType<AddProject_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message project.AddProject.Request
+ * @generated MessageType for protobuf message projectmessage.AddProject.Request
  */
 export const AddProject_Request = new AddProject_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProject_Response$Type extends MessageType<AddProject_Response> {
     constructor() {
-        super("project.AddProject.Response", [
+        super("projectmessage.AddProject.Response", [
             { no: 1, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.AddProject.Response
+ * @generated MessageType for protobuf message projectmessage.AddProject.Response
  */
 export const AddProject_Response = new AddProject_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProject$Type extends MessageType<UpdateProject> {
     constructor() {
-        super("project.UpdateProject", []);
+        super("projectmessage.UpdateProject", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.UpdateProject
+ * @generated MessageType for protobuf message projectmessage.UpdateProject
  */
 export const UpdateProject = new UpdateProject$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProject_Request$Type extends MessageType<UpdateProject_Request> {
     constructor() {
-        super("project.UpdateProject.Request", [
+        super("projectmessage.UpdateProject.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -603,66 +602,66 @@ class UpdateProject_Request$Type extends MessageType<UpdateProject_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message project.UpdateProject.Request
+ * @generated MessageType for protobuf message projectmessage.UpdateProject.Request
  */
 export const UpdateProject_Request = new UpdateProject_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProject_Response$Type extends MessageType<UpdateProject_Response> {
     constructor() {
-        super("project.UpdateProject.Response", []);
+        super("projectmessage.UpdateProject.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.UpdateProject.Response
+ * @generated MessageType for protobuf message projectmessage.UpdateProject.Response
  */
 export const UpdateProject_Response = new UpdateProject_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProject$Type extends MessageType<DeleteProject> {
     constructor() {
-        super("project.DeleteProject", []);
+        super("projectmessage.DeleteProject", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.DeleteProject
+ * @generated MessageType for protobuf message projectmessage.DeleteProject
  */
 export const DeleteProject = new DeleteProject$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProject_Request$Type extends MessageType<DeleteProject_Request> {
     constructor() {
-        super("project.DeleteProject.Request", [
+        super("projectmessage.DeleteProject.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.DeleteProject.Request
+ * @generated MessageType for protobuf message projectmessage.DeleteProject.Request
  */
 export const DeleteProject_Request = new DeleteProject_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProject_Response$Type extends MessageType<DeleteProject_Response> {
     constructor() {
-        super("project.DeleteProject.Response", []);
+        super("projectmessage.DeleteProject.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.DeleteProject.Response
+ * @generated MessageType for protobuf message projectmessage.DeleteProject.Response
  */
 export const DeleteProject_Response = new DeleteProject_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectKeys$Type extends MessageType<ProjectKeys> {
     constructor() {
-        super("project.ProjectKeys", []);
+        super("projectmessage.ProjectKeys", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectKeys
+ * @generated MessageType for protobuf message projectmessage.ProjectKeys
  */
 export const ProjectKeys = new ProjectKeys$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectKeys_Request$Type extends MessageType<ProjectKeys_Request> {
     constructor() {
-        super("project.ProjectKeys.Request", [
+        super("projectmessage.ProjectKeys.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -673,61 +672,61 @@ class ProjectKeys_Request$Type extends MessageType<ProjectKeys_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectKeys.Request
+ * @generated MessageType for protobuf message projectmessage.ProjectKeys.Request
  */
 export const ProjectKeys_Request = new ProjectKeys_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectKeys_Response$Type extends MessageType<ProjectKeys_Response> {
     constructor() {
-        super("project.ProjectKeys.Response", [
+        super("projectmessage.ProjectKeys.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "keys", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => ProjectKey_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectKeys.Response
+ * @generated MessageType for protobuf message projectmessage.ProjectKeys.Response
  */
 export const ProjectKeys_Response = new ProjectKeys_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectKey$Type extends MessageType<ProjectKey> {
     constructor() {
-        super("project.ProjectKey", []);
+        super("projectmessage.ProjectKey", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectKey
+ * @generated MessageType for protobuf message projectmessage.ProjectKey
  */
 export const ProjectKey = new ProjectKey$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectKey_Request$Type extends MessageType<ProjectKey_Request> {
     constructor() {
-        super("project.ProjectKey.Request", [
+        super("projectmessage.ProjectKey.Request", [
             { no: 3, name: "public", kind: "message", oneof: "type", T: () => ProjectKey_Public },
             { no: 4, name: "private", kind: "message", oneof: "type", T: () => ProjectKey_Private }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectKey.Request
+ * @generated MessageType for protobuf message projectmessage.ProjectKey.Request
  */
 export const ProjectKey_Request = new ProjectKey_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectKey_Public$Type extends MessageType<ProjectKey_Public> {
     constructor() {
-        super("project.ProjectKey.Public", [
+        super("projectmessage.ProjectKey.Public", [
             { no: 1, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { len: "37" } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectKey.Public
+ * @generated MessageType for protobuf message projectmessage.ProjectKey.Public
  */
 export const ProjectKey_Public = new ProjectKey_Public$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectKey_Private$Type extends MessageType<ProjectKey_Private> {
     constructor() {
-        super("project.ProjectKey.Private", [
+        super("projectmessage.ProjectKey.Private", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
@@ -736,13 +735,13 @@ class ProjectKey_Private$Type extends MessageType<ProjectKey_Private> {
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectKey.Private
+ * @generated MessageType for protobuf message projectmessage.ProjectKey.Private
  */
 export const ProjectKey_Private = new ProjectKey_Private$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectKey_Response$Type extends MessageType<ProjectKey_Response> {
     constructor() {
-        super("project.ProjectKey.Response", [
+        super("projectmessage.ProjectKey.Response", [
             { no: 1, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -756,59 +755,59 @@ class ProjectKey_Response$Type extends MessageType<ProjectKey_Response> {
     }
 }
 /**
- * @generated MessageType for protobuf message project.ProjectKey.Response
+ * @generated MessageType for protobuf message projectmessage.ProjectKey.Response
  */
 export const ProjectKey_Response = new ProjectKey_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProjectKey$Type extends MessageType<AddProjectKey> {
     constructor() {
-        super("project.AddProjectKey", []);
+        super("projectmessage.AddProjectKey", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.AddProjectKey
+ * @generated MessageType for protobuf message projectmessage.AddProjectKey
  */
 export const AddProjectKey = new AddProjectKey$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProjectKey_Request$Type extends MessageType<AddProjectKey_Request> {
     constructor() {
-        super("project.AddProjectKey.Request", [
+        super("projectmessage.AddProjectKey.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.AddProjectKey.Request
+ * @generated MessageType for protobuf message projectmessage.AddProjectKey.Request
  */
 export const AddProjectKey_Request = new AddProjectKey_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProjectKey_Response$Type extends MessageType<AddProjectKey_Response> {
     constructor() {
-        super("project.AddProjectKey.Response", [
+        super("projectmessage.AddProjectKey.Response", [
             { no: 1, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message project.AddProjectKey.Response
+ * @generated MessageType for protobuf message projectmessage.AddProjectKey.Response
  */
 export const AddProjectKey_Response = new AddProjectKey_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProjectKey$Type extends MessageType<DeleteProjectKey> {
     constructor() {
-        super("project.DeleteProjectKey", []);
+        super("projectmessage.DeleteProjectKey", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.DeleteProjectKey
+ * @generated MessageType for protobuf message projectmessage.DeleteProjectKey
  */
 export const DeleteProjectKey = new DeleteProjectKey$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProjectKey_Request$Type extends MessageType<DeleteProjectKey_Request> {
     constructor() {
-        super("project.DeleteProjectKey.Request", [
+        super("projectmessage.DeleteProjectKey.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "key_id", kind: "scalar", localName: "key_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
@@ -816,30 +815,16 @@ class DeleteProjectKey_Request$Type extends MessageType<DeleteProjectKey_Request
     }
 }
 /**
- * @generated MessageType for protobuf message project.DeleteProjectKey.Request
+ * @generated MessageType for protobuf message projectmessage.DeleteProjectKey.Request
  */
 export const DeleteProjectKey_Request = new DeleteProjectKey_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProjectKey_Response$Type extends MessageType<DeleteProjectKey_Response> {
     constructor() {
-        super("project.DeleteProjectKey.Response", []);
+        super("projectmessage.DeleteProjectKey.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message project.DeleteProjectKey.Response
+ * @generated MessageType for protobuf message projectmessage.DeleteProjectKey.Response
  */
 export const DeleteProjectKey_Response = new DeleteProjectKey_Response$Type();
-/**
- * @generated ServiceType for protobuf service project.ProjectHandlers
- */
-export const ProjectHandlers = new ServiceType("project.ProjectHandlers", [
-    { name: "Projects", options: {}, I: Projects_Request, O: Projects_Response },
-    { name: "Project", options: {}, I: Project_Request, O: Project_Response },
-    { name: "AddProject", options: {}, I: AddProject_Request, O: AddProject_Response },
-    { name: "UpdateProject", options: {}, I: UpdateProject_Request, O: UpdateProject_Response },
-    { name: "DeleteProject", options: {}, I: DeleteProject_Request, O: DeleteProject_Response },
-    { name: "ProjectKeys", options: {}, I: ProjectKeys_Request, O: ProjectKeys_Response },
-    { name: "ProjectKey", options: {}, I: ProjectKey_Request, O: ProjectKey_Response },
-    { name: "AddProjectKey", options: {}, I: AddProjectKey_Request, O: AddProjectKey_Response },
-    { name: "DeleteProjectKey", options: {}, I: DeleteProjectKey_Request, O: DeleteProjectKey_Response }
-]);

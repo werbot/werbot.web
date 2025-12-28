@@ -3,8 +3,8 @@
 // @ts-nocheck
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Network } from "../firewall";
-import { Country } from "../firewall";
+import { Network } from "../firewall/message";
+import { Country } from "../firewall/message";
 import { AccessScheme } from "./access";
 import { Timestamp } from "../google/protobuf/timestamp";
 import { AuthMethod } from "./auth";

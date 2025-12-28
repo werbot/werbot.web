@@ -41,7 +41,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddProject_Request } from "@proto/project";
+import { AddProject_Request } from "@proto/project/message";
 
 const router = useRouter();
 const pageData = usePageData();

@@ -44,7 +44,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddKey_Request } from "@proto/key";
+import { AddKey_Request } from "@proto/key/message";
 
 const router = useRouter();
 const pageData = usePageData();

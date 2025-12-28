@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 import { useProjectStore } from "@/store";
 
 import { api } from "@/api";
-import { SignIn_Request, Token_Request } from "@proto/account";
-import { User_Request } from "@proto/user";
+import { SignIn_Request, Token_Request } from "@proto/profile/message";
 
 import { getStorage, parseJwt, removeStorage, setStorage } from "@/utils";
 

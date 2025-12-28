@@ -106,14 +106,14 @@ import { PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Countries_Request } from "@proto/utility";
+import { Countries_Request } from "@proto/system/message";
 import {
   DeleteServerFirewall_Request,
   IpMask,
   Rules,
   ServerFirewall_Request,
   UpdateServerFirewall_Request
-} from "@proto/firewall";
+} from "@proto/firewall/message";
 
 // Tabs section
 import { tabMenu } from "./tab";

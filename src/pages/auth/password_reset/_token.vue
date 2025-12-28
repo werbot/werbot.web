@@ -44,7 +44,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { ResetPassword_Password } from "@proto/account";
+import { ResetPassword_Password } from "@proto/profile/message";
 
 const router = useRouter();
 const pageData = usePageData();

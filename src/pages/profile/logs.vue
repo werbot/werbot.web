@@ -82,8 +82,8 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Type as EventType } from "@/proto/event/enum";
-import { Profile_Section } from "@/proto/event/message";
+import { Type as EventType } from "@proto/event/enum";
+import { Profile_Section } from "@proto/event/message";
 
 const route = useRoute();
 const authStore = useAuthStore();

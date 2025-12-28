@@ -84,7 +84,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { DeleteServerMember_Request, UpdateServerMember_Request } from "@proto/member";
+import { DeleteServerMember_Request, UpdateServerMember_Request } from "@proto/member/message";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";

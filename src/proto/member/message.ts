@@ -1,19 +1,18 @@
-// @generated from protobuf file "member.proto" (package "member", syntax proto3)
+// @generated from protobuf file "message.proto" (package "membermessage", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Timestamp } from "./google/protobuf/timestamp";
-import { Role } from "../profile";
+import { Timestamp } from "../google/protobuf/timestamp";
+import { Role } from "../profile/enum";
 /**
  * rpc ProjectMembers
  *
- * @generated from protobuf message member.ProjectMembers
+ * @generated from protobuf message membermessage.ProjectMembers
  */
 export interface ProjectMembers {
 }
 /**
- * @generated from protobuf message member.ProjectMembers.Request
+ * @generated from protobuf message membermessage.ProjectMembers.Request
  */
 export interface ProjectMembers_Request {
     /**
@@ -42,7 +41,7 @@ export interface ProjectMembers_Request {
     sort_by: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message member.ProjectMembers.Response
+ * @generated from protobuf message membermessage.ProjectMembers.Response
  */
 export interface ProjectMembers_Response {
     /**
@@ -50,19 +49,19 @@ export interface ProjectMembers_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated member.ProjectMember.Response members = 2
+     * @generated from protobuf field: repeated membermessage.ProjectMember.Response members = 2
      */
     members: ProjectMember_Response[];
 }
 /**
  * rpc ProjectMember
  *
- * @generated from protobuf message member.ProjectMember
+ * @generated from protobuf message membermessage.ProjectMember
  */
 export interface ProjectMember {
 }
 /**
- * @generated from protobuf message member.ProjectMember.Request
+ * @generated from protobuf message membermessage.ProjectMember.Request
  */
 export interface ProjectMember_Request {
     /**
@@ -83,7 +82,7 @@ export interface ProjectMember_Request {
     member_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message member.ProjectMember.Response
+ * @generated from protobuf message membermessage.ProjectMember.Response
  */
 export interface ProjectMember_Response {
     /**
@@ -115,7 +114,7 @@ export interface ProjectMember_Response {
      */
     name: string;
     /**
-     * @generated from protobuf field: profile.Role role = 8
+     * @generated from protobuf field: profileenum.Role role = 8
      */
     role: Role;
     /**
@@ -150,12 +149,12 @@ export interface ProjectMember_Response {
 /**
  * rpc AddProjectMember
  *
- * @generated from protobuf message member.AddProjectMember
+ * @generated from protobuf message membermessage.AddProjectMember
  */
 export interface AddProjectMember {
 }
 /**
- * @generated from protobuf message member.AddProjectMember.Request
+ * @generated from protobuf message membermessage.AddProjectMember.Request
  */
 export interface AddProjectMember_Request {
     /**
@@ -171,7 +170,7 @@ export interface AddProjectMember_Request {
      */
     profile_id: string;
     /**
-     * @generated from protobuf field: profile.Role role = 4
+     * @generated from protobuf field: profileenum.Role role = 4
      */
     role: Role; // @gotags: json:"-"
     /**
@@ -180,7 +179,7 @@ export interface AddProjectMember_Request {
     active: boolean;
 }
 /**
- * @generated from protobuf message member.AddProjectMember.Response
+ * @generated from protobuf message membermessage.AddProjectMember.Response
  */
 export interface AddProjectMember_Response {
     /**
@@ -191,12 +190,12 @@ export interface AddProjectMember_Response {
 /**
  * rpc UpdateProjectMember
  *
- * @generated from protobuf message member.UpdateProjectMember
+ * @generated from protobuf message membermessage.UpdateProjectMember
  */
 export interface UpdateProjectMember {
 }
 /**
- * @generated from protobuf message member.UpdateProjectMember.Request
+ * @generated from protobuf message membermessage.UpdateProjectMember.Request
  */
 export interface UpdateProjectMember_Request {
     /**
@@ -221,7 +220,7 @@ export interface UpdateProjectMember_Request {
     setting: {
         oneofKind: "role";
         /**
-         * @generated from protobuf field: profile.Role role = 5
+         * @generated from protobuf field: profileenum.Role role = 5
          */
         role: Role;
     } | {
@@ -235,19 +234,19 @@ export interface UpdateProjectMember_Request {
     };
 }
 /**
- * @generated from protobuf message member.UpdateProjectMember.Response
+ * @generated from protobuf message membermessage.UpdateProjectMember.Response
  */
 export interface UpdateProjectMember_Response {
 }
 /**
  * rpc DeleteProjectMember
  *
- * @generated from protobuf message member.DeleteProjectMember
+ * @generated from protobuf message membermessage.DeleteProjectMember
  */
 export interface DeleteProjectMember {
 }
 /**
- * @generated from protobuf message member.DeleteProjectMember.Request
+ * @generated from protobuf message membermessage.DeleteProjectMember.Request
  */
 export interface DeleteProjectMember_Request {
     /**
@@ -264,19 +263,19 @@ export interface DeleteProjectMember_Request {
     member_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message member.DeleteProjectMember.Response
+ * @generated from protobuf message membermessage.DeleteProjectMember.Response
  */
 export interface DeleteProjectMember_Response {
 }
 /**
  * rpc ProfilesWithoutProject
  *
- * @generated from protobuf message member.ProfilesWithoutProject
+ * @generated from protobuf message membermessage.ProfilesWithoutProject
  */
 export interface ProfilesWithoutProject {
 }
 /**
- * @generated from protobuf message member.ProfilesWithoutProject.Request
+ * @generated from protobuf message membermessage.ProfilesWithoutProject.Request
  */
 export interface ProfilesWithoutProject_Request {
     /**
@@ -305,7 +304,7 @@ export interface ProfilesWithoutProject_Request {
     sort_by: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message member.ProfilesWithoutProject.Response
+ * @generated from protobuf message membermessage.ProfilesWithoutProject.Response
  */
 export interface ProfilesWithoutProject_Response {
     /**
@@ -313,12 +312,12 @@ export interface ProfilesWithoutProject_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated member.ProfilesWithoutProject.Profile profiles = 2
+     * @generated from protobuf field: repeated membermessage.ProfilesWithoutProject.Profile profiles = 2
      */
     profiles: ProfilesWithoutProject_Profile[];
 }
 /**
- * @generated from protobuf message member.ProfilesWithoutProject.Profile
+ * @generated from protobuf message membermessage.ProfilesWithoutProject.Profile
  */
 export interface ProfilesWithoutProject_Profile {
     /**
@@ -341,12 +340,12 @@ export interface ProfilesWithoutProject_Profile {
 /**
  * SchemeMembers
  *
- * @generated from protobuf message member.SchemeMembers
+ * @generated from protobuf message membermessage.SchemeMembers
  */
 export interface SchemeMembers {
 }
 /**
- * @generated from protobuf message member.SchemeMembers.Request
+ * @generated from protobuf message membermessage.SchemeMembers.Request
  */
 export interface SchemeMembers_Request {
     /**
@@ -375,7 +374,7 @@ export interface SchemeMembers_Request {
     sort_by: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message member.SchemeMembers.Response
+ * @generated from protobuf message membermessage.SchemeMembers.Response
  */
 export interface SchemeMembers_Response {
     /**
@@ -383,19 +382,19 @@ export interface SchemeMembers_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated member.SchemeMember.Response members = 2
+     * @generated from protobuf field: repeated membermessage.SchemeMember.Response members = 2
      */
     members: SchemeMember_Response[];
 }
 /**
  * SchemeMember
  *
- * @generated from protobuf message member.SchemeMember
+ * @generated from protobuf message membermessage.SchemeMember
  */
 export interface SchemeMember {
 }
 /**
- * @generated from protobuf message member.SchemeMember.Request
+ * @generated from protobuf message membermessage.SchemeMember.Request
  */
 export interface SchemeMember_Request {
     /**
@@ -416,7 +415,7 @@ export interface SchemeMember_Request {
     scheme_member_id: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message member.SchemeMember.Response
+ * @generated from protobuf message membermessage.SchemeMember.Response
  */
 export interface SchemeMember_Response {
     /**
@@ -444,7 +443,7 @@ export interface SchemeMember_Response {
      */
     email: string;
     /**
-     * @generated from protobuf field: profile.Role role = 7
+     * @generated from protobuf field: profileenum.Role role = 7
      */
     role: Role;
     /**
@@ -475,12 +474,12 @@ export interface SchemeMember_Response {
 /**
  * AddSchemeMember
  *
- * @generated from protobuf message member.AddSchemeMember
+ * @generated from protobuf message membermessage.AddSchemeMember
  */
 export interface AddSchemeMember {
 }
 /**
- * @generated from protobuf message member.AddSchemeMember.Request
+ * @generated from protobuf message membermessage.AddSchemeMember.Request
  */
 export interface AddSchemeMember_Request {
     /**
@@ -501,7 +500,7 @@ export interface AddSchemeMember_Request {
     active: boolean;
 }
 /**
- * @generated from protobuf message member.AddSchemeMember.Response
+ * @generated from protobuf message membermessage.AddSchemeMember.Response
  */
 export interface AddSchemeMember_Response {
     /**
@@ -512,12 +511,12 @@ export interface AddSchemeMember_Response {
 /**
  * UpdateSchemeMember
  *
- * @generated from protobuf message member.UpdateSchemeMember
+ * @generated from protobuf message membermessage.UpdateSchemeMember
  */
 export interface UpdateSchemeMember {
 }
 /**
- * @generated from protobuf message member.UpdateSchemeMember.Request
+ * @generated from protobuf message membermessage.UpdateSchemeMember.Request
  */
 export interface UpdateSchemeMember_Request {
     /**
@@ -552,19 +551,19 @@ export interface UpdateSchemeMember_Request {
     };
 }
 /**
- * @generated from protobuf message member.UpdateSchemeMember.Response
+ * @generated from protobuf message membermessage.UpdateSchemeMember.Response
  */
 export interface UpdateSchemeMember_Response {
 }
 /**
  * DeleteSchemeMember
  *
- * @generated from protobuf message member.DeleteSchemeMember
+ * @generated from protobuf message membermessage.DeleteSchemeMember
  */
 export interface DeleteSchemeMember {
 }
 /**
- * @generated from protobuf message member.DeleteSchemeMember.Request
+ * @generated from protobuf message membermessage.DeleteSchemeMember.Request
  */
 export interface DeleteSchemeMember_Request {
     /**
@@ -581,19 +580,19 @@ export interface DeleteSchemeMember_Request {
     scheme_member_id: string;
 }
 /**
- * @generated from protobuf message member.DeleteSchemeMember.Response
+ * @generated from protobuf message membermessage.DeleteSchemeMember.Response
  */
 export interface DeleteSchemeMember_Response {
 }
 /**
  * rpc MembersWithoutScheme
  *
- * @generated from protobuf message member.MembersWithoutScheme
+ * @generated from protobuf message membermessage.MembersWithoutScheme
  */
 export interface MembersWithoutScheme {
 }
 /**
- * @generated from protobuf message member.MembersWithoutScheme.Request
+ * @generated from protobuf message membermessage.MembersWithoutScheme.Request
  */
 export interface MembersWithoutScheme_Request {
     /**
@@ -622,7 +621,7 @@ export interface MembersWithoutScheme_Request {
     sort_by: string; // @gotags: json:"-"
 }
 /**
- * @generated from protobuf message member.MembersWithoutScheme.Response
+ * @generated from protobuf message membermessage.MembersWithoutScheme.Response
  */
 export interface MembersWithoutScheme_Response {
     /**
@@ -630,12 +629,12 @@ export interface MembersWithoutScheme_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated member.MembersWithoutScheme.Member members = 2
+     * @generated from protobuf field: repeated membermessage.MembersWithoutScheme.Member members = 2
      */
     members: MembersWithoutScheme_Member[];
 }
 /**
- * @generated from protobuf message member.MembersWithoutScheme.Member
+ * @generated from protobuf message membermessage.MembersWithoutScheme.Member
  */
 export interface MembersWithoutScheme_Member {
     /**
@@ -663,7 +662,7 @@ export interface MembersWithoutScheme_Member {
      */
     email: string;
     /**
-     * @generated from protobuf field: profile.Role role = 7
+     * @generated from protobuf field: profileenum.Role role = 7
      */
     role: Role;
     /**
@@ -691,37 +690,20 @@ export interface MembersWithoutScheme_Member {
      */
     created_at?: Timestamp;
 }
-/**
- * @generated from protobuf enum member.InviteStatus
- */
-export enum InviteStatus {
-    /**
-     * @generated from protobuf enum value: unspecified = 0;
-     */
-    unspecified = 0,
-    /**
-     * @generated from protobuf enum value: send = 1;
-     */
-    send = 1,
-    /**
-     * @generated from protobuf enum value: activated = 2;
-     */
-    activated = 2
-}
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectMembers$Type extends MessageType<ProjectMembers> {
     constructor() {
-        super("member.ProjectMembers", []);
+        super("membermessage.ProjectMembers", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMembers
+ * @generated MessageType for protobuf message membermessage.ProjectMembers
  */
 export const ProjectMembers = new ProjectMembers$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectMembers_Request$Type extends MessageType<ProjectMembers_Request> {
     constructor() {
-        super("member.ProjectMembers.Request", [
+        super("membermessage.ProjectMembers.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -732,36 +714,36 @@ class ProjectMembers_Request$Type extends MessageType<ProjectMembers_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMembers.Request
+ * @generated MessageType for protobuf message membermessage.ProjectMembers.Request
  */
 export const ProjectMembers_Request = new ProjectMembers_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectMembers_Response$Type extends MessageType<ProjectMembers_Response> {
     constructor() {
-        super("member.ProjectMembers.Response", [
+        super("membermessage.ProjectMembers.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "members", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => ProjectMember_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMembers.Response
+ * @generated MessageType for protobuf message membermessage.ProjectMembers.Response
  */
 export const ProjectMembers_Response = new ProjectMembers_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectMember$Type extends MessageType<ProjectMember> {
     constructor() {
-        super("member.ProjectMember", []);
+        super("membermessage.ProjectMember", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMember
+ * @generated MessageType for protobuf message membermessage.ProjectMember
  */
 export const ProjectMember = new ProjectMember$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectMember_Request$Type extends MessageType<ProjectMember_Request> {
     constructor() {
-        super("member.ProjectMember.Request", [
+        super("membermessage.ProjectMember.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -770,13 +752,13 @@ class ProjectMember_Request$Type extends MessageType<ProjectMember_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMember.Request
+ * @generated MessageType for protobuf message membermessage.ProjectMember.Request
  */
 export const ProjectMember_Request = new ProjectMember_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectMember_Response$Type extends MessageType<ProjectMember_Response> {
     constructor() {
-        super("member.ProjectMember.Response", [
+        super("membermessage.ProjectMember.Response", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 2, name: "owner_name", kind: "scalar", localName: "owner_name", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
@@ -784,7 +766,7 @@ class ProjectMember_Response$Type extends MessageType<ProjectMember_Response> {
             { no: 5, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 7, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 8, name: "role", kind: "enum", T: () => ["profile.Role", Role], options: { "ghoster.secret": true } },
+            { no: 8, name: "role", kind: "enum", T: () => ["profileenum.Role", Role], options: { "ghoster.secret": true } },
             { no: 9, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 10, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 11, name: "schemes_count", kind: "scalar", localName: "schemes_count", T: 5 /*ScalarType.INT32*/ },
@@ -796,98 +778,98 @@ class ProjectMember_Response$Type extends MessageType<ProjectMember_Response> {
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProjectMember.Response
+ * @generated MessageType for protobuf message membermessage.ProjectMember.Response
  */
 export const ProjectMember_Response = new ProjectMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProjectMember$Type extends MessageType<AddProjectMember> {
     constructor() {
-        super("member.AddProjectMember", []);
+        super("membermessage.AddProjectMember", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddProjectMember
+ * @generated MessageType for protobuf message membermessage.AddProjectMember
  */
 export const AddProjectMember = new AddProjectMember$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProjectMember_Request$Type extends MessageType<AddProjectMember_Request> {
     constructor() {
-        super("member.AddProjectMember.Request", [
+        super("membermessage.AddProjectMember.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
-            { no: 4, name: "role", kind: "enum", T: () => ["profile.Role", Role], options: { "buf.validate.field": { enum: { in: [1, 2] } } } },
+            { no: 4, name: "role", kind: "enum", T: () => ["profileenum.Role", Role], options: { "buf.validate.field": { enum: { in: [1, 2] } } } },
             { no: 5, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddProjectMember.Request
+ * @generated MessageType for protobuf message membermessage.AddProjectMember.Request
  */
 export const AddProjectMember_Request = new AddProjectMember_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddProjectMember_Response$Type extends MessageType<AddProjectMember_Response> {
     constructor() {
-        super("member.AddProjectMember.Response", [
+        super("membermessage.AddProjectMember.Response", [
             { no: 1, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddProjectMember.Response
+ * @generated MessageType for protobuf message membermessage.AddProjectMember.Response
  */
 export const AddProjectMember_Response = new AddProjectMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProjectMember$Type extends MessageType<UpdateProjectMember> {
     constructor() {
-        super("member.UpdateProjectMember", []);
+        super("membermessage.UpdateProjectMember", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.UpdateProjectMember
+ * @generated MessageType for protobuf message membermessage.UpdateProjectMember
  */
 export const UpdateProjectMember = new UpdateProjectMember$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProjectMember_Request$Type extends MessageType<UpdateProjectMember_Request> {
     constructor() {
-        super("member.UpdateProjectMember.Request", [
+        super("membermessage.UpdateProjectMember.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 4, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
-            { no: 5, name: "role", kind: "enum", oneof: "setting", T: () => ["profile.Role", Role], options: { "buf.validate.field": { enum: { in: [1, 2] } } } },
+            { no: 5, name: "role", kind: "enum", oneof: "setting", T: () => ["profileenum.Role", Role], options: { "buf.validate.field": { enum: { in: [1, 2] } } } },
             { no: 6, name: "active", kind: "scalar", oneof: "setting", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.UpdateProjectMember.Request
+ * @generated MessageType for protobuf message membermessage.UpdateProjectMember.Request
  */
 export const UpdateProjectMember_Request = new UpdateProjectMember_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateProjectMember_Response$Type extends MessageType<UpdateProjectMember_Response> {
     constructor() {
-        super("member.UpdateProjectMember.Response", []);
+        super("membermessage.UpdateProjectMember.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.UpdateProjectMember.Response
+ * @generated MessageType for protobuf message membermessage.UpdateProjectMember.Response
  */
 export const UpdateProjectMember_Response = new UpdateProjectMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProjectMember$Type extends MessageType<DeleteProjectMember> {
     constructor() {
-        super("member.DeleteProjectMember", []);
+        super("membermessage.DeleteProjectMember", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteProjectMember
+ * @generated MessageType for protobuf message membermessage.DeleteProjectMember
  */
 export const DeleteProjectMember = new DeleteProjectMember$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProjectMember_Request$Type extends MessageType<DeleteProjectMember_Request> {
     constructor() {
-        super("member.DeleteProjectMember.Request", [
+        super("membermessage.DeleteProjectMember.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
@@ -895,33 +877,33 @@ class DeleteProjectMember_Request$Type extends MessageType<DeleteProjectMember_R
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteProjectMember.Request
+ * @generated MessageType for protobuf message membermessage.DeleteProjectMember.Request
  */
 export const DeleteProjectMember_Request = new DeleteProjectMember_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteProjectMember_Response$Type extends MessageType<DeleteProjectMember_Response> {
     constructor() {
-        super("member.DeleteProjectMember.Response", []);
+        super("membermessage.DeleteProjectMember.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteProjectMember.Response
+ * @generated MessageType for protobuf message membermessage.DeleteProjectMember.Response
  */
 export const DeleteProjectMember_Response = new DeleteProjectMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfilesWithoutProject$Type extends MessageType<ProfilesWithoutProject> {
     constructor() {
-        super("member.ProfilesWithoutProject", []);
+        super("membermessage.ProfilesWithoutProject", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProfilesWithoutProject
+ * @generated MessageType for protobuf message membermessage.ProfilesWithoutProject
  */
 export const ProfilesWithoutProject = new ProfilesWithoutProject$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfilesWithoutProject_Request$Type extends MessageType<ProfilesWithoutProject_Request> {
     constructor() {
-        super("member.ProfilesWithoutProject.Request", [
+        super("membermessage.ProfilesWithoutProject.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "alias", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -932,26 +914,26 @@ class ProfilesWithoutProject_Request$Type extends MessageType<ProfilesWithoutPro
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProfilesWithoutProject.Request
+ * @generated MessageType for protobuf message membermessage.ProfilesWithoutProject.Request
  */
 export const ProfilesWithoutProject_Request = new ProfilesWithoutProject_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfilesWithoutProject_Response$Type extends MessageType<ProfilesWithoutProject_Response> {
     constructor() {
-        super("member.ProfilesWithoutProject.Response", [
+        super("membermessage.ProfilesWithoutProject.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "profiles", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => ProfilesWithoutProject_Profile }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProfilesWithoutProject.Response
+ * @generated MessageType for protobuf message membermessage.ProfilesWithoutProject.Response
  */
 export const ProfilesWithoutProject_Response = new ProfilesWithoutProject_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProfilesWithoutProject_Profile$Type extends MessageType<ProfilesWithoutProject_Profile> {
     constructor() {
-        super("member.ProfilesWithoutProject.Profile", [
+        super("membermessage.ProfilesWithoutProject.Profile", [
             { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "alias", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
@@ -960,23 +942,23 @@ class ProfilesWithoutProject_Profile$Type extends MessageType<ProfilesWithoutPro
     }
 }
 /**
- * @generated MessageType for protobuf message member.ProfilesWithoutProject.Profile
+ * @generated MessageType for protobuf message membermessage.ProfilesWithoutProject.Profile
  */
 export const ProfilesWithoutProject_Profile = new ProfilesWithoutProject_Profile$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SchemeMembers$Type extends MessageType<SchemeMembers> {
     constructor() {
-        super("member.SchemeMembers", []);
+        super("membermessage.SchemeMembers", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.SchemeMembers
+ * @generated MessageType for protobuf message membermessage.SchemeMembers
  */
 export const SchemeMembers = new SchemeMembers$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SchemeMembers_Request$Type extends MessageType<SchemeMembers_Request> {
     constructor() {
-        super("member.SchemeMembers.Request", [
+        super("membermessage.SchemeMembers.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -987,36 +969,36 @@ class SchemeMembers_Request$Type extends MessageType<SchemeMembers_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message member.SchemeMembers.Request
+ * @generated MessageType for protobuf message membermessage.SchemeMembers.Request
  */
 export const SchemeMembers_Request = new SchemeMembers_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SchemeMembers_Response$Type extends MessageType<SchemeMembers_Response> {
     constructor() {
-        super("member.SchemeMembers.Response", [
+        super("membermessage.SchemeMembers.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "members", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => SchemeMember_Response }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.SchemeMembers.Response
+ * @generated MessageType for protobuf message membermessage.SchemeMembers.Response
  */
 export const SchemeMembers_Response = new SchemeMembers_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SchemeMember$Type extends MessageType<SchemeMember> {
     constructor() {
-        super("member.SchemeMember", []);
+        super("membermessage.SchemeMember", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.SchemeMember
+ * @generated MessageType for protobuf message membermessage.SchemeMember
  */
 export const SchemeMember = new SchemeMember$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SchemeMember_Request$Type extends MessageType<SchemeMember_Request> {
     constructor() {
-        super("member.SchemeMember.Request", [
+        super("membermessage.SchemeMember.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -1025,20 +1007,20 @@ class SchemeMember_Request$Type extends MessageType<SchemeMember_Request> {
     }
 }
 /**
- * @generated MessageType for protobuf message member.SchemeMember.Request
+ * @generated MessageType for protobuf message membermessage.SchemeMember.Request
  */
 export const SchemeMember_Request = new SchemeMember_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SchemeMember_Response$Type extends MessageType<SchemeMember_Response> {
     constructor() {
-        super("member.SchemeMember.Response", [
+        super("membermessage.SchemeMember.Response", [
             { no: 1, name: "scheme_member_id", kind: "scalar", localName: "scheme_member_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 3, name: "alias", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
-            { no: 7, name: "role", kind: "enum", T: () => ["profile.Role", Role], options: { "ghoster.secret": true } },
+            { no: 7, name: "role", kind: "enum", T: () => ["profileenum.Role", Role], options: { "ghoster.secret": true } },
             { no: 8, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 9, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 10, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp, options: { "ghoster.secret": true } },
@@ -1049,23 +1031,23 @@ class SchemeMember_Response$Type extends MessageType<SchemeMember_Response> {
     }
 }
 /**
- * @generated MessageType for protobuf message member.SchemeMember.Response
+ * @generated MessageType for protobuf message membermessage.SchemeMember.Response
  */
 export const SchemeMember_Response = new SchemeMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddSchemeMember$Type extends MessageType<AddSchemeMember> {
     constructor() {
-        super("member.AddSchemeMember", []);
+        super("membermessage.AddSchemeMember", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddSchemeMember
+ * @generated MessageType for protobuf message membermessage.AddSchemeMember
  */
 export const AddSchemeMember = new AddSchemeMember$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddSchemeMember_Request$Type extends MessageType<AddSchemeMember_Request> {
     constructor() {
-        super("member.AddSchemeMember.Request", [
+        super("membermessage.AddSchemeMember.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -1074,35 +1056,35 @@ class AddSchemeMember_Request$Type extends MessageType<AddSchemeMember_Request> 
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddSchemeMember.Request
+ * @generated MessageType for protobuf message membermessage.AddSchemeMember.Request
  */
 export const AddSchemeMember_Request = new AddSchemeMember_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddSchemeMember_Response$Type extends MessageType<AddSchemeMember_Response> {
     constructor() {
-        super("member.AddSchemeMember.Response", [
+        super("membermessage.AddSchemeMember.Response", [
             { no: 1, name: "scheme_member_id", kind: "scalar", localName: "scheme_member_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.AddSchemeMember.Response
+ * @generated MessageType for protobuf message membermessage.AddSchemeMember.Response
  */
 export const AddSchemeMember_Response = new AddSchemeMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateSchemeMember$Type extends MessageType<UpdateSchemeMember> {
     constructor() {
-        super("member.UpdateSchemeMember", []);
+        super("membermessage.UpdateSchemeMember", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.UpdateSchemeMember
+ * @generated MessageType for protobuf message membermessage.UpdateSchemeMember
  */
 export const UpdateSchemeMember = new UpdateSchemeMember$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateSchemeMember_Request$Type extends MessageType<UpdateSchemeMember_Request> {
     constructor() {
-        super("member.UpdateSchemeMember.Request", [
+        super("membermessage.UpdateSchemeMember.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "scheme_member_id", kind: "scalar", localName: "scheme_member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -1112,33 +1094,33 @@ class UpdateSchemeMember_Request$Type extends MessageType<UpdateSchemeMember_Req
     }
 }
 /**
- * @generated MessageType for protobuf message member.UpdateSchemeMember.Request
+ * @generated MessageType for protobuf message membermessage.UpdateSchemeMember.Request
  */
 export const UpdateSchemeMember_Request = new UpdateSchemeMember_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateSchemeMember_Response$Type extends MessageType<UpdateSchemeMember_Response> {
     constructor() {
-        super("member.UpdateSchemeMember.Response", []);
+        super("membermessage.UpdateSchemeMember.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.UpdateSchemeMember.Response
+ * @generated MessageType for protobuf message membermessage.UpdateSchemeMember.Response
  */
 export const UpdateSchemeMember_Response = new UpdateSchemeMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteSchemeMember$Type extends MessageType<DeleteSchemeMember> {
     constructor() {
-        super("member.DeleteSchemeMember", []);
+        super("membermessage.DeleteSchemeMember", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteSchemeMember
+ * @generated MessageType for protobuf message membermessage.DeleteSchemeMember
  */
 export const DeleteSchemeMember = new DeleteSchemeMember$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteSchemeMember_Request$Type extends MessageType<DeleteSchemeMember_Request> {
     constructor() {
-        super("member.DeleteSchemeMember.Request", [
+        super("membermessage.DeleteSchemeMember.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "scheme_member_id", kind: "scalar", localName: "scheme_member_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
@@ -1146,33 +1128,33 @@ class DeleteSchemeMember_Request$Type extends MessageType<DeleteSchemeMember_Req
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteSchemeMember.Request
+ * @generated MessageType for protobuf message membermessage.DeleteSchemeMember.Request
  */
 export const DeleteSchemeMember_Request = new DeleteSchemeMember_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class DeleteSchemeMember_Response$Type extends MessageType<DeleteSchemeMember_Response> {
     constructor() {
-        super("member.DeleteSchemeMember.Response", []);
+        super("membermessage.DeleteSchemeMember.Response", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.DeleteSchemeMember.Response
+ * @generated MessageType for protobuf message membermessage.DeleteSchemeMember.Response
  */
 export const DeleteSchemeMember_Response = new DeleteSchemeMember_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class MembersWithoutScheme$Type extends MessageType<MembersWithoutScheme> {
     constructor() {
-        super("member.MembersWithoutScheme", []);
+        super("membermessage.MembersWithoutScheme", []);
     }
 }
 /**
- * @generated MessageType for protobuf message member.MembersWithoutScheme
+ * @generated MessageType for protobuf message membermessage.MembersWithoutScheme
  */
 export const MembersWithoutScheme = new MembersWithoutScheme$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class MembersWithoutScheme_Request$Type extends MessageType<MembersWithoutScheme_Request> {
     constructor() {
-        super("member.MembersWithoutScheme.Request", [
+        super("membermessage.MembersWithoutScheme.Request", [
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 3, name: "alias", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -1183,33 +1165,33 @@ class MembersWithoutScheme_Request$Type extends MessageType<MembersWithoutScheme
     }
 }
 /**
- * @generated MessageType for protobuf message member.MembersWithoutScheme.Request
+ * @generated MessageType for protobuf message membermessage.MembersWithoutScheme.Request
  */
 export const MembersWithoutScheme_Request = new MembersWithoutScheme_Request$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class MembersWithoutScheme_Response$Type extends MessageType<MembersWithoutScheme_Response> {
     constructor() {
-        super("member.MembersWithoutScheme.Response", [
+        super("membermessage.MembersWithoutScheme.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "members", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => MembersWithoutScheme_Member }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message member.MembersWithoutScheme.Response
+ * @generated MessageType for protobuf message membermessage.MembersWithoutScheme.Response
  */
 export const MembersWithoutScheme_Response = new MembersWithoutScheme_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class MembersWithoutScheme_Member$Type extends MessageType<MembersWithoutScheme_Member> {
     constructor() {
-        super("member.MembersWithoutScheme.Member", [
+        super("membermessage.MembersWithoutScheme.Member", [
             { no: 1, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 3, name: "alias", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "surname", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
-            { no: 7, name: "role", kind: "enum", T: () => ["profile.Role", Role], options: { "ghoster.secret": true } },
+            { no: 7, name: "role", kind: "enum", T: () => ["profileenum.Role", Role], options: { "ghoster.secret": true } },
             { no: 8, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 9, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 10, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp, options: { "ghoster.secret": true } },
@@ -1220,23 +1202,6 @@ class MembersWithoutScheme_Member$Type extends MessageType<MembersWithoutScheme_
     }
 }
 /**
- * @generated MessageType for protobuf message member.MembersWithoutScheme.Member
+ * @generated MessageType for protobuf message membermessage.MembersWithoutScheme.Member
  */
 export const MembersWithoutScheme_Member = new MembersWithoutScheme_Member$Type();
-/**
- * @generated ServiceType for protobuf service member.MemberHandlers
- */
-export const MemberHandlers = new ServiceType("member.MemberHandlers", [
-    { name: "ProjectMembers", options: {}, I: ProjectMembers_Request, O: ProjectMembers_Response },
-    { name: "ProjectMember", options: {}, I: ProjectMember_Request, O: ProjectMember_Response },
-    { name: "AddProjectMember", options: {}, I: AddProjectMember_Request, O: AddProjectMember_Response },
-    { name: "UpdateProjectMember", options: {}, I: UpdateProjectMember_Request, O: UpdateProjectMember_Response },
-    { name: "DeleteProjectMember", options: {}, I: DeleteProjectMember_Request, O: DeleteProjectMember_Response },
-    { name: "ProfilesWithoutProject", options: {}, I: ProfilesWithoutProject_Request, O: ProfilesWithoutProject_Response },
-    { name: "SchemeMembers", options: {}, I: SchemeMembers_Request, O: SchemeMembers_Response },
-    { name: "SchemeMember", options: {}, I: SchemeMember_Request, O: SchemeMember_Response },
-    { name: "AddSchemeMember", options: {}, I: AddSchemeMember_Request, O: AddSchemeMember_Response },
-    { name: "UpdateSchemeMember", options: {}, I: UpdateSchemeMember_Request, O: UpdateSchemeMember_Response },
-    { name: "DeleteSchemeMember", options: {}, I: DeleteSchemeMember_Request, O: DeleteSchemeMember_Response },
-    { name: "MembersWithoutScheme", options: {}, I: MembersWithoutScheme_Request, O: MembersWithoutScheme_Response }
-]);

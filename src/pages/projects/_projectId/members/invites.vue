@@ -65,7 +65,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { DeleteMemberToken_Request, ListMembersToken_Request } from "@proto/member";
+import { DeleteMemberToken_Request, ListMembersToken_Request } from "@proto/member/message";
 
 // Tabs section
 import { tabMenu } from "./tab";

@@ -41,7 +41,7 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Project_Request, UpdateProject_Request } from "@proto/project";
+import { Project_Request, UpdateProject_Request } from "@proto/project/message";
 
 // Tabs section
 import { tabMenu } from "./tab";
