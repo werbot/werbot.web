@@ -148,3 +148,7 @@ export async function createSchemeToken(schemeId: string, data: { email?: string
 export function tokenAcceptLink(token: string): string {
   return `${window.location.origin}/invite/token/${token}`;
 }
+
+export async function listSchemeTokens(schemeId: string, params: object = {}): Promise<any> {
+  return api().GET(`/v1/tokens/scheme/${schemeId}`, params);
+}

@@ -65,6 +65,29 @@
         <b>Invitation link:</b>
         <a :href="pageData.tmp.inviteLink">{{ pageData.tmp.inviteLink }}</a>
       </div>
+
+      <div v-if="pageData.base.schemeInvites?.length" class="mt-8 overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th class="w-20">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in pageData.base.schemeInvites" :key="index">
+              <td>{{ item.profile?.email ?? item.email }}</td>
+              <td>{{ tokenStatusName(item.status) }}</td>
+              <td>{{ toDate(item.created_at) }}</td>
+              <td>
+                <SvgIcon name="delete" class="cursor-pointer text-red-500" @click="removeInvite(item.token)" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -81,12 +104,12 @@ import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useAuthStore, useProjectStore } from "@/store";
 import { Badge, FormButton, FormInput, Pagination, SvgIcon, Tabs } from "@/components";
-import { showApiError, showMessage } from "@/utils";
+import { showApiError, showMessage, toDate } from "@/utils";
 import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { createSchemeToken, tokenAcceptLink } from "@/api/token";
+import { createSchemeToken, deleteToken, listSchemeTokens, tokenAcceptLink, tokenStatusName } from "@/api/token";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
@@ -163,10 +186,31 @@ const addingMember = async (index: number): Promise<void> => {
   }
 };
 
+const loadInvites = async (): Promise<void> => {
+  const res = await listSchemeTokens(props.serverId);
+  if (res.data) {
+    pageData.value.base.schemeInvites = res.data.result.tokens ?? [];
+  }
+  if (res.error) {
+    pageData.value.base.schemeInvites = [];
+  }
+};
+
+const removeInvite = async (token: string): Promise<void> => {
+  const res = await deleteToken(token, authStore.hasUserRole === 3 ? authStore.hasUserID : null);
+  if (res.data) {
+    showMessage(res.data.message);
+    await loadInvites();
+  }
+  if (res.error) {
+    showApiError(res.error);
+  }
+};
+
 onMounted(async () => {
   document.title = "Server member add";
   projectStore.serverNameByID(props.projectId, props.serverId);
-  await getData(route.query);
+  await Promise.all([getData(route.query), loadInvites()]);
 });
 
 const sendInvite = async (): Promise<void> => {
@@ -181,6 +225,7 @@ const sendInvite = async (): Promise<void> => {
       pageData.value.tmp.inviteLink = tokenAcceptLink(res.data.result.token);
       pageData.value.base.inviteEmail = "";
       showMessage(res.data.message);
+      await loadInvites();
     }
     if (res.error) {
       showApiError(res.error);

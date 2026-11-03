@@ -1,4 +1,4 @@
-// @generated from protobuf file "rpc.proto" (package "notification", syntax proto3)
+// @generated from protobuf file "internal/core/notification/proto/rpc/rpc.proto" (package "notification", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { SendMail_Response } from "./message";

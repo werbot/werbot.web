@@ -149,7 +149,7 @@ class Auth_Password$Type extends MessageType<Auth_Password> {
     constructor() {
         super("auth.Auth.Password", [
             { no: 1, name: "login", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "3", maxLen: "20", pattern: "^[a-zA-Z0-9]+$" } } } },
-            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { minLen: "8", maxLen: "32" } }, "ghoster.secret": true } }
+            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { ignore: "IGNORE_IF_ZERO_VALUE", string: { minLen: "8", maxLen: "32" } }, "ghoster.secret": true } }
         ]);
     }
 }

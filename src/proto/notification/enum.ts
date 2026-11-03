@@ -1,4 +1,4 @@
-// @generated from protobuf file "enum.proto" (package "notificationenum", syntax proto3)
+// @generated from protobuf file "internal/core/notification/proto/enum/enum.proto" (package "notificationenum", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 /**
@@ -24,5 +24,9 @@ export enum MailTemplate {
     /**
      * @generated from protobuf enum value: account_deletion_info = 4;
      */
-    account_deletion_info = 4
+    account_deletion_info = 4,
+    /**
+     * @generated from protobuf enum value: scheme_invite = 5;
+     */
+    scheme_invite = 5
 }

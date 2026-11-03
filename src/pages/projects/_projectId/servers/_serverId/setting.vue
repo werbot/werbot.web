@@ -240,9 +240,8 @@ const buildAccessScheme = (): Record<string, any> | null => {
 
   switch (base.host.auth) {
     case AuthMethod.password:
-      if (base.access.password) {
-        access = { password: { login: base.host.login, password: base.access.password } };
-      }
+      // The backend keeps the stored password when the field is left empty.
+      access = { password: { login: base.host.login, password: base.access.password ?? "" } };
       break;
     case AuthMethod.key:
       if (base.access.key_id) {
@@ -298,7 +297,6 @@ const onUpdate = async (typeData: string): Promise<void> => {
         if (access) {
           requests.push(api(false).UPDATE(`/v1/schemes/${projectId}/${serverId}`, {}, { scheme: access }));
         }
-        // TODO: address/port cannot be saved for password auth without re-entering the password.
         setMessage("Server settings updated");
         break;
       }
