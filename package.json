@@ -9,7 +9,10 @@
     "preview": "bun --bun vite preview --port 4173",
     "typecheck": "vue-tsc --noEmit --skipLibCheck",
     "lint": "eslint --cache .",
-    "update": "bun update --latest"
+    "update": "bun update --latest",
+    "test:e2e": "playwright test",
+    "test:visual": "playwright test e2e/visual.spec.ts",
+    "test:visual:update": "playwright test e2e/visual.spec.ts --update-snapshots"
   },
   "dependencies": {
     "notiwind": "^2.1.0",
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "^1.64.1",
     "@protobuf-ts/plugin": "^2.11.1",
     "@tailwindcss/vite": "^4.1.18",
     "@types/nprogress": "^0.2.3",

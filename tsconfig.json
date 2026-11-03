@@ -29,6 +29,7 @@
 
     "src/router/*",
     "src/router/**/*",
+    "e2e/**/*.ts",
 
     //"../add-on/ee/web/**/*",
     //"../add-on/saas/web/**/*",
