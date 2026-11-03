@@ -24,7 +24,14 @@ export default [
       "eslint.config.{js,ts,mjs}",
       "*.json",
       "**/proto/",
-      "*.d.ts"
+      "*.d.ts",
+      "src/api/",
+      "src/components/",
+      "src/interface/page.ts",
+      "src/pages/",
+      "src/plugins/",
+      "src/router/",
+      "src/store/"
     ]
   },
 
@@ -35,7 +42,13 @@ export default [
 
   {
     languageOptions: {
-      globals: { ...globals.browser, ...globals.node }
+      globals: { ...globals.browser, ...globals.node },
+
+      parserOptions: {
+        project: "./tsconfig.json",
+        tsconfigRootDir: import.meta.dirname,
+        extraFileExtensions: [".svelte"]
+      }
     },
 
     plugins: {
@@ -81,7 +94,10 @@ export default [
     files: ["**/*.svelte"],
     languageOptions: {
       parserOptions: {
-        parser: tseslint.parser
+        parser: tseslint.parser,
+        project: "./tsconfig.json",
+        tsconfigRootDir: import.meta.dirname,
+        extraFileExtensions: [".svelte"]
       }
     }
   }

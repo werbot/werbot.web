@@ -15,10 +15,23 @@
     ".svelte-kit/ambient.d.ts",
     ".svelte-kit/non-ambient.d.ts",
     ".svelte-kit/types/**/$types.d.ts",
-    "src/**/*.d.ts",
+    "src/**/*.ts",
     "src/**/*.svelte",
     "e2e/**/*.ts",
     "playwright.config.ts"
   ],
-  "exclude": ["node_modules", "dist", "build", "public", ".legacy"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "public",
+    ".legacy",
+    "src/api/**",
+    "src/components/**",
+    "src/interface/page.ts",
+    "src/pages/**",
+    "src/plugins/**",
+    "src/router/**",
+    "src/store/**"
+  ]
 }

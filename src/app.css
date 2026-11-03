@@ -50,40 +50,38 @@ svg {
 /* Drawer */
 .drawer {
   @apply invisible;
+}
 
-  &.is-visible {
-    @apply visible;
-  }
+.drawer.is-visible {
+  @apply visible;
+}
 
-  &.is-open {
-    .drawer__overlay {
-      @apply opacity-50;
-    }
+.drawer.is-open .drawer__overlay {
+  @apply opacity-50;
+}
 
-    .drawer__content {
-      @apply translate-x-0;
-    }
-  }
+.drawer.is-open .drawer__content {
+  @apply translate-x-0;
+}
 
-  &__overlay {
-    @apply fixed inset-x-0 inset-y-0 z-50 w-full bg-black opacity-0 transition-opacity select-none;
-  }
+.drawer__overlay {
+  @apply fixed inset-x-0 inset-y-0 z-50 w-full bg-black opacity-0 transition-opacity select-none;
+}
 
-  &__content {
-    @apply fixed inset-y-0 right-0 z-[999] flex h-full w-full translate-x-full flex-col overflow-auto shadow-2xl transition-transform;
-    @apply bg-red-200 p-6;
-  }
+.drawer__content {
+  @apply fixed inset-y-0 right-0 z-[999] flex h-full w-full translate-x-full flex-col overflow-auto shadow-2xl transition-transform;
+  @apply bg-red-200 p-6;
 }
 
 /* Pagination */
 .pagination {
   @apply flex;
+}
 
-  &.btn {
-    @apply mr-2 inline-block rounded-sm bg-gray-200 px-3 py-1.5 text-gray-700;
+.pagination.btn {
+  @apply mr-2 inline-block rounded-sm bg-gray-200 px-3 py-1.5 text-gray-700;
+}
 
-    &-active {
-      @apply bg-gray-700 text-gray-200;
-    }
-  }
+.pagination.btn-active {
+  @apply bg-gray-700 text-gray-200;
 }
