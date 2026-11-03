@@ -23,9 +23,13 @@ export interface RouteDefinition {
 const project = `/projects/${projectId}`;
 const server = `${project}/servers/${serverId}`;
 
-/** `add-on/saas` contributes the `/admin/license1` and `/admin/license2` pages. */
+/**
+ * `add-on/saas` contributes the `/admin/license1` and `/admin/license2` pages and
+ * the "SaaS License 1/2" entries in the admin sidebar. Every `/admin` baseline
+ * therefore depends on it being checked out.
+ */
 export const HAS_SAAS_ADDON = ["../add-on", "add-on"].some((dir) =>
-  existsSync(resolve(process.cwd(), dir, "saas/web/pages/admin/license1.vue"))
+  existsSync(resolve(process.cwd(), dir, "saas/web/pages/admin/menu.ts"))
 );
 
 export const ROUTES: RouteDefinition[] = [

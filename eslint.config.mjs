@@ -14,7 +14,10 @@ import pluginUnusedImports from "eslint-plugin-unused-imports";
 export default [
   {
     ignores: [
-      "*.config.{js,ts,mjs}",
+      "vite.config.{js,ts,mjs}",
+      "tailwind.config.{js,ts,mjs}",
+      "prettier.config.{js,ts,mjs}",
+      "eslint.config.{js,ts,mjs}",
       "*.json",
       "**/proto/",
       "*.d.ts",

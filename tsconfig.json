@@ -30,6 +30,7 @@
     "src/router/*",
     "src/router/**/*",
     "e2e/**/*.ts",
+    "playwright.config.ts",
 
     //"../add-on/ee/web/**/*",
     //"../add-on/saas/web/**/*",
