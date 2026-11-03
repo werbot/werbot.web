@@ -18,6 +18,7 @@ export default [
       "dist/",
       "public/",
       "vite.config.{js,ts,mjs}",
+      "vitest.config.{js,ts,mjs}",
       "svelte.config.{js,ts,mjs}",
       "prettier.config.{js,ts,mjs}",
       "playwright.config.{js,ts,mjs}",
