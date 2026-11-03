@@ -16,7 +16,7 @@ export const route = [
         props: true
       },
       {
-        path: "signup",
+        path: "signup/:token?",
         name: "auth-signup",
         component: () => import("@pages/auth/signup.vue"),
         props: true

@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { api } from "@/api";
 import { Project_Request } from "@proto/project/message";
-import { Scheme_Request as ServerNameByID_Request } from "@proto/scheme/scheme";
 import { checkTimestampDifference } from "@/utils";
 
 interface ProjectState {
@@ -32,7 +31,7 @@ export const useProjectStore = defineStore("project", {
     getServerNameByID:
       (state) =>
       (project_id: string, server_id: string): string => {
-        return state.projects?.[project_id]?.servers[server_id]?.name ?? undefined;
+        return state.projects?.[project_id]?.servers?.[server_id]?.name ?? undefined;
       }
   },
 
@@ -53,13 +52,13 @@ export const useProjectStore = defineStore("project", {
         const queryParams = <Project_Request>{ project_id: project_id };
         const res = await api().GET(`/v1/projects`, queryParams);
         if (res.data) {
-          const servers = this.projects[project_id] || {};
+          const project = this.projects?.[project_id];
 
           this.projects = {
             ...this.projects,
             [project_id]: {
               info: { ...res.data.result },
-              servers: servers || {},
+              servers: project?.servers ?? {},
               timestamp: Date.now()
             }
           };
@@ -70,38 +69,30 @@ export const useProjectStore = defineStore("project", {
     },
 
     async serverNameByID(project_id: string, server_id: string) {
-      if (
-        this.base?.[project_id]?.[server_id]?.name !== undefined &&
-        checkTimestampDifference(this.base[project_id][server_id].timestamp, 3600)
-      ) {
+      const project = this.projects?.[project_id];
+      const servers = project?.servers ?? {};
+
+      if (servers?.[server_id]?.name !== undefined && checkTimestampDifference(servers[server_id].timestamp, 3600)) {
         return;
       }
 
       try {
-        const queryParams = {
-          //user_id
-          project_id: project_id,
-          server_id: server_id
-        } as unknown as ServerNameByID_Request;
-
-        const res = await api(false).GET(`/v1/servers/name`, queryParams);
+        const res = await api(false).GET(`/v1/schemes/${project_id}/${server_id}`);
         if (res.data) {
-          const project = this.projects[project_id] || {};
-          const servers = project.servers || {};
-          const info = project.info || {};
+          const server = res.data.result;
 
           this.projects = {
             ...this.projects,
             [project_id]: {
-              info: { ...info },
+              info: { ...(project?.info ?? {}) },
               servers: {
                 ...servers,
                 [server_id]: {
-                  name: res.data.result.server_name,
-                  timestamp: new Date().getTime()
+                  name: server.title ?? server.alias ?? "",
+                  timestamp: Date.now()
                 }
               },
-              timestamp: project.timestamp
+              timestamp: project?.timestamp ?? Date.now()
             }
           };
         }
@@ -111,9 +102,24 @@ export const useProjectStore = defineStore("project", {
     },
 
     async updateServerNameByID(project_id: string, server_id: string, new_name: string) {
-      this.base[project_id][server_id] = {
-        name: new_name,
-        timestamp: new Date().getTime()
+      const project = this.projects?.[project_id];
+
+      if (!project) {
+        return;
+      }
+
+      this.projects = {
+        ...this.projects,
+        [project_id]: {
+          ...project,
+          servers: {
+            ...project.servers,
+            [server_id]: {
+              name: new_name,
+              timestamp: Date.now()
+            }
+          }
+        }
       };
     }
   }

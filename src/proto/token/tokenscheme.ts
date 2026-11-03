@@ -1,12 +1,12 @@
-// @generated from protobuf file "tokenscheme.proto" (package "token.scheme", syntax proto3)
+// @generated from protobuf file "internal/core/token/proto/message/tokenscheme.proto" (package "token.scheme", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "../google/protobuf/timestamp";
 import { SchemeType } from "../scheme/access";
-import { Token_Response } from "./message/tokenmessage";
-import { Status } from "./enum/tokenenum";
-import { Action } from "./enum/tokenenum";
+import { Token_Response } from "./tokenmessage";
+import { Status } from "./tokenenum";
+import { Action } from "./tokenenum";
 /**
  * rpc SchemeTokens
  *

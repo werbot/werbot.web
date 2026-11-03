@@ -126,7 +126,7 @@
         </div>
 
         <FormButton
-          v-if="pageData.base.access.key || pageData.base.access.password > 3"
+          v-if="pageData.base.access.key_id || pageData.base.access.password > 3"
           class="mt-8"
           :disabled="pageData.tmp.loading_key"
           :loading="pageData.tmp.loading_key"
@@ -150,7 +150,6 @@ import { PageData } from "@/interface/page";
 // API section
 import { api } from "@/api";
 import { AuthMethod } from "@proto/scheme/auth";
-import { Scheme_Request as Server_Request, SchemeAccess_Request as ServerAccess_Request } from "@proto/scheme/scheme";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -163,7 +162,8 @@ const pageData = ref<PageData>({
   },
   tmp: {
     new_key: false,
-    loading_key: false
+    loading_key: false,
+    schemeKey: null
   },
   error: {}
 });
@@ -183,36 +183,44 @@ const getData = async (): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
-    const serverRequestParams = {
-      project_id: projectId,
-      server_id: serverId
-    } as unknown as Server_Request;
-
-    const accessRequestParams = {
-      project_id: projectId,
-      server_id: serverId
-    } as unknown as ServerAccess_Request;
-
     const [serverRes, accessRes] = await Promise.all([
-      api().GET(`/v1/servers`, serverRequestParams),
-      api().GET(`/v1/servers/access`, accessRequestParams)
+      api().GET(`/v1/schemes/${projectId}/${serverId}`),
+      api().GET(`/v1/schemes/${projectId}/${serverId}/access`)
     ]);
 
     if (serverRes.data) {
-      pageData.value.base.host = serverRes.data.result;
+      const server = serverRes.data.result;
+      pageData.value.base.host = {
+        ...server,
+        auth: server.auth_method
+      };
     }
 
     if (accessRes.data) {
-      pageData.value.base.access.auth = accessRes.data.result.auth;
+      const accessScheme = accessRes.data.result?.scheme;
+      const [schemeKey, scheme] = Object.entries(accessScheme ?? {})[0] ?? [];
 
-      switch (accessRes.data.result.auth) {
-        case AuthMethod.password:
-          pageData.value.base.access.password = accessRes.data.result.Access.password;
-          break;
+      if (schemeKey && scheme) {
+        const schemeData = scheme as any;
+        pageData.value.tmp.schemeKey = schemeKey;
+        pageData.value.base.host.address = schemeData.address;
+        pageData.value.base.host.port = schemeData.port;
 
-        case AuthMethod.key:
-          pageData.value.base.access.public_key = accessRes.data.result.Access.Key.public;
-          break;
+        const [authKey, authData] = Object.entries(schemeData.access ?? {})[0] ?? [];
+        const auth = authData as any;
+
+        if (authKey === "password") {
+          pageData.value.base.access.auth = AuthMethod.password;
+          pageData.value.base.host.auth = AuthMethod.password;
+          pageData.value.base.host.login = auth.login;
+          pageData.value.base.access.password = "";
+        } else if (authKey === "key") {
+          pageData.value.base.access.auth = AuthMethod.key;
+          pageData.value.base.host.auth = AuthMethod.key;
+          pageData.value.base.host.login = auth.login;
+          pageData.value.base.access.key_id = auth.key_id;
+          pageData.value.base.access.public_key = auth.key?.public ?? "";
+        }
       }
     }
   } catch (err) {
@@ -220,15 +228,47 @@ const getData = async (): Promise<void> => {
   }
 };
 
-const onUpdate = async (typeData: string): Promise<void> => {
-  delete pageData.value.base.scheme;
+const buildAccessScheme = (): Record<string, any> | null => {
+  const { base, tmp } = pageData.value;
+  const schemeKey = tmp.schemeKey;
 
-  const { projectId, serverId } = props;
-  const { address, port, login, title, description, active, audit } = pageData.value.base.host;
-  const bodyParams: any = {
-    project_id: projectId,
-    server_id: serverId
+  if (!schemeKey) {
+    return null;
+  }
+
+  let access: Record<string, any> | null = null;
+
+  switch (base.host.auth) {
+    case AuthMethod.password:
+      if (base.access.password) {
+        access = { password: { login: base.host.login, password: base.access.password } };
+      }
+      break;
+    case AuthMethod.key:
+      if (base.access.key_id) {
+        access = { key: { login: base.host.login, key_id: base.access.key_id } };
+      }
+      break;
+    default:
+      access = null;
+  }
+
+  if (!access) {
+    return null;
+  }
+
+  return {
+    [schemeKey]: {
+      address: base.host.address,
+      port: base.host.port,
+      access
+    }
   };
+};
+
+const onUpdate = async (typeData: string): Promise<void> => {
+  const { projectId, serverId } = props;
+  const { title, description, active, audit } = pageData.value.base.host;
 
   let message: any = {
     warn: false,
@@ -240,44 +280,60 @@ const onUpdate = async (typeData: string): Promise<void> => {
     message.warn = warn;
   };
 
-  switch (typeData) {
-    case "info":
-      bodyParams.info = { address, port: port || null, login, title, description };
-      setMessage("Server settings updated");
-      break;
-    case "active":
-      bodyParams.active = active;
-      setMessage(active ? "Server enabled" : "Server disabled", !active);
-      break;
-    case "audit":
-      bodyParams.audit = audit;
-      setMessage(audit ? "Audit settings enabled" : "Audit settings disabled", !audit);
-      break;
-    default:
-      console.log("exit");
-      return;
-  }
-
   try {
     if (typeData === "info") {
       pageData.value.loading = true;
     }
 
-    const res = await api(false).UPDATE(`/v1/servers`, {}, bodyParams);
-    if (res.data) {
-      if (typeData === "info") {
-        projectStore.updateServerNameByID(props.projectId, props.serverId, title);
-        ["address", "port", "login", "description"].forEach((field) => {
-          pageData.value.error[`info.${field}`] = null;
-        });
+    let requests: Promise<any>[] = [];
+
+    switch (typeData) {
+      case "info": {
+        requests = [
+          api(false).UPDATE(`/v1/schemes/${projectId}/${serverId}`, {}, { title }),
+          api(false).UPDATE(`/v1/schemes/${projectId}/${serverId}`, {}, { description })
+        ];
+
+        const access = buildAccessScheme();
+        if (access) {
+          requests.push(api(false).UPDATE(`/v1/schemes/${projectId}/${serverId}`, {}, { scheme: access }));
+        }
+        // TODO: address/port cannot be saved for password auth without re-entering the password.
+        setMessage("Server settings updated");
+        break;
       }
-      showMessage(res.data.message);
+      case "active":
+        requests = [api(false).UPDATE(`/v1/schemes/${projectId}/${serverId}`, {}, { active })];
+        setMessage(active ? "Server enabled" : "Server disabled", !active);
+        break;
+      case "audit":
+        requests = [api(false).UPDATE(`/v1/schemes/${projectId}/${serverId}`, {}, { audit })];
+        setMessage(audit ? "Audit settings enabled" : "Audit settings disabled", !audit);
+        break;
+      default:
+        console.log("exit");
+        return;
     }
 
-    if (res.error && typeData === "info") {
-      pageData.value.error = res.error.result;
-      showApiError(res.error);
+    const responses = await Promise.all(requests);
+    const failed = responses.find((res) => res.error);
+
+    if (failed) {
+      if (typeData === "info") {
+        pageData.value.error = failed.error.result;
+      }
+      showApiError(failed.error);
+      return;
     }
+
+    if (typeData === "info") {
+      projectStore.updateServerNameByID(props.projectId, props.serverId, title);
+      ["address", "port", "login", "description"].forEach((field) => {
+        pageData.value.error[`info.${field}`] = null;
+      });
+    }
+
+    showMessage(message.text, message.warn ? "connextWarning" : undefined);
   } catch (err) {
     console.error("Unexpected error:", err);
   } finally {
@@ -292,25 +348,12 @@ const onUpdateAccess = async (): Promise<void> => {
   try {
     tmp.loading_key = true;
 
-    let bodyParams = {
-      project_id: projectId,
-      server_id: serverId,
-      access: {}
-    };
-
-    switch (base.access.auth) {
-      case AuthMethod.password:
-        bodyParams.access = { password: base.access.password };
-        break;
-      case AuthMethod.key:
-        bodyParams.access = { key: base.access.key };
-        break;
-      default:
-        console.log("exit");
-        return;
+    const access = buildAccessScheme();
+    if (!access) {
+      return;
     }
 
-    const res = await api().UPDATE(`/v1/servers/access`, {}, bodyParams);
+    const res = await api().UPDATE(`/v1/schemes/${projectId}/${serverId}`, {}, { scheme: access });
     if (res.data) {
       base.access.key = null;
       base.access.password = null;
@@ -336,7 +379,7 @@ const genNewKey = async (): Promise<void> => {
     const res = await api().GET(`/v1/keys/generate`);
     if (res.data) {
       base.access.public_key = res.data.result.public;
-      base.access.key = res.data.result.uuid;
+      base.access.key_id = res.data.result.uuid;
     }
     if (res.error) {
       showApiError(res.error);

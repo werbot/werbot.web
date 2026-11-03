@@ -32,14 +32,15 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useSystemStore } from "@/store";
+import { useAuthStore, useSystemStore } from "@/store";
 import { showApiError } from "@/utils";
 import { usePageData } from "@/interface/page";
 
 // API section
-import { api } from "@/api";
+import { acceptToken, getTokenInfo, isTokenUsable } from "@/api/token";
 
 const router = useRouter();
+const authStore = useAuthStore();
 const systemStore = useSystemStore();
 const pageData = usePageData();
 
@@ -52,23 +53,49 @@ const props = defineProps({
 
 onMounted(async () => {
   document.title = "Invitation to join the project";
+
+  if (!props.invite) {
+    pageData.value.base.message = "Invite is invalid";
+    return;
+  }
+
   systemStore.invites.project = props.invite;
 
   try {
-    const res = await api().POST(`/v1/members/invite/${props.invite}`);
-    if (res.data) {
-      pageData.value.base = res.data.result;
-      if (pageData.value.base.project_id) {
-        systemStore.invites.project = null;
-        router.push({ name: "index" });
-      }
-    }
+    const res = await getTokenInfo(props.invite);
     if (res.error) {
-      showApiError(res.error);
-      if (res.error.result == "New user") {
-        router.push({ name: "auth-signup" });
-      }
+      systemStore.invites.project = null;
+      showApiError(res.error, [404]);
+      pageData.value.base.message = "Invite is invalid";
+      return;
     }
+
+    const token = res.data.result;
+    if (!isTokenUsable(token)) {
+      systemStore.invites.project = null;
+      pageData.value.base.message = "Invite is activated";
+      return;
+    }
+
+    if (!authStore.logged_in) {
+      const profileExists = token.profile_exists ?? !!token.profile_id;
+      if (profileExists) {
+        router.push({ name: "auth-signin", query: { token: props.invite } });
+      } else {
+        router.push({ name: "auth-signup", params: { token: props.invite } });
+      }
+      return;
+    }
+
+    const acceptRes = await acceptToken(props.invite);
+    if (acceptRes.data) {
+      systemStore.invites.project = null;
+      router.push({ name: "index" });
+      return;
+    }
+
+    pageData.value.base.message = acceptRes.error?.code === 403 ? "Wrong user" : "Invite is invalid";
+    showApiError(acceptRes.error);
   } catch (err) {
     console.error("Unexpected error:", err);
   }

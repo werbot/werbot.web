@@ -56,7 +56,6 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { UpdatePassword_Request } from "@proto/profile/message";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -93,12 +92,11 @@ const onUpdatePassword = async (): Promise<void> => {
     pageData.value.loading = true;
 
     const bodyParams = {
-      user_id: authStore.hasUserID,
       old_password: pageData.value.base.old_password,
       new_password: pageData.value.base.new_password
-    } as unknown as UpdatePassword_Request;
+    };
 
-    const res = await api().UPDATE(`/v1/users/password`, {}, bodyParams);
+    const res = await api().UPDATE(`/v1/profiles/password`, {}, bodyParams);
     if (res.data) {
       showMessage(res.data.message);
       pageData.value.base.old_password = "";

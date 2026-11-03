@@ -33,8 +33,8 @@
               <span class="dot bg-green-500"></span>
             </div>
           </td>
-          <td>{{ item.user_name }} {{ item.user_surname }}</td>
-          <td>{{ item.user_login }}</td>
+          <td>{{ item.name }} {{ item.surname }}</td>
+          <td>{{ item.alias }}</td>
           <td>{{ item.updated_at?.seconds > 0 ? toDate(item.updated_at) : "" }}</td>
           <td>
             <div class="flex items-center">
@@ -46,7 +46,7 @@
               active-class="current"
               :to="{
                 name: 'projects-projectId-servers-serverId-members-memberId',
-                params: { projectId: props.projectId, serverId: props.serverId, memberId: item.member_id }
+                params: { projectId: props.projectId, serverId: props.serverId, memberId: item.scheme_member_id }
               }"
             >
               <SvgIcon name="logs" class="text-gray-700" />
@@ -84,10 +84,6 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import {
-  DeleteSchemeMember_Request as DeleteServerMember_Request,
-  UpdateSchemeMember_Request as UpdateServerMember_Request
-} from "@proto/member/message";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
@@ -109,22 +105,16 @@ const props = defineProps({
 });
 
 const getData = async (routeQuery: any): Promise<void> => {
-  const { projectId, serverId } = props;
+  const { serverId } = props;
 
   try {
-    if (authStore.hasUserRole === 3) {
-      routeQuery.member_id = authStore.hasUserID;
-    }
-
     const queryParams = {
-      owner_id: routeQuery.member_id,
-      project_id: projectId,
-      server_id: serverId,
+      ...(authStore.hasUserRole === 3 && { owner_id: authStore.hasUserID }),
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
       ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
     };
 
-    const res = await api().GET(`/v1/members/server`, queryParams);
+    const res = await api().GET(`/v1/members/scheme/${serverId}`, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
     }
@@ -141,22 +131,14 @@ const onSelectPage = (e: any): void => {
 };
 
 const changeMemberActive = async (index: number, online: boolean): Promise<void> => {
-  const { projectId, serverId } = props;
+  const { serverId } = props;
 
   try {
-    const bodyParams = {
-      owner_id: authStore.hasUserID,
-      project_id: projectId,
-      server_id: serverId,
-      member_id: pageData.value.base.members[Number(index)].member_id,
-      setting: {
-        active: online
-      }
-    } as unknown as UpdateServerMember_Request;
+    const member = pageData.value.base.members[Number(index)];
 
-    const res = await api().UPDATE(`/v1/members/server/active`, {}, bodyParams);
+    const res = await api().UPDATE(`/v1/members/scheme/${serverId}/${member.scheme_member_id}`, {}, { active: online });
     if (res.data) {
-      pageData.value.base.members[Number(index)].active = online;
+      member.active = online;
     }
     if (res.error) {
       showApiError(res.error);
@@ -167,17 +149,12 @@ const changeMemberActive = async (index: number, online: boolean): Promise<void>
 };
 
 const removeMember = async (id: number): Promise<void> => {
-  const { projectId, serverId } = props;
+  const { serverId } = props;
 
   try {
-    const queryParams = {
-      owner_id: authStore.hasUserID,
-      project_id: projectId,
-      server_id: serverId,
-      member_id: pageData.value.base.members[Number(id)].member_id
-    } as unknown as DeleteServerMember_Request;
+    const member = pageData.value.base.members[Number(id)];
 
-    const res = await api().DELETE(`/v1/members/server`, queryParams);
+    const res = await api().DELETE(`/v1/members/scheme/${serverId}/${member.scheme_member_id}`);
     if (res.data) {
       closeModal();
       pageData.value.base.members.splice(id, 1);

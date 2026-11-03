@@ -1,36 +1,36 @@
-// @generated from protobuf file "token.proto" (package "token", syntax proto3)
+// @generated from protobuf file "internal/core/token/proto/rpc/token.proto" (package "token", syntax proto3)
 // tslint:disable
 // @ts-nocheck
-import { UpdateSchemeToken_Response } from "./message/tokenscheme";
-import { UpdateSchemeToken_Request } from "./message/tokenscheme";
-import { AddTokenSchemeAccess_Response } from "./message/tokenscheme";
-import { AddTokenSchemeAccess_Request } from "./message/tokenscheme";
-import { AddTokenSchemeAdd_Response } from "./message/tokenscheme";
-import { AddTokenSchemeAdd_Request } from "./message/tokenscheme";
-import { SchemeTokens_Response } from "./message/tokenscheme";
-import { SchemeTokens_Request } from "./message/tokenscheme";
-import { UpdateProjectToken_Response } from "./message/tokenproject";
-import { UpdateProjectToken_Request } from "./message/tokenproject";
-import { AddTokenProjectMember_Response } from "./message/tokenproject";
-import { AddTokenProjectMember_Request } from "./message/tokenproject";
-import { ProjectTokens_Response } from "./message/tokenproject";
-import { ProjectTokens_Request } from "./message/tokenproject";
-import { UpdateProfileToken_Response } from "./message/tokenprofile";
-import { UpdateProfileToken_Request } from "./message/tokenprofile";
-import { AddTokenProfileDelete_Response } from "./message/tokenprofile";
-import { AddTokenProfileDelete_Request } from "./message/tokenprofile";
-import { AddTokenProfileRegistration_Response } from "./message/tokenprofile";
-import { AddTokenProfileRegistration_Request } from "./message/tokenprofile";
-import { AddTokenProfileReset_Response } from "./message/tokenprofile";
-import { AddTokenProfileReset_Request } from "./message/tokenprofile";
-import { ProfileTokens_Response } from "./message/tokenprofile";
-import { ProfileTokens_Request } from "./message/tokenprofile";
-import { DeleteToken_Response } from "./message/tokenmessage";
-import { DeleteToken_Request } from "./message/tokenmessage";
-import { ArchivedToken_Response } from "./message/tokenmessage";
-import { ArchivedToken_Request } from "./message/tokenmessage";
-import { Token_Response } from "./message/tokenmessage";
-import { Token_Request } from "./message/tokenmessage";
+import { UpdateSchemeToken_Response } from "./tokenscheme";
+import { UpdateSchemeToken_Request } from "./tokenscheme";
+import { AddTokenSchemeAccess_Response } from "./tokenscheme";
+import { AddTokenSchemeAccess_Request } from "./tokenscheme";
+import { AddTokenSchemeAdd_Response } from "./tokenscheme";
+import { AddTokenSchemeAdd_Request } from "./tokenscheme";
+import { SchemeTokens_Response } from "./tokenscheme";
+import { SchemeTokens_Request } from "./tokenscheme";
+import { UpdateProjectToken_Response } from "./tokenproject";
+import { UpdateProjectToken_Request } from "./tokenproject";
+import { AddTokenProjectMember_Response } from "./tokenproject";
+import { AddTokenProjectMember_Request } from "./tokenproject";
+import { ProjectTokens_Response } from "./tokenproject";
+import { ProjectTokens_Request } from "./tokenproject";
+import { UpdateProfileToken_Response } from "./tokenprofile";
+import { UpdateProfileToken_Request } from "./tokenprofile";
+import { AddTokenProfileDelete_Response } from "./tokenprofile";
+import { AddTokenProfileDelete_Request } from "./tokenprofile";
+import { AddTokenProfileRegistration_Response } from "./tokenprofile";
+import { AddTokenProfileRegistration_Request } from "./tokenprofile";
+import { AddTokenProfileReset_Response } from "./tokenprofile";
+import { AddTokenProfileReset_Request } from "./tokenprofile";
+import { ProfileTokens_Response } from "./tokenprofile";
+import { ProfileTokens_Request } from "./tokenprofile";
+import { DeleteToken_Response } from "./tokenmessage";
+import { DeleteToken_Request } from "./tokenmessage";
+import { ArchivedToken_Response } from "./tokenmessage";
+import { ArchivedToken_Request } from "./tokenmessage";
+import { Token_Response } from "./tokenmessage";
+import { Token_Request } from "./tokenmessage";
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 /**
  * @generated ServiceType for protobuf service token.TokenHandlers

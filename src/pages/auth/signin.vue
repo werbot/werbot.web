@@ -32,16 +32,21 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useAuthStore, useSystemStore } from "@/store";
 import { FormButton, FormInput } from "@/components";
 import { SignIn_Request } from "@proto/profile/message";
 import { usePageData } from "@/interface/page";
 
+const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const systemStore = useSystemStore();
 const pageData = usePageData();
+
+const pendingToken = (): string | null => {
+  return (route.query.token as string) || systemStore.invites.project;
+};
 
 const onSubmit = async (): Promise<void> => {
   try {
@@ -52,9 +57,14 @@ const onSubmit = async (): Promise<void> => {
       password: pageData.value.base.password
     });
 
-    if (systemStore.invites.project) {
-      const invite = systemStore.invites.project;
-      router.push({ name: "invite-project-invite", params: { invite } });
+    if (!authStore.logged_in) {
+      return;
+    }
+
+    const token = pendingToken();
+    if (token) {
+      systemStore.invites.project = token;
+      router.push({ name: "invite-project-invite", params: { invite: token } });
     } else {
       router.push({ name: "index" });
     }
@@ -67,7 +77,12 @@ onMounted(async () => {
   document.title = "Sign In";
 
   if (authStore.logged_in) {
-    router.push({ name: "index" });
+    const token = pendingToken();
+    if (token) {
+      router.push({ name: "invite-project-invite", params: { invite: token } });
+    } else {
+      router.push({ name: "index" });
+    }
   }
 });
 </script>

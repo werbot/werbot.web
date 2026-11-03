@@ -107,16 +107,12 @@ import { PageData } from "@/interface/page";
 // API section
 import { api } from "@/api";
 import { Countries_Request } from "@proto/system/message";
-import {
-  DeleteSchemeFirewall_Request as DeleteServerFirewall_Request,
-  SchemeFirewall_Request as ServerFirewall_Request,
-  UpdateSchemeFirewall_Request as UpdateServerFirewall_Request
-} from "@proto/scheme/scheme";
 import { Rules } from "@proto/firewall/enum";
 
 type IpMask = {
   start_ip: string;
   end_ip: string;
+  network: string;
 };
 
 // Tabs section
@@ -147,19 +143,43 @@ const props = defineProps({
   }
 });
 
+const networkToMask = (network: string): { start_ip: string; end_ip: string } => {
+  try {
+    const address = network.includes(":") ? new Address6(network) : new Address4(network);
+    return {
+      start_ip: address.startAddress().addressMinusSuffix,
+      end_ip: address.endAddress().addressMinusSuffix
+    };
+  } catch {
+    return { start_ip: network, end_ip: network };
+  }
+};
+
 const getData = async (): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
-    const queryParams = {
-      project_id: projectId,
-      server_id: serverId
-    } as unknown as ServerFirewall_Request;
-
-    const res = await api().GET(`/v1/servers/firewall`, queryParams);
+    const res = await api().GET(`/v1/schemes/${projectId}/${serverId}/firewall`);
     if (res.data) {
-      pageData.value.tmp.country = res.data.result.country;
-      pageData.value.tmp.network = res.data.result.network;
+      const result = res.data.result ?? {};
+      const country = result.country ?? {};
+      const network = result.network ?? {};
+
+      pageData.value.tmp.country = {
+        ...country,
+        list: (country.list ?? []).map((item: any) => ({
+          id: item.country_id,
+          country_code: item.country_code,
+          country_name: item.country_name
+        }))
+      };
+      pageData.value.tmp.network = {
+        ...network,
+        list: (network.list ?? []).map((item: any) => ({
+          id: item.network_id,
+          ...networkToMask(item.network)
+        }))
+      };
     }
     if (res.error) {
       showApiError(res.error);
@@ -237,7 +257,8 @@ const addIp = async (ip: string, rules: Rules): Promise<void> => {
 
     const request = <IpMask>{
       start_ip: address.startAddress().addressMinusSuffix,
-      end_ip: address.endAddress().addressMinusSuffix
+      end_ip: address.endAddress().addressMinusSuffix,
+      network: ip
     };
 
     create(request, rules).then((res) => {
@@ -262,26 +283,17 @@ const create = async (record: any, rules: Rules): Promise<any> => {
 
   try {
     let bodyParams: any;
-    const commonParams = {
-      project_id: projectId,
-      server_id: serverId
-    };
 
     switch (rules) {
       case Rules.country:
         bodyParams = {
-          ...commonParams,
           country_code: record
         };
         break;
 
       case Rules.ip:
         bodyParams = {
-          ...commonParams,
-          ip: <IpMask>{
-            start_ip: record.start_ip,
-            end_ip: record.end_ip
-          }
+          network: record.network ?? record.start_ip
         };
         break;
 
@@ -289,11 +301,12 @@ const create = async (record: any, rules: Rules): Promise<any> => {
         return;
     }
 
-    const res = await api(false).POST(`/v1/servers/firewall`, {}, bodyParams);
+    const res = await api(false).POST(`/v1/schemes/${projectId}/${serverId}/firewall`, {}, bodyParams);
     if (res.data) {
       showMessage(res.data.message);
       pageData.value.error = {};
-      return res.data.result;
+      const result = res.data.result ?? {};
+      return { id: result.country_id ?? result.network_id };
     }
     if (res.error) {
       showApiError(res.error);
@@ -307,29 +320,24 @@ const update = async (status: boolean, rules: Rules): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
+    let bodyParams: any;
+
     switch (rules) {
       case Rules.country:
         pageData.value.tmp.country.wite_list = status;
-        status = pageData.value.tmp.country.wite_list;
+        bodyParams = { country: status };
         break;
 
       case Rules.ip:
         pageData.value.tmp.network.wite_list = status;
-        status = pageData.value.tmp.network.wite_list;
+        bodyParams = { network: status };
         break;
 
       default:
         return;
     }
 
-    const bodyParams = {
-      project_id: projectId,
-      server_id: serverId,
-      rule: rules,
-      status: status
-    } as unknown as UpdateServerFirewall_Request;
-
-    const res = await api(false).UPDATE(`/v1/servers/firewall`, {}, bodyParams);
+    const res = await api(false).UPDATE(`/v1/schemes/${projectId}/${serverId}/firewall`, {}, bodyParams);
     if (res.data) {
       showMessage(res.data.message);
       pageData.value.error = {};
@@ -355,14 +363,9 @@ const remove = async (index: number, rules: Rules): Promise<void> => {
       return;
     }
 
-    const queryParams = {
-      project_id: projectId,
-      server_id: serverId,
-      rule: rules,
-      record_id: record_id
-    } as unknown as DeleteServerFirewall_Request;
+    const firewallType = rules === Rules.country ? "country" : "network";
 
-    const res = await api(false).DELETE(`/v1/servers/firewall`, queryParams);
+    const res = await api(false).DELETE(`/v1/schemes/${projectId}/${serverId}/firewall/${firewallType}/${record_id}`);
     if (res.data) {
       if (rules === Rules.country) {
         pageData.value.tmp.country.list.splice(index, 1);

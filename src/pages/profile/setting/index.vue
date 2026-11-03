@@ -53,12 +53,6 @@ import { api } from "@/api";
 // Tabs section
 import { tabMenu } from "./tab";
 
-interface UpdateUser_Info {
-  email: string;
-  name: string;
-  surname: string;
-}
-
 const authStore = useAuthStore();
 const pageData = usePageData();
 
@@ -66,24 +60,34 @@ const onUpdateProfile = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
-    const bodyParams = {
-      user_id: authStore.hasUserID,
-      info: <UpdateUser_Info>{
-        email: authStore.user.email,
-        name: authStore.user.name,
-        surname: authStore.user.surname
-      }
+    const fields = {
+      email: authStore.user.email,
+      name: authStore.user.name,
+      surname: authStore.user.surname
     };
 
-    const res = await api().UPDATE(`/v1/users`, {}, bodyParams);
-    if (res.data) {
-      showMessage(res.data.message);
+    const responses = await Promise.all(
+      Object.entries(fields)
+        .filter(([, value]) => Boolean(value))
+        .map(([field, value]) => api().UPDATE(`/v1/profiles`, {}, { [field]: value }))
+    );
+    const failed = responses.find((res) => res.error);
+
+    if (!failed) {
+      showMessage("Profile updated");
       pageData.value.error = {};
+      return;
     }
-    if (res.error) {
-      pageData.value.error = res.error.result;
-      showApiError(res.error);
+
+    const result = failed.error.result;
+    if (result && typeof result === "object") {
+      pageData.value.error = {
+        "info.email": result.email ?? null,
+        "info.name": result.name ?? null,
+        "info.surname": result.surname ?? null
+      };
     }
+    showApiError(failed.error);
   } catch (err) {
     console.error("Unexpected error:", err);
   } finally {

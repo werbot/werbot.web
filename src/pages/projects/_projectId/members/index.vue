@@ -40,7 +40,7 @@
               <span class="dot" :class="item.online ? 'bg-green-500' : 'bg-gray-200'"></span>
             </div>
           </td>
-          <td>{{ item.user_name }}</td>
+          <td>{{ item.name }}</td>
           <td>{{ item.servers_count }}</td>
           <td>999</td>
           <td>999</td>
@@ -82,7 +82,6 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { UpdateProjectMember_Request } from "@proto/member/message";
 import { Role } from "@proto/profile/enum";
 
 // Tabs section
@@ -128,18 +127,15 @@ const onSelectPage = (e: any): void => {
 
 const changeMemberActive = async (index: number, online: boolean): Promise<void> => {
   try {
-    const bodyParams = <UpdateProjectMember_Request>{
-      owner_id: authStore.hasUserID,
-      project_id: props.projectId,
-      member_id: pageData.value.base.members[Number(index)].member_id,
-      setting: {
-        active: online
-      }
-    };
+    const member = pageData.value.base.members[Number(index)];
 
-    const res = await api().UPDATE(`/v1/members/active`, {}, bodyParams);
+    const res = await api().UPDATE(
+      `/v1/members/project/${props.projectId}/${member.member_id}`,
+      {},
+      { active: online }
+    );
     if (res.data) {
-      pageData.value.base.members[Number(index)].active = online;
+      member.active = online;
     }
     if (res.error) {
       showApiError(res.error);

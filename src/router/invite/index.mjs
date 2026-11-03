@@ -10,6 +10,13 @@ export const route = [
         redirect: { name: "404" }
       },
       {
+        path: "token/:invite",
+        name: "invite-token",
+        meta: { layout: "auth" },
+        component: () => import("@pages/invite/project/_invite.vue"),
+        props: true
+      },
+      {
         path: "project",
         children: [
           {

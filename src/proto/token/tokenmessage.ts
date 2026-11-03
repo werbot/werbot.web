@@ -1,11 +1,11 @@
-// @generated from protobuf file "tokenmessage.proto" (package "token.message", syntax proto3)
+// @generated from protobuf file "internal/core/token/proto/message/tokenmessage.proto" (package "token.message", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "../google/protobuf/timestamp";
-import { Status } from "./enum/tokenenum";
-import { Action } from "./enum/tokenenum";
-import { Section } from "./enum/tokenenum";
+import { Status } from "./tokenenum";
+import { Action } from "./tokenenum";
+import { Section } from "./tokenenum";
 import { SchemeType } from "../scheme/access";
 /**
  * MetaDataProfile
@@ -108,6 +108,10 @@ export interface Token_Response {
      * @generated from protobuf field: string scheme_id = 8
      */
     scheme_id: string;
+    /**
+     * @generated from protobuf field: bool profile_exists = 9
+     */
+    profile_exists: boolean;
     /**
      * @generated from protobuf oneof: data
      */
@@ -277,6 +281,7 @@ class Token_Response$Type extends MessageType<Token_Response> {
             { no: 6, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 7, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
             { no: 8, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "ghoster.secret": true } },
+            { no: 9, name: "profile_exists", kind: "scalar", localName: "profile_exists", T: 8 /*ScalarType.BOOL*/ },
             { no: 20, name: "profile", kind: "message", oneof: "data", T: () => MetaDataProfile },
             { no: 21, name: "scheme", kind: "message", oneof: "data", T: () => MetaDataScheme },
             { no: 22, name: "agent", kind: "message", oneof: "data", T: () => MetaDataAgent },

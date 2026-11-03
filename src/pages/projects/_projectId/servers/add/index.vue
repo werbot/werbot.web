@@ -16,7 +16,7 @@
           <router-link
             :to="{
               name: 'projects-projectId-servers-add-scheme',
-              params: { projectId: props.projectId, scheme: ServerScheme[3] }
+              params: { projectId: props.projectId, scheme: 'server_ssh' }
             }"
           >
             <img src="/img/schemes/servers/ssh.svg" />
@@ -42,7 +42,6 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { SchemeType as ServerScheme } from "@proto/scheme/access";
 
 const props = defineProps({
   projectId: {

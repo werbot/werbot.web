@@ -123,18 +123,15 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { useAuthStore } from "@/store";
 import { Badge, FormToggle, Pagination, SvgIcon } from "@/components";
 import { addressToColor, getAddressType, serverSchemeToColor, showApiError, showMessage } from "@/utils";
 import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Schemes_Request as ListServers_Request } from "@proto/scheme/scheme";
 import { SchemeType as ServerScheme } from "@proto/scheme/access";
 
 const route = useRoute();
-const authStore = useAuthStore();
 const pageData = usePageData();
 
 const props = defineProps({
@@ -146,19 +143,25 @@ const props = defineProps({
 
 const getData = async (routeQuery: any): Promise<void> => {
   try {
-    if (authStore.hasUserRole === 3) {
-      routeQuery.user_id = authStore.hasUserID;
-    }
-
-    const queryParams = <ListServers_Request>{
-      project_id: props.projectId,
+    const queryParams = {
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
       ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
     };
 
-    const res = await api().GET(`/v1/servers`, queryParams);
+    const res = await api().GET(`/v1/schemes/${props.projectId}/server`, queryParams);
     if (res.data) {
-      pageData.value.base = res.data.result;
+      const result = res.data.result;
+      const schemes = Array.isArray(result.schemes) ? result.schemes : [];
+
+      pageData.value.base = {
+        total: result.total ?? schemes.length,
+        servers: schemes.map((scheme: any) => ({
+          ...scheme,
+          server_id: scheme.scheme_id,
+          auth: scheme.auth_method,
+          scheme: scheme.scheme_type
+        }))
+      };
     }
     if (res.error) {
       showApiError(res.error, [404]);
@@ -174,14 +177,9 @@ const onSelectPage = (e: any): void => {
 
 const changeServerActive = async (index: number, online: boolean): Promise<void> => {
   try {
-    const bodyParams = {
-      user_id: authStore.hasUserID,
-      server_id: pageData.value.base.servers[Number(index)].server_id,
-      project_id: props.projectId,
-      active: online
-    };
+    const server = pageData.value.base.servers[Number(index)];
 
-    const res = await api(false).UPDATE(`/v1/servers`, {}, bodyParams);
+    const res = await api(false).UPDATE(`/v1/schemes/${props.projectId}/${server.server_id}`, {}, { active: online });
     if (res.data) {
       showMessage(res.data.message, online ? undefined : "connextWarning");
     }

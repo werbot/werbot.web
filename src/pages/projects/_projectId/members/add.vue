@@ -51,11 +51,11 @@ import { showApiError, showMessage } from "@/utils";
 import { usePageData } from "@/interface/page";
 
 // API section
-import { api } from "@/api";
+import { createProjectToken, tokenInviteLink } from "@/api/token";
 
 type AddInvite_Request = {
-  user_name: string;
-  user_surname: string;
+  name: string;
+  surname: string;
   email: string;
 };
 
@@ -77,14 +77,15 @@ const onSendInvite = async (): Promise<void> => {
     pageData.value.loading = true;
 
     const bodyParams = <AddInvite_Request>{
-      user_name: pageData.value.base.name,
-      user_surname: pageData.value.base.surname,
+      name: pageData.value.base.name,
+      surname: pageData.value.base.surname,
       email: pageData.value.base.email
     };
 
-    const res = await api().POST(`/v1/members/invite/project/${props.projectId}`, {}, bodyParams);
+    const res = await createProjectToken(props.projectId, bodyParams);
     if (res.data) {
-      showMessage(res.data.result);
+      const token = res.data.result?.token;
+      showMessage(token ? `Invitation created: ${tokenInviteLink(token)}` : res.data.message);
       pageData.value.error = {};
       router.push({
         name: "projects-projectId-members-invites",

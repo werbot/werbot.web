@@ -1,12 +1,12 @@
-// @generated from protobuf file "tokenproject.proto" (package "token.project", syntax proto3)
+// @generated from protobuf file "internal/core/token/proto/message/tokenproject.proto" (package "token.project", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "../google/protobuf/timestamp";
-import { MetaDataProfile } from "./message/tokenmessage";
-import { Token_Response } from "./message/tokenmessage";
-import { Status } from "./enum/tokenenum";
-import { Action } from "./enum/tokenenum";
+import { MetaDataProfile } from "./tokenmessage";
+import { Token_Response } from "./tokenmessage";
+import { Status } from "./tokenenum";
+import { Action } from "./tokenenum";
 /**
  * rpc ProjectTokens
  *

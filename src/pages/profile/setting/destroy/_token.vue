@@ -23,12 +23,7 @@ const props = defineProps({
 
 onMounted(async () => {
   try {
-    const bodyParams = {
-      user_id: authStore.hasUserID,
-      token: props.token
-    };
-
-    const res = await api().DELETE(`/v1/users`, {}, bodyParams);
+    const res = await api().DELETE(`/v1/profiles/delete/${props.token}`);
     if (res.data) {
       showMessage(res.data.message);
       authStore.resetStore();

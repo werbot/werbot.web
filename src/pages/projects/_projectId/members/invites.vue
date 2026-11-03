@@ -20,17 +20,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in pageData.base.invites" :key="index">
-          <td>{{ item.name }} {{ item.surname }}</td>
-          <td>{{ item.email }}</td>
-          <td>{{ toDate(item.created_at) }}</td>
+        <tr v-for="(item, index) in pageData.base.tokens" :key="index">
+          <td>{{ tokenProfile(item).name }} {{ tokenProfile(item).surname }}</td>
+          <td>{{ tokenProfile(item).email }}</td>
+          <td>{{ item.created_at ? toDate(item.created_at) : "" }}</td>
           <td>
-            <Badge v-if="item.status == 'activated'" :name="item.status" color="green" />
-            <Badge v-if="item.status == 'send'" :name="item.status" color="yellow" />
+            <Badge :name="tokenStatusName(item.status)" :color="tokenStatusColor(item.status)" />
           </td>
           <td>
             <SvgIcon
-              v-if="item.status == 'send'"
+              v-if="isTokenUsable(item)"
               name="delete"
               class="cursor-pointer text-red-500"
               @click="openModal(Number(index))"
@@ -64,17 +63,18 @@ import { Badge, FormButton, Modal, Pagination, SvgIcon, Tabs } from "@/component
 import { usePageData } from "@/interface/page";
 
 // API section
-import { api } from "@/api";
+import {
+  deleteToken,
+  isTokenUsable,
+  listProjectTokens,
+  tokenProfile,
+  tokenStatusColor,
+  tokenStatusName
+} from "@/api/token";
 
 type ListInvites_Request = {
   limit?: number;
   offset?: number;
-};
-
-type DeleteInvite_Request = {
-  owner_id: string | null;
-  project_id: string | null;
-  invite_id: string;
 };
 
 // Tabs section
@@ -93,20 +93,17 @@ const props = defineProps({
 
 const getData = async (routeQuery: any): Promise<void> => {
   try {
-    if (authStore.hasUserRole === 3) {
-      routeQuery.member_id = authStore.hasUserID;
-    }
-
     const queryParams = <ListInvites_Request>{
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
       ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
     };
 
-    const res = await api().GET(`/v1/members/invite/project/${props.projectId}`, queryParams);
+    const res = await listProjectTokens(props.projectId, queryParams);
     if (res.data) {
       pageData.value.base = res.data.result;
     }
     if (res.error) {
+      pageData.value.base = { total: 0, tokens: [] };
       showApiError(res.error, [404]);
     }
   } catch (err) {
@@ -129,16 +126,12 @@ const closeModal = (): void => {
 
 const removeInvite = async (id: number): Promise<void> => {
   try {
-    const queryParams = <DeleteInvite_Request>{
-      owner_id: authStore.hasUserID,
-      project_id: props.projectId,
-      invite_id: pageData.value.base.invites[id].id
-    };
+    const token = pageData.value.base.tokens[id];
 
-    const res = await api().DELETE(`/v1/members/invite`, queryParams);
+    const res = await deleteToken(token.token, authStore.hasUserID);
     if (res.data) {
       closeModal();
-      pageData.value.base.invites.splice(id, 1);
+      pageData.value.base.tokens.splice(id, 1);
       pageData.value.base.total = pageData.value.base.total - 1;
       showMessage(res.data.message);
     }

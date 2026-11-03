@@ -1,9 +1,28 @@
 type Method = "full" | "lite";
 
-export function toDate(timestamp: { seconds: number; nanos?: number }, format: Method = "full"): string {
-  const dateMath = timestamp.nanos ? timestamp.seconds * 1000 + timestamp.nanos / 1e6 : timestamp.seconds * 1000;
+type Timestamp = { seconds: number; nanos?: number } | string | number | Date | null | undefined;
 
-  return format === "lite" ? new Date(dateMath).toLocaleDateString() : new Date(dateMath).toLocaleString();
+export function toDate(timestamp: Timestamp, format: Method = "full"): string {
+  if (!timestamp) {
+    return "";
+  }
+
+  let date: Date;
+
+  if (timestamp instanceof Date) {
+    date = timestamp;
+  } else if (typeof timestamp === "string" || typeof timestamp === "number") {
+    date = new Date(timestamp);
+  } else {
+    const dateMath = timestamp.nanos ? timestamp.seconds * 1000 + timestamp.nanos / 1e6 : timestamp.seconds * 1000;
+    date = new Date(dateMath);
+  }
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return format === "lite" ? date.toLocaleDateString() : date.toLocaleString();
 }
 
 export function addMinutes(date: Date, minutes: number): Date {

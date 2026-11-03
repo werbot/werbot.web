@@ -1,12 +1,12 @@
-// @generated from protobuf file "tokenprofile.proto" (package "token.profile", syntax proto3)
+// @generated from protobuf file "internal/core/token/proto/message/tokenprofile.proto" (package "token.profile", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";
-import { MetaDataProfile } from "./message/tokenmessage";
+import { MetaDataProfile } from "./tokenmessage";
 import { Timestamp } from "../google/protobuf/timestamp";
-import { Token_Response } from "./message/tokenmessage";
-import { Status } from "./enum/tokenenum";
-import { Action } from "./enum/tokenenum";
+import { Token_Response } from "./tokenmessage";
+import { Status } from "./tokenenum";
+import { Action } from "./tokenenum";
 /**
  * rpc ProfileTokens
  *

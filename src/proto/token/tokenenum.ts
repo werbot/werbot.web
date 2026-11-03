@@ -1,4 +1,4 @@
-// @generated from protobuf file "tokenenum.proto" (package "token.enum", syntax proto3)
+// @generated from protobuf file "internal/core/token/proto/enum/tokenenum.proto" (package "token.enum", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 /**

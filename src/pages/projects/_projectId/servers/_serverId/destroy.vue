@@ -26,19 +26,17 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore, useProjectStore } from "@/store";
+import { useProjectStore } from "@/store";
 import { FormButton, Tabs } from "@/components";
 import { showApiError, showMessage } from "@/utils";
 
 // API section
 import { api } from "@/api";
-import { DeleteScheme_Request as DeleteServer_Request } from "@proto/scheme/scheme";
 
 // Tabs section
 import { tabMenu } from "./tab";
 
 const router = useRouter();
-const authStore = useAuthStore();
 const projectStore = useProjectStore();
 
 const props = defineProps({
@@ -54,13 +52,7 @@ const props = defineProps({
 
 const onDelete = async (): Promise<void> => {
   try {
-    const queryParams = {
-      user_id: authStore.hasUserID,
-      project_id: props.projectId,
-      server_id: props.serverId
-    } as unknown as DeleteServer_Request;
-
-    const res = await api().DELETE(`/v1/servers`, queryParams);
+    const res = await api().DELETE(`/v1/schemes/${props.projectId}/${props.serverId}`);
     if (res.data) {
       showMessage(res.data.message);
       router.push({ name: "projects-projectId-servers" });

@@ -62,11 +62,10 @@ const onDelete = async (): Promise<void> => {
     pageData.value.loading = true;
 
     const bodyParams = {
-      user_id: authStore.hasUserID,
       password: pageData.value.base.password
     };
 
-    const res = await api().DELETE(`/v1/users`, {}, bodyParams);
+    const res = await api().POST(`/v1/profiles/delete`, {}, bodyParams);
     if (res.data) {
       pageData.value.base.password = "";
       pageData.value.error = {};

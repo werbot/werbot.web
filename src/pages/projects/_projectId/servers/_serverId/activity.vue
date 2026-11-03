@@ -73,10 +73,6 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import {
-  SchemeActivity_Request as ServerActivity_Request,
-  UpdateSchemeActivity_Request as UpdateServerActivity_Request
-} from "@proto/scheme/scheme";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -95,16 +91,34 @@ const props = defineProps({
   }
 });
 
+const dayNames: Record<string, string> = {
+  mon: "monday",
+  tue: "tuesday",
+  wed: "wednesday",
+  thu: "thursday",
+  fri: "friday",
+  sat: "saturday",
+  sun: "sunday"
+};
+
+const toUiWeek = (week: any): Record<string, number[]> => {
+  return Object.fromEntries(
+    Object.entries(dayNames).map(([shortName, longName]) => [longName, week?.[shortName] ?? Array(24).fill(0)])
+  );
+};
+
+const toApiWeek = (week: any): Record<string, number[]> => {
+  return Object.fromEntries(
+    Object.entries(dayNames).map(([shortName, longName]) => [shortName, week?.[longName] ?? Array(24).fill(0)])
+  );
+};
+
 const getData = async (): Promise<void> => {
   try {
-    const queryParams = {
-      project_id: props.projectId,
-      server_id: props.serverId
-    } as unknown as ServerActivity_Request;
-
-    const res = await api().GET(`/v1/servers/activity`, queryParams);
+    const res = await api().GET(`/v1/schemes/${props.projectId}/${props.serverId}/activity`);
     if (res.data) {
-      pageData.value.base = res.data.result;
+      const result = res.data.result;
+      pageData.value.base = toUiWeek(result?.week ?? result);
     }
     if (res.error) {
       showApiError(res.error);
@@ -166,13 +180,11 @@ const onUpdate = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
-    const bodyParams = {
-      project_id: props.projectId,
-      server_id: props.serverId,
-      activity: pageData.value.base
-    } as unknown as UpdateServerActivity_Request;
-
-    const res = await api().UPDATE(`/v1/servers/activity`, {}, bodyParams);
+    const res = await api().UPDATE(
+      `/v1/schemes/${props.projectId}/${props.serverId}/activity`,
+      {},
+      { activity: toApiWeek(pageData.value.base) }
+    );
     if (res.data) {
       showMessage(res.data.message);
     }
