@@ -101,5 +101,16 @@ export default [
         extraFileExtensions: [".svelte"]
       }
     }
+  },
+
+  {
+    files: ["**/*.svelte.ts"],
+    languageOptions: {
+      parserOptions: {
+        parser: tseslint.parser,
+        project: "./tsconfig.json",
+        tsconfigRootDir: import.meta.dirname
+      }
+    }
   }
 ];
