@@ -84,7 +84,6 @@ export const ROUTES: RouteDefinition[] = [
   { id: "admin-projects", path: "/admin/projects", auth: true },
   { id: "admin-settings", path: "/admin/settings", auth: true },
   { id: "admin-subscriptions", path: "/admin/subscriptions", auth: true },
-  { id: "admin-license", path: "/admin/license", auth: true },
   { id: "admin-licenses", path: "/admin/licenses", auth: true },
   ...(HAS_SAAS_ADDON
     ? [

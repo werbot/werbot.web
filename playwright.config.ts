@@ -17,7 +17,9 @@ export default defineConfig({
   use: {
     baseURL: process.env.WEB_BASE_URL ?? "http://localhost:5173",
     viewport: { width: 1440, height: 900 },
-    screenshot: "only-on-failure"
+    screenshot: "only-on-failure",
+    locale: "en-US",
+    timezoneId: "UTC"
   },
 
   webServer: process.env.WEB_BASE_URL

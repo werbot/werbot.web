@@ -110,6 +110,8 @@ export async function waitForRendered(page: Page, timeout = 10_000): Promise<voi
  * keeps a placeholder vnode (`<!--[object Object]-->`) instead of the layout, so
  * the page stays blank after a full load (almost always for `/admin/**`). The
  * root instance already holds the resolved route, so a forced update paints it.
+ *
+ * TODO(sveltekit-task-17): remove after Vue app is gone.
  */
 async function repaint(page: Page): Promise<boolean> {
   return page.evaluate(() => {
