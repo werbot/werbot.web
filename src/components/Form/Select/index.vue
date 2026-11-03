@@ -73,7 +73,7 @@ const setLanguage = (val: string): void => {
 
 .form-dropdown {
   button {
-    @apply inline-block h-10 min-w-[10rem] justify-between rounded-sm border border-solid border-gray-300 py-2 pl-3 pr-2 leading-tight;
+    @apply inline-block h-10 min-w-[10rem] justify-between rounded-sm border border-solid border-gray-300 py-2 pr-2 pl-3 leading-tight;
     @apply flex items-center whitespace-nowrap;
   }
 
@@ -81,7 +81,7 @@ const setLanguage = (val: string): void => {
     @apply absolute z-10 mt-2 min-w-[10rem] rounded-sm bg-gray-50 shadow-2xl ring-1 ring-gray-300;
 
     li {
-      @apply cursor-pointer select-none px-3 py-2 hover:bg-gray-200;
+      @apply cursor-pointer px-3 py-2 select-none hover:bg-gray-200;
     }
   }
 }

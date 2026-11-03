@@ -1,4 +1,12 @@
-export const topMenu = {
+type ProfileMenuItem = {
+  name: string;
+  link: { name: string };
+  icon: string;
+  sort?: number;
+  isUserRole?: number;
+};
+
+export const topMenu: Record<string, ProfileMenuItem[]> = {
   group10: [
     {
       name: "Settings",

@@ -79,12 +79,12 @@ const onUpdate = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
-    const bodyParams = <UpdateProject_Request>{
+    const bodyParams = {
       project_id: props.projectId,
       owner_id: authStore.hasUserID,
       title: pageData.value.base.title,
       login: pageData.value.base.login
-    };
+    } as unknown as UpdateProject_Request;
 
     const res = await api().UPDATE(`/v1/projects`, {}, bodyParams);
     if (res.data) {

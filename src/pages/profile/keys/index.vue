@@ -26,7 +26,7 @@
             <div v-else class="text-gray-400"><span class="font-bold">Last used:</span> no used</div>
           </td>
           <td class="w-6">
-            <SvgIcon name="delete" class="cursor-pointer text-red-500" @click="openModal(index)" />
+            <SvgIcon name="delete" class="cursor-pointer text-red-500" @click="openModal(Number(index))" />
           </td>
         </tr>
       </tbody>

@@ -42,7 +42,7 @@
           </td>
           <td>
             <div class="flex items-center">
-              <SvgIcon name="plus_square" class="cursor-pointer" @click="addingMember(index)" />
+              <SvgIcon name="plus_square" class="cursor-pointer" @click="addingMember(Number(index))" />
             </div>
           </td>
         </tr>
@@ -71,7 +71,10 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddServerMember_Request, MembersWithoutServer_Request } from "@proto/member/message";
+import {
+  AddSchemeMember_Request as AddServerMember_Request,
+  MembersWithoutScheme_Request as MembersWithoutServer_Request
+} from "@proto/member/message";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
@@ -104,13 +107,13 @@ const getData = async (routeQuery: any): Promise<void> => {
       routeQuery.owner_id = authStore.hasUserID;
     }
 
-    const queryParams = <MembersWithoutServer_Request>{
+    const queryParams = {
       owner_id: routeQuery.owner_id,
       project_id: projectId,
       server_id: serverId,
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
       ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
-    };
+    } as unknown as MembersWithoutServer_Request;
 
     const res = await api().GET(`/v1/members/server/search`, queryParams);
     if (res.data) {
@@ -129,13 +132,13 @@ const addingMember = async (index: number): Promise<void> => {
 
   try {
     pageData.value.loading = true;
-    const bodyParams = <AddServerMember_Request>{
+    const bodyParams = {
       owner_id: authStore.hasUserID,
       project_id: projectId,
       server_id: serverId,
       member_id: pageData.value.base.members[Number(index)].member_id,
       active: pageData.value.base.members[Number(index)].active
-    };
+    } as unknown as AddServerMember_Request;
 
     const res = await api().POST(`/v1/members/server`, {}, bodyParams);
     if (res.data) {

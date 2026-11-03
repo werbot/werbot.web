@@ -92,14 +92,14 @@
               class="grow"
             />
 
-            <FormButton lite class="ml-2 mt-8 flex-none" @click="copy(pageData.base.public_key)">
+            <FormButton lite class="mt-8 ml-2 flex-none" @click="copy(pageData.base.public_key)">
               <span>{{ copied ? "Copied" : "Copy" }}</span>
             </FormButton>
             <FormButton
               lite
               :disabled="pageData.tmp.new_key"
               :rotate="pageData.tmp.new_key"
-              class="ml-2 mt-8 flex-none"
+              class="mt-8 ml-2 flex-none"
               @click="genNewKey()"
             >
               <SvgIcon name="refresh" />
@@ -224,7 +224,7 @@ onMounted(async () => {
   pageData.value.base.access = {};
   pageData.value.tmp.new_key = false;
 
-  if (!Object.values(ServerScheme).includes(props.scheme!)) {
+  if (!props.scheme || !Object.values(ServerScheme).includes(props.scheme)) {
     router.push({ name: "projects-projectId-servers-add" });
   }
 });

@@ -122,7 +122,7 @@ watch(
   }
 
   &__overlay {
-    @apply fixed inset-x-0 inset-y-0 z-50 w-full select-none bg-black opacity-0 transition-opacity;
+    @apply fixed inset-x-0 inset-y-0 z-50 w-full bg-black opacity-0 transition-opacity select-none;
   }
 
   &__content {

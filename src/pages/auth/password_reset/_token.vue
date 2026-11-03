@@ -103,8 +103,13 @@ const onSubmit = async (): Promise<void> => {
 onMounted(async () => {
   document.title = "Reset password";
 
+  if (!props.token) {
+    router.push({ name: "auth-signin" });
+    return;
+  }
+
   try {
-    const res = await api().GET(`/auth/password_reset/${props.token!}`);
+    const res = await api().GET(`/auth/password_reset/${props.token}`);
     if (res.error) {
       if (res.error && ["Not Found", "Token is invalid"].includes(res.error.message)) {
         router.push({ name: "auth-signin" });

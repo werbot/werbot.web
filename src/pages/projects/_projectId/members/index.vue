@@ -52,7 +52,7 @@
           </td>
           <td>
             <div class="flex items-center">
-              <FormToggle :id="index" v-model="item.active" @change="changeMemberActive(index, item.active)" />
+              <FormToggle :id="index" v-model="item.active" @change="changeMemberActive(Number(index), item.active)" />
             </div>
           </td>
           <td>

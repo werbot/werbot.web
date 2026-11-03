@@ -14,7 +14,7 @@
     <form @submit.prevent>
       <table>
         <tr v-for="(itemDay, day) in pageData.base" :key="day">
-          <td class="worktime-weekday w-10 select-none pr-5 outline-hidden">
+          <td class="worktime-weekday w-10 pr-5 outline-hidden select-none">
             <span
               class="cursor-pointer"
               :class="{ 'text-red-500': ['saturday', 'sunday'].includes(String(day)) }"
@@ -73,7 +73,10 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { SchemeActivity_Request as ServerActivity_Request, UpdateSchemeActivity_Request as UpdateServerActivity_Request } from "@proto/scheme/scheme";
+import {
+  SchemeActivity_Request as ServerActivity_Request,
+  UpdateSchemeActivity_Request as UpdateServerActivity_Request
+} from "@proto/scheme/scheme";
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -94,10 +97,10 @@ const props = defineProps({
 
 const getData = async (): Promise<void> => {
   try {
-    const queryParams = <ServerActivity_Request>{
+    const queryParams = {
       project_id: props.projectId,
       server_id: props.serverId
-    };
+    } as unknown as ServerActivity_Request;
 
     const res = await api().GET(`/v1/servers/activity`, queryParams);
     if (res.data) {
@@ -111,7 +114,7 @@ const getData = async (): Promise<void> => {
   }
 };
 
-const invert = (e: string, day: number, hour: number): void => {
+const invert = (e: string, day: string | number, hour: string | number): void => {
   if (pageData.value.tmp.md && e == "mousemove") {
     if (pageData.value.tmp.prevDay == day && pageData.value.tmp.prevHour == hour) {
       return;
@@ -137,7 +140,7 @@ const stopDrag = (): void => {
   document.addEventListener("mouseup", stopDrag);
 };
 
-const invertDay = (day: number): void => {
+const invertDay = (day: string | number): void => {
   pageData.value.base[day] = pageData.value.base[day].map((item: number) => Number(!item));
 };
 
@@ -163,11 +166,11 @@ const onUpdate = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
-    const bodyParams = <UpdateServerActivity_Request>{
+    const bodyParams = {
       project_id: props.projectId,
       server_id: props.serverId,
       activity: pageData.value.base
-    };
+    } as unknown as UpdateServerActivity_Request;
 
     const res = await api().UPDATE(`/v1/servers/activity`, {}, bodyParams);
     if (res.data) {

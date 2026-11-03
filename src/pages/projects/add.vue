@@ -50,10 +50,10 @@ const onSubmit = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
-    const bodyParams = <AddProject_Request>{
+    const bodyParams = {
       title: pageData.value.base.title,
       login: pageData.value.base.login
-    };
+    } as unknown as AddProject_Request;
 
     const res = await api().POST(`/v1/projects`, {}, bodyParams);
     if (res.data) {

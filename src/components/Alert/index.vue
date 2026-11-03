@@ -14,14 +14,14 @@
           move-delay="delay-300"
         >
           <div v-for="notification in notifications" :key="notification.id" class="notification">
-            <div :class="['ico', typeStyles[notification.type].bgColor]">
-              <SvgIcon :name="typeStyles[notification.type].icon" class="text-white" />
+            <div :class="['ico', styleFor(notification.type).bgColor]">
+              <SvgIcon :name="styleFor(notification.type).icon" class="text-white" />
             </div>
 
             <div class="message">
               <div class="mx-3">
-                <span :class="['font-semibold', typeStyles[notification.type].textColor]">{{
-                  typeStyles[notification.type].label
+                <span :class="['font-semibold', styleFor(notification.type).textColor]">{{
+                  styleFor(notification.type).label
                 }}</span>
                 <p>{{ notification.text }}</p>
               </div>
@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import { Notification, NotificationGroup, notify } from "notiwind";
 import { SvgIcon } from "@/components";
-import { computed } from "vue";
 
 const handleNotification = (eName: string, notificationType: string): void => {
   const callback = (e: Event): void => {
@@ -60,19 +59,22 @@ handleNotification("connextSuccess", "success");
 handleNotification("connextWarning", "warning");
 handleNotification("connextInfo", "info");
 
-const typeStyles = computed(() => ({
+const typeStyles = {
   error: { bgColor: "bg-red-500", textColor: "text-red-500", label: "Error", icon: "error" },
   info: { bgColor: "bg-blue-500", textColor: "text-blue-500", label: "Info", icon: "info" },
   success: { bgColor: "bg-green-500", textColor: "text-green-500", label: "Success", icon: "success" },
   warning: { bgColor: "bg-yellow-500", textColor: "text-yellow-500", label: "Warning", icon: "warning" }
-}));
+};
+
+const styleFor = (type: unknown): (typeof typeStyles)[keyof typeof typeStyles] =>
+  typeStyles[type as keyof typeof typeStyles];
 </script>
 
 <style>
 @reference "tailwindcss";
 
 .alert {
-  @apply pointer-events-none fixed bottom-0 right-0 z-50 flex items-start justify-end p-6 px-4 py-6;
+  @apply pointer-events-none fixed right-0 bottom-0 z-50 flex items-start justify-end p-6 px-4 py-6;
 
   & .notification {
     @apply mx-auto mt-4 flex w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-md;

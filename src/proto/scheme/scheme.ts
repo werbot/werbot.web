@@ -162,6 +162,10 @@ export interface Scheme_Response {
      * @generated from protobuf field: google.protobuf.Timestamp created_at = 17
      */
     created_at?: Timestamp;
+    /**
+     * @generated from protobuf field: string scheme_member_id = 18
+     */
+    scheme_member_id: string; // @gotags: json:"-"
 }
 /**
  * rpc AddScheme
@@ -1003,7 +1007,8 @@ class Scheme_Response$Type extends MessageType<Scheme_Response> {
             { no: 14, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp, options: { "ghoster.secret": true } },
             { no: 15, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp, options: { "ghoster.secret": true } },
             { no: 16, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp, options: { "ghoster.secret": true } },
-            { no: 17, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
+            { no: 17, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp },
+            { no: 18, name: "scheme_member_id", kind: "scalar", localName: "scheme_member_id", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

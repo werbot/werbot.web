@@ -27,7 +27,7 @@ const badgeClass = computed(() => `badge badge-${props.color} ${props.class}`);
 @reference "tailwindcss";
 
 .badge {
-  @apply mr-2 rounded-sm px-2.5 pb-1 pt-0.5 text-sm font-medium;
+  @apply mr-2 rounded-sm px-2.5 pt-0.5 pb-1 text-sm font-medium;
 
   &-gray {
     @apply bg-gray-200 text-gray-700;

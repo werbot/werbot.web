@@ -78,11 +78,11 @@ export const useProjectStore = defineStore("project", {
       }
 
       try {
-        const queryParams = <ServerNameByID_Request>{
+        const queryParams = {
           //user_id
           project_id: project_id,
           server_id: server_id
-        };
+        } as unknown as ServerNameByID_Request;
 
         const res = await api(false).GET(`/v1/servers/name`, queryParams);
         if (res.data) {

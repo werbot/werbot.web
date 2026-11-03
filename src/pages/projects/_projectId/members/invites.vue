@@ -33,7 +33,7 @@
               v-if="item.status == 'send'"
               name="delete"
               class="cursor-pointer text-red-500"
-              @click="openModal(index)"
+              @click="openModal(Number(index))"
             />
           </td>
         </tr>
@@ -65,7 +65,17 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { DeleteMemberToken_Request, ListMembersToken_Request } from "@proto/member/message";
+
+type ListInvites_Request = {
+  limit?: number;
+  offset?: number;
+};
+
+type DeleteInvite_Request = {
+  owner_id: string | null;
+  project_id: string | null;
+  invite_id: string;
+};
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -87,7 +97,7 @@ const getData = async (routeQuery: any): Promise<void> => {
       routeQuery.member_id = authStore.hasUserID;
     }
 
-    const queryParams = <ListMembersToken_Request>{
+    const queryParams = <ListInvites_Request>{
       ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
       ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
     };
@@ -119,7 +129,7 @@ const closeModal = (): void => {
 
 const removeInvite = async (id: number): Promise<void> => {
   try {
-    const queryParams = <DeleteMemberToken_Request>{
+    const queryParams = <DeleteInvite_Request>{
       owner_id: authStore.hasUserID,
       project_id: props.projectId,
       invite_id: pageData.value.base.invites[id].id

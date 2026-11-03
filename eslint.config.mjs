@@ -1,5 +1,6 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
+import globals from "globals";
 
 import configPrettier from "eslint-config-prettier";
 
@@ -31,6 +32,7 @@ export default [
 
     languageOptions: {
       parser: vueParser,
+      globals: globals.browser,
       parserOptions: {
         parser: tseslint.parser,
         project: './tsconfig.json',
@@ -45,7 +47,7 @@ export default [
     },
 
     rules: {
-      'vue/component-tags-order': ['error', { order: ['template', 'script', 'style'] }],
+      'vue/block-order': ['error', { order: ['template', 'script', 'style'] }],
       "vue/multi-word-component-names": "off",
       "vue/singleline-html-element-content-newline": "off",
 

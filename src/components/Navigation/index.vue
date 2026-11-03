@@ -8,7 +8,7 @@
             <span>{{ item.name }}</span>
           </router-link>
         </li>
-        <li v-if="index !== profileMenu.length - 1">
+        <li v-if="index !== Object.keys(profileMenu).length - 1">
           <hr />
         </li>
       </template>
@@ -27,7 +27,7 @@
             <span>{{ item.name }}</span>
           </router-link>
         </li>
-        <li v-if="index !== projectMenu.length - 1">
+        <li v-if="index !== Object.keys(projectMenu).length - 1">
           <hr />
         </li>
       </template>
@@ -43,7 +43,7 @@
             <span>{{ item.name }}</span>
           </router-link>
         </li>
-        <li v-if="index !== adminMenu.length - 1">
+        <li v-if="index !== Object.keys(adminMenu).length - 1">
           <hr />
         </li>
       </template>
@@ -52,15 +52,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject } from "vue";
+import { computed, inject, ref, type Ref } from "vue";
 import { useRoute } from "vue-router";
 import { SvgIcon } from "@/components";
 
+type NavItem = {
+  name: string;
+  link: { name: string };
+  icon: string;
+  sort?: number;
+  isUserRole?: number;
+};
+
+type NavMenu = Record<string, NavItem[]>;
+
 const route = useRoute();
 
-const adminMenu = inject("adminMenu");
-const profileMenu = inject("profileMenu");
-const projectMenu = inject("projectMenu");
+const adminMenu = inject<Ref<NavMenu>>("adminMenu", ref({}));
+const profileMenu = inject<Ref<NavMenu>>("profileMenu", ref({}));
+const projectMenu = inject<Ref<NavMenu>>("projectMenu", ref({}));
 
 const isProfileRoute = computed(() => (route.name as string).startsWith("profile"));
 const isProjectRoute = computed(() => (route.name as string).startsWith("projects"));
@@ -72,7 +82,7 @@ const isActive = (linkName: string): boolean => (route.name as string).startsWit
 <style>
 @reference "tailwindcss";
 .sidebar {
-  @apply mb-6 mt-2;
+  @apply mt-2 mb-6;
 }
 
 .sidebar hr {

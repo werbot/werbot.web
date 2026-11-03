@@ -14,7 +14,7 @@ export function getAddressType(addr: string): AddressType {
     } else {
       throw new Error("Invalid address kind");
     }
-  } catch (err) {
+  } catch {
     return "Hostname";
   }
 }

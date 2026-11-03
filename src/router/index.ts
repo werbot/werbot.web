@@ -52,7 +52,7 @@ async function loadLayoutMiddleware(route: any): Promise<void> {
   let layoutComponent: any;
   try {
     layoutComponent = await import(`@/layouts/${route.meta.layout}.vue`);
-  } catch (e) {
+  } catch {
     layoutComponent = await import(`@/layouts/blank.vue`);
   }
 

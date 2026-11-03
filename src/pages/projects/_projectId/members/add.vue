@@ -52,7 +52,12 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { AddMemberToken_Request } from "@proto/member/message";
+
+type AddInvite_Request = {
+  user_name: string;
+  user_surname: string;
+  email: string;
+};
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -71,7 +76,7 @@ const onSendInvite = async (): Promise<void> => {
   try {
     pageData.value.loading = true;
 
-    const bodyParams = <AddMemberToken_Request>{
+    const bodyParams = <AddInvite_Request>{
       user_name: pageData.value.base.name,
       user_surname: pageData.value.base.surname,
       email: pageData.value.base.email

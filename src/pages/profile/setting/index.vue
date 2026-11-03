@@ -49,7 +49,6 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { UpdateProfile_Request } from "@proto/profile/message";
 
 // Tabs section
 import { tabMenu } from "./tab";

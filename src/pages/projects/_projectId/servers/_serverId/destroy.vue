@@ -54,11 +54,11 @@ const props = defineProps({
 
 const onDelete = async (): Promise<void> => {
   try {
-    const queryParams = <DeleteServer_Request>{
+    const queryParams = {
       user_id: authStore.hasUserID,
       project_id: props.projectId,
       server_id: props.serverId
-    };
+    } as unknown as DeleteServer_Request;
 
     const res = await api().DELETE(`/v1/servers`, queryParams);
     if (res.data) {

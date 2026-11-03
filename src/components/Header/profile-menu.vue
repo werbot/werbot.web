@@ -8,7 +8,7 @@
       @click="toggleDropdown"
     >
       <SvgIcon name="user" />
-      <span class="dot mr-1.5 mt-0.5 !h-2 !w-2" :class="wsStatus === 'OPEN' ? 'bg-green-500' : 'bg-gray-200'"></span>
+      <span class="dot mt-0.5 mr-1.5 !h-2 !w-2" :class="wsStatus === 'OPEN' ? 'bg-green-500' : 'bg-gray-200'"></span>
       <span class="hidden md:block">{{ authStore.hasUserName }}</span>
       <SvgIcon name="chevron_down" />
     </button>

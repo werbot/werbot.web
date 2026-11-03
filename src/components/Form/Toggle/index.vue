@@ -9,7 +9,7 @@
       :disabled="props.disabled"
     />
     <div
-      class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-500 peer-checked:after:translate-x-full peer-checked:after:border-white"
+      class="peer h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-green-500 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"
     ></div>
     <span v-if="props.name" class="ml-3">{{ props.name }}</span>
   </label>
@@ -51,6 +51,6 @@ const value = computed({
 @reference "tailwindcss";
 
 .toggle {
-  @apply relative inline-flex cursor-pointer select-none items-center;
+  @apply relative inline-flex cursor-pointer items-center select-none;
 }
 </style>

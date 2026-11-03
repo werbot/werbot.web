@@ -92,11 +92,11 @@ const onUpdatePassword = async (): Promise<void> => {
 
     pageData.value.loading = true;
 
-    const bodyParams = <UpdatePassword_Request>{
+    const bodyParams = {
       user_id: authStore.hasUserID,
       old_password: pageData.value.base.old_password,
       new_password: pageData.value.base.new_password
-    };
+    } as unknown as UpdatePassword_Request;
 
     const res = await api().UPDATE(`/v1/users/password`, {}, bodyParams);
     if (res.data) {

@@ -88,7 +88,7 @@
     <div class="divider"></div>
     <div class="content">
       <form @submit.prevent>
-        <div v-if="pageData.base.host.auth == Auth.password">
+        <div v-if="pageData.base.host.auth == AuthMethod.password">
           <FormInput
             v-model.trim="pageData.base.access.password"
             name="Password (hidden, can only be overwritten)"
@@ -99,7 +99,7 @@
           />
         </div>
 
-        <div v-if="pageData.base.host.auth == Auth.key" class="flex-grow">
+        <div v-if="pageData.base.host.auth == AuthMethod.key" class="flex-grow">
           <div class="flex">
             <FormInput
               v-model="pageData.base.access.public_key"
@@ -110,14 +110,14 @@
               :required="true"
             />
 
-            <FormButton lite class="ml-2 mt-8 flex-none" @click="copy(pageData.base.access.public_key)">
+            <FormButton lite class="mt-8 ml-2 flex-none" @click="copy(pageData.base.access.public_key)">
               <span>{{ copied ? "Copied" : "Copy" }}</span>
             </FormButton>
             <FormButton
               lite
               :disabled="pageData.tmp.new_key"
               :rotate="pageData.tmp.new_key"
-              class="ml-2 mt-8 flex-none"
+              class="mt-8 ml-2 flex-none"
               @click="genNewKey()"
             >
               <SvgIcon name="refresh" />
@@ -149,7 +149,7 @@ import { PageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { Auth } from "@proto/scheme/auth";
+import { AuthMethod } from "@proto/scheme/auth";
 import { Scheme_Request as Server_Request, SchemeAccess_Request as ServerAccess_Request } from "@proto/scheme/scheme";
 
 // Tabs section
@@ -183,15 +183,15 @@ const getData = async (): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
-    const serverRequestParams = <Server_Request>{
+    const serverRequestParams = {
       project_id: projectId,
       server_id: serverId
-    };
+    } as unknown as Server_Request;
 
-    const accessRequestParams = <ServerAccess_Request>{
+    const accessRequestParams = {
       project_id: projectId,
       server_id: serverId
-    };
+    } as unknown as ServerAccess_Request;
 
     const [serverRes, accessRes] = await Promise.all([
       api().GET(`/v1/servers`, serverRequestParams),
@@ -206,11 +206,11 @@ const getData = async (): Promise<void> => {
       pageData.value.base.access.auth = accessRes.data.result.auth;
 
       switch (accessRes.data.result.auth) {
-        case Auth.password:
+        case AuthMethod.password:
           pageData.value.base.access.password = accessRes.data.result.Access.password;
           break;
 
-        case Auth.key:
+        case AuthMethod.key:
           pageData.value.base.access.public_key = accessRes.data.result.Access.Key.public;
           break;
       }
@@ -299,10 +299,10 @@ const onUpdateAccess = async (): Promise<void> => {
     };
 
     switch (base.access.auth) {
-      case Auth.password:
+      case AuthMethod.password:
         bodyParams.access = { password: base.access.password };
         break;
-      case Auth.key:
+      case AuthMethod.key:
         bodyParams.access = { key: base.access.key };
         break;
       default:
@@ -317,7 +317,7 @@ const onUpdateAccess = async (): Promise<void> => {
       showMessage(res.data.message);
       error.password = null;
     }
-    if (res.error && base.access.auth === Auth.password) {
+    if (res.error && base.access.auth === AuthMethod.password) {
       error.password = res.error.result.password;
       showApiError(res.error);
     }

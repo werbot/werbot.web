@@ -1,4 +1,4 @@
-// @generated from protobuf file "message.proto" (package "auditmessage", syntax proto3)
+// @generated from protobuf file "internal/core/audit/proto/message/message.proto" (package "auditmessage", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";
@@ -18,6 +18,10 @@ export interface ListAudits_Request {
      * @generated from protobuf field: string server_id = 1
      */
     server_id: string; // @gotags: json:"-"
+    /**
+     * @generated from protobuf field: string profile_id = 2
+     */
+    profile_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message auditmessage.ListAudits.Response
@@ -47,6 +51,10 @@ export interface Audit_Request {
      * @generated from protobuf field: string audit_id = 1
      */
     audit_id: string; // @gotags: json:"-"
+    /**
+     * @generated from protobuf field: string profile_id = 2
+     */
+    profile_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message auditmessage.Audit.Response
@@ -120,6 +128,10 @@ export interface AddAudit_Request {
      * @generated from protobuf field: string env_shell = 12
      */
     env_shell: string;
+    /**
+     * @generated from protobuf field: string profile_id = 13
+     */
+    profile_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message auditmessage.AddAudit.Response
@@ -165,6 +177,10 @@ export interface UpdateAudit_Request {
      * @generated from protobuf field: google.protobuf.Timestamp time_end = 6
      */
     time_end?: Timestamp;
+    /**
+     * @generated from protobuf field: string profile_id = 7
+     */
+    profile_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message auditmessage.UpdateAudit.Response
@@ -186,6 +202,10 @@ export interface DeleteAudit_Request {
      * @generated from protobuf field: string audit_id = 1
      */
     audit_id: string; // @gotags: json:"-"
+    /**
+     * @generated from protobuf field: string profile_id = 2
+     */
+    profile_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message auditmessage.DeleteAudit.Response
@@ -234,6 +254,10 @@ export interface ListRecords_Request {
      * @generated from protobuf field: string audit_id = 1
      */
     audit_id: string; // @gotags: json:"-"
+    /**
+     * @generated from protobuf field: string profile_id = 2
+     */
+    profile_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message auditmessage.ListRecords.Response
@@ -263,6 +287,10 @@ export interface AddRecord_Request {
      * @generated from protobuf field: repeated auditmessage.Record records = 2
      */
     records: Record[];
+    /**
+     * @generated from protobuf field: string profile_id = 3
+     */
+    profile_id: string; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message auditmessage.AddRecord.Response
@@ -283,7 +311,8 @@ export const ListAudits = new ListAudits$Type();
 class ListAudits_Request$Type extends MessageType<ListAudits_Request> {
     constructor() {
         super("auditmessage.ListAudits.Request", [
-            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
+            { no: 1, name: "server_id", kind: "scalar", localName: "server_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -318,7 +347,8 @@ export const Audit = new Audit$Type();
 class Audit_Request$Type extends MessageType<Audit_Request> {
     constructor() {
         super("auditmessage.Audit.Request", [
-            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
+            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -364,7 +394,8 @@ class AddAudit_Request$Type extends MessageType<AddAudit_Request> {
             { no: 9, name: "command", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 10, name: "title", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 11, name: "env_term", kind: "scalar", localName: "env_term", T: 9 /*ScalarType.STRING*/ },
-            { no: 12, name: "env_shell", kind: "scalar", localName: "env_shell", T: 9 /*ScalarType.STRING*/ }
+            { no: 12, name: "env_shell", kind: "scalar", localName: "env_shell", T: 9 /*ScalarType.STRING*/ },
+            { no: 13, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -398,12 +429,13 @@ export const UpdateAudit = new UpdateAudit$Type();
 class UpdateAudit_Request$Type extends MessageType<UpdateAudit_Request> {
     constructor() {
         super("auditmessage.UpdateAudit.Request", [
-            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "width", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "height", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 4, name: "env_term", kind: "scalar", localName: "env_term", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "duration", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "time_end", kind: "message", localName: "time_end", T: () => Timestamp }
+            { no: 6, name: "time_end", kind: "message", localName: "time_end", T: () => Timestamp },
+            { no: 7, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -435,7 +467,8 @@ export const DeleteAudit = new DeleteAudit$Type();
 class DeleteAudit_Request$Type extends MessageType<DeleteAudit_Request> {
     constructor() {
         super("auditmessage.DeleteAudit.Request", [
-            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
+            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -483,7 +516,8 @@ export const ListRecords = new ListRecords$Type();
 class ListRecords_Request$Type extends MessageType<ListRecords_Request> {
     constructor() {
         super("auditmessage.ListRecords.Request", [
-            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } }
+            { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
+            { no: 2, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }
@@ -518,7 +552,8 @@ class AddRecord_Request$Type extends MessageType<AddRecord_Request> {
     constructor() {
         super("auditmessage.AddRecord.Request", [
             { no: 1, name: "audit_id", kind: "scalar", localName: "audit_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
-            { no: 2, name: "records", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Record }
+            { no: 2, name: "records", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Record },
+            { no: 3, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
         ]);
     }
 }

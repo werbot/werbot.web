@@ -38,7 +38,7 @@
           <td>{{ item.updated_at?.seconds > 0 ? toDate(item.updated_at) : "" }}</td>
           <td>
             <div class="flex items-center">
-              <FormToggle :id="index" v-model="item.active" @change="changeMemberActive(index, item.active)" />
+              <FormToggle :id="index" v-model="item.active" @change="changeMemberActive(Number(index), item.active)" />
             </div>
           </td>
           <td>
@@ -53,7 +53,7 @@
             </router-link>
           </td>
           <td>
-            <SvgIcon name="delete" class="cursor-pointer text-red-500" @click="openModal(index)" />
+            <SvgIcon name="delete" class="cursor-pointer text-red-500" @click="openModal(Number(index))" />
           </td>
         </tr>
       </tbody>
@@ -84,7 +84,10 @@ import { usePageData } from "@/interface/page";
 
 // API section
 import { api } from "@/api";
-import { DeleteServerMember_Request, UpdateServerMember_Request } from "@proto/member/message";
+import {
+  DeleteSchemeMember_Request as DeleteServerMember_Request,
+  UpdateSchemeMember_Request as UpdateServerMember_Request
+} from "@proto/member/message";
 
 // Tabs section
 import { tabMenu } from "@/pages/projects/_projectId/servers/_serverId/tab";
@@ -141,7 +144,7 @@ const changeMemberActive = async (index: number, online: boolean): Promise<void>
   const { projectId, serverId } = props;
 
   try {
-    const bodyParams = <UpdateServerMember_Request>{
+    const bodyParams = {
       owner_id: authStore.hasUserID,
       project_id: projectId,
       server_id: serverId,
@@ -149,7 +152,7 @@ const changeMemberActive = async (index: number, online: boolean): Promise<void>
       setting: {
         active: online
       }
-    };
+    } as unknown as UpdateServerMember_Request;
 
     const res = await api().UPDATE(`/v1/members/server/active`, {}, bodyParams);
     if (res.data) {
@@ -167,12 +170,12 @@ const removeMember = async (id: number): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
-    const queryParams = <DeleteServerMember_Request>{
+    const queryParams = {
       owner_id: authStore.hasUserID,
       project_id: projectId,
       server_id: serverId,
       member_id: pageData.value.base.members[Number(id)].member_id
-    };
+    } as unknown as DeleteServerMember_Request;
 
     const res = await api().DELETE(`/v1/members/server`, queryParams);
     if (res.data) {

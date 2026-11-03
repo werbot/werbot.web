@@ -42,16 +42,16 @@
             :name="item.name"
             color="green"
             class="mr-1 cursor-pointer"
-            @click="addCountry(index, Rules.country)"
+            @click="addCountry(Number(index), Rules.country)"
           />
         </div>
         <span
           v-for="(item, index) in pageData.tmp.country.list"
           :key="index"
-          class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded-sm border bg-gray-50 px-2"
+          class="firewall-tags-item mt-3 mr-3 inline-flex items-center rounded-sm border bg-gray-50 px-2"
         >
           <span class="ml-1">{{ item.country_name }}</span>
-          <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.country)" />
+          <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(Number(index), Rules.country)" />
         </span>
       </div>
     </div>
@@ -85,11 +85,11 @@
         <span
           v-for="(item, index) in pageData.tmp.network.list"
           :key="index"
-          class="firewall-tags-item mr-3 mt-3 inline-flex items-center rounded-sm border bg-gray-50 px-2"
+          class="firewall-tags-item mt-3 mr-3 inline-flex items-center rounded-sm border bg-gray-50 px-2"
         >
           <span v-if="item.start_ip !== item.end_ip" class="ml-1"> {{ item.start_ip }} - {{ item.end_ip }} </span>
           <span v-else>{{ item.start_ip }}</span>
-          <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(index, Rules.ip)" />
+          <SvgIcon name="close" class="-mr-1 cursor-pointer" @click="remove(Number(index), Rules.ip)" />
         </span>
       </div>
     </div>
@@ -108,12 +108,16 @@ import { PageData } from "@/interface/page";
 import { api } from "@/api";
 import { Countries_Request } from "@proto/system/message";
 import {
-  DeleteServerFirewall_Request,
-  IpMask,
-  Rules,
-  ServerFirewall_Request,
-  UpdateServerFirewall_Request
-} from "@proto/firewall/message";
+  DeleteSchemeFirewall_Request as DeleteServerFirewall_Request,
+  SchemeFirewall_Request as ServerFirewall_Request,
+  UpdateSchemeFirewall_Request as UpdateServerFirewall_Request
+} from "@proto/scheme/scheme";
+import { Rules } from "@proto/firewall/enum";
+
+type IpMask = {
+  start_ip: string;
+  end_ip: string;
+};
 
 // Tabs section
 import { tabMenu } from "./tab";
@@ -147,10 +151,10 @@ const getData = async (): Promise<void> => {
   const { projectId, serverId } = props;
 
   try {
-    const queryParams = <ServerFirewall_Request>{
+    const queryParams = {
       project_id: projectId,
       server_id: serverId
-    };
+    } as unknown as ServerFirewall_Request;
 
     const res = await api().GET(`/v1/servers/firewall`, queryParams);
     if (res.data) {
@@ -213,7 +217,7 @@ const addCountry = async (index: number, rules: Rules): Promise<void> => {
       pageData.value.base.search.countries.splice(index, 1);
       pageData.value.error.countries = null;
     }
-  } catch (error) {
+  } catch {
     pageData.value.error.countries = "Invalid country";
   }
 };
@@ -247,7 +251,7 @@ const addIp = async (ip: string, rules: Rules): Promise<void> => {
         pageData.value.error.network = null;
       }
     });
-  } catch (e) {
+  } catch {
     pageData.value.error.network = "Invalid address";
   }
 };
@@ -318,12 +322,12 @@ const update = async (status: boolean, rules: Rules): Promise<void> => {
         return;
     }
 
-    const bodyParams = <UpdateServerFirewall_Request>{
+    const bodyParams = {
       project_id: projectId,
       server_id: serverId,
       rule: rules,
       status: status
-    };
+    } as unknown as UpdateServerFirewall_Request;
 
     const res = await api(false).UPDATE(`/v1/servers/firewall`, {}, bodyParams);
     if (res.data) {
@@ -351,12 +355,12 @@ const remove = async (index: number, rules: Rules): Promise<void> => {
       return;
     }
 
-    const queryParams = <DeleteServerFirewall_Request>{
+    const queryParams = {
       project_id: projectId,
       server_id: serverId,
       rule: rules,
       record_id: record_id
-    };
+    } as unknown as DeleteServerFirewall_Request;
 
     const res = await api(false).DELETE(`/v1/servers/firewall`, queryParams);
     if (res.data) {

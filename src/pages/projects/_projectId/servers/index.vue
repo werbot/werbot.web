@@ -50,7 +50,7 @@
           </td>
 
           <td class="pr-1.5">
-            <Badge :name="(addressType = getAddressType(item.address))" :color="addressColor(addressType)" />
+            <Badge :name="getAddressType(item.address)" :color="addressColor(getAddressType(item.address))" />
           </td>
           <td>
             <div class="flex items-center">
@@ -64,7 +64,7 @@
           </td>
           <td>
             <div class="flex items-center">
-              <FormToggle :id="index" v-model="item.active" @change="changeServerActive(index, item.active)" />
+              <FormToggle :id="index" v-model="item.active" @change="changeServerActive(Number(index), item.active)" />
             </div>
           </td>
           <td>
