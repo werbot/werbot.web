@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-[v-cloak] {
-  display: none;
-}
-
 body {
   @apply bg-gray-50 font-sans text-gray-700 antialiased;
 }

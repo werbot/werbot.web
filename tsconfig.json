@@ -1,40 +1,24 @@
 {
+  "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
-    "target": "es2017",
-    "baseUrl": ".",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
-    "composite": true,
-    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": true,
     "esModuleInterop": true,
-    //"strict": true,
-    "noEmit": true,
-    "lib": ["esnext", "dom"],
-    "types": ["vite-plugin-svg-icons/client", "node"],
-    "paths": {
-      "@/*": ["./src/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@proto/*": ["./src/proto/*"],
-      "@addon/*": ["../add-on/*"]
-    }
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": false,
+    "types": ["node"]
   },
   "include": [
-    "src/**/*.ts",
+    ".svelte-kit/ambient.d.ts",
+    ".svelte-kit/non-ambient.d.ts",
+    ".svelte-kit/types/**/$types.d.ts",
     "src/**/*.d.ts",
-    "src/**/*.vue",
-    "src/**/*.mjs",
-    "src/main.ts",
-    "src/utils/request.js",
-
-    "src/router/*",
-    "src/router/**/*",
+    "src/**/*.svelte",
     "e2e/**/*.ts",
-    "playwright.config.ts",
-
-    //"../add-on/ee/web/**/*",
-    //"../add-on/saas/web/**/*",
-    "../add-on/**/web/**/*",
+    "playwright.config.ts"
   ],
-  "exclude": ["node_modules", "dist", "public"]
+  "exclude": ["node_modules", "dist", "build", "public", ".legacy"]
 }

@@ -1,0 +1,89 @@
+@import "./assets/main.css";
+
+/* SvgIcon */
+svg {
+  @apply h-6 w-6 align-middle;
+}
+
+/* Select */
+.form-dropdown {
+  button {
+    @apply inline-block h-10 min-w-[10rem] justify-between rounded-sm border border-solid border-gray-300 py-2 pr-2 pl-3 leading-tight;
+    @apply flex items-center whitespace-nowrap;
+  }
+
+  ul {
+    @apply absolute z-10 mt-2 min-w-[10rem] rounded-sm bg-gray-50 shadow-2xl ring-1 ring-gray-300;
+
+    li {
+      @apply cursor-pointer px-3 py-2 select-none hover:bg-gray-200;
+    }
+  }
+}
+
+/* Modal */
+.animation-enter-active,
+.animation-leave-active {
+  @apply transition;
+}
+
+.animation-enter-from,
+.animation-leave-to {
+  @apply opacity-0;
+}
+
+.modal {
+  @apply fixed inset-0 flex justify-center;
+  @apply pointer-events-auto bg-slate-900/70 backdrop-blur-xs;
+  @apply z-[999];
+}
+
+:where(.modal) {
+  @apply items-center;
+}
+
+.modal-box {
+  max-height: calc(100vh - 5em);
+  @apply w-11/12 max-w-xl overflow-y-auto overscroll-contain rounded-sm bg-white p-6 shadow-2xl;
+}
+
+/* Drawer */
+.drawer {
+  @apply invisible;
+
+  &.is-visible {
+    @apply visible;
+  }
+
+  &.is-open {
+    .drawer__overlay {
+      @apply opacity-50;
+    }
+
+    .drawer__content {
+      @apply translate-x-0;
+    }
+  }
+
+  &__overlay {
+    @apply fixed inset-x-0 inset-y-0 z-50 w-full bg-black opacity-0 transition-opacity select-none;
+  }
+
+  &__content {
+    @apply fixed inset-y-0 right-0 z-[999] flex h-full w-full translate-x-full flex-col overflow-auto shadow-2xl transition-transform;
+    @apply bg-red-200 p-6;
+  }
+}
+
+/* Pagination */
+.pagination {
+  @apply flex;
+
+  &.btn {
+    @apply mr-2 inline-block rounded-sm bg-gray-200 px-3 py-1.5 text-gray-700;
+
+    &-active {
+      @apply bg-gray-700 text-gray-200;
+    }
+  }
+}
