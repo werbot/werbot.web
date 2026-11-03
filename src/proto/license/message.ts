@@ -1,4 +1,4 @@
-// @generated from protobuf file "message.proto" (package "licensemessage", syntax proto3)
+// @generated from protobuf file "internal/core/license/proto/message/message.proto" (package "licensemessage", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";

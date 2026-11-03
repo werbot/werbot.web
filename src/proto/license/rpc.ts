@@ -1,4 +1,4 @@
-// @generated from protobuf file "rpc.proto" (package "license", syntax proto3)
+// @generated from protobuf file "internal/core/license/proto/rpc/rpc.proto" (package "license", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { License_Response } from "./message";

@@ -35,15 +35,20 @@ export function createContext() {
       addons.map(async (addon: string) => {
         const addonWebPath: string = `../add-on/${addon}/web`;
         const checkExistencePromises = Object.keys(menuList).map(async (section: string) => {
-          const routeExists = await checkFileExists(`${addonWebPath}/router/${section}/index.mjs`);
-          return { section, routeExists };
+          const [routeExists, menuExists] = await Promise.all([
+            checkFileExists(`${addonWebPath}/router/${section}/index.mjs`),
+            checkFileExists(`${addonWebPath}/pages/${section}/menu.ts`)
+          ]);
+          return { section, routeExists, menuExists };
         });
         const results = await Promise.all(checkExistencePromises);
 
         for (const result of results) {
-          const { section, routeExists } = result;
-          const sectionName = `${section}_${addon}`;
-          menuList[section].push(sectionName);
+          const { section, routeExists, menuExists } = result;
+
+          if (menuExists) {
+            menuList[section].push(`${section}_${addon}`);
+          }
 
           if (routeExists) {
             const addonPath: string = `${addonWebPath}/router/${section}/index.mjs?v=${Math.random()}`;

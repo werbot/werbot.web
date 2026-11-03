@@ -1,4 +1,4 @@
-// @generated from protobuf file "access.proto" (package "access", syntax proto3)
+// @generated from protobuf file "internal/core/scheme/proto/access/access.proto" (package "access", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";

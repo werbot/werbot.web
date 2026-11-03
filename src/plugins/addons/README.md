@@ -34,21 +34,26 @@ By default, in folder `./router/`, the system includes the following canned rout
 
 ### Usage
 For correct operation, you need to create a `./web/router/` folder at the root of the add-on, in which you should add 3 folders: `admin`, `profile`, `project`. In each folder, there should be an `index.mjs` file with a minimal instruction:
-`export const children = [];`
-If necessary, the children constant needs to be edited using vue-route instructions.
+`export const route = [];`
+If necessary, the route constant needs to be edited using vue-route instructions.
 
 Example `./web/router/admin/index.mjs`:
 ```
-export const children = [  
+export const route = [
   {
-    path: "license1",
-    name: "admin-license1",
-    component: () => import("@addon/saas/web/pages/admin/license1.vue"),
-  },
-  {
-    path: "license2",
-    name: "admin-license2",
-    component: () => import("@addon/saas/web/pages/admin/license2.vue"),
+    path: "/admin",
+    children: [
+      {
+        path: "license1",
+        name: "admin-license1",
+        component: () => import("@addon/saas/web/pages/admin/license1.vue"),
+      },
+      {
+        path: "license2",
+        name: "admin-license2",
+        component: () => import("@addon/saas/web/pages/admin/license2.vue"),
+      },
+    ],
   },
 ];
 ```
@@ -66,7 +71,7 @@ app.mount("#app");
 ```
 
 ### Usage
-If you need to add a menu item, you need to add a file named `menu.ts` with the menu settings. 
+If you need to add a menu item, you need to add a file named `menu.ts` with the menu settings. A menu is only imported when `./web/pages/<section>/menu.ts` exists, so an add-on may provide routes without a menu.
 
 For example, to add new pages in the admin section, you need to do the following - in the addon folder `./web/pages/admin/`, add a file named `menu.ts` with the following content:  
 

@@ -1,4 +1,4 @@
-// @generated from protobuf file "scheme.proto" (package "scheme", syntax proto3)
+// @generated from protobuf file "internal/core/scheme/proto/scheme/scheme.proto" (package "scheme", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
@@ -799,6 +799,10 @@ export interface SystemSchemeAccess_Request {
      * @generated from protobuf field: google.protobuf.Timestamp timestamp = 3
      */
     timestamp?: Timestamp;
+    /**
+     * @generated from protobuf field: bool no_ghost = 4
+     */
+    no_ghost: boolean; // @gotags: json:"-"
 }
 /**
  * @generated from protobuf message scheme.SystemSchemeAccess.Response
@@ -1200,13 +1204,13 @@ export const SchemeActivity_Response = new SchemeActivity_Response$Type();
 class SchemeActivity_Week$Type extends MessageType<SchemeActivity_Week> {
     constructor() {
         super("scheme.SchemeActivity.Week", [
-            { no: 1, name: "mon", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "23", maxItems: "23", items: { int32: { in: [0, 1] } } } } } },
-            { no: 2, name: "tue", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "23", maxItems: "23", items: { int32: { in: [0, 1] } } } } } },
-            { no: 3, name: "wed", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "23", maxItems: "23", items: { int32: { in: [0, 1] } } } } } },
-            { no: 4, name: "thu", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "23", maxItems: "23", items: { int32: { in: [0, 1] } } } } } },
-            { no: 5, name: "fri", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "23", maxItems: "23", items: { int32: { in: [0, 1] } } } } } },
-            { no: 6, name: "sat", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "23", maxItems: "23", items: { int32: { in: [0, 1] } } } } } },
-            { no: 7, name: "sun", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "23", maxItems: "23", items: { int32: { in: [0, 1] } } } } } }
+            { no: 1, name: "mon", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "24", maxItems: "24", items: { int32: { in: [0, 1] } } } } } },
+            { no: 2, name: "tue", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "24", maxItems: "24", items: { int32: { in: [0, 1] } } } } } },
+            { no: 3, name: "wed", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "24", maxItems: "24", items: { int32: { in: [0, 1] } } } } } },
+            { no: 4, name: "thu", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "24", maxItems: "24", items: { int32: { in: [0, 1] } } } } } },
+            { no: 5, name: "fri", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "24", maxItems: "24", items: { int32: { in: [0, 1] } } } } } },
+            { no: 6, name: "sat", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "24", maxItems: "24", items: { int32: { in: [0, 1] } } } } } },
+            { no: 7, name: "sun", kind: "scalar", repeat: 1 /*RepeatType.PACKED*/, T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { repeated: { minItems: "24", maxItems: "24", items: { int32: { in: [0, 1] } } } } } }
         ]);
     }
 }
@@ -1516,7 +1520,8 @@ class SystemSchemeAccess_Request$Type extends MessageType<SystemSchemeAccess_Req
         super("scheme.SystemSchemeAccess.Request", [
             { no: 1, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 2, name: "client_ip", kind: "scalar", localName: "client_ip", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { ip: true } } } },
-            { no: 3, name: "timestamp", kind: "message", T: () => Timestamp }
+            { no: 3, name: "timestamp", kind: "message", T: () => Timestamp },
+            { no: 4, name: "no_ghost", kind: "scalar", localName: "no_ghost", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
 }

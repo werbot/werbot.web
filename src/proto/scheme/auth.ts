@@ -1,4 +1,4 @@
-// @generated from protobuf file "auth.proto" (package "auth", syntax proto3)
+// @generated from protobuf file "internal/core/scheme/proto/auth/auth.proto" (package "auth", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { MessageType } from "@protobuf-ts/runtime";
