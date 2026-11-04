@@ -20,11 +20,10 @@
   const onDelete = async (): Promise<void> => {
     try {
       const queryParams = {
-        project_id: projectId,
         owner_id: authStore.hasUserID
       } as DeleteProject_Request;
 
-      const res = await api().DELETE(`/v1/projects`, queryParams);
+      const res = await api().DELETE(`/v1/projects/${projectId}`, queryParams);
       if (res.data) {
         showMessage(res.data.message);
         await goto(routePath("projects"));

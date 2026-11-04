@@ -19,16 +19,19 @@
   const params = $derived(page.params as { projectId?: string });
   const projectId = $derived(params.projectId ?? "");
 
+  let original = { title: "", alias: "" };
+
   const getData = async (): Promise<void> => {
     try {
       const queryParams = {
-        project_id: projectId,
         owner_id: authStore.hasUserID
       } as Project_Request;
 
-      const res = await api().GET(`/v1/projects`, queryParams);
+      const res = await api().GET(`/v1/projects/${projectId}`, queryParams);
       if (res.data) {
-        pageData.base = res.data.result;
+        const project = res.data.result;
+        pageData.base = project;
+        original = { title: project.title ?? "", alias: project.alias ?? "" };
       }
       if (res.error) {
         await showApiError(res.error);
@@ -38,26 +41,40 @@
     }
   };
 
+  const updateSetting = async (setting: { title: string } | { alias: string }): Promise<boolean> => {
+    const res = await api().UPDATE(`/v1/projects/${projectId}`, {}, setting as unknown as UpdateProject_Request);
+    if (res.error) {
+      pageData.error = res.error.result ?? {};
+      await showApiError(res.error);
+      return false;
+    }
+
+    return true;
+  };
+
   const onUpdate = async (): Promise<void> => {
     try {
       pageData.loading = true;
+      pageData.error = {};
 
-      const bodyParams = {
-        project_id: projectId,
-        owner_id: authStore.hasUserID,
-        title: pageData.base.title,
-        login: pageData.base.login?.trim()
-      } as unknown as UpdateProject_Request;
+      const title = pageData.base.title ?? "";
+      const alias = (pageData.base.alias ?? "").trim();
 
-      const res = await api().UPDATE(`/v1/projects`, {}, bodyParams);
-      if (res.data) {
-        showMessage(res.data.message);
-        pageData.error = {};
+      if (title !== original.title) {
+        if (!(await updateSetting({ title }))) {
+          return;
+        }
+        original.title = title;
       }
-      if (res.error) {
-        pageData.error = res.error.result;
-        await showApiError(res.error);
+
+      if (authStore.hasUserRole === 3 && alias !== original.alias) {
+        if (!(await updateSetting({ alias }))) {
+          return;
+        }
+        original.alias = alias;
       }
+
+      showMessage("Project updated");
     } catch (err) {
       console.error("Unexpected error:", err);
     } finally {
@@ -85,7 +102,13 @@
     >
       <div class="mb-5 flex flex-row">
         <Input bind:value={pageData.base.title} name="Title" error={pageData.error["title"]} class="mr-5 flex-grow" />
-        <Input bind:value={pageData.base.login} name="Login" error={pageData.error["login"]} class="flex-grow" />
+        <Input
+          bind:value={pageData.base.alias}
+          name="Login"
+          error={pageData.error["alias"]}
+          disabled={authStore.hasUserRole !== 3}
+          class="flex-grow"
+        />
       </div>
 
       <div class="mt-6">

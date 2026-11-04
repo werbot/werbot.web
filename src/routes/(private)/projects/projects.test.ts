@@ -241,10 +241,11 @@ describe("projects routes", () => {
     ]);
   });
 
-  it("project setting loads the project and submits the trimmed login", async () => {
+  it("project setting loads the project and submits the changed fields", async () => {
     setPageState(`/projects/${projectId}/setting`, { projectId });
     authMock.hasUserID = "owner-1";
-    const getMock = vi.fn().mockResolvedValue({ data: { result: { title: "Project", login: "project" } } });
+    authMock.hasUserRole = 3;
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { title: "Project", alias: "project" } } });
     const updateMock = vi.fn().mockResolvedValue({ data: { message: "Project updated" } });
     apiMock.mockReturnValue(apiClient({ GET: getMock, UPDATE: updateMock }));
 
@@ -252,7 +253,12 @@ describe("projects routes", () => {
     await tick();
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith("/v1/projects", { project_id: projectId, owner_id: "owner-1" });
+      expect(getMock).toHaveBeenCalledWith(`/v1/projects/${projectId}`, { owner_id: "owner-1" });
+    });
+
+    await waitFor(() => {
+      expect(inputAt(container, 0).value).toBe("Project");
+      expect(inputAt(container, 1).value).toBe("project");
     });
 
     await fireEvent.input(inputAt(container, 0), { target: { value: "  New title  " } });
@@ -260,17 +266,36 @@ describe("projects routes", () => {
     await fireEvent.click(screen.getByRole("button", { name: "Update" }));
 
     await waitFor(() => {
-      expect(updateMock).toHaveBeenCalledWith(
-        "/v1/projects",
-        {},
-        {
-          project_id: projectId,
-          owner_id: "owner-1",
-          title: "  New title  ",
-          login: "new-login"
-        }
-      );
+      expect(updateMock).toHaveBeenCalledTimes(2);
     });
+
+    expect(updateMock).toHaveBeenNthCalledWith(1, `/v1/projects/${projectId}`, {}, { title: "  New title  " });
+    expect(updateMock).toHaveBeenNthCalledWith(2, `/v1/projects/${projectId}`, {}, { alias: "new-login" });
+  });
+
+  it("project setting keeps the login read-only for non-admin users", async () => {
+    setPageState(`/projects/${projectId}/setting`, { projectId });
+    authMock.hasUserID = "owner-1";
+    authMock.hasUserRole = 1;
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { title: "Project", alias: "project" } } });
+    const updateMock = vi.fn().mockResolvedValue({ data: { message: "Project updated" } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock, UPDATE: updateMock }));
+
+    const { container } = render(Setting);
+    await tick();
+
+    await waitFor(() => {
+      expect(inputAt(container, 1).value).toBe("project");
+    });
+    expect(inputAt(container, 1).disabled).toBe(true);
+
+    await fireEvent.input(inputAt(container, 0), { target: { value: "New title" } });
+    await fireEvent.click(screen.getByRole("button", { name: "Update" }));
+
+    await waitFor(() => {
+      expect(updateMock).toHaveBeenCalledTimes(1);
+    });
+    expect(updateMock).toHaveBeenCalledWith(`/v1/projects/${projectId}`, {}, { title: "New title" });
   });
 
   it("destroy project deletes it and returns to the projects list", async () => {
@@ -285,7 +310,7 @@ describe("projects routes", () => {
     await fireEvent.click(screen.getByRole("button", { name: "Delete this project" }));
 
     await waitFor(() => {
-      expect(deleteMock).toHaveBeenCalledWith("/v1/projects", { project_id: projectId, owner_id: "owner-1" });
+      expect(deleteMock).toHaveBeenCalledWith(`/v1/projects/${projectId}`, { owner_id: "owner-1" });
     });
     expect(gotoMock).toHaveBeenCalledWith("/projects");
   });

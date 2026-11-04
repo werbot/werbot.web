@@ -79,6 +79,15 @@ test("profile keys list renders keys", async ({ page }) => {
   expect(await rows.count()).toBeGreaterThan(0);
 });
 
+test("project setting loads the project fields", async ({ page }) => {
+  await login(page);
+  await open(page, `${PROJECT}/setting`);
+
+  const inputs = page.locator(".artboard input");
+  await expect(inputs.nth(0)).toHaveValue("project1");
+  await expect(inputs.nth(1)).toHaveValue("Y93iyI");
+});
+
 test("server add scheme shows readable auth labels", async ({ page }) => {
   await login(page);
   await open(page, `${PROJECT}/servers/add/server_ssh`);
