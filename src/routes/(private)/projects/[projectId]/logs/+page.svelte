@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, onMount } from "svelte";
+  import { onDestroy, onMount, untrack } from "svelte";
   import { SvelteURLSearchParams } from "svelte/reactivity";
 
   import { goto } from "$app/navigation";
@@ -61,6 +61,8 @@
 
   let requestSeq = 0;
   let searchTimer: ReturnType<typeof setTimeout> | null = null;
+  let searchInput = $state(untrack(() => search));
+  let searchFocused = $state(false);
 
   function queryFromUrl(): Record<string, string> {
     const query: Record<string, string> = {};
@@ -157,6 +159,7 @@
 
   function resetFilters(): void {
     cancelSearchTimer();
+    searchInput = "";
     navigate(baseQuery());
   }
 
@@ -178,6 +181,18 @@
       return decoded;
     }
   }
+
+  $effect(() => {
+    const urlSearch = search;
+
+    // Keep the field in sync with external URL changes only. While the field is
+    // focused or a debounce is pending, the local input is the newer value.
+    if (searchFocused || searchTimer !== null || urlSearch === searchInput) {
+      return;
+    }
+
+    searchInput = urlSearch;
+  });
 
   $effect(() => {
     if (!projectId) {
@@ -210,7 +225,17 @@
       onchange={(value): void => applyFilters({ section: Number(value) })}
     />
     <Select value={type} options={typeOptions} onchange={(value): void => applyFilters({ type: Number(value) })} />
-    <Input id="logs-search" value={search} onvaluechange={onSearchInput} />
+    <Input
+      id="logs-search"
+      bind:value={searchInput}
+      onfocus={(): void => {
+        searchFocused = true;
+      }}
+      onblur={(): void => {
+        searchFocused = false;
+      }}
+      onvaluechange={onSearchInput}
+    />
     <Badge name="Reset" class="cursor-pointer" onclick={resetFilters} />
   </div>
 

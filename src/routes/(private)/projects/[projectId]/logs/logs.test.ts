@@ -192,6 +192,28 @@ describe("project logs route", () => {
     );
   });
 
+  it("clears the search input on reset", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    apiMock.mockReturnValue(
+      apiClient({
+        GET: vi.fn().mockResolvedValue({ data: { result: { total: 0, events: [] } } })
+      })
+    );
+
+    const { container } = render(Logs);
+    await tick();
+
+    const input = container.querySelector("#logs-search") as HTMLInputElement;
+    await fireEvent.input(input, { target: { value: "10.0" } });
+    await fireEvent.click(screen.getByText("Reset"));
+
+    expect(input.value).toBe("");
+    expect(gotoMock).toHaveBeenCalledWith(
+      `/projects/${projectId}/logs?limit=25&offset=0`,
+      expect.objectContaining({ replaceState: true })
+    );
+  });
+
   it("debounces the search before updating the URL", async () => {
     setPageState(`/projects/${projectId}/logs`, { projectId });
     apiMock.mockReturnValue(
