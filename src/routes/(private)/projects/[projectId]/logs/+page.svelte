@@ -10,11 +10,12 @@
   import Drawer from "$lib/components/Drawer.svelte";
   import Pagination from "$lib/components/Pagination.svelte";
   import SvgIcon from "$lib/components/SvgIcon.svelte";
+  import Button from "$lib/components/form/Button.svelte";
   import Input from "$lib/components/form/Input.svelte";
   import Select from "$lib/components/form/Select.svelte";
   import { routePath } from "$lib/navigation/registry";
   import { projectStore, usePageData } from "$lib/stores";
-  import { decodeBase64, eventTypeToColor, showApiError, toDate } from "$lib/utils";
+  import { decodeBase64, eventTypeToColor, showApiError, showMessage, toDate } from "$lib/utils";
 
   import { Type } from "@proto/event/enum";
   import { Project_Section } from "@proto/event/message";
@@ -23,7 +24,7 @@
     project_id?: string;
     section: number;
     type: number;
-    created_at?: { seconds: number; nanos?: number } | null;
+    created_at?: unknown;
     meta_data?: string;
     session?: {
       id: string;
@@ -32,6 +33,12 @@
     };
   };
 
+  const SEARCH_MAX_LENGTH = 128;
+
+  function clampSearch(value: string): string {
+    return value.slice(0, SEARCH_MAX_LENGTH);
+  }
+
   const pageData = usePageData();
 
   const params = $derived(page.params as { projectId?: string });
@@ -39,7 +46,7 @@
 
   const section = $derived(Number(page.url.searchParams.get("section")) || 0);
   const type = $derived(Number(page.url.searchParams.get("type")) || 0);
-  const search = $derived(page.url.searchParams.get("search") ?? "");
+  const search = $derived(clampSearch(page.url.searchParams.get("search") ?? ""));
   const limit = $derived(Number(page.url.searchParams.get("limit")) || 25);
   const events = $derived((pageData.base.events ?? []) as EventRow[]);
 
@@ -63,6 +70,7 @@
   let searchTimer: ReturnType<typeof setTimeout> | null = null;
   let searchInput = $state(untrack(() => search));
   let searchFocused = $state(false);
+  let loaded = $state(false);
 
   function queryFromUrl(): Record<string, string> {
     const query: Record<string, string> = {};
@@ -70,7 +78,7 @@
     for (const key of ["section", "type", "search", "limit", "offset"]) {
       const value = page.url.searchParams.get(key);
       if (value !== null) {
-        query[key] = value;
+        query[key] = key === "search" ? clampSearch(value) : value;
       }
     }
 
@@ -89,11 +97,18 @@
 
       if (res.data) {
         pageData.base = res.data.result;
+        loaded = true;
         return;
       }
 
       if (res.error?.code === 404) {
         pageData.base = { total: 0, events: [] };
+        loaded = true;
+        return;
+      }
+
+      if (res.error?.code === 400) {
+        showMessage(res.error.result || res.error.message || "Bad Request", "connextWarning");
         return;
       }
 
@@ -126,7 +141,7 @@
     const query = baseQuery();
     const nextSection = overrides.section ?? section;
     const nextType = overrides.type ?? type;
-    const nextSearch = overrides.search ?? search;
+    const nextSearch = clampSearch(overrides.search ?? search);
 
     if (nextSection > 0) {
       query.set("section", String(nextSection));
@@ -191,7 +206,19 @@
       return;
     }
 
-    searchInput = urlSearch;
+    searchInput = clampSearch(urlSearch);
+  });
+
+  $effect(() => {
+    // Clear the previous project's rows before the new project is requested.
+    if (!projectId) {
+      return;
+    }
+
+    untrack(() => {
+      pageData.base = { total: 0, events: [] };
+      loaded = false;
+    });
   });
 
   $effect(() => {
@@ -202,12 +229,22 @@
     void getData(queryFromUrl());
   });
 
-  onMount(() => {
-    document.title = "Logs activities";
+  $effect(() => {
+    if (!projectId) {
+      return;
+    }
+
     void projectStore.projectInfo(projectId);
   });
 
-  onDestroy(cancelSearchTimer);
+  onMount(() => {
+    document.title = "Logs activities";
+  });
+
+  onDestroy(() => {
+    requestSeq++;
+    cancelSearchTimer();
+  });
 </script>
 
 <div class="artboard">
@@ -228,6 +265,9 @@
     <Input
       id="logs-search"
       bind:value={searchInput}
+      aria-label="Search by IP or User-Agent"
+      placeholder="Search by IP or User-Agent"
+      maxlength={SEARCH_MAX_LENGTH}
       onfocus={(): void => {
         searchFocused = true;
       }}
@@ -236,7 +276,7 @@
       }}
       onvaluechange={onSearchInput}
     />
-    <Badge name="Reset" class="cursor-pointer" onclick={resetFilters} />
+    <Button lite onclick={resetFilters}>Reset</Button>
   </div>
 
   <table>
@@ -261,14 +301,25 @@
           </td>
           <td>{item.session?.ip}</td>
           <td>
-            <SvgIcon name="chevron_right" />
+            <button
+              type="button"
+              class="cursor-pointer"
+              aria-label="Open event details"
+              onclick={(event): void => {
+                event.stopPropagation();
+                openDrawer(item);
+              }}
+            >
+              <SvgIcon name="chevron_right" />
+            </button>
           </td>
         </tr>
-      {:else}
+      {/each}
+      {#if loaded && events.length === 0}
         <tr>
           <td colspan="5">No events</td>
         </tr>
-      {/each}
+      {/if}
     </tbody>
   </table>
 

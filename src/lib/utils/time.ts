@@ -1,8 +1,8 @@
 type Method = "full" | "lite";
 
-type Timestamp = { seconds: number; nanos?: number } | string | number | Date | null | undefined;
+type Timestamp = { seconds: number; nanos?: number };
 
-export function toDate(timestamp: Timestamp, format: Method = "full"): string {
+export function toDate(timestamp: unknown, format: Method = "full"): string {
   if (!timestamp) {
     return "";
   }
@@ -14,7 +14,8 @@ export function toDate(timestamp: Timestamp, format: Method = "full"): string {
   } else if (typeof timestamp === "string" || typeof timestamp === "number") {
     date = new Date(timestamp);
   } else {
-    const dateMath = timestamp.nanos ? timestamp.seconds * 1000 + timestamp.nanos / 1e6 : timestamp.seconds * 1000;
+    const { seconds, nanos } = timestamp as Timestamp;
+    const dateMath = nanos ? seconds * 1000 + nanos / 1e6 : seconds * 1000;
     date = new Date(dateMath);
   }
 

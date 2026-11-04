@@ -72,15 +72,19 @@ test("profile logs list renders events", async ({ page }) => {
 
 test("project logs page renders filters and content", async ({ page }) => {
   await login(page);
+
+  const eventsLoaded = page.waitForResponse((response) =>
+    new URL(response.url()).pathname.startsWith("/v1/event/project/")
+  );
+
   await open(page, `${PROJECT}/logs`);
+  await eventsLoaded;
 
   await expect(page.getByRole("heading", { name: "Logs activities" })).toBeVisible();
   await expect(page.locator(".form-dropdown")).toHaveCount(2);
   await expect(page.locator("#logs-search")).toBeVisible();
 
-  const rows = page.locator(".artboard table tbody tr");
-  const empty = page.locator(".artboard table tbody tr", { hasText: "No events" });
-  await expect(rows.first().or(empty)).toBeVisible();
+  await expect(page.locator(".artboard table tbody tr").first()).toBeVisible();
 });
 
 test("profile keys list renders keys", async ({ page }) => {

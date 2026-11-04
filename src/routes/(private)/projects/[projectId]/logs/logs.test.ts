@@ -62,6 +62,28 @@ function apiClient(overrides: Record<string, unknown> = {}): Record<string, unkn
 
 const projectId = "2bef1080-cd6e-49e5-8042-1224cf6a3da9";
 
+function deferred<T>(): { promise: Promise<T>; resolve: (value: T) => void } {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((res) => {
+    resolve = res;
+  });
+
+  return { promise, resolve };
+}
+
+function eventRow(session: { id: string; ip: string; user_agent: string }): Record<string, unknown> {
+  return {
+    project_id: projectId,
+    section: Project_Section.member,
+    type: Type.onCreate,
+    session,
+    meta_data: "eyJhY3Rpb24iOiJhZGQifQ==",
+    created_at: { seconds: 1_760_000_000 }
+  };
+}
+
+const session = { id: "session-1", ip: "192.168.0.1", user_agent: "Mozilla/5.0 Android" };
+
 describe("project logs route", () => {
   beforeEach(() => {
     gotoMock.mockClear();
@@ -110,7 +132,30 @@ describe("project logs route", () => {
     expect(screen.getByText(/"action": "add"/)).toBeInTheDocument();
   });
 
-  it("sends filters from the URL and resets the offset", async () => {
+  it("exposes the search field and row actions to keyboard and screen-reader users", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    apiMock.mockReturnValue(
+      apiClient({
+        GET: vi.fn().mockResolvedValue({ data: { result: { total: 1, events: [eventRow(session)] } } })
+      })
+    );
+
+    const { container } = render(Logs);
+
+    const input = screen.getByRole("textbox", { name: "Search by IP or User-Agent" });
+    expect(input).toHaveAttribute("placeholder", "Search by IP or User-Agent");
+    expect(input).toHaveAttribute("maxlength", "128");
+    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+
+    await fireEvent.click(await screen.findByRole("button", { name: "Open event details" }));
+
+    await waitFor(() => {
+      expect(container.querySelector(".drawer")).toHaveClass("is-open");
+    });
+    expect(await screen.findByText("session-1")).toBeInTheDocument();
+  });
+
+  it("sends filters from the URL", async () => {
     setPageState(`/projects/${projectId}/logs?section=1&type=3&search=192.168&offset=25`, { projectId });
     const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, events: [] } } });
     apiMock.mockReturnValue(apiClient({ GET: getMock }));
@@ -151,7 +196,7 @@ describe("project logs route", () => {
   });
 
   it("updates the URL when a filter is applied", async () => {
-    setPageState(`/projects/${projectId}/logs`, { projectId });
+    setPageState(`/projects/${projectId}/logs?offset=25`, { projectId });
     apiMock.mockReturnValue(
       apiClient({
         GET: vi.fn().mockResolvedValue({ data: { result: { total: 0, events: [] } } })
@@ -237,5 +282,165 @@ describe("project logs route", () => {
         expect.objectContaining({ replaceState: true })
       );
     });
+  });
+
+  it("clamps typed search values to 128 characters", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    apiMock.mockReturnValue(
+      apiClient({
+        GET: vi.fn().mockResolvedValue({ data: { result: { total: 0, events: [] } } })
+      })
+    );
+
+    render(Logs);
+    await tick();
+
+    const input = screen.getByRole("textbox", { name: "Search by IP or User-Agent" });
+    await fireEvent.input(input, { target: { value: "a".repeat(129) } });
+
+    await waitFor(() => {
+      expect(gotoMock).toHaveBeenCalledWith(
+        `/projects/${projectId}/logs?limit=25&offset=0&search=${"a".repeat(128)}`,
+        expect.objectContaining({ replaceState: true })
+      );
+    });
+  });
+
+  it("clamps a search filter from the URL before sending it", async () => {
+    const longSearch = "b".repeat(129);
+    setPageState(`/projects/${projectId}/logs?search=${longSearch}`, { projectId });
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, events: [] } } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    render(Logs);
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith(`/v1/event/project/${projectId}`, { search: longSearch.slice(0, 128) });
+    });
+  });
+
+  it("warns when the API rejects the search", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    apiMock.mockReturnValue(
+      apiClient({ GET: vi.fn().mockResolvedValue({ error: { code: 400, result: "Bad Request" } }) })
+    );
+
+    const messages: string[] = [];
+    const capture = (event: Event): void => {
+      messages.push((event as CustomEvent<string>).detail);
+    };
+    window.addEventListener("connextWarning", capture);
+
+    try {
+      render(Logs);
+      await tick();
+
+      await waitFor(() => {
+        expect(messages).toEqual(["Bad Request"]);
+      });
+      expect(screen.queryByText("No events")).toBeNull();
+    } finally {
+      window.removeEventListener("connextWarning", capture);
+    }
+  });
+
+  it("shows the empty state only after the first response", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    const response = deferred<unknown>();
+    apiMock.mockReturnValue(apiClient({ GET: vi.fn().mockReturnValue(response.promise) }));
+
+    render(Logs);
+    await tick();
+
+    expect(screen.queryByText("No events")).toBeNull();
+
+    response.resolve({ data: { result: { total: 0, events: [] } } });
+
+    expect(await screen.findByText("No events")).toBeInTheDocument();
+  });
+
+  it("clears the previous project rows when the project changes", async () => {
+    const otherProjectId = "3c5a8f5e-4f5a-4f3a-8f8e-2f8b9a0c1d2e";
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+
+    const nextResponse = deferred<unknown>();
+    const getMock = vi
+      .fn()
+      .mockResolvedValueOnce({ data: { result: { total: 1, events: [eventRow(session)] } } })
+      .mockReturnValueOnce(nextResponse.promise);
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    render(Logs);
+    expect(await screen.findByText("192.168.0.1")).toBeInTheDocument();
+
+    setPageState(`/projects/${otherProjectId}/logs`, { projectId: otherProjectId });
+    await tick();
+
+    expect(screen.queryByText("192.168.0.1")).toBeNull();
+    expect(screen.queryByText("No events")).toBeNull();
+  });
+
+  it("refreshes project info when the project changes", async () => {
+    const otherProjectId = "3c5a8f5e-4f5a-4f3a-8f8e-2f8b9a0c1d2e";
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    apiMock.mockReturnValue(
+      apiClient({
+        GET: vi.fn().mockResolvedValue({ data: { result: { total: 0, events: [] } } })
+      })
+    );
+
+    render(Logs);
+    await waitFor(() => {
+      expect(projectMock.projectInfo).toHaveBeenCalledWith(projectId);
+    });
+
+    setPageState(`/projects/${otherProjectId}/logs`, { projectId: otherProjectId });
+    await tick();
+
+    await waitFor(() => {
+      expect(projectMock.projectInfo).toHaveBeenCalledWith(otherProjectId);
+    });
+  });
+
+  it("ignores a stale response that resolves after a newer request", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+
+    const staleResponse = deferred<unknown>();
+    const freshResponse = deferred<unknown>();
+    const getMock = vi.fn().mockReturnValueOnce(staleResponse.promise).mockReturnValueOnce(freshResponse.promise);
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    render(Logs);
+    await tick();
+    expect(getMock).toHaveBeenCalledTimes(1);
+
+    setPageState(`/projects/${projectId}/logs?search=new`, { projectId });
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledTimes(2);
+    });
+
+    freshResponse.resolve({
+      data: {
+        result: {
+          total: 1,
+          events: [eventRow({ id: "session-new", ip: "10.0.0.2", user_agent: "Mozilla/5.0" })]
+        }
+      }
+    });
+    expect(await screen.findByText("10.0.0.2")).toBeInTheDocument();
+
+    staleResponse.resolve({
+      data: {
+        result: {
+          total: 1,
+          events: [eventRow({ id: "session-old", ip: "10.0.0.1", user_agent: "Mozilla/5.0" })]
+        }
+      }
+    });
+    await tick();
+
+    expect(screen.getByText("10.0.0.2")).toBeInTheDocument();
+    expect(screen.queryByText("10.0.0.1")).toBeNull();
   });
 });
