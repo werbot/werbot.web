@@ -14,7 +14,6 @@ export default [
     ignores: [
       ".svelte-kit/",
       "build/",
-      "dist/",
       "e2e/fixtures/",
       "src/generated/",
       "vite.config.{js,ts,mjs}",
@@ -129,16 +128,10 @@ export default [
   },
 
   {
-    // Vue was removed in the SvelteKit migration. This rule keeps host code,
-    // scripts, tests and add-on pages from importing the old runtime; the same
-    // check runs in add-on repositories when their web folder is linted.
-    files: [
-      "src/**/*.{js,ts,svelte}",
-      "scripts/**/*.ts",
-      "e2e/**/*.ts",
-      "add-on/*/web/**/*.{js,mjs,ts,svelte}",
-      "../add-on/*/web/**/*.{js,mjs,ts,svelte}"
-    ],
+    // Vue was removed in the SvelteKit migration. ESLint only visits files in
+    // this package, so add-on pages are covered by scripts/check-no-vue.ts,
+    // which walks every sibling add-on/web folder.
+    files: ["src/**/*.{js,ts,svelte}", "scripts/**/*.ts", "e2e/**/*.ts"],
     rules: {
       "no-restricted-imports": [
         "error",

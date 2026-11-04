@@ -81,8 +81,9 @@ SvelteKit route wrappers to `src/routes/` and a registry to
 run.
 
 - Default root: `../add-on` (the sibling checkout in the monorepo).
-- Override with `ADDON_ROOTS=/path/a:/path/b` or `bun scripts/addons/generate.ts --roots /path`.
-  The generator accepts exactly one root at a time.
+- Override with `ADDON_ROOTS=/path/to/add-on` or
+  `bun scripts/addons/generate.ts --roots /path/to/add-on`. Only one root is
+  supported: a colon-separated list with more than one entry fails the run.
 - `ADDON_ROOTS=""` builds the host with no add-on routes and no add-on chunks.
 - Test fixtures live in `e2e/fixtures/`; unit tests point the generator at them
   explicitly. They are not part of the default root, so production builds never
@@ -115,23 +116,38 @@ Rules:
   `isActiveRoute`, `authStore`, `systemStore`, `projectStore`, `getMenu`,
   `menuHref`) and their own `@addon/<name>/web/**` files.
 - Add-on pages may not import Vue, Vue Router, Pinia, Notiwind or
-  `@vueuse/core`. ESLint and `scripts/check-no-vue.ts` enforce this.
+  `@vueuse/core`. `scripts/check-no-vue.ts` (run by `bun run lint`) enforces
+  this for host code and every sibling `add-on/*/web` folder.
 - The generator emits one dynamic import per page, so every add-on page stays a
   separate lazy chunk.
 
 ## Local visual parity suite
 
 The suite compares 55 routes against `e2e/baselines/` and needs a running
-backend with the migration fixtures.
+backend with the migration fixtures. Starting the backend and applying the
+fixtures are separate steps: `make migration dev up` only runs goose (core
+schema, add-on schemas, dev fixtures) against the Postgres from `.env`; it does
+not start any service.
 
 ```bash
-# from the repository root: start the Go stack (Postgres, API, add-ons)
+# from the repository root, with the .env created by `make init`:
+# 1. start the backend services (Postgres, Redis, gRPC services, taco, haproxy).
+#    The `app` service is the published web image, not this working tree.
+docker compose -f docker/docker-compose.yaml up -d
+
+# 2. apply migrations and dev fixtures (goose only)
 make migration dev up
 
-# from web/: run the dev server on a free port, then the suite
-bun run dev -- --port 5174
+# from web/: run the dev server against the API, then the suite
+VITE_API_URL=https://api.<your-domain> bun run dev -- --port 5174
 WEB_BASE_URL=http://localhost:5174 bun run test:visual
 ```
+
+The compose `taco` service is only published through haproxy. For an API on
+`http://localhost:8088`, skip the compose `taco` and `haproxy` services and run
+`go run -tags saas ./cmd/taco` in its own shell (it loads `.env`), then start the
+dev server with `VITE_API_URL=http://localhost:8088`. `VITE_API_URL` is inlined
+when the dev server starts, so restart it after changing the value.
 
 Admin baselines include the `add-on/saas` sidebar entries, so run the suite with
 the add-ons checked out. Baselines are updated only for a deliberate change:

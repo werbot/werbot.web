@@ -246,6 +246,11 @@ describe("generateAddons", () => {
   it("emits empty registry when no add-ons exist", async () => {
     const out = await createOut();
     const outDir = path.join(out, "src", "generated", "addons");
+    const routesDir = path.join(out, "src", "routes");
+    const gitignoreFile = path.join(routesDir, ".gitignore");
+
+    await mkdir(routesDir, { recursive: true });
+    await writeFile(gitignoreFile, "# tracked\n/(private)/admin/license1/+page.svelte\n");
 
     const result = await generateAddons({ roots: [], outDir });
 
@@ -254,6 +259,9 @@ describe("generateAddons", () => {
     const registry = await readFile(path.join(outDir, "index.ts"), "utf8");
     expect(registry).toContain("export const routes: RouteDef[] = [];");
     expect(registry).toContain("export const menus: Record<MenuSection, MenuGroup[]> = {");
+
+    // A build without add-ons must not rewrite the tracked ignore file.
+    expect(await readFile(gitignoreFile, "utf8")).toBe("# tracked\n/(private)/admin/license1/+page.svelte\n");
   });
 
   it("skips a route whose svelte component is missing", async () => {

@@ -114,7 +114,13 @@ export async function generateAddons(options: GenerateAddonsOptions): Promise<Ge
 
   await fs.mkdir(routesDir, { recursive: true });
   await fs.writeFile(registryFile, registrySource(resolved, menus));
-  await fs.writeFile(gitignoreFile, routesGitignore(routeFiles, routesDir));
+
+  // Keep the committed ignore file stable for a build without add-ons: an
+  // empty list would rewrite a tracked file to its bare header.
+  if (routeFiles.length > 0) {
+    await fs.writeFile(gitignoreFile, routesGitignore(routeFiles, routesDir));
+  }
+
   await fs.writeFile(
     manifestFile,
     `${JSON.stringify({ files: [...routeFiles, registryFile, manifestFile].map(relativeToProject) }, null, 2)}\n`
