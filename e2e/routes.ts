@@ -57,8 +57,7 @@ export const ROUTES: RouteDefinition[] = [
   { id: "server-members-add", path: `${server}/members/add`, auth: true },
   { id: "server-members-member", path: `${server}/members/${memberId}`, auth: true },
   { id: "server-session", path: `${server}/session`, auth: true },
-  // Renders blank: the page links to the non-existent `projects-projectId-servers-serverId-sessions` route.
-  { id: "server-session-session", path: `${server}/session/${sessionId}`, auth: true, blank: true },
+  { id: "server-session-session", path: `${server}/session/${sessionId}`, auth: true },
   { id: "server-activity", path: `${server}/activity`, auth: true },
   { id: "server-firewall", path: `${server}/firewall`, auth: true },
   { id: "server-setting", path: `${server}/setting`, auth: true },

@@ -43,6 +43,19 @@ import { setPageState } from "$lib/test/page.svelte";
 import ServersAddScheme from "@/routes/(private)/projects/[projectId]/servers/add/[scheme]/+page.svelte";
 import ServersAdd from "@/routes/(private)/projects/[projectId]/servers/add/+page.svelte";
 import Servers from "@/routes/(private)/projects/[projectId]/servers/+page.svelte";
+import ServerDetail from "@/routes/(private)/projects/[projectId]/servers/[serverId]/+page.svelte";
+import ServerActivity from "@/routes/(private)/projects/[projectId]/servers/[serverId]/activity/+page.svelte";
+import ServerDestroy from "@/routes/(private)/projects/[projectId]/servers/[serverId]/destroy/+page.svelte";
+import ServerFirewall from "@/routes/(private)/projects/[projectId]/servers/[serverId]/firewall/+page.svelte";
+import ServerMembersAdd from "@/routes/(private)/projects/[projectId]/servers/[serverId]/members/add/+page.svelte";
+import ServerMember from "@/routes/(private)/projects/[projectId]/servers/[serverId]/members/[memberId]/+page.svelte";
+import ServerMemberLog from "@/routes/(private)/projects/[projectId]/servers/[serverId]/members/[memberId]/[logId]/+page.svelte";
+import ServerMembers from "@/routes/(private)/projects/[projectId]/servers/[serverId]/members/+page.svelte";
+import ServerSession from "@/routes/(private)/projects/[projectId]/servers/[serverId]/session/+page.svelte";
+import ServerSessionId from "@/routes/(private)/projects/[projectId]/servers/[serverId]/session/[sessionId]/+page.svelte";
+import ServerSetting from "@/routes/(private)/projects/[projectId]/servers/[serverId]/setting/+page.svelte";
+
+import type { Component } from "svelte";
 
 function apiClient(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
@@ -55,10 +68,81 @@ function apiClient(overrides: Record<string, unknown> = {}): Record<string, unkn
   };
 }
 
+function week(): Record<string, number[]> {
+  return Object.fromEntries(
+    ["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day, index) => [
+      day,
+      Array.from({ length: 24 }, (_, hour) => Number((day.length + hour + index) % 2 === 0))
+    ])
+  );
+}
+
 const projectId = "2bef1080-cd6e-49e5-8042-1224cf6a3da9";
 const serverId = "156d8d65-cfe5-48a4-a636-198a5f509abf";
+const memberId = "9d3f7efc-14a5-436d-a763-314441d6e0a5";
+const logId = "00000000-0000-0000-0000-000000000000";
 
 const serverBase = `/projects/${projectId}/servers/${serverId}`;
+
+interface TabPage {
+  component: Component;
+  path: string;
+  params: Record<string, string>;
+  title: string;
+  loadsServerName?: boolean;
+  hasTabs?: boolean;
+}
+
+const SERVER_PAGES: TabPage[] = [
+  { component: ServerDetail, path: serverBase, params: { projectId, serverId }, title: "Server info" },
+  {
+    component: ServerSession,
+    path: `${serverBase}/session`,
+    params: { projectId, serverId },
+    title: "Server session list"
+  },
+  {
+    component: ServerSessionId,
+    path: `${serverBase}/session/${logId}`,
+    params: { projectId, serverId, sessionId: logId },
+    title: "Server session info",
+    hasTabs: false
+  },
+  { component: ServerMembers, path: `${serverBase}/members`, params: { projectId, serverId }, title: "Server member" },
+  {
+    component: ServerMembersAdd,
+    path: `${serverBase}/members/add`,
+    params: { projectId, serverId },
+    title: "Server member add"
+  },
+  {
+    component: ServerMember,
+    path: `${serverBase}/members/${memberId}`,
+    params: { projectId, serverId, memberId },
+    title: "Server member"
+  },
+  {
+    component: ServerMemberLog,
+    path: `${serverBase}/members/${memberId}/${logId}`,
+    params: { projectId, serverId, memberId, logId },
+    title: "Server member",
+    loadsServerName: false
+  },
+  {
+    component: ServerActivity,
+    path: `${serverBase}/activity`,
+    params: { projectId, serverId },
+    title: "Server activity"
+  },
+  {
+    component: ServerFirewall,
+    path: `${serverBase}/firewall`,
+    params: { projectId, serverId },
+    title: "Server firewall"
+  },
+  { component: ServerSetting, path: `${serverBase}/setting`, params: { projectId, serverId }, title: "Server setting" },
+  { component: ServerDestroy, path: `${serverBase}/destroy`, params: { projectId, serverId }, title: "Destroy server" }
+];
 
 describe("servers routes", () => {
   beforeEach(() => {
@@ -176,5 +260,136 @@ describe("servers routes", () => {
     expect(document.title).toBe("Step 2: Fill in the fields to connect");
 
     expect(gotoMock).not.toHaveBeenCalled();
+  });
+
+  it("server detail tabs resolve serverId from params", async () => {
+    for (const page of SERVER_PAGES) {
+      setPageState(page.path, page.params);
+
+      const { container, unmount } = render(page.component);
+      await tick();
+
+      const tabs = Array.from(container.querySelectorAll('[role="tab"] a'));
+      if (page.hasTabs === false) {
+        expect(tabs).toHaveLength(0);
+      } else {
+        expect(tabs.map((tab) => tab.getAttribute("href"))).toEqual([
+          serverBase,
+          `${serverBase}/session`,
+          `${serverBase}/members`,
+          `${serverBase}/activity`,
+          `${serverBase}/firewall`,
+          `${serverBase}/setting`,
+          `${serverBase}/destroy`
+        ]);
+      }
+      expect(document.title).toBe(page.title);
+      if (page.loadsServerName !== false) {
+        expect(projectMock.serverNameByID).toHaveBeenCalledWith(projectId, serverId);
+      }
+
+      if (page.component === ServerSessionId) {
+        const sessions = container.querySelector(".breadcrumbs a");
+        expect(sessions).toHaveTextContent("Sessions");
+        expect(sessions).toHaveAttribute("href", `${serverBase}/session`);
+      }
+
+      const selected = container.querySelectorAll('[role="tab"][aria-selected="true"]');
+      const isTabRoot =
+        page.path === serverBase ||
+        ["/session", "/members", "/activity", "/firewall", "/setting", "/destroy"].some(
+          (suffix) => page.path === `${serverBase}${suffix}`
+        );
+
+      if (isTabRoot) {
+        expect(selected).toHaveLength(1);
+      } else {
+        expect(selected).toHaveLength(0);
+      }
+
+      unmount();
+      projectMock.serverNameByID.mockClear();
+    }
+  });
+
+  it("firewall and activity tables keep their column sets", async () => {
+    const weekData = week();
+    const getMock = vi.fn().mockImplementation((url: string) => {
+      if (url.endsWith("/activity")) {
+        return Promise.resolve({ data: { result: { week: weekData } } });
+      }
+
+      return Promise.resolve({
+        data: {
+          result: {
+            country: {
+              wite_list: true,
+              list: [
+                { country_id: "1", country_code: "CN", country_name: "China" },
+                { country_id: "2", country_code: "RU", country_name: "Russian Federation" }
+              ]
+            },
+            network: {
+              wite_list: false,
+              list: [
+                { network_id: "1", network: "192.168.1.0/24" },
+                { network_id: "2", network: "127.0.0.3" }
+              ]
+            }
+          }
+        }
+      });
+    });
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    setPageState(`${serverBase}/activity`, { projectId, serverId });
+
+    const activity = render(ServerActivity);
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith(`/v1/schemes/${projectId}/${serverId}/activity`);
+    });
+
+    const rows = Array.from(activity.container.querySelectorAll(".artboard table tr"));
+    expect(rows).toHaveLength(7);
+
+    const days = rows.map((row) => row.querySelector("td")?.textContent?.trim());
+    expect(days).toEqual(["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]);
+
+    for (const [index, row] of rows.entries()) {
+      const cells = row.querySelectorAll("td");
+      expect(cells).toHaveLength(2);
+      expect(row.querySelectorAll("input[type=checkbox]")).toHaveLength(24);
+      expect(row.querySelectorAll(".square")).toHaveLength(24);
+      expect(row.querySelectorAll(".square")[0]).toHaveTextContent("0");
+      expect(row.querySelectorAll(".square")[23]).toHaveTextContent("23");
+      expect(cells[0].querySelector("span")).toHaveClass(index >= 5 ? "text-red-500" : "cursor-pointer");
+    }
+
+    activity.unmount();
+
+    setPageState(`${serverBase}/firewall`, { projectId, serverId });
+
+    const firewall = render(ServerFirewall);
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith(`/v1/schemes/${projectId}/${serverId}/firewall`);
+    });
+
+    const sections = Array.from(firewall.container.querySelectorAll(".artboard > .content"));
+    expect(sections).toHaveLength(2);
+    expect(sections[0].querySelector(":scope > .w-28")).toHaveTextContent("Countries:");
+    expect(sections[1].querySelector(":scope > .w-28")).toHaveTextContent("Networks:");
+
+    const countryTags = Array.from(sections[0].querySelectorAll(".firewall-tags-item"));
+    expect(countryTags.map((tag) => tag.textContent?.trim())).toEqual(["China", "Russian Federation"]);
+
+    const networkTags = Array.from(sections[1].querySelectorAll(".firewall-tags-item"));
+    expect(networkTags.map((tag) => tag.textContent?.trim())).toEqual(["192.168.1.0 - 192.168.1.255", "127.0.0.3"]);
+
+    expect(firewall.container.querySelectorAll("input[type=text]")).toHaveLength(2);
+    expect(firewall.container.querySelectorAll(".toggle")).toHaveLength(2);
   });
 });

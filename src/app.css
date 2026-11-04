@@ -232,3 +232,8 @@ dl.info {
 .toggle {
   @apply relative inline-flex cursor-pointer items-center select-none;
 }
+
+/* Server activity weekday grid (moved from the Vue page style block) */
+.worktime-hours-item input:checked ~ .square {
+  background-color: #3dcc38;
+}
