@@ -73,6 +73,28 @@ describe("form components", () => {
     expect(screen.getByTestId("bound").textContent).toBe("us");
   });
 
+  it("Select shows labels for value/label options and stores the value", async () => {
+    render(SelectHost, {
+      props: {
+        name: "Auth",
+        initial: 1,
+        options: [
+          { value: 1, label: "Password" },
+          { value: 2, label: "Key" }
+        ]
+      }
+    });
+    const button = screen.getByRole("button");
+
+    expect(button).toHaveTextContent("Password");
+
+    await fireEvent.click(button);
+    await fireEvent.click(screen.getByText("Key"));
+
+    expect(button).toHaveTextContent("Key");
+    expect(screen.getByTestId("bound").textContent).toBe("2");
+  });
+
   it("Select closes when clicking outside", async () => {
     render(SelectHost, { props: { name: "Region", initial: "eu", options: ["eu", "us"] } });
 

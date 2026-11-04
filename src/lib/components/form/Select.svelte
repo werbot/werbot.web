@@ -4,12 +4,14 @@
   import { clickOutside } from "$lib/actions/clickOutside";
   import SvgIcon from "$lib/components/SvgIcon.svelte";
 
+  export type SelectOption = string | number | { value: string | number; label: string };
+
   interface Props extends Omit<HTMLAttributes<HTMLDivElement>, "class"> {
     name?: string;
     value: string | number;
     error?: string;
     required?: boolean;
-    options: Array<string | number>;
+    options: SelectOption[];
     class?: string;
   }
 
@@ -19,6 +21,15 @@
 
   const fullName = $derived(`${name}${required ? "*" : ""}`);
 
+  const optionValue = (option: SelectOption): string | number => (typeof option === "object" ? option.value : option);
+
+  const optionLabel = (option: SelectOption): string => (typeof option === "object" ? option.label : String(option));
+
+  const selectedOption = $derived(options.find((option) => optionValue(option) === value));
+  const selectedLabel = $derived(
+    selectedOption !== undefined ? optionLabel(selectedOption) : (value ?? "Choose option")
+  );
+
   const toggle = (): void => {
     open = !open;
   };
@@ -27,8 +38,8 @@
     open = false;
   };
 
-  const setValue = (option: string | number): void => {
-    value = option;
+  const setValue = (option: SelectOption): void => {
+    value = optionValue(option);
     open = false;
   };
 </script>
@@ -46,7 +57,7 @@
 
   <div use:clickOutside={close}>
     <button type="button" onclick={toggle}>
-      <span>{value ?? "Choose option"}</span>
+      <span>{selectedLabel}</span>
       <SvgIcon name="chevron_down" />
     </button>
 
@@ -59,7 +70,7 @@
               setValue(option);
             }}
           >
-            {option}
+            {optionLabel(option)}
           </li>
         {/each}
       </ul>

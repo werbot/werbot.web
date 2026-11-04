@@ -5,7 +5,7 @@
   interface Props {
     initial?: string | number;
     name?: string;
-    options?: Array<string | number>;
+    options?: Array<string | number | { value: string | number; label: string }>;
     class?: string;
   }
 

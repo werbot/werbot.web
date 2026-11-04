@@ -276,7 +276,7 @@ describe("servers routes", () => {
 
     const dropdown = container.querySelector(".form-dropdown button") as HTMLButtonElement;
     await fireEvent.click(dropdown);
-    await fireEvent.click(screen.getByText("1"));
+    await fireEvent.click(screen.getByText("Password"));
     await tick();
 
     const password = container.querySelector('input[type="password"]') as HTMLInputElement;
@@ -291,7 +291,7 @@ describe("servers routes", () => {
     expect(body.scheme.server_ssh.access.password.password).toBe("s3cret");
 
     await fireEvent.click(dropdown);
-    await fireEvent.click(screen.getByText("2"));
+    await fireEvent.click(screen.getByText("Key"));
     await tick();
 
     await waitFor(() => {

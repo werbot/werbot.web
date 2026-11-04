@@ -235,7 +235,10 @@
       <Select
         bind:value={pageData.base.auth}
         name="Auth"
-        options={[AuthMethod.password, AuthMethod.key]}
+        options={[
+          { value: AuthMethod.password, label: "Password" },
+          { value: AuthMethod.key, label: "Key" }
+        ]}
         error={pageData.error["auth"]}
         class="mr-5"
       />

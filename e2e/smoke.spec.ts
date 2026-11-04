@@ -70,6 +70,25 @@ test("profile logs list renders events", async ({ page }) => {
   await expect(page.locator(".drawer__content")).toBeVisible();
 });
 
+test("profile keys list renders keys", async ({ page }) => {
+  await login(page);
+  await open(page, "/profile/keys");
+
+  const rows = page.locator(".artboard table tbody tr");
+  await expect(rows.first()).toBeVisible();
+  expect(await rows.count()).toBeGreaterThan(0);
+});
+
+test("server add scheme shows readable auth labels", async ({ page }) => {
+  await login(page);
+  await open(page, `${PROJECT}/servers/add/server_ssh`);
+
+  const dropdown = page.locator(".form-dropdown button");
+  await dropdown.click();
+  await expect(page.getByRole("listitem").filter({ hasText: "Password" })).toBeVisible();
+  await expect(page.getByRole("listitem").filter({ hasText: "Key" })).toBeVisible();
+});
+
 test("unknown route renders the 404 page", async ({ page }) => {
   await open(page, "/this-route-does-not-exist");
 
