@@ -1,4 +1,4 @@
-// @generated from protobuf file "rpc.proto" (package "event", syntax proto3)
+// @generated from protobuf file "internal/core/event/proto/rpc/rpc.proto" (package "event", syntax proto3)
 // tslint:disable
 // @ts-nocheck
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
@@ -64,6 +64,18 @@ export interface Events_Request {
      * @generated from protobuf field: string sort_by = 8
      */
     sort_by: string; // @gotags: json:"-"
+    /**
+     * @generated from protobuf field: int32 section = 9
+     */
+    section: number;
+    /**
+     * @generated from protobuf field: eventenum.Type type = 10
+     */
+    type: Type;
+    /**
+     * @generated from protobuf field: string search = 11
+     */
+    search: string;
 }
 /**
  * @generated from protobuf message event.Events.Response
@@ -261,7 +273,10 @@ class Events_Request$Type extends MessageType<Events_Request> {
             { no: 5, name: "scheme_id", kind: "scalar", localName: "scheme_id", oneof: "related_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 6, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 7, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 8, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ }
+            { no: 8, name: "sort_by", kind: "scalar", localName: "sort_by", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "section", kind: "scalar", T: 5 /*ScalarType.INT32*/, options: { "buf.validate.field": { int32: { gte: 0 } } } },
+            { no: 10, name: "type", kind: "enum", T: () => ["eventenum.Type", Type], options: { "buf.validate.field": { enum: { definedOnly: true } } } },
+            { no: 11, name: "search", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { maxLen: "128" } } } }
         ]);
     }
 }
