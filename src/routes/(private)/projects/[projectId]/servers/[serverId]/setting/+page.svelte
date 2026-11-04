@@ -60,8 +60,12 @@
           pageData.base.host.address = schemeData.address;
           pageData.base.host.port = schemeData.port;
 
-          const [authKey, authData] = Object.entries(schemeData.access ?? {})[0] ?? [];
-          const auth = authData as any;
+          // SSH keeps the auth method on the scheme itself (oneof key/password);
+          // other server types nest it under `access`.
+          const authKey = schemeData.access
+            ? "password"
+            : (["password", "key", "agent"] as const).find((key) => schemeData[key] != null);
+          const auth = authKey === "password" && schemeData.access ? schemeData.access : schemeData[authKey ?? ""];
 
           if (authKey === "password") {
             pageData.base.access.auth = AuthMethod.password;
@@ -111,11 +115,15 @@
       return null;
     }
 
+    // SSH expects the auth method as a sibling of address/port; other server
+    // types keep it nested under `access`.
+    const auth = schemeKey === "server_ssh" ? access : { access };
+
     return {
       [schemeKey]: {
         address: base.host.address?.trim(),
         port: base.host.port === "" || base.host.port == null ? base.host.port : Number(base.host.port),
-        access
+        ...auth
       }
     };
   };

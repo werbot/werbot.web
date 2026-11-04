@@ -455,4 +455,69 @@ describe("servers routes", () => {
       expect(getMock).toHaveBeenCalledWith("/country", { name: "China" });
     });
   });
+
+  it("server setting reads ssh key access and sends it back on the scheme", async () => {
+    const getMock = vi.fn().mockImplementation((url: string) => {
+      if (url.endsWith("/access")) {
+        return Promise.resolve({
+          data: {
+            result: {
+              scheme: {
+                server_ssh: {
+                  alias: "7Ub2Gn",
+                  address: "127.0.0.10",
+                  port: 2211,
+                  key: { login: "ubuntu11", key_id: "key-1" }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      return Promise.resolve({
+        data: {
+          result: { title: "Develop server #2", active: true, audit: false, auth_method: 2, scheme_type: 103 }
+        }
+      });
+    });
+    const updateMock = vi.fn().mockResolvedValue({ data: { message: "Scheme updated" } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock, UPDATE: updateMock }));
+
+    setPageState(`${serverBase}/setting`, { projectId, serverId });
+
+    const { container } = render(ServerSetting);
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith(`/v1/schemes/${projectId}/${serverId}/access`);
+    });
+
+    const textInputs = Array.from(container.querySelectorAll('input[type="text"]')) as HTMLInputElement[];
+    await waitFor(() => {
+      expect(textInputs.map((input) => input.value)).toEqual([
+        "Develop server #2",
+        "127.0.0.10",
+        "2211",
+        "ubuntu11"
+      ]);
+    });
+
+    const updateKey = screen.getByRole("button", { name: "Update key" });
+    await fireEvent.click(updateKey);
+
+    await waitFor(() => {
+      expect(updateMock).toHaveBeenCalledTimes(1);
+    });
+
+    expect(updateMock.mock.calls[0][2]).toEqual({
+      scheme: {
+        server_ssh: {
+          address: "127.0.0.10",
+          port: 2211,
+          key: { login: "ubuntu11", key_id: "key-1" }
+        }
+      }
+    });
+  });
 });
