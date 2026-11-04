@@ -9,10 +9,11 @@
 
   interface Props {
     total?: number;
+    class?: string;
     onselectPage?: (q: PaginationQuery) => void;
   }
 
-  let { total = 0, onselectPage }: Props = $props();
+  let { total = 0, class: className = "", onselectPage }: Props = $props();
 
   const limit = $derived(Number(page.url.searchParams.get("limit")) || 25);
   const offset = $derived(Number(page.url.searchParams.get("offset")) || 0);
@@ -45,7 +46,7 @@
 </script>
 
 {#if totalPages > 1}
-  <div class="pagination">
+  <div class={className ? `pagination ${className}` : "pagination"}>
     {#each Array.from({ length: totalPages }, (_, index) => index + 1) as pageNumber (pageNumber)}
       <a
         class="pagination btn"

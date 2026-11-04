@@ -186,10 +186,11 @@ describe("interactive components", () => {
     const onselectPage = vi.fn();
 
     setPage("/projects?limit=10&offset=10");
-    render(Pagination, { props: { total: 35, onselectPage } });
+    const { container } = render(Pagination, { props: { total: 35, class: "content", onselectPage } });
 
     const links = screen.getAllByRole("link");
 
+    expect(container.querySelector(".pagination")).toHaveClass("content");
     expect(links).toHaveLength(4);
     expect(links[0]).toHaveAttribute("href", "/projects?limit=10&offset=0");
     expect(links[1]).toHaveAttribute("href", "/projects?limit=10&offset=10");
