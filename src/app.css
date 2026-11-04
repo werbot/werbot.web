@@ -86,6 +86,64 @@ svg {
   @apply bg-gray-700 text-gray-200;
 }
 
+/* Navigation */
+.sidebar {
+  @apply mt-2 mb-6;
+}
+
+.sidebar hr {
+  @apply my-4;
+}
+
+.sidebar li {
+  @apply mb-3;
+}
+
+.sidebar li a {
+  @apply -m-2 flex items-center rounded-sm p-2 leading-5 text-gray-400 no-underline;
+}
+
+.sidebar li a:hover {
+  @apply bg-gray-100;
+}
+
+.sidebar li a span {
+  @apply hidden sm:inline-block;
+}
+
+.sidebar li a svg {
+  @apply inline-block w-5 fill-gray-400 pr-0 align-middle sm:mr-2;
+}
+
+.sidebar li a.current {
+  @apply bg-gray-200 text-gray-700;
+}
+
+.sidebar li a.current svg {
+  @apply fill-gray-700;
+}
+
+/* Header */
+.header {
+  @apply relative flex w-full flex-wrap items-center justify-between py-6;
+}
+
+.header .logo {
+  @apply mr-5 w-32 flex-none cursor-pointer sm:mr-8 sm:w-36;
+}
+
+.header .shared {
+  @apply mr-4 flex items-center whitespace-nowrap text-gray-700;
+}
+
+.header .shared.current {
+  @apply rounded-sm border bg-gray-200 p-2 text-gray-700;
+}
+
+.header .shared.current svg {
+  @apply fill-gray-700;
+}
+
 /* Alert */
 .alert {
   @apply pointer-events-none fixed right-0 bottom-0 z-50 flex items-start justify-end p-6 px-4 py-6;

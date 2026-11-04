@@ -1,10 +1,17 @@
 export { default as Alert } from "$lib/components/Alert.svelte";
 export { default as Badge } from "$lib/components/Badge.svelte";
+export { default as BServerName } from "$lib/components/BServerName.svelte";
 export { default as Button } from "$lib/components/form/Button.svelte";
+export { default as Drawer } from "$lib/components/Drawer.svelte";
+export { default as Header } from "$lib/components/Header.svelte";
 export { default as Input } from "$lib/components/form/Input.svelte";
+export { default as Modal } from "$lib/components/Modal.svelte";
+export { default as Navigation } from "$lib/components/Navigation.svelte";
+export { default as Pagination } from "$lib/components/Pagination.svelte";
 export { default as Select } from "$lib/components/form/Select.svelte";
 export { default as Skeleton } from "$lib/components/Skeleton.svelte";
 export { default as SvgIcon } from "$lib/components/SvgIcon.svelte";
+export { default as Tabs } from "$lib/components/Tabs.svelte";
 export { default as Textarea } from "$lib/components/form/Textarea.svelte";
 export { default as Toggle } from "$lib/components/form/Toggle.svelte";
 export { default as Version } from "$lib/components/Version.svelte";
