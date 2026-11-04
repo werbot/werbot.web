@@ -70,6 +70,19 @@ test("profile logs list renders events", async ({ page }) => {
   await expect(page.locator(".drawer__content")).toBeVisible();
 });
 
+test("project logs page renders filters and content", async ({ page }) => {
+  await login(page);
+  await open(page, `${PROJECT}/logs`);
+
+  await expect(page.getByRole("heading", { name: "Logs activities" })).toBeVisible();
+  await expect(page.locator(".form-dropdown")).toHaveCount(2);
+  await expect(page.locator("#logs-search")).toBeVisible();
+
+  const rows = page.locator(".artboard table tbody tr");
+  const empty = page.locator(".artboard table tbody tr", { hasText: "No events" });
+  await expect(rows.first().or(empty)).toBeVisible();
+});
+
 test("profile keys list renders keys", async ({ page }) => {
   await login(page);
   await open(page, "/profile/keys");
