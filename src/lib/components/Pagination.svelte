@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
+  import { SvelteURLSearchParams } from "svelte/reactivity";
 
   interface PaginationQuery {
     limit: number;
@@ -29,10 +30,9 @@
 
   function hrefFor(pageNumber: number): string {
     const query = queryFor(pageNumber);
-    const search = new URLSearchParams({
-      limit: String(query.limit),
-      offset: String(query.offset)
-    });
+    const search = new SvelteURLSearchParams(page.url.searchParams);
+    search.set("limit", String(query.limit));
+    search.set("offset", String(query.offset));
 
     return `${page.url.pathname}?${search.toString()}`;
   }

@@ -205,6 +205,18 @@ describe("interactive components", () => {
     expect(gotoMock).toHaveBeenCalledWith("/projects?limit=10&offset=20");
   });
 
+  it("Pagination keeps filters when building page links", () => {
+    const onselectPage = vi.fn();
+
+    setPage("/projects/p/logs?section=1&type=1&search=android&limit=10&offset=10");
+    render(Pagination, { props: { total: 35, onselectPage } });
+
+    const links = screen.getAllByRole("link");
+
+    expect(links[0]).toHaveAttribute("href", "/projects/p/logs?section=1&type=1&search=android&limit=10&offset=0");
+    expect(links[2]).toHaveAttribute("href", "/projects/p/logs?section=1&type=1&search=android&limit=10&offset=20");
+  });
+
   it("Tabs marks the active route and applies danger classes", () => {
     const tabs: MenuItem[] = [
       { name: "Main", link: { name: "profile-setting" } },
