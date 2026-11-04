@@ -15,6 +15,7 @@
     required?: boolean;
     placeholder?: string;
     autocomplete?: string;
+    onvaluechange?: (value: string) => void;
   }
 
   let {
@@ -28,6 +29,7 @@
     required,
     placeholder,
     autocomplete,
+    onvaluechange,
     ...rest
   }: Props = $props();
 
@@ -56,6 +58,7 @@
     value={value ?? ""}
     oninput={(event): void => {
       value = event.currentTarget.value;
+      onvaluechange?.(event.currentTarget.value);
     }}
   />
 </div>

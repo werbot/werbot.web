@@ -106,6 +106,25 @@ describe("form components", () => {
     expect(screen.queryByRole("list")).toBeNull();
   });
 
+  it("Select calls onchange after a value is picked", async () => {
+    const onchange = vi.fn();
+
+    render(SelectHost, { props: { name: "Section", initial: "project", options: ["project", "member"], onchange } });
+    await fireEvent.click(screen.getByRole("button"));
+    await fireEvent.click(screen.getByText("member"));
+
+    expect(onchange).toHaveBeenCalledWith("member");
+  });
+
+  it("Input calls onvaluechange with the typed value", async () => {
+    const onvaluechange = vi.fn();
+
+    render(InputHost, { props: { name: "Search", initial: "", onvaluechange } });
+    await fireEvent.input(screen.getByRole("textbox"), { target: { value: "192.168" } });
+
+    expect(onvaluechange).toHaveBeenCalledWith("192.168");
+  });
+
   it("Button renders Loading... and disables while loading", () => {
     const children = saveSnippet();
 

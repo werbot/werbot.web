@@ -6,16 +6,26 @@
 
   export type SelectOption = string | number | { value: string | number; label: string };
 
-  interface Props extends Omit<HTMLAttributes<HTMLDivElement>, "class"> {
+  interface Props extends Omit<HTMLAttributes<HTMLDivElement>, "class" | "onchange"> {
     name?: string;
     value: string | number;
     error?: string;
     required?: boolean;
     options: SelectOption[];
     class?: string;
+    onchange?: (value: string | number) => void;
   }
 
-  let { name, value = $bindable(), error, required, options, class: className = "", ...rest }: Props = $props();
+  let {
+    name,
+    value = $bindable(),
+    error,
+    required,
+    options,
+    class: className = "",
+    onchange,
+    ...rest
+  }: Props = $props();
 
   let open = $state(false);
 
@@ -39,8 +49,11 @@
   };
 
   const setValue = (option: SelectOption): void => {
-    value = optionValue(option);
+    const nextValue = optionValue(option);
+
+    value = nextValue;
     open = false;
+    onchange?.(nextValue);
   };
 </script>
 

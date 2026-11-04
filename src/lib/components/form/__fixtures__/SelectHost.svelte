@@ -7,11 +7,12 @@
     name?: string;
     options?: Array<string | number | { value: string | number; label: string }>;
     class?: string;
+    onchange?: (value: string | number) => void;
   }
 
-  let { initial = "", name, options = [], class: className }: Props = $props();
+  let { initial = "", name, options = [], class: className, onchange }: Props = $props();
   let value = $state<string | number>(untrack(() => initial));
 </script>
 
-<Select bind:value {name} {options} class={className} />
+<Select bind:value {name} {options} class={className} {onchange} />
 <output data-testid="bound">{value}</output>
