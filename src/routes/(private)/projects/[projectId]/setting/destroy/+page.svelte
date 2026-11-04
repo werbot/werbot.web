@@ -9,7 +9,7 @@
   import Tabs from "$lib/components/Tabs.svelte";
   import { settingTabs } from "$lib/menus/project-tabs";
   import { routePath } from "$lib/navigation/registry";
-  import { authStore } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError, showMessage } from "$lib/utils";
 
   import { type DeleteProject_Request } from "@proto/project/message";

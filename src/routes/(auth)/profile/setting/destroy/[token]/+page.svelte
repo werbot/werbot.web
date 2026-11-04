@@ -6,7 +6,7 @@
   import { page } from "$app/state";
 
   import { api } from "$lib/api";
-  import { authStore } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError, showMessage } from "$lib/utils";
 
   const destroyProfile = async (): Promise<void> => {

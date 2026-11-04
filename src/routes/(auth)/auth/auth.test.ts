@@ -40,8 +40,10 @@ const systemMock = vi.hoisted(() => ({
 
 vi.mock("$lib/stores", async (importOriginal) => {
   const actual = await importOriginal<typeof import("$lib/stores")>();
-  return { ...actual, authStore: authMock, systemStore: systemMock };
+  return { ...actual, systemStore: systemMock };
 });
+
+vi.mock("$lib/stores/auth.svelte", () => ({ authStore: authMock }));
 
 const tokenApiMock = vi.hoisted(() => ({
   getTokenInfo: vi.fn(),

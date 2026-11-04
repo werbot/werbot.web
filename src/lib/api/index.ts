@@ -1,6 +1,6 @@
 import { done, start } from "nprogress";
 
-import { authStore } from "$lib/stores";
+import { authStore } from "$lib/stores/auth.svelte";
 
 export interface ApiResponse {
   data?: any;

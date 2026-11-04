@@ -8,7 +8,8 @@
   import Input from "$lib/components/form/Input.svelte";
   import Tabs from "$lib/components/Tabs.svelte";
   import { settingTabs } from "$lib/menus/project-tabs";
-  import { authStore, usePageData } from "$lib/stores";
+  import { usePageData } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError, showMessage } from "$lib/utils";
 
   import { type Project_Request, type UpdateProject_Request } from "@proto/project/message";

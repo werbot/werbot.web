@@ -3,7 +3,7 @@ import { projectStore } from "$lib/stores/project.svelte";
 import { systemStore } from "$lib/stores/system.svelte";
 import { wsStore } from "$lib/stores/ws.svelte";
 
-export { authStore, projectStore, systemStore, wsStore };
+export { projectStore, systemStore, wsStore };
 export { usePageData } from "$lib/stores/page-data.svelte";
 export type { PageData } from "$lib/stores/page-data.svelte";
 

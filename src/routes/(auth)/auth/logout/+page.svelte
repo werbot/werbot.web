@@ -3,7 +3,7 @@
 
   import { goto } from "$app/navigation";
   import { routePath } from "$lib/navigation/registry";
-  import { authStore } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
 
   const logout = async (): Promise<void> => {
     try {

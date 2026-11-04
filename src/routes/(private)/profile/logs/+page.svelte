@@ -8,7 +8,8 @@
   import Drawer from "$lib/components/Drawer.svelte";
   import Pagination from "$lib/components/Pagination.svelte";
   import SvgIcon from "$lib/components/SvgIcon.svelte";
-  import { authStore, usePageData } from "$lib/stores";
+  import { usePageData } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { decodeBase64, eventTypeToColor, showApiError, toDate } from "$lib/utils";
 
   import { Type as EventType } from "@proto/event/enum";

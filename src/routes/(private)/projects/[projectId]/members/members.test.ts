@@ -36,10 +36,7 @@ const authMock = vi.hoisted(() => ({
   resetStore: vi.fn()
 }));
 
-vi.mock("$lib/stores", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("$lib/stores")>();
-  return { ...actual, authStore: authMock };
-});
+vi.mock("$lib/stores/auth.svelte", () => ({ authStore: authMock }));
 
 import { setPageState } from "$lib/test/page.svelte";
 import AddMember from "@/routes/(private)/projects/[projectId]/members/add/+page.svelte";

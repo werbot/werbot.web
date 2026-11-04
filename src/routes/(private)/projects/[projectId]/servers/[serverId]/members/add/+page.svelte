@@ -13,7 +13,8 @@
   import Input from "$lib/components/form/Input.svelte";
   import { serverTabs } from "$lib/menus/project-tabs";
   import { routePath } from "$lib/navigation/registry";
-  import { authStore, projectStore, usePageData } from "$lib/stores";
+  import { projectStore, usePageData } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError, showMessage, toDate } from "$lib/utils";
 
   const pageData = usePageData();

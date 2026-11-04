@@ -1,5 +1,6 @@
 import { goto } from "$app/navigation";
-import { authStore, projectStore, systemStore } from "$lib/stores";
+import { projectStore, systemStore } from "$lib/stores";
+import { authStore } from "$lib/stores/auth.svelte";
 import { getMenu, menuHref } from "$lib/navigation/menus.svelte";
 import { isActiveRoute, routePath } from "$lib/navigation/registry";
 

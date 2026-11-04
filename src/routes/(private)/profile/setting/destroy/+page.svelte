@@ -6,7 +6,8 @@
   import Input from "$lib/components/form/Input.svelte";
   import Tabs from "$lib/components/Tabs.svelte";
   import { profileSettingTabs } from "$lib/menus/profile";
-  import { authStore, usePageData } from "$lib/stores";
+  import { usePageData } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError } from "$lib/utils";
 
   const pageData = usePageData();

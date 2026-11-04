@@ -6,7 +6,8 @@
 
   import Header from "$lib/components/Header.svelte";
   import LayoutNavigation from "$lib/layouts/Navigation.svelte";
-  import { authStore, wsStore } from "$lib/stores";
+  import { wsStore } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
 
   interface Props {
     layoutStyle?: string;

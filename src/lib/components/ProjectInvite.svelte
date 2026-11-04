@@ -5,7 +5,8 @@
   import { page } from "$app/state";
   import { acceptToken, getTokenInfo, isTokenUsable } from "$lib/api/token";
   import { routePath, routePathWithQuery } from "$lib/navigation/registry";
-  import { authStore, systemStore, usePageData } from "$lib/stores";
+  import { systemStore, usePageData } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError } from "$lib/utils";
 
   const pageData = usePageData();

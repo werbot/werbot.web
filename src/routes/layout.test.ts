@@ -50,10 +50,11 @@ const wsMock = vi.hoisted(() => ({
 }));
 
 vi.mock("$lib/stores", () => ({
-  authStore: authMock,
   systemStore: systemMock,
   wsStore: wsMock
 }));
+
+vi.mock("$lib/stores/auth.svelte", () => ({ authStore: authMock }));
 
 import { setPageState } from "$lib/test/page.svelte";
 import PrivateLayout from "$lib/layouts/PrivateLayout.svelte";

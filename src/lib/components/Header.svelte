@@ -9,7 +9,8 @@
   import { topMenu } from "$lib/menus/profile";
   import { menuHref } from "$lib/navigation/menus.svelte";
   import { isActiveRoute, routePath } from "$lib/navigation/registry";
-  import { authStore, wsStore } from "$lib/stores";
+  import { wsStore } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import type { MenuItem } from "$lib/utils";
   import { showApiError } from "$lib/utils";
 

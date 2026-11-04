@@ -4,7 +4,8 @@ const apiMock = vi.hoisted(() => vi.fn());
 
 vi.mock("$lib/api", () => ({ api: apiMock }));
 
-import { authStore, bootstrapStores, projectStore, systemStore, usePageData } from "$lib/stores";
+import { bootstrapStores, projectStore, systemStore, usePageData } from "$lib/stores";
+import { authStore } from "$lib/stores/auth.svelte";
 
 interface MockClient {
   GET: any;

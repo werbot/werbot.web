@@ -12,7 +12,7 @@ const authStoreMock = vi.hoisted(() => {
   };
 });
 
-vi.mock("$lib/stores", () => ({ authStore: authStoreMock }));
+vi.mock("$lib/stores/auth.svelte", () => ({ authStore: authStoreMock }));
 
 import { api } from "$lib/api";
 

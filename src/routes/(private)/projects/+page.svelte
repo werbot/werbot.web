@@ -8,7 +8,8 @@
   import Pagination from "$lib/components/Pagination.svelte";
   import SvgIcon from "$lib/components/SvgIcon.svelte";
   import { routePath } from "$lib/navigation/registry";
-  import { authStore, usePageData } from "$lib/stores";
+  import { usePageData } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError, toDate } from "$lib/utils";
 
   import { type Projects_Request as ListProjects_Request } from "@proto/project/message";

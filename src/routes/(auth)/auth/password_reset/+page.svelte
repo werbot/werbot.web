@@ -5,7 +5,8 @@
   import Button from "$lib/components/form/Button.svelte";
   import Input from "$lib/components/form/Input.svelte";
   import { routePath } from "$lib/navigation/registry";
-  import { authStore, usePageData } from "$lib/stores";
+  import { usePageData } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError } from "$lib/utils";
 
   const pageData = usePageData();

@@ -6,7 +6,8 @@
   import Button from "$lib/components/form/Button.svelte";
   import Input from "$lib/components/form/Input.svelte";
   import { routePath, routePathWithQuery } from "$lib/navigation/registry";
-  import { authStore, usePageData } from "$lib/stores";
+  import { usePageData } from "$lib/stores";
+  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError, showMessage } from "$lib/utils";
 
   import { acceptToken, getTokenInfo, isTokenUsable, registerToken, tokenProfile } from "$lib/api/token";

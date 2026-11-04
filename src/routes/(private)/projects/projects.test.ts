@@ -39,8 +39,10 @@ const projectMock = vi.hoisted(() => ({
 
 vi.mock("$lib/stores", async (importOriginal) => {
   const actual = await importOriginal<typeof import("$lib/stores")>();
-  return { ...actual, authStore: authMock, projectStore: projectMock };
+  return { ...actual, projectStore: projectMock };
 });
+
+vi.mock("$lib/stores/auth.svelte", () => ({ authStore: authMock }));
 
 import { setPageState } from "$lib/test/page.svelte";
 import Navigation from "$lib/components/Navigation.svelte";

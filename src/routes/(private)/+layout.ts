@@ -1,6 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 
-import { authStore, systemStore } from "$lib/stores";
+import { systemStore } from "$lib/stores";
+import { authStore } from "$lib/stores/auth.svelte";
 import { getStorage } from "$lib/utils";
 
 export function load(): void {
