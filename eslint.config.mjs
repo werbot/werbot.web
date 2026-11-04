@@ -16,6 +16,8 @@ export default [
       ".svelte-kit/",
       "build/",
       "dist/",
+      "e2e/fixtures/",
+      "src/generated/",
       "public/",
       "vite.config.{js,ts,mjs}",
       "vitest.config.{js,ts,mjs}",
@@ -115,6 +117,7 @@ export default [
       "src/lib/components/Tabs.svelte",
       "src/lib/components/BServerName.svelte",
       "src/lib/components/ProjectInvite.svelte",
+      "src/lib/addons/kit.ts",
       "src/routes/(auth)/**/*.svelte",
       "src/routes/(private)/projects/**/*.svelte"
     ],

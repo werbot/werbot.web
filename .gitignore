@@ -57,3 +57,6 @@ rest.http
 tsconfig.tsbuildinfo
 .legacy/
 .svelte-kit/
+src/generated/
+.tmp-addons/
+.tmp-output-*/

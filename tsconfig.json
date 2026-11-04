@@ -17,6 +17,7 @@
     ".svelte-kit/types/**/$types.d.ts",
     "src/**/*.ts",
     "src/**/*.svelte",
+    "scripts/**/*.ts",
     "e2e/**/*.ts",
     "playwright.config.ts"
   ],
