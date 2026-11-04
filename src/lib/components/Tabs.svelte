@@ -30,7 +30,7 @@
     }
     return item.danger
       ? "hover:bg-red-600 hover:text-white text-red-700"
-      : "hover:bg-gray-800 hover:text-gray-200 text-gray-700";
+      : "hover:bg-gray-800 hover:text-white text-gray-700";
   }
 </script>
 

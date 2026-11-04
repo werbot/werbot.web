@@ -71,7 +71,7 @@ input[type="search"].warning:focus,
 input[type="search"].error:focus,
 .input.warning:focus,
 .input.error:focus {
-  @apply border-red-600 ring-red-600;
+  @apply border-red-600 ring-3 ring-red-600;
 }
 
 input[type="text"].disabled,

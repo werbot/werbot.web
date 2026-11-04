@@ -290,7 +290,7 @@
   <div class="content">
     <div class="w-28 flex-none">Countries:</div>
     <div class="grow"></div>
-    <div class="w-30 flex-none">
+    <div class="flex-none">
       <Toggle
         id="country"
         bind:value={pageData.tmp.country.wite_list}
@@ -347,7 +347,7 @@
   <div class="content">
     <div class="mt-1 w-28 flex-none">Networks:</div>
     <div class="grow"></div>
-    <div class="w-30 flex-none">
+    <div class="flex-none">
       <Toggle
         id="network"
         bind:value={pageData.tmp.network.wite_list}

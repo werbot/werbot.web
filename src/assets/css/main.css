@@ -1,7 +1,48 @@
 @import "tailwindcss";
 
-body {
-  @apply bg-gray-50 font-sans text-gray-700 antialiased;
+/* Tailwind v4 changed the default border color to `currentColor`. The Vue app
+   relied on the v3 default (gray-200) for borders declared without a color, so
+   restore it for parity. Color utilities still override this base value. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200);
+  }
+}
+
+/* Element styles live in `base` so utilities on links, headings and rules can
+   override them; unlayered CSS would beat Tailwind's `utilities` layer. */
+@layer base {
+  body {
+    @apply bg-gray-50 font-sans text-gray-700 antialiased;
+  }
+
+  a {
+    @apply text-sky-700;
+  }
+
+  a:hover {
+    @apply underline;
+  }
+
+  a:focus {
+    @apply outline-hidden;
+  }
+
+  h1 {
+    @apply flex gap-2 text-2xl font-black;
+  }
+
+  h2 {
+    @apply flex gap-2 text-xl;
+  }
+
+  hr {
+    @apply border-gray-400 opacity-25;
+  }
 }
 
 .content {
@@ -24,30 +65,6 @@ body {
   @apply flex flex-col items-center justify-center;
 }
 
-a {
-  @apply text-sky-700;
-}
-
-a:hover {
-  @apply underline;
-}
-
-a:focus {
-  @apply outline-hidden;
-}
-
-h1 {
-  @apply flex gap-2 text-2xl font-black;
-}
-
-h2 {
-  @apply flex gap-2 text-xl;
-}
-
 .dot {
   @apply relative inline-flex h-3 w-3 rounded-full;
-}
-
-hr {
-  @apply border-gray-400 opacity-25;
 }
