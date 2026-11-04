@@ -89,6 +89,23 @@ test("server add scheme shows readable auth labels", async ({ page }) => {
   await expect(page.getByRole("listitem").filter({ hasText: "Key" })).toBeVisible();
 });
 
+test("activity drag does not leave text selected", async ({ page }) => {
+  await login(page);
+  await open(page, `${PROJECT}/servers/1f503895-7d76-49f6-ab53-d60a650bcc1d/activity`);
+
+  const cell = page.locator(".worktime-hours-item").first();
+  const box = await cell.boundingBox();
+  if (!box) {
+    throw new Error("activity cell has no bounding box");
+  }
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down({ button: "right" });
+  await page.mouse.move(box.x + box.width * 2, box.y + box.height / 2);
+  await page.mouse.up({ button: "right" });
+
+  expect(await page.evaluate(() => window.getSelection()?.toString())).toBe("");
+});
+
 test("admin users table spans the content width", async ({ page }) => {
   await login(page);
   await open(page, "/admin/users");

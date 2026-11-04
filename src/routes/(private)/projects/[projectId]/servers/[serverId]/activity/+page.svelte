@@ -185,7 +185,7 @@
               >
             </td>
             <td>
-              <div class="flex outline-hidden">
+              <div class="flex select-none outline-hidden">
                 {#each itemDay as itemHour, hour (hour)}
                   <!-- svelte-ignore a11y_no_noninteractive_element_interactions (legacy drag-select cell) -->
                   <label
