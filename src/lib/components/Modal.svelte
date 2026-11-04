@@ -15,39 +15,60 @@
   let { showModal, title, children, footer, onclose }: Props = $props();
 
   let rendered = $state(untrack(() => showModal));
-  let entering = $state(false);
-  let leaving = $state(false);
-  let timer: ReturnType<typeof setTimeout> | undefined;
+  let phase = $state<"idle" | "enter" | "leave">("idle");
+  let entered = $state(false);
+  let initialized = false;
+  let enterTimer: ReturnType<typeof setTimeout> | undefined;
+  let enterToTimer: ReturnType<typeof setTimeout> | undefined;
+  let leaveTimer: ReturnType<typeof setTimeout> | undefined;
 
+  // Only `showModal` is read here. Writing `rendered`/`phase` must not re-run this
+  // effect: a re-run would clean up the pending timers and pin the modal on
+  // `opacity-0` (animation-enter-from) forever.
   $effect(() => {
-    if (showModal) {
-      if (!rendered) {
-        rendered = true;
-        entering = true;
-        timer = setTimeout((): void => {
-          entering = false;
-        }, 150);
-      }
-    } else if (rendered) {
-      leaving = true;
-      timer = setTimeout((): void => {
+    const open = showModal;
+
+    clearTimeout(enterTimer);
+    clearTimeout(enterToTimer);
+    clearTimeout(leaveTimer);
+
+    if (open) {
+      rendered = true;
+      phase = "enter";
+      entered = false;
+
+      // Two-phase Vue <transition> enter: apply -from, then swap to -to on the next frame.
+      enterToTimer = setTimeout((): void => {
+        entered = true;
+      }, 16);
+      enterTimer = setTimeout((): void => {
+        phase = "idle";
+        entered = false;
+      }, 150);
+    } else if (initialized) {
+      phase = "leave";
+      leaveTimer = setTimeout((): void => {
         rendered = false;
-        leaving = false;
+        phase = "idle";
       }, 150);
     }
 
+    initialized = true;
+
     return (): void => {
-      if (timer) {
-        clearTimeout(timer);
-      }
+      clearTimeout(enterTimer);
+      clearTimeout(enterToTimer);
+      clearTimeout(leaveTimer);
     };
   });
 
   const classes = $derived(
     [
       "modal",
-      entering ? "animation-enter-active animation-enter-from" : "",
-      leaving ? "animation-leave-active animation-leave-to" : ""
+      phase === "enter" ? "animation-enter-active" : "",
+      phase === "enter" && !entered ? "animation-enter-from" : "",
+      phase === "enter" && entered ? "animation-enter-to" : "",
+      phase === "leave" ? "animation-leave-active animation-leave-to" : ""
     ]
       .filter(Boolean)
       .join(" ")

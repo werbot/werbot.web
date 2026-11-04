@@ -79,8 +79,6 @@ export default [
         { allowSameFolder: true, rootDir: "src", prefix: "@" }
       ], // No relative imports
       "@typescript-eslint/no-explicit-any": "off", // Allow 'any' type
-      // Navigation targets come from the route registry (routePath/menuHref), not SvelteKit route ids.
-      "svelte/no-navigation-without-resolve": ["error", { ignoreGoto: true, ignoreLinks: true }],
       "sort-imports": ["error", { ignoreCase: true, ignoreDeclarationSort: true }], // Enforce sorted import declarations within modules
 
       // Find and remove unused ES6 module imports.
@@ -102,6 +100,21 @@ export default [
         tsconfigRootDir: import.meta.dirname,
         extraFileExtensions: [".svelte"]
       }
+    }
+  },
+
+  {
+    // These components build links from the route registry (routePath/menuHref),
+    // not from SvelteKit route ids, so resolve() cannot be applied to their hrefs.
+    files: [
+      "src/lib/components/Header.svelte",
+      "src/lib/components/Navigation.svelte",
+      "src/lib/components/Pagination.svelte",
+      "src/lib/components/Tabs.svelte",
+      "src/lib/components/BServerName.svelte"
+    ],
+    rules: {
+      "svelte/no-navigation-without-resolve": ["error", { ignoreGoto: true, ignoreLinks: true }]
     }
   },
 

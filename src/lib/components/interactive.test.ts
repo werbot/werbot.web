@@ -1,8 +1,9 @@
-import { fireEvent, render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
 import { createRawSnippet, type Snippet, tick } from "svelte";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const gotoMock = vi.hoisted(() => vi.fn());
+const apiGetMock = vi.hoisted(() => vi.fn());
 const pageMock = vi.hoisted(() => ({
   url: new URL("http://localhost/"),
   params: {} as Record<string, string>
@@ -10,8 +11,15 @@ const pageMock = vi.hoisted(() => ({
 
 vi.mock("$app/navigation", () => ({ goto: gotoMock }));
 vi.mock("$app/state", () => ({ page: pageMock }));
+vi.mock("$lib/api", (): { api: () => { GET: typeof apiGetMock } } => ({
+  api: (): { GET: typeof apiGetMock } => ({ GET: apiGetMock })
+}));
+vi.mock("$lib/stores", () => ({
+  authStore: { hasUserName: "Alice", hasUserRole: 3 }
+}));
 
 import Drawer from "$lib/components/Drawer.svelte";
+import Header from "$lib/components/Header.svelte";
 import Modal from "$lib/components/Modal.svelte";
 import Navigation from "$lib/components/Navigation.svelte";
 import Pagination from "$lib/components/Pagination.svelte";
@@ -39,11 +47,83 @@ function linkFor(text: string): HTMLAnchorElement {
   return link;
 }
 
+function linkWithText(text: string): HTMLAnchorElement {
+  const link = screen
+    .getAllByRole("link")
+    .find((candidate) => candidate.textContent?.replace(/\s+/g, " ").trim() === text);
+
+  if (!(link instanceof HTMLAnchorElement)) {
+    throw new Error(`No link with text ${text}`);
+  }
+
+  return link;
+}
+
+function modalElement(): HTMLElement {
+  const modal = document.querySelector(".modal");
+
+  if (!(modal instanceof HTMLElement)) {
+    throw new Error("Modal element not found");
+  }
+
+  return modal;
+}
+
 describe("interactive components", () => {
   beforeEach(() => {
     gotoMock.mockReset();
+    apiGetMock.mockReset();
+    apiGetMock.mockResolvedValue({ data: { result: { projects: [], total: 0 } } });
     setPage("/");
     document.body.style.overflow = "";
+  });
+
+  it("Modal opens from the closed state with visible opacity and the enter-to class", async () => {
+    const onclose = vi.fn();
+    const props = {
+      title: "Delete server",
+      children: snippet('<p data-testid="slot">Body</p>'),
+      onclose
+    };
+
+    const { rerender } = render(Modal, { props: { ...props, showModal: false } });
+
+    expect(screen.queryByText("Delete server")).toBeNull();
+
+    await rerender({ ...props, showModal: true });
+    await tick();
+
+    expect(modalElement()).toHaveClass("animation-enter-active", "animation-enter-from");
+
+    await new Promise((resolve) => setTimeout(resolve, 25));
+    await tick();
+
+    expect(modalElement()).toHaveClass("animation-enter-to");
+    expect(modalElement()).not.toHaveClass("animation-enter-from");
+    expect(window.getComputedStyle(modalElement()).opacity).toBe("1");
+  });
+
+  it("Modal recovers when closed and reopened within the leave duration", async () => {
+    const onclose = vi.fn();
+    const props = {
+      title: "Delete server",
+      children: snippet('<p data-testid="slot">Body</p>'),
+      onclose
+    };
+
+    const { rerender } = render(Modal, { props: { ...props, showModal: true } });
+
+    await rerender({ ...props, showModal: false });
+    await tick();
+    expect(modalElement()).toHaveClass("animation-leave-active", "animation-leave-to");
+
+    await rerender({ ...props, showModal: true });
+    await new Promise((resolve) => setTimeout(resolve, 25));
+    await tick();
+
+    expect(modalElement()).toHaveClass("animation-enter-to");
+    expect(modalElement()).not.toHaveClass("animation-leave-to");
+    expect(modalElement()).not.toHaveClass("animation-enter-from");
   });
 
   it("Modal emits onclose from the footer button and keeps the slot markup", async () => {
@@ -164,5 +244,52 @@ describe("interactive components", () => {
     expect(linkFor("Projects")).toHaveAttribute("href", "/admin/projects");
     expect(linkFor("Subscriptions")).toHaveAttribute("href", "/admin/subscriptions");
     expect(linkFor("Users")).not.toHaveClass("current");
+  });
+
+  it("Navigation does not resolve project links without a projectId", () => {
+    setPage("/projects");
+    const list = render(Navigation);
+
+    expect(list.container.querySelector(".sidebar")).toBeNull();
+    list.unmount();
+
+    setPage("/projects/add");
+
+    expect(() => render(Navigation)).not.toThrow();
+  });
+
+  it("Header loads five projects and renders both dropdowns", async () => {
+    apiGetMock.mockResolvedValue({
+      data: { result: { projects: [{ project_id: "p1", title: "Alpha" }], total: 6 } }
+    });
+    setPage("/projects/p1", { projectId: "p1" });
+    render(Header);
+
+    await waitFor(() => expect(apiGetMock).toHaveBeenCalledWith("/v1/projects", { limit: 5 }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "Alpha" })).toBeInTheDocument());
+
+    await fireEvent.click(screen.getByRole("button", { name: "Alpha" }));
+
+    expect(linkWithText("Alpha")).toHaveAttribute("href", "/projects/p1");
+    expect(linkWithText("Alpha")).toHaveClass("current");
+    expect(linkWithText("Show all projects")).toHaveAttribute("href", "/projects");
+    expect(linkWithText("Add new project")).toHaveAttribute("href", "/projects/add");
+
+    await fireEvent.click(screen.getByRole("button", { name: "Alice" }));
+
+    expect(linkWithText("Settings")).toHaveAttribute("href", "/profile/setting");
+    expect(linkWithText("Admin")).toHaveAttribute("href", "/admin");
+    expect(linkWithText("Logout")).toHaveAttribute("href", "/auth/logout");
+  });
+
+  it("Header marks Add new project current on /projects/add", async () => {
+    setPage("/projects/add");
+    render(Header);
+
+    await waitFor(() => expect(screen.getByRole("button", { name: "Projects" })).toBeInTheDocument());
+
+    await fireEvent.click(screen.getByRole("button", { name: "Projects" }));
+
+    expect(linkWithText("Add new project")).toHaveClass("current");
   });
 });

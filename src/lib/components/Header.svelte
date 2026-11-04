@@ -116,7 +116,7 @@
           {/if}
           <li><hr /></li>
           <li>
-            <a href={routePath("projects-add")}>
+            <a href={routePath("projects-add")} class:current={isActiveRoute("projects-add", pathname)}>
               <SvgIcon name="plus" />
               <span>Add new project</span>
             </a>

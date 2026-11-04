@@ -3,16 +3,21 @@
 
   import SvgIcon from "$lib/components/SvgIcon.svelte";
   import { getMenu, menuHref } from "$lib/navigation/menus.svelte";
-  import { isActiveRoute, routePath } from "$lib/navigation/registry";
+  import { isActiveRoute } from "$lib/navigation/registry";
   import type { MenuItem } from "$lib/utils";
 
   const pathname = $derived(page.url.pathname);
+  const projectId = $derived(page.params.projectId ?? "");
   const profileMenu = $derived(getMenu("profile"));
   const projectMenu = $derived(getMenu("project"));
   const adminMenu = $derived(getMenu("admin"));
 
   const isProfileRoute = $derived(pathname.startsWith("/profile"));
-  const isProjectRoute = $derived(pathname.startsWith("/projects"));
+  // The project sidebar only has project-scoped links, so it needs a projectId.
+  // /projects and /projects/add stay sidebar-less (layoutStyle "blank" in legacy).
+  const isProjectRoute = $derived(pathname.startsWith("/projects") && projectId !== "");
+  // Legacy parity: Vue checked route.path !== "/projects/new" although the admin
+  // and projects prefixes never overlap. Kept so the port matches the source.
   const isAdminRoute = $derived(pathname.startsWith("/admin") && (pathname as string) !== "/projects/new");
 
   function isActive(item: MenuItem): boolean {
@@ -46,10 +51,7 @@
       {#each Object.entries(projectMenu) as [key, group], index (key)}
         {#each group as item (item.link.name)}
           <li>
-            <a
-              href={routePath(item.link.name ?? "", { projectId: page.params.projectId })}
-              class:current={isActive(item)}
-            >
+            <a href={menuHref(item, { projectId })} class:current={isActive(item)}>
               <SvgIcon name={item.icon ?? ""} />
               <span>{item.name}</span>
             </a>
