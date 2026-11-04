@@ -29,9 +29,9 @@
       pageData.loading = true;
 
       const bodyParams = <AddInvite_Request>{
-        name: pageData.base.name?.trim(),
-        surname: pageData.base.surname?.trim(),
-        email: pageData.base.email?.trim()
+        name: pageData.base.name?.trim() ?? "",
+        surname: pageData.base.surname?.trim() ?? "",
+        email: pageData.base.email?.trim() ?? ""
       };
 
       const res = await createProjectToken(projectId, bodyParams);

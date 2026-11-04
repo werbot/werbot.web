@@ -146,7 +146,10 @@
               </div>
             </td>
             <td>
-              <a href={routePath("projects-projectId-members", { projectId })}>
+              <a
+                href={routePath("projects-projectId-members", { projectId })}
+                class:current={page.url.pathname === routePath("projects-projectId-members", { projectId })}
+              >
                 <SvgIcon name="setting" class="text-gray-700" />
               </a>
             </td>

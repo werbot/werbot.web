@@ -78,7 +78,14 @@ describe("project members routes", () => {
 
   it("members tab marks the active route", async () => {
     setPageState(`/projects/${projectId}/members`, { projectId });
-    const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, members: [] } } });
+    const getMock = vi.fn().mockResolvedValue({
+      data: {
+        result: {
+          total: 1,
+          members: [{ member_id: "member-1", name: "Carla", online: true, servers_count: 2, role: 1, active: true }]
+        }
+      }
+    });
     apiMock.mockReturnValue(apiClient({ GET: getMock }));
 
     const { container } = render(Members);
@@ -92,11 +99,17 @@ describe("project members routes", () => {
     expect(selected).toHaveLength(1);
     expect(selected[0]).toHaveTextContent("Members");
 
+    await waitFor(() => {
+      expect(screen.getByText("Carla")).toBeInTheDocument();
+    });
+
     const hrefs = Array.from(container.querySelectorAll('[role="tab"] a')).map((link) => link.getAttribute("href"));
     expect(hrefs).toEqual([`/projects/${projectId}/members`, `/projects/${projectId}/members/invites`]);
+
+    expect(container.querySelector(`td a[href="/projects/${projectId}/members"]`)).toHaveClass("current");
   });
 
-  it("invite modal opens with the member form and closes on the footer button", async () => {
+  it("invite delete modal opens and closes on the footer button", async () => {
     setPageState(`/projects/${projectId}/members/invites`, { projectId });
     tokenApiMock.listProjectTokens.mockResolvedValue({
       data: {
@@ -174,5 +187,23 @@ describe("project members routes", () => {
     } finally {
       window.removeEventListener("connextSuccess", capture);
     }
+  });
+
+  it("new member form sends empty strings when fields are untouched", async () => {
+    setPageState(`/projects/${projectId}/members/add`, { projectId });
+    tokenApiMock.createProjectToken.mockResolvedValue({
+      data: { message: "Invitation created", result: { token: "invite-token" } }
+    });
+
+    render(AddMember);
+    await fireEvent.click(screen.getByRole("button", { name: "Send invite" }));
+
+    await waitFor(() => {
+      expect(tokenApiMock.createProjectToken).toHaveBeenCalledWith(projectId, {
+        name: "",
+        surname: "",
+        email: ""
+      });
+    });
   });
 });
