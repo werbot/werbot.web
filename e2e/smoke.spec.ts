@@ -89,6 +89,16 @@ test("server add scheme shows readable auth labels", async ({ page }) => {
   await expect(page.getByRole("listitem").filter({ hasText: "Key" })).toBeVisible();
 });
 
+test("admin users table spans the content width", async ({ page }) => {
+  await login(page);
+  await open(page, "/admin/users");
+
+  const table = page.locator(".content table");
+  await expect(table).toBeVisible();
+  const box = await table.boundingBox();
+  expect(box?.width ?? 0).toBeGreaterThan(800);
+});
+
 test("unknown route renders the 404 page", async ({ page }) => {
   await open(page, "/this-route-does-not-exist");
 

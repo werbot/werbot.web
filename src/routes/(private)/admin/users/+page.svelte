@@ -84,7 +84,7 @@
     {/if}
 
     {#if pageData.base.tokens.length}
-      <div class="mt-8 overflow-x-auto">
+      <div class="mt-8 w-full overflow-x-auto">
         <table class="table">
           <thead>
             <tr>
