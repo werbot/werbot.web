@@ -108,6 +108,7 @@ export default [
     // not from SvelteKit route ids, so resolve() cannot be applied to their hrefs.
     // The auth and invite routes follow the same registry-based navigation.
     files: [
+      "src/lib/components/AssetSection.svelte",
       "src/lib/components/Header.svelte",
       "src/lib/components/Navigation.svelte",
       "src/lib/components/Pagination.svelte",
