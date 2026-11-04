@@ -19,8 +19,8 @@
     try {
       pageData.loading = true;
       const bodyParams = {
-        title: pageData.base.title,
-        key: pageData.base.key
+        title: pageData.base.title?.trim(),
+        key: pageData.base.key?.trim()
       } as AddKey_Request;
 
       const res = await api().POST(`/v1/keys`, {}, bodyParams);

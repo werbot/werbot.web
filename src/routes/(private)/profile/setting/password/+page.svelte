@@ -14,7 +14,10 @@
   const onUpdatePassword = async (): Promise<void> => {
     try {
       pageData.error = {};
-      const { old_password, new_password, new_password2 } = pageData.base;
+      const old_password = pageData.base.old_password?.trim() ?? "";
+      const new_password = pageData.base.new_password?.trim() ?? "";
+      // Legacy v-model.trim covers old/new passwords only; the re-typed one is raw.
+      const new_password2 = pageData.base.new_password2;
 
       if (!old_password) {
         pageData.error["old_password"] = "Weak password";
@@ -40,8 +43,8 @@
       pageData.loading = true;
 
       const bodyParams = {
-        old_password: pageData.base.old_password,
-        new_password: pageData.base.new_password
+        old_password,
+        new_password
       };
 
       const res = await api().UPDATE(`/v1/profiles/password`, {}, bodyParams);

@@ -16,9 +16,9 @@
       pageData.loading = true;
 
       const fields = {
-        email: authStore.user.email,
-        name: authStore.user.name,
-        surname: authStore.user.surname
+        email: authStore.user.email?.trim(),
+        name: authStore.user.name?.trim(),
+        surname: authStore.user.surname?.trim()
       };
 
       const responses = await Promise.all(
