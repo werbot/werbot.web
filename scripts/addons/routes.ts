@@ -160,10 +160,22 @@ export function resolveRedirects(routes: GeneratedRoute[], collector: RouteColle
 
 function pageSource(component: string, props: boolean): string {
   const passedProps = props ? " {...page.params}" : "";
-  const pageImport = props ? '  import { page } from "$app/state";\n\n' : "";
+  // `props: true` passes route params to the add-on page. The page owns its
+  // own prop typing, so the host types the component as accepting the params
+  // record instead of rejecting every component that declares no props.
+  const componentImport = props
+    ? `  import type { Component } from "svelte";
+  import { page } from "$app/state";
+
+  type AddonProps = Record<string, string | undefined>;
+
+  const component: Promise<Component<AddonProps>> = import("${component}").then(
+    (module) => module.default as Component<AddonProps>
+  );`
+    : `  const component = import("${component}").then((module) => module.default);`;
 
   return `<script lang="ts">
-${pageImport}  const component = import("${component}").then((module) => module.default);
+${componentImport}
 </script>
 
 {#await component}

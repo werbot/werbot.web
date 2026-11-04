@@ -171,6 +171,8 @@ describe("generateAddons", () => {
 
     const page = await readFile(pageFile(out, "private", "admin/license1"), "utf8");
     expect(page).toContain(`import("@addon/${addon}/web/pages/admin/license1.svelte")`);
+    expect(page).toContain('import type { Component } from "svelte"');
+    expect(page).toContain("Component<AddonProps>");
     expect(page).toContain("{...page.params}");
     expect(page).toContain("{:catch error}");
 
@@ -190,6 +192,7 @@ describe("generateAddons", () => {
 
     const page = await readFile(pageFile(out, "private", "admin/license1"), "utf8");
     expect(page).toContain("<Component />");
+    expect(page).not.toContain("Component<");
     expect(page).not.toContain("page.params");
     expect(page).not.toContain('from "$app/state"');
   });
