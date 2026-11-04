@@ -4,10 +4,10 @@ import type { Page } from "@playwright/test";
  * Credentials come from `fixtures/migration/20221122125822_init_data.sql`
  * (admin: `admin@werbot.net` / `admin@werbot.net`).
  *
- * The Vue `FormInput` component renders its label as a sibling of the input
- * without a `for`/`id` association, so the plan's accessible-name selectors
- * (`getByRole("textbox", { name: "Email" })`, `getByLabel("Password")`) match
- * nothing. The inputs are targeted by their `autocomplete` attributes instead.
+ * The shared `Input` component renders its label as a sibling of the input
+ * without a `for`/`id` association (kept for layout parity), so
+ * `getByLabel("Password")` matches nothing. The inputs are targeted by their
+ * `autocomplete` attributes instead.
  *
  * The dev backend throttles repeated sign-ins (`429 ResourceExhausted`), so the
  * tokens from the first successful sign-in are reused by later tests in the
@@ -115,141 +115,19 @@ async function adoptSession(page: Page, stored: Session): Promise<void> {
 /** First element every layout paints: `.content`/`.artboard` (private), `.card` (auth), `h1` (404). */
 const RENDERED = ".content, .card, .artboard, h1";
 
-async function waitForRendered(page: Page, timeout: number): Promise<void> {
-  await page.waitForLoadState("domcontentloaded");
-  await page.locator(RENDERED).first().waitFor({ state: "visible", timeout });
-  await page.waitForFunction(() => document.fonts.status === "loaded");
-}
+/** Budget for a cold dev server to compile and paint the route. */
+const FIRST_PAINT_TIMEOUT_MS = 15_000;
 
-async function isRendered(page: Page): Promise<boolean> {
-  return page
-    .locator(RENDERED)
-    .first()
-    .isVisible()
-    .catch(() => false);
-}
-
-async function hasMountedApp(page: Page): Promise<boolean> {
-  return page.evaluate(() => (document.querySelector("#app")?.childNodes.length ?? 0) > 0);
-}
-
-/**
- * Force the Vue root to re-render.
- *
- * The current Vue app sometimes loses the race between `app.mount()` and the
- * async layout import in `router.beforeEach`: the route resolves, but `App.vue`
- * keeps a placeholder vnode (`<!--[object Object]-->`) instead of the layout, so
- * the page stays blank after a full load (almost always for `/admin/**`). The
- * root instance already holds the resolved route, so a forced update paints it.
- *
- * TODO(sveltekit-task-17): remove after Vue app is gone.
- */
-async function repaint(page: Page): Promise<boolean> {
-  return page.evaluate(() => {
-    const app = (
-      document.querySelector("#app") as
-        | (Element & { __vue_app__?: { _instance?: { proxy?: { $forceUpdate?: () => void } } } })
-        | null
-    )?.__vue_app__;
-
-    const forceUpdate = app?._instance?.proxy?.$forceUpdate;
-
-    if (!forceUpdate) {
-      return false;
-    }
-
-    forceUpdate();
-    return true;
-  });
-}
-
-interface OpenOptions {
-  /**
-   * Allow the route to stay blank. Used by routes whose Vue page throws while
-   * rendering: their baseline records the blank page the current app shows.
-   */
-  allowBlank?: boolean;
-}
-
-/** How long a route gets to paint before the Vue placeholder bug is suspected. */
-const FIRST_PAINT_TIMEOUT_MS = 8_000;
-
-/** How long a mounted app may stay unpainted before it is treated as the placeholder bug. */
-const MOUNT_GRACE_MS = 1_500;
-
-type FirstPaint = "rendered" | "stalled";
-
-/**
- * Poll the route after a page load.
- *
- * Returns `rendered` as soon as a layout is visible. Returns `stalled` when the
- * app mounted but stayed unpainted past the grace period (the Vue placeholder
- * bug), or when the first-paint budget ran out with a mounted app. Throws when
- * nothing mounted at all.
- */
-async function waitForFirstPaint(page: Page): Promise<FirstPaint> {
-  const deadline = Date.now() + FIRST_PAINT_TIMEOUT_MS;
-  let mountedAt: number | null = null;
-
-  while (Date.now() < deadline) {
-    if (await isRendered(page)) {
-      return "rendered";
-    }
-
-    if (await hasMountedApp(page)) {
-      mountedAt ??= Date.now();
-
-      if (Date.now() - mountedAt >= MOUNT_GRACE_MS) {
-        return "stalled";
-      }
-    }
-
-    await page.waitForTimeout(100);
-  }
-
-  if (await hasMountedApp(page)) {
-    return "stalled";
-  }
-
-  throw new Error(`the app did not mount within ${FIRST_PAINT_TIMEOUT_MS}ms`);
-}
-
-/**
- * Open a route and wait until it is painted.
- *
- * A plain page load is used first, with a generous timeout for a cold dev
- * server. Only when the app has mounted but nothing is painted is the Vue
- * placeholder bug (`repaint`) suspected; an app that never mounts reports the
- * original timeout instead of a misleading repaint error.
- */
-export async function open(page: Page, path: string, options: OpenOptions = {}): Promise<void> {
+/** Open a route and wait until a layout is painted and webfonts have settled. */
+export async function open(page: Page, path: string): Promise<void> {
   await page.goto(path);
 
-  let paint: FirstPaint;
-
   try {
-    paint = await waitForFirstPaint(page);
+    await page.waitForLoadState("domcontentloaded");
+    await page.locator(RENDERED).first().waitFor({ state: "visible", timeout: FIRST_PAINT_TIMEOUT_MS });
   } catch (error) {
     throw new Error(`${(error as Error).message} on ${path}`);
   }
 
-  if (paint === "rendered") {
-    await page.waitForFunction(() => document.fonts.status === "loaded");
-    return;
-  }
-
-  if (!(await repaint(page))) {
-    throw new Error(`the app mounted on ${path} but exposes no Vue root to repaint`);
-  }
-
-  try {
-    await waitForRendered(page, options.allowBlank ? 2_000 : 15_000);
-  } catch (error) {
-    if (!options.allowBlank) {
-      throw error;
-    }
-
-    // Let the failed render settle so the screenshot is stable.
-    await page.waitForTimeout(500);
-  }
+  await page.waitForFunction(() => document.fonts.status === "loaded");
 }

@@ -9,7 +9,7 @@
 
   const pageData = usePageData();
 
-  // The Vue template read `pageData.base.tokens.length` before the API filled
+  // The legacy template read `pageData.base.tokens.length` before the API filled
   // it and crashed. Seed the list so the first render is always safe.
   pageData.base.tokens = [];
   pageData.base.email = "";

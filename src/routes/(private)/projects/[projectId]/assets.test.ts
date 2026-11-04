@@ -134,7 +134,7 @@ describe("project asset routes", () => {
     }
   });
 
-  it("each add form renders the same fields as the Vue form", async () => {
+  it("each add form renders the same fields as the legacy form", async () => {
     for (const asset of ASSETS) {
       setPageState(`/projects/${projectId}/${asset.slug}/add`, { projectId });
 

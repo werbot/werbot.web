@@ -19,7 +19,7 @@
   // The project sidebar only has project-scoped links, so it needs a projectId.
   // /projects and /projects/add stay sidebar-less (layoutStyle "blank" in legacy).
   const isProjectRoute = $derived(pathname.startsWith("/projects") && projectId !== "");
-  // Legacy parity: Vue checked route.path !== "/projects/new" although the admin
+  // Legacy parity: the old router checked route.path !== "/projects/new" although the admin
   // and projects prefixes never overlap. Kept so the port matches the source.
   const isAdminRoute = $derived(pathname.startsWith("/admin") && (pathname as string) !== "/projects/new");
 

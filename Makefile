@@ -52,7 +52,8 @@ build: ## Building project
 	$(msg) "$(GREEN)Building project$(RESET)"
 	@yq -i -p=json -o=json '.commit = "${GIT_COMMIT}"' ${ROOT_PATH}/package.json
 	@yq -i -p=json -o=json '.version = "${VERSION}"' ${ROOT_PATH}/package.json
-	@bun run build
+	@bun scripts/addons/generate.ts
+	@bun x vite build --mode production
 #############################################################################
 
 
@@ -66,7 +67,7 @@ package: ## Building a docker container
 	@sed -i -E "s/_VERSION_/${VERSION}/g" ${ROOT_PATH}/Dockerfile
 	docker build -f ${ROOT_PATH}/Dockerfile -t ghcr.io/werbot/werbot.web:latest .
 	docker tag ghcr.io/werbot/werbot.web:latest ghcr.io/werbot/werbot.web:v${VERSION}
-	rm -rf ${ROOT_PATH}/dist
+	rm -rf ${ROOT_PATH}/build
 	rm ${ROOT_PATH}/Dockerfile
 	docker image prune --filter "dangling=true" --force
 #############################################################################

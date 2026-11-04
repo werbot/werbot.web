@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview --port 4173",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "lint": "eslint .",
+    "lint": "eslint . && bun scripts/check-no-vue.ts",
     "prepare": "svelte-kit sync",
     "predev": "bun scripts/addons/generate.ts",
     "prebuild": "bun scripts/addons/generate.ts",

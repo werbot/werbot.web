@@ -5,7 +5,7 @@ const CORE_PATTERNS = new Set(ROUTES.map((route) => route.pattern));
 const CORE_NAMES = new Set(ROUTES.map((route) => route.name));
 
 export function joinPath(parent: string, child: string): string {
-  // vue-router treats a nested absolute path as rooted, not as a child.
+  // A nested absolute path replaces the parent prefix instead of appending.
   const base = child.startsWith("/") ? "" : parent;
 
   return `/${[base, child].join("/").split("/").filter(Boolean).join("/")}`;

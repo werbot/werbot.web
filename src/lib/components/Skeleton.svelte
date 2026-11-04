@@ -11,7 +11,7 @@
   let { avatar = false, title = true, lines = 3, footer = true }: Props = $props();
 
   const margins = [4, 5, 6, 8, 10, 16, 24, 32];
-  // Same one-time random widths as the Vue component: computed once, not on every render.
+  // Same one-time random widths as the legacy component: computed once, not on every render.
   const count = untrack(() => lines);
   const lineSettings = Array.from({ length: count }, () => margins[Math.floor(Math.random() * margins.length)]);
 </script>

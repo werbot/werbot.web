@@ -34,7 +34,7 @@
 </script>
 
 <div {...rest} class="form-dropdown {className}">
-  <!-- svelte-ignore a11y_label_has_associated_control (layout label kept verbatim from the Vue component) -->
+  <!-- svelte-ignore a11y_label_has_associated_control (layout label kept verbatim from the legacy component) -->
   <label class="label">
     {#if name}
       <span class="text">{fullName}</span>
@@ -53,7 +53,7 @@
     {#if open}
       <ul>
         {#each options as option, index (index)}
-          <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions (Vue parity: pick on click, no keyboard picker) -->
+          <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions (legacy parity: pick on click, no keyboard picker) -->
           <li
             onclick={(): void => {
               setValue(option);

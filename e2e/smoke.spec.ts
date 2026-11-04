@@ -41,6 +41,11 @@ test("admin user sees the admin menu", async ({ page }) => {
   await expect(sidebar.getByRole("link", { name: "Subscriptions" })).toBeVisible();
   await expect(sidebar.getByRole("link", { name: "License", exact: true })).toBeVisible();
   await expect(sidebar.getByRole("link", { name: "Settings" })).toBeVisible();
+
+  if (HAS_SAAS_ADDON) {
+    await expect(sidebar.getByRole("link", { name: "SaaS License 1" })).toBeVisible();
+    await expect(sidebar.getByRole("link", { name: "SaaS License 2" })).toBeVisible();
+  }
 });
 
 test("admin add-on page renders its heading", async ({ page }) => {

@@ -21,18 +21,5 @@
     "e2e/**/*.ts",
     "playwright.config.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "build",
-    "static",
-    ".legacy",
-    "src/api/**",
-    "src/components/**",
-    "src/interface/page.ts",
-    "src/pages/**",
-    "src/plugins/**",
-    "src/router/**",
-    "src/store/**"
-  ]
+  "exclude": ["node_modules", "build", "static"]
 }

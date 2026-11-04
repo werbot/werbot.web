@@ -12,13 +12,11 @@ import pluginUnusedImports from "eslint-plugin-unused-imports";
 export default [
   {
     ignores: [
-      ".legacy/",
       ".svelte-kit/",
       "build/",
       "dist/",
       "e2e/fixtures/",
       "src/generated/",
-      "public/",
       "vite.config.{js,ts,mjs}",
       "vitest.config.{js,ts,mjs}",
       "svelte.config.{js,ts,mjs}",
@@ -27,14 +25,7 @@ export default [
       "eslint.config.{js,ts,mjs}",
       "*.json",
       "**/proto/",
-      "*.d.ts",
-      "src/api/",
-      "src/components/",
-      "src/interface/page.ts",
-      "src/pages/",
-      "src/plugins/",
-      "src/router/",
-      "src/store/"
+      "*.d.ts"
     ]
   },
 
@@ -134,6 +125,39 @@ export default [
         project: "./tsconfig.json",
         tsconfigRootDir: import.meta.dirname
       }
+    }
+  },
+
+  {
+    // Vue was removed in the SvelteKit migration. This rule keeps host code,
+    // scripts, tests and add-on pages from importing the old runtime; the same
+    // check runs in add-on repositories when their web folder is linted.
+    files: [
+      "src/**/*.{js,ts,svelte}",
+      "scripts/**/*.ts",
+      "e2e/**/*.ts",
+      "add-on/*/web/**/*.{js,mjs,ts,svelte}",
+      "../add-on/*/web/**/*.{js,mjs,ts,svelte}"
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            { name: "vue", message: "Vue was removed; use Svelte 5 runes." },
+            { name: "vue-router", message: "Vue Router was removed; use SvelteKit routes and the route registry." },
+            { name: "pinia", message: "Pinia was removed; use the rune-based stores in $lib/stores." },
+            { name: "@vueuse/core", message: "@vueuse/core was removed; use the native WebSocket store." },
+            { name: "notiwind", message: "notiwind was removed; use the toast store and Alert.svelte." }
+          ],
+          patterns: [
+            {
+              group: ["vue/*", "@vueuse/*", "pinia/*", "vue-router/*"],
+              message: "Vue packages were removed in the SvelteKit migration."
+            }
+          ]
+        }
+      ]
     }
   }
 ];

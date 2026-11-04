@@ -19,7 +19,7 @@ for (const route of ROUTES) {
     }
 
     test(`${route.path} matches its baseline`, async ({ page }) => {
-      await open(page, route.path, { allowBlank: route.blank === true });
+      await open(page, route.path);
 
       await expect(page).toHaveScreenshot(`${route.id}.png`, {
         mask: [page.locator(MASK)]

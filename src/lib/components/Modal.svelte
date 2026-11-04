@@ -37,7 +37,7 @@
       phase = "enter";
       entered = false;
 
-      // Two-phase Vue <transition> enter: apply -from, then swap to -to on the next frame.
+      // Two-phase enter transition: apply -from, then swap to -to on the next frame.
       enterToTimer = setTimeout((): void => {
         entered = true;
       }, 16);

@@ -28,7 +28,7 @@
 </script>
 
 <div class="form-control {className}">
-  <!-- svelte-ignore a11y_label_has_associated_control (layout label kept verbatim from the Vue component) -->
+  <!-- svelte-ignore a11y_label_has_associated_control (layout label kept verbatim from the legacy component) -->
   <label class="label">
     {#if name}
       <span class="text">{fullName}</span>

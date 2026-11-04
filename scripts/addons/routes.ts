@@ -19,13 +19,9 @@ function componentSpecifier(component: unknown): string | undefined {
   const source = component.toString();
   const match =
     /(?:import|__vite_ssr_dynamic_import__)\(\s*["'`]([^"'`]+)["'`]\s*\)/.exec(source) ??
-    /["'`]([^"'`]+\.(?:vue|svelte))["'`]/.exec(source);
+    /["'`]([^"'`]+\.svelte)["'`]/.exec(source);
 
   return match?.[1];
-}
-
-function normalizeSpecifier(specifier: string): string {
-  return specifier.replace(/\.vue$/, ".svelte");
 }
 
 function resolveComponent(
@@ -34,27 +30,26 @@ function resolveComponent(
   addon: string,
   routerDir: string
 ): { specifier: string; file: string } {
-  const normalized = normalizeSpecifier(specifier);
   let file: string;
 
-  if (normalized.startsWith("@addon/")) {
-    file = path.resolve(root, normalized.slice("@addon/".length));
-  } else if (normalized.startsWith("@/")) {
-    file = path.resolve(root, addon, "web", normalized.slice(2));
-  } else if (normalized.startsWith(".")) {
-    file = path.resolve(routerDir, normalized);
-  } else if (path.isAbsolute(normalized)) {
-    file = normalized;
+  if (specifier.startsWith("@addon/")) {
+    file = path.resolve(root, specifier.slice("@addon/".length));
+  } else if (specifier.startsWith("@/")) {
+    file = path.resolve(root, addon, "web", specifier.slice(2));
+  } else if (specifier.startsWith(".")) {
+    file = path.resolve(routerDir, specifier);
+  } else if (path.isAbsolute(specifier)) {
+    file = specifier;
 
     // Vite's SSR transform rewrites dynamic imports to root-relative paths
     // such as "/.tmp-addons/demo/..."; resolve those against the project root.
-    const cwdFile = path.join(process.cwd(), normalized);
+    const cwdFile = path.join(process.cwd(), specifier);
 
     if (!existsSync(file) && existsSync(cwdFile)) {
       file = cwdFile;
     }
   } else {
-    file = path.resolve(root, addon, normalized);
+    file = path.resolve(root, addon, specifier);
   }
 
   const relative = path.relative(root, file).split(path.sep).join("/");
@@ -163,7 +158,7 @@ function pageSource(component: string, props: boolean): string {
   // `props: true` passes route params to the add-on page as string props. The
   // cast keeps the wrapper assignable for pages that declare no props; a page
   // that consumes params declares `$props()` matching its route params (see
-  // src/plugins/addons/README.md#props-true).
+  // add-on README, "Add-on web contract").
   const componentImport = props
     ? `  import type { Component } from "svelte";
   import { page } from "$app/state";

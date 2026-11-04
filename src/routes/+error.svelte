@@ -4,7 +4,7 @@
   });
 </script>
 
-<!-- Legacy rendered pages/404.vue inside layouts/404.vue (`div.fon.center`). -->
+<!-- The legacy app rendered the 404 page inside its own 404 layout (`div.fon.center`). -->
 <div class="fon center">
   <div>
     <h1>404 - Page Not Found</h1>

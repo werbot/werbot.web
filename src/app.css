@@ -191,7 +191,7 @@ dl.info {
   @apply mr-2 rounded-sm px-2.5 pt-0.5 pb-1 text-sm font-medium;
 }
 
-/* Variant colors are intentionally absent: the Vue build's nested `&-color`
+/* Variant colors are intentionally absent: the legacy build's nested `&-color`
    selectors never compiled, so legacy and every visual baseline render the
    plain `.badge` base. Restoring the intended colors is a post-migration
    design change. */
@@ -206,7 +206,7 @@ dl.info {
   @apply relative inline-flex cursor-pointer items-center select-none;
 }
 
-/* Server activity weekday grid (moved from the Vue page style block) */
+/* Server activity weekday grid (moved from the legacy page style block) */
 .worktime-hours-item input:checked ~ .square {
   background-color: #3dcc38;
 }

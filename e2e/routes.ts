@@ -13,11 +13,6 @@ export interface RouteDefinition {
   id: string;
   path: string;
   auth: boolean;
-  /**
-   * The Vue page throws during render and leaves the page blank, so its
-   * baseline records that blank page instead of a layout.
-   */
-  blank?: boolean;
 }
 
 const project = `/projects/${projectId}`;

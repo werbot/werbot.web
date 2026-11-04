@@ -17,7 +17,7 @@
 
   let adminChecked = false;
 
-  // Legacy parity: layouts/private.vue checks the role once when it mounts, so
+  // Legacy parity: the old private layout checks the role once when it mounts, so
   // a client-side transition into /admin after mount is not rechecked.
   $effect(() => {
     if (adminChecked) {

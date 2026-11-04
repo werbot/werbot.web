@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.vendor Werbot, Inc.
 LABEL org.opencontainers.image.documentation https://github.com/werbot/werbot.web
 LABEL org.opencontainers.image.authors info@werbot.com
 LABEL org.opencontainers.image.licenses Apache-2.0 license
-COPY ./dist /usr/share/nginx/html
+COPY ./build /usr/share/nginx/html
 COPY ./.docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./.docker/entrypoint.sh /docker-entrypoint.d/90-entrypoint.sh
 RUN chmod +x /docker-entrypoint.d/90-entrypoint.sh

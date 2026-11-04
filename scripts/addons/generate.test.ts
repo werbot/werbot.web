@@ -2,7 +2,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { generateAddons } from "./generate";
+import { generateAddons, parseRoots } from "./generate";
 
 const ADDON_ROOT = path.join(process.cwd(), ".tmp-addons");
 const outputDirs: string[] = [];
@@ -26,20 +26,14 @@ async function writeFileAt(file: string, content: string): Promise<void> {
   await writeFile(file, content);
 }
 
-async function addPage(addon: string, section: string, name: string, withSvelte = true): Promise<string> {
-  const vue = path.join(ADDON_ROOT, addon, "web", "pages", section, `${name}.vue`);
-
-  await writeFileAt(vue, "<template><div /></template>");
-
-  if (withSvelte) {
-    await writeFileAt(
-      path.join(ADDON_ROOT, addon, "web", "pages", section, `${name}.svelte`),
-      `<h1>${name}</h1>
+async function addPage(addon: string, section: string, name: string): Promise<string> {
+  await writeFileAt(
+    path.join(ADDON_ROOT, addon, "web", "pages", section, `${name}.svelte`),
+    `<h1>${name}</h1>
 `
-    );
-  }
+  );
 
-  return `../../pages/${section}/${name}.vue`;
+  return `../../pages/${section}/${name}.svelte`;
 }
 
 async function addAddon(addon: string, section: string, routes: string, menu?: string): Promise<void> {
@@ -82,6 +76,13 @@ afterEach(async () => {
 });
 
 describe("generateAddons", () => {
+  it("scans the sibling add-on directory and keeps test fixtures out of the default roots", () => {
+    expect(parseRoots(undefined)).toEqual(["../add-on"]);
+    expect(parseRoots(undefined).some((root) => root.includes("e2e"))).toBe(false);
+    expect(parseRoots("")).toEqual([]);
+    expect(parseRoots("/a:/b")).toEqual(["/a", "/b"]);
+  });
+
   it("flattens nested add-on routes", async () => {
     const addon = nextName("demo");
     const component = await addPage(addon, "admin", "license1");
@@ -257,8 +258,18 @@ describe("generateAddons", () => {
 
   it("skips a route whose svelte component is missing", async () => {
     const addon = nextName("demo");
-    const component = await addPage(addon, "admin", "license1", false);
-    await addAddon(addon, "admin", routeModule(component));
+    const component = "../../pages/admin/license1.svelte";
+    await addAddon(
+      addon,
+      "admin",
+      `export const route = [
+        {
+          path: "/admin",
+          meta: { layout: "private" },
+          children: [{ path: "license1", name: "admin-license1", component: ${JSON.stringify(component)} }]
+        }
+      ];`
+    );
 
     const out = await createOut();
     const outDir = path.join(out, "src", "generated", "addons");
