@@ -19,7 +19,7 @@
   const getData = async (): Promise<void> => {
     const res = await listProfileTokens();
     if (res.data) {
-      pageData.base.tokens = res.data.result.tokens ?? [];
+      pageData.base.tokens = res.data.result?.tokens ?? [];
     }
     if (res.error) {
       await showApiError(res.error, [404]);

@@ -124,7 +124,7 @@ describe("admin routes", () => {
   });
 
   it("users page renders an empty state instead of crashing when tokens are missing", async () => {
-    apiMock.mockReturnValue(apiClient({ GET: vi.fn().mockResolvedValue({ data: { result: {} } }) }));
+    apiMock.mockReturnValue(apiClient({ GET: vi.fn().mockResolvedValue({ data: {} }) }));
 
     render(Users);
     await tick();
