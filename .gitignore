@@ -19,6 +19,9 @@ src/generated/
 .tmp-addons/
 .tmp-output-*/
 
+# Local-only Playwright visual baselines (generated with `bun run test:visual:update`)
+e2e/baselines/
+
 # Test artifacts
 test-results/
 playwright-report/

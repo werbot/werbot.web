@@ -124,10 +124,14 @@ Rules:
 ## Local visual parity suite
 
 The suite compares 55 routes against `e2e/baselines/` and needs a running
-backend with the migration fixtures. Starting the backend and applying the
-fixtures are separate steps: `make migration dev up` only runs goose (core
-schema, add-on schemas, dev fixtures) against the Postgres from `.env`; it does
-not start any service.
+backend with the migration fixtures. Baselines are **local-only artifacts**: the
+folder is gitignored and generated on demand with `bun run test:visual:update`.
+Without baselines the visual tests skip with an explicit annotation; smoke tests
+still run.
+
+Starting the backend and applying the fixtures are separate steps:
+`make migration dev up` only runs goose (core schema, add-on schemas, dev
+fixtures) against the Postgres from `.env`; it does not start any service.
 
 ```bash
 # from the repository root, with the .env created by `make init`:
