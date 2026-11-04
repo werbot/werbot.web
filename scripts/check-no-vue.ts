@@ -43,7 +43,7 @@ export type Finding = { file: string; line: number; detail: string };
 function packagePattern(pkg: string): RegExp {
   const escaped = pkg.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  return new RegExp(`(?:from\\s*|require\\s*\\(\\s*|import\\s*\\(\\s*)["']${escaped}(?:/[^"']*)?["']`);
+  return new RegExp(`(?:from\\s*|require\\s*\\(\\s*|import\\s*\\(\\s*|import\\s+)["']${escaped}(?:/[^"']*)?["']`);
 }
 
 const IMPORT_PATTERNS = BANNED_PACKAGES.map(packagePattern);

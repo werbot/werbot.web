@@ -39,6 +39,12 @@ describe("no-Vue check", () => {
     }
   });
 
+  it("rejects side-effect imports", async () => {
+    const pkg = "pinia";
+
+    expect(await scan("side-effect.ts", `import "${pkg}";`)).toBe(1);
+  });
+
   it("rejects a Vue single-file component", async () => {
     expect(await scan("Legacy.vue", "<template><div /></template>")).toBe(1);
   });

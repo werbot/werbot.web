@@ -19,6 +19,7 @@ export default [
       "vite.config.{js,ts,mjs}",
       "vitest.config.{js,ts,mjs}",
       "svelte.config.{js,ts,mjs}",
+      "addon-root.js",
       "prettier.config.{js,ts,mjs}",
       "playwright.config.{js,ts,mjs}",
       "eslint.config.{js,ts,mjs}",

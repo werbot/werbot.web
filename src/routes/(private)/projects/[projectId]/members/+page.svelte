@@ -11,7 +11,7 @@
   import Toggle from "$lib/components/form/Toggle.svelte";
   import { membersTabs } from "$lib/menus/project-tabs";
   import { routePath } from "$lib/navigation/registry";
-  import { usePageData } from "$lib/stores";
+  import { authStore, usePageData } from "$lib/stores";
   import { showApiError } from "$lib/utils";
 
   import { Role } from "@proto/profile/enum";
@@ -39,6 +39,7 @@
   const getData = async (routeQuery: { limit?: string | number; offset?: string | number } = {}): Promise<void> => {
     try {
       const queryParams = {
+        ...(authStore.hasUserRole === 3 && { member_id: authStore.hasUserID }),
         ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
         ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
       };

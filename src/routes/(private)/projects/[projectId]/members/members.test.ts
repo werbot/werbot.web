@@ -109,6 +109,35 @@ describe("project members routes", () => {
     expect(container.querySelector(`td a[href="/projects/${projectId}/members"]`)).toHaveClass("current");
   });
 
+  it("members list filters by member_id for role-3 users", async () => {
+    setPageState(`/projects/${projectId}/members`, { projectId });
+    authMock.hasUserRole = 3;
+    authMock.hasUserID = "member-7";
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, members: [] } } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    render(Members);
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith(`/v1/members/project/${projectId}`, { member_id: "member-7" });
+    });
+  });
+
+  it("members list does not filter by member_id for role-1 users", async () => {
+    setPageState(`/projects/${projectId}/members`, { projectId });
+    authMock.hasUserRole = 1;
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, members: [] } } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    render(Members);
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith(`/v1/members/project/${projectId}`, {});
+    });
+  });
+
   it("invite delete modal opens and closes on the footer button", async () => {
     setPageState(`/projects/${projectId}/members/invites`, { projectId });
     tokenApiMock.listProjectTokens.mockResolvedValue({

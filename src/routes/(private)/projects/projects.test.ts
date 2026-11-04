@@ -126,6 +126,33 @@ describe("projects routes", () => {
     });
   });
 
+  it("projects list filters by member_id for role-3 users", async () => {
+    authMock.hasUserRole = 3;
+    authMock.hasUserID = "member-7";
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, projects: [] } } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    render(ProjectsList);
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith("/v1/projects", { member_id: "member-7" });
+    });
+  });
+
+  it("projects list does not filter by member_id for role-1 users", async () => {
+    authMock.hasUserRole = 1;
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, projects: [] } } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    render(ProjectsList);
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith("/v1/projects", {});
+    });
+  });
+
   it("add project submits the legacy trim rules and redirects to the new project", async () => {
     setPageState("/projects/add");
     const postMock = vi.fn().mockResolvedValue({ data: { message: "Project added", result: { project_id: "p1" } } });

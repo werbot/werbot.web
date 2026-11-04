@@ -4,10 +4,12 @@ import { sveltekit } from "@sveltejs/kit/vite";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import tailwindcss from "@tailwindcss/vite";
 
+import { addonRoot } from "./addon-root.js";
+
 export default defineConfig({
   server: {
     fs: {
-      allow: [".", "../add-on"]
+      allow: [".", addonRoot]
     }
   },
 

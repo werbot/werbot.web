@@ -1,0 +1,12 @@
+# Generated protobuf sources and vendored parity CSS
+src/proto/**
+src/assets/css/**
+src/generated/**
+
+# Build output
+build/
+.svelte-kit/
+
+# Lockfiles and long-form docs
+bun.lockb
+README*
