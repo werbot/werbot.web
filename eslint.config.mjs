@@ -114,7 +114,8 @@ export default [
       "src/lib/components/Tabs.svelte",
       "src/lib/components/BServerName.svelte",
       "src/lib/components/ProjectInvite.svelte",
-      "src/routes/(auth)/**/*.svelte"
+      "src/routes/(auth)/**/*.svelte",
+      "src/routes/(private)/projects/**/*.svelte"
     ],
     rules: {
       "svelte/no-navigation-without-resolve": ["error", { ignoreGoto: true, ignoreLinks: true }]
