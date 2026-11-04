@@ -32,20 +32,21 @@
     return params;
   }
 
-  const openDrawer = async (id: string): Promise<void> => {
-    try {
-      const res = await api().GET(`/v1/event/profile/${authStore.hasUserID}/${id}`);
-      if (res.data) {
-        pageData.tmp = res.data.result;
-      }
-      if (res.error) {
-        await showApiError(res.error);
-      }
-    } catch (err) {
-      console.error("Unexpected error:", err);
-    } finally {
-      pageData.modal = true;
-    }
+  type EventRow = {
+    section: number;
+    type: number;
+    created_at: unknown;
+    meta_data?: string;
+    session?: {
+      id: string;
+      ip: string;
+      user_agent: string;
+    };
+  };
+
+  const openDrawer = (item: EventRow): void => {
+    pageData.tmp = item;
+    pageData.modal = true;
   };
 
   const closeDrawer = (): void => {
@@ -98,21 +99,16 @@
       </tr>
     </thead>
     <tbody>
-      {#each pageData.base.records ?? [] as item, index (index)}
-        <tr
-          class="cursor"
-          onclick={(): void => {
-            void openDrawer(item.id);
-          }}
-        >
+      {#each pageData.base.events ?? [] as item, index (index)}
+        <tr class="cursor" onclick={(): void => openDrawer(item)}>
           <td>{toDate(item.created_at, "full")}</td>
           <td>
             <Badge name={Profile_Section[item.section]} />
           </td>
           <td>
-            <Badge name={EventType[item.event]} color={eventTypeToColor[item.event]} />
+            <Badge name={EventType[item.type]} color={eventTypeToColor[item.type]} />
           </td>
-          <td>{item.ip}</td>
+          <td>{item.session?.ip}</td>
           <td>
             <SvgIcon name="chevron_right" />
           </td>
@@ -129,27 +125,27 @@
     <tbody>
       <tr>
         <td>ID</td>
-        <td>{pageData.tmp.id}</td>
+        <td>{pageData.tmp.session?.id}</td>
       </tr>
       <tr>
         <td>Session ID</td>
-        <td>{pageData.tmp.session_id}</td>
+        <td>{pageData.tmp.session?.id}</td>
       </tr>
-      {#if pageData.tmp.event}
+      {#if pageData.tmp.type}
         <tr>
           <td width="120">Event</td>
           <td>
-            <Badge name={EventType[pageData.tmp.event]} color={eventTypeToColor[pageData.tmp.event]} />
+            <Badge name={EventType[pageData.tmp.type]} color={eventTypeToColor[pageData.tmp.type]} />
           </td>
         </tr>
       {/if}
       <tr>
         <td>Remote IP</td>
-        <td>{pageData.tmp.ip}</td>
+        <td>{pageData.tmp.session?.ip}</td>
       </tr>
       <tr>
         <td>User Agent</td>
-        <td>{pageData.tmp.user_agent}</td>
+        <td>{pageData.tmp.session?.user_agent}</td>
       </tr>
       <tr>
         <td>Created</td>

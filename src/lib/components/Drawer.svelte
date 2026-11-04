@@ -29,15 +29,20 @@
   let drawerContent = $state<HTMLElement>();
   let isVisible = $state(false);
   let isTransitioning = $state(false);
+  let hideTimer: ReturnType<typeof setTimeout> | null = null;
 
   function toggleBackgroundScrolling(enable: boolean): void {
     document.body.style.overflow = enable ? "hidden" : "";
   }
 
   function closeDrawer(): void {
-    if (!isTransitioning) {
-      onclose();
+    // The capture-phase outside listener fires on the same click that opens the
+    // drawer, before the `isOpen` prop updates, and during the open transition.
+    if (!isOpen || isTransitioning) {
+      return;
     }
+
+    onclose();
   }
 
   $effect(() => {
@@ -47,6 +52,10 @@
     isTransitioning = true;
 
     if (open) {
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
       if (drawerContent) {
         drawerContent.scrollTop = 0;
       }
@@ -55,7 +64,7 @@
       isVisible = true;
     } else {
       toggleBackgroundScrolling(false);
-      setTimeout((): void => {
+      hideTimer = setTimeout((): void => {
         isVisible = false;
       }, duration);
     }
@@ -66,6 +75,10 @@
 
     return (): void => {
       clearTimeout(timer);
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
     };
   });
 </script>

@@ -58,6 +58,18 @@ test("admin add-on page renders its heading", async ({ page }) => {
   await expect(page).toHaveTitle("License");
 });
 
+test("profile logs list renders events", async ({ page }) => {
+  await login(page);
+  await open(page, "/profile/logs");
+
+  const rows = page.locator(".artboard table tbody tr");
+  await expect(rows.first()).toBeVisible();
+  expect(await rows.count()).toBeGreaterThan(0);
+
+  await rows.first().click();
+  await expect(page.locator(".drawer__content")).toBeVisible();
+});
+
 test("unknown route renders the 404 page", async ({ page }) => {
   await open(page, "/this-route-does-not-exist");
 
