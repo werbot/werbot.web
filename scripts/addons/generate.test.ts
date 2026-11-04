@@ -501,11 +501,15 @@ describe("generateAddons", () => {
       outDir
     });
 
-    expect(result.routes).toBe(1);
+    expect(result.routes).toBe(2);
     expect(result.menus).toBe(1);
 
     const page = await readFile(pageFile(out, "private", "admin/fixture"), "utf8");
     expect(page).toContain('import("@addon/addon/web/pages/admin/fixture.svelte")');
+
+    const propsPage = await readFile(pageFile(out, "private", "admin/props/[fixtureId]"), "utf8");
+    expect(propsPage).toContain('import("@addon/addon/web/pages/admin/props.svelte")');
+    expect(propsPage).toContain("{...page.params}");
 
     const kit = await import("../../src/lib/addons/kit");
     for (const name of [

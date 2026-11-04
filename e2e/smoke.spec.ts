@@ -50,6 +50,7 @@ test("admin add-on page renders its heading", async ({ page }) => {
   await open(page, "/admin/license1");
 
   await expect(page.getByRole("heading", { name: "License 1 SaaS" })).toBeVisible();
+  await expect(page).toHaveTitle("License");
 });
 
 test("unknown route renders the 404 page", async ({ page }) => {

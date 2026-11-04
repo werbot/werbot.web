@@ -46,17 +46,40 @@ export const route = [
       {
         path: "license1",
         name: "admin-license1",
-        component: () => import("@addon/saas/web/pages/admin/license1.vue"),
+        component: () => import("@addon/saas/web/pages/admin/license1.svelte"),
       },
       {
         path: "license2",
         name: "admin-license2",
-        component: () => import("@addon/saas/web/pages/admin/license2.vue"),
+        component: () => import("@addon/saas/web/pages/admin/license2.svelte"),
       },
     ],
   },
 ];
 ```
+
+Add-on pages are Svelte 5 components. The generator rewrites `.vue` component
+paths to `.svelte` and skips a route whose component file does not exist.
+
+### `props: true`
+
+`props: true` passes the route params to the page as props. A page that needs
+them declares `$props()` compatible with the params of its route:
+
+```svelte
+<script lang="ts">
+  let { serverId }: { serverId: string } = $props();
+</script>
+```
+
+The host wrapper spreads `page.params`, so props are `string | undefined` at
+the type level. The host types the component as accepting that params record,
+which keeps pages that declare no props assignable. A page that declares an
+incompatible type (for example `{ id: number }`) still passes `svelte-check`
+and fails only at runtime when the param is used as declared. Keep declared
+prop types `string` (or `string | undefined`) and aligned with the route
+params.
+
 ## Updating menu
 virtual:werbot-addon/menu  
 

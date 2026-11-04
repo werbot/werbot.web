@@ -160,9 +160,10 @@ export function resolveRedirects(routes: GeneratedRoute[], collector: RouteColle
 
 function pageSource(component: string, props: boolean): string {
   const passedProps = props ? " {...page.params}" : "";
-  // `props: true` passes route params to the add-on page. The page owns its
-  // own prop typing, so the host types the component as accepting the params
-  // record instead of rejecting every component that declares no props.
+  // `props: true` passes route params to the add-on page as string props. The
+  // cast keeps the wrapper assignable for pages that declare no props; a page
+  // that consumes params declares `$props()` matching its route params (see
+  // src/plugins/addons/README.md#props-true).
   const componentImport = props
     ? `  import type { Component } from "svelte";
   import { page } from "$app/state";
