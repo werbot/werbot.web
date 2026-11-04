@@ -1,7 +1,9 @@
 import { fireEvent, render, screen, within } from "@testing-library/svelte";
 import { createRawSnippet, type Snippet } from "svelte";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
+import Badge from "$lib/components/Badge.svelte";
+import SvgIcon from "$lib/components/SvgIcon.svelte";
 import Button from "$lib/components/form/Button.svelte";
 import InputHost from "$lib/components/form/__fixtures__/InputHost.svelte";
 import SelectHost from "$lib/components/form/__fixtures__/SelectHost.svelte";
@@ -102,5 +104,70 @@ describe("form components", () => {
     expect(button).toHaveClass("main");
     expect(button).not.toBeDisabled();
     expect(button).toHaveTextContent("Save");
+  });
+});
+
+describe("attribute fallthrough", () => {
+  it("Input forwards extra handlers to the input", async () => {
+    const onkeyup = vi.fn();
+
+    render(InputHost, { props: { name: "Title", initial: "", onkeyup } });
+
+    await fireEvent.keyUp(screen.getByRole("textbox"), { key: "Enter" });
+
+    expect(onkeyup).toHaveBeenCalledTimes(1);
+  });
+
+  it("Toggle forwards class to the label and change from the checkbox", async () => {
+    const onchange = vi.fn();
+
+    render(ToggleHost, { props: { name: "Enabled", initial: false, class: "mr-5 flex-grow", onchange } });
+
+    const checkbox = screen.getByRole("checkbox");
+    const label = checkbox.closest("label");
+    expect(label).toHaveClass("toggle");
+    expect(label).toHaveClass("mr-5");
+    expect(label).toHaveClass("flex-grow");
+
+    await fireEvent.click(checkbox);
+
+    expect(onchange).toHaveBeenCalledTimes(1);
+    expect((onchange.mock.calls[0][0] as Event).target).toBe(checkbox);
+  });
+
+  it("Select forwards class to the dropdown root", () => {
+    render(SelectHost, { props: { name: "Region", initial: "eu", options: ["eu"], class: "mr-5" } });
+
+    const dropdown = screen.getByRole("button").closest(".form-dropdown");
+    expect(dropdown).not.toBeNull();
+    expect(dropdown).toHaveClass("form-dropdown");
+    expect(dropdown).toHaveClass("mr-5");
+  });
+
+  it("Badge forwards onclick to its root span", async () => {
+    const onclick = vi.fn();
+
+    render(Badge, { props: { name: "Active", color: "green", onclick } });
+
+    const badge = screen.getByText("Active");
+    expect(badge.tagName).toBe("SPAN");
+
+    await fireEvent.click(badge);
+
+    expect(onclick).toHaveBeenCalledTimes(1);
+  });
+
+  it("SvgIcon forwards onclick to its root svg", async () => {
+    const onclick = vi.fn();
+
+    const { container } = render(SvgIcon, { props: { name: "close", onclick } });
+    const svg = container.querySelector("svg");
+    expect(svg).not.toBeNull();
+
+    if (svg) {
+      await fireEvent.click(svg);
+    }
+
+    expect(onclick).toHaveBeenCalledTimes(1);
   });
 });

@@ -7,11 +7,13 @@
     name?: string;
     error?: string;
     required?: boolean;
+    class?: string;
+    onkeyup?: (event: KeyboardEvent) => void;
   }
 
-  let { initial = "", name, error, required }: Props = $props();
+  let { initial = "", name, error, required, class: className, onkeyup }: Props = $props();
   let value = $state(untrack(() => initial));
 </script>
 
-<Input bind:value {name} {error} {required} />
+<Input bind:value {name} {error} {required} class={className} {onkeyup} />
 <output data-testid="bound">{value}</output>

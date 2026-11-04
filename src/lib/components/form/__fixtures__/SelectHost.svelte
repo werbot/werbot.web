@@ -6,11 +6,12 @@
     initial?: string | number;
     name?: string;
     options?: Array<string | number>;
+    class?: string;
   }
 
-  let { initial = "", name, options = [] }: Props = $props();
+  let { initial = "", name, options = [], class: className }: Props = $props();
   let value = $state<string | number>(untrack(() => initial));
 </script>
 
-<Select bind:value {name} {options} />
+<Select bind:value {name} {options} class={className} />
 <output data-testid="bound">{value}</output>

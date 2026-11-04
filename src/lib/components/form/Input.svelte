@@ -1,7 +1,10 @@
 <script lang="ts">
-  import type { FullAutoFill } from "svelte/elements";
+  import type { FullAutoFill, HTMLInputAttributes } from "svelte/elements";
 
-  interface Props {
+  interface Props extends Omit<
+    HTMLInputAttributes,
+    "value" | "type" | "id" | "placeholder" | "autocomplete" | "disabled" | "class"
+  > {
     name?: string;
     value: string | number | null;
     id?: string;
@@ -24,7 +27,8 @@
     disabled,
     required,
     placeholder,
-    autocomplete
+    autocomplete,
+    ...rest
   }: Props = $props();
 
   const fullName = $derived(`${name}${required ? "*" : ""}`);
@@ -42,6 +46,7 @@
     {/if}
   </label>
   <input
+    {...rest}
     {id}
     {type}
     class={classes}

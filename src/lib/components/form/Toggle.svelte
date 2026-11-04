@@ -1,17 +1,21 @@
 <script lang="ts">
-  interface Props {
+  import type { HTMLLabelAttributes } from "svelte/elements";
+
+  interface Props extends Omit<HTMLLabelAttributes, "class" | "for" | "id"> {
     name?: string;
     value: boolean;
     disabled?: boolean;
     id?: string | number;
+    class?: string;
   }
 
-  let { name, value = $bindable(), disabled = false, id }: Props = $props();
+  let { name, value = $bindable(), disabled = false, id, class: className = "", ...rest }: Props = $props();
 
   const toggleId = $derived(`toggle_${id}`);
+  const classes = $derived(["toggle", className].filter(Boolean).join(" "));
 </script>
 
-<label for={toggleId} class="toggle">
+<label {...rest} for={toggleId} class={classes}>
   <input
     id={toggleId}
     type="checkbox"

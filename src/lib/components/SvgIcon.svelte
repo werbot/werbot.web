@@ -1,13 +1,15 @@
 <script lang="ts">
-  interface Props {
+  import type { SVGAttributes } from "svelte/elements";
+
+  interface Props extends Omit<SVGAttributes<SVGSVGElement>, "class"> {
     prefix?: string;
     name: string;
     class?: string;
   }
 
-  let { prefix = "icon", name, class: className = "" }: Props = $props();
+  let { prefix = "icon", name, class: className = "", ...rest }: Props = $props();
 </script>
 
-<svg aria-hidden="true" class={className}>
+<svg {...rest} aria-hidden="true" class={className}>
   <use href="#{prefix}-{name}" />
 </svg>

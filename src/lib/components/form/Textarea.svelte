@@ -1,5 +1,7 @@
 <script lang="ts">
-  interface Props {
+  import type { HTMLTextareaAttributes } from "svelte/elements";
+
+  interface Props extends Omit<HTMLTextareaAttributes, "value" | "rows" | "placeholder" | "disabled" | "class"> {
     name?: string;
     value: string | number | null;
     rows?: number;
@@ -18,7 +20,8 @@
     class: className = "",
     disabled,
     required,
-    placeholder
+    placeholder,
+    ...rest
   }: Props = $props();
 
   const fullName = $derived(`${name}${required ? "*" : ""}`);
@@ -36,6 +39,7 @@
   </label>
 
   <textarea
+    {...rest}
     class={error ? "error" : ""}
     {disabled}
     {placeholder}

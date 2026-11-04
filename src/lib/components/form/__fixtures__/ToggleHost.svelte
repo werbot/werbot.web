@@ -5,11 +5,13 @@
   interface Props {
     initial?: boolean;
     name?: string;
+    class?: string;
+    onchange?: (event: Event) => void;
   }
 
-  let { initial = false, name }: Props = $props();
+  let { initial = false, name, class: className, onchange }: Props = $props();
   let value = $state(untrack(() => initial));
 </script>
 
-<Toggle bind:value {name} />
+<Toggle bind:value {name} class={className} {onchange} />
 <output data-testid="bound">{value}</output>
