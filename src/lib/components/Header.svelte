@@ -9,7 +9,7 @@
   import { topMenu } from "$lib/menus/profile";
   import { menuHref } from "$lib/navigation/menus.svelte";
   import { isActiveRoute, routePath } from "$lib/navigation/registry";
-  import { authStore } from "$lib/stores";
+  import { authStore, wsStore } from "$lib/stores";
   import type { MenuItem } from "$lib/utils";
   import { showApiError } from "$lib/utils";
 
@@ -22,7 +22,7 @@
   const profileActive = $derived(pathname.startsWith("/profile") || pathname.startsWith("/admin"));
   const projectActive = $derived(pathname.startsWith("/projects"));
 
-  const wsStatus: string = "CLOSED";
+  const wsStatus = $derived(wsStore.status);
 
   let isProfileDropdownOpen = $state(false);
   let isProjectDropdownOpen = $state(false);

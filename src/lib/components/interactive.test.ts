@@ -15,7 +15,8 @@ vi.mock("$lib/api", (): { api: () => { GET: typeof apiGetMock } } => ({
   api: (): { GET: typeof apiGetMock } => ({ GET: apiGetMock })
 }));
 vi.mock("$lib/stores", () => ({
-  authStore: { hasUserName: "Alice", hasUserRole: 3 }
+  authStore: { hasUserName: "Alice", hasUserRole: 3 },
+  wsStore: { status: "CLOSED" }
 }));
 
 import Drawer from "$lib/components/Drawer.svelte";
