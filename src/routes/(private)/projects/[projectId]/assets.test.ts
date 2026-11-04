@@ -114,11 +114,18 @@ describe("project asset routes", () => {
       const { container, unmount } = render(asset.list);
       await tick();
 
-      expect(container.querySelector("h1")).toHaveTextContent(asset.title);
-      expect(container.querySelector("header a.breadcrumbs")).toHaveAttribute(
+      const artboard = container.querySelector(".artboard");
+      expect(artboard).not.toBeNull();
+      expect(container.firstElementChild).toBe(artboard);
+
+      const header = container.querySelector(".artboard > header");
+      expect(header).not.toBeNull();
+      expect(header?.querySelector(":scope > h1")).toHaveTextContent(asset.title);
+      expect(header?.querySelector(":scope > a.breadcrumbs")).toHaveAttribute(
         "href",
         `/projects/${projectId}/${asset.slug}/add`
       );
+      expect(header?.querySelector(":scope > a.breadcrumbs")).toHaveTextContent("add new");
       expect(container.querySelector(".desc")).toHaveTextContent("Empty");
       expect(container.querySelector(".content")).toHaveTextContent("section under development");
       expect(document.title).toBe(asset.title);
@@ -134,14 +141,23 @@ describe("project asset routes", () => {
       const { container, unmount } = render(asset.add);
       await tick();
 
-      expect(container.querySelector("h1")).toHaveTextContent(asset.title);
-      expect(container.querySelector("header div.breadcrumbs")).toHaveTextContent("Select scheme");
+      const artboard = container.querySelector(".artboard");
+      expect(artboard).not.toBeNull();
+      expect(container.firstElementChild).toBe(artboard);
+
+      const header = container.querySelector(".artboard > header");
+      expect(header).not.toBeNull();
+      expect(header?.querySelector(":scope > h1")).toHaveTextContent(asset.title);
+      expect(header?.querySelector(":scope > div.breadcrumbs")).toHaveTextContent("Select scheme");
       expect(container.querySelector(".desc")).toHaveTextContent(ADD_TITLE);
 
-      const groups = Array.from(container.querySelectorAll("ol.schemes"));
+      const content = container.querySelector(".artboard > .content");
+      expect(content).not.toBeNull();
+
+      const groups = Array.from(content?.querySelectorAll(":scope > ol.schemes") ?? []);
       expect(groups).toHaveLength(asset.groups);
 
-      const items = Array.from(container.querySelectorAll("ol.schemes > li.element.disable"));
+      const items = Array.from(content?.querySelectorAll("ol.schemes > li.element.disable") ?? []);
       expect(items.map((item) => item.querySelector("div")?.textContent)).toEqual(
         asset.schemes.map((scheme) => scheme.name)
       );
