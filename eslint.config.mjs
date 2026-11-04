@@ -106,12 +106,15 @@ export default [
   {
     // These components build links from the route registry (routePath/menuHref),
     // not from SvelteKit route ids, so resolve() cannot be applied to their hrefs.
+    // The auth and invite routes follow the same registry-based navigation.
     files: [
       "src/lib/components/Header.svelte",
       "src/lib/components/Navigation.svelte",
       "src/lib/components/Pagination.svelte",
       "src/lib/components/Tabs.svelte",
-      "src/lib/components/BServerName.svelte"
+      "src/lib/components/BServerName.svelte",
+      "src/lib/components/ProjectInvite.svelte",
+      "src/routes/(auth)/**/*.svelte"
     ],
     rules: {
       "svelte/no-navigation-without-resolve": ["error", { ignoreGoto: true, ignoreLinks: true }]

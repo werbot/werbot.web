@@ -19,6 +19,9 @@
   }
 
   const pathname = $derived(page.url.pathname);
+  // `page.params` is typed with the root layout params only, so route-specific
+  // params of a nested route need a loose view here.
+  const params = $derived(page.params as Record<string, string>);
   const profileActive = $derived(pathname.startsWith("/profile") || pathname.startsWith("/admin"));
   const projectActive = $derived(pathname.startsWith("/projects"));
 
@@ -30,7 +33,7 @@
   let projectsTotal = $state(0);
 
   const projectTitle = $derived(
-    projects.find((project) => project.project_id === page.params.projectId)?.title ?? "Projects"
+    projects.find((project) => project.project_id === params.projectId)?.title ?? "Projects"
   );
 
   function isUserRole(role?: number): boolean {
@@ -96,7 +99,7 @@
             <li>
               <a
                 href={routePath("projects-projectId", { projectId: project.project_id })}
-                class:current={page.params.projectId === project.project_id}
+                class:current={params.projectId === project.project_id}
               >
                 <SvgIcon name="project" />
                 <span>{project.title}</span>

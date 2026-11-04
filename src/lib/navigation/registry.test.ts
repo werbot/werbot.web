@@ -5,7 +5,7 @@ import { menu as profileMenu, topMenu } from "$lib/menus/profile";
 import { membersTabs, serverTabs, settingTabs } from "$lib/menus/project-tabs";
 import { menu as projectsMenu } from "$lib/menus/projects";
 import type { MenuGroup, MenuItem } from "$lib/utils";
-import { isActiveRoute, routePath, ROUTES } from "$lib/navigation/registry";
+import { isActiveRoute, routePath, routePathWithQuery, ROUTES } from "$lib/navigation/registry";
 
 function menuItems(menu: MenuGroup): MenuItem[] {
   return Object.values(menu).flat();
@@ -20,6 +20,11 @@ describe("route registry", () => {
 
   it("routePath throws a named error for an unknown name", () => {
     expect(() => routePath("does-not-exist")).toThrowError("Unknown route name: does-not-exist");
+  });
+
+  it("routePathWithQuery appends an encoded query to the route path", () => {
+    expect(routePathWithQuery("auth-signin", { token: "a b" })).toBe("/auth/signin?token=a+b");
+    expect(routePathWithQuery("auth-signin", {})).toBe("/auth/signin");
   });
 
   it("isActiveRoute matches nested paths", () => {

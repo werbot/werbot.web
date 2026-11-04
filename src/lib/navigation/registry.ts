@@ -150,7 +150,6 @@ export function registerRoutes(defs: RouteDef[]): void {
 
 export function routePath(name: string, params: Record<string, string> = {}): string {
   const pattern = routes.get(name);
-
   if (pattern === undefined) {
     throw new Error(`Unknown route name: ${name}`);
   }
@@ -183,6 +182,18 @@ export function routePath(name: string, params: Record<string, string> = {}): st
   }
 
   return path;
+}
+
+/** Adds a query string to a registry route, leaving the path untouched when the query is empty. */
+export function routePathWithQuery(
+  name: string,
+  query: Record<string, string>,
+  params: Record<string, string> = {}
+): string {
+  const path = routePath(name, params);
+  const search = new URLSearchParams(query).toString();
+
+  return search ? `${path}?${search}` : path;
 }
 
 export function isActiveRoute(name: string, pathname: string): boolean {
