@@ -83,8 +83,7 @@ export const ROUTES: RouteDefinition[] = [
   { id: "profile-setting-destroy", path: "/profile/setting/destroy", auth: true },
 
   { id: "admin", path: "/admin", auth: true },
-  // Renders blank: the template reads `pageData.base.tokens.length` before the API fills `tokens`.
-  { id: "admin-users", path: "/admin/users", auth: true, blank: true },
+  { id: "admin-users", path: "/admin/users", auth: true },
   { id: "admin-projects", path: "/admin/projects", auth: true },
   { id: "admin-settings", path: "/admin/settings", auth: true },
   { id: "admin-subscriptions", path: "/admin/subscriptions", auth: true },

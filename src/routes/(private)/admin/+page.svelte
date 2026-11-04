@@ -1,0 +1,14 @@
+<script lang="ts">
+  $effect(() => {
+    document.title = "Statistic";
+  });
+</script>
+
+<div class="artboard">
+  <header>
+    <h1>Statistic</h1>
+  </header>
+  <div class="desc">Description</div>
+
+  <div class="content">section under development</div>
+</div>
