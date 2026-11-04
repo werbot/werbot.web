@@ -63,11 +63,6 @@
   };
 
   const loadToken = async (invite: string): Promise<void> => {
-    if (authStore.logged_in) {
-      await goto(routePath("index"));
-      return;
-    }
-
     try {
       const res = await getTokenInfo(invite);
 
@@ -99,6 +94,11 @@
 
   onMount(() => {
     document.title = "Sign Up";
+
+    if (authStore.logged_in) {
+      void goto(routePath("index"));
+      return;
+    }
 
     if (!token) {
       pageData.base.message = "Registration is available by invitation only.";

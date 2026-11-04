@@ -19,9 +19,9 @@
   }
 
   const pathname = $derived(page.url.pathname);
-  // `page.params` is typed with the root layout params only, so route-specific
-  // params of a nested route need a loose view here.
-  const params = $derived(page.params as Record<string, string>);
+  // `page.params` is typed with the root layout params only, so the nested
+  // project param needs its own view here.
+  const params = $derived(page.params as { projectId?: string });
   const profileActive = $derived(pathname.startsWith("/profile") || pathname.startsWith("/admin"));
   const projectActive = $derived(pathname.startsWith("/projects"));
 

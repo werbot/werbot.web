@@ -235,6 +235,18 @@ describe("signup route", () => {
     });
   });
 
+  it("signup redirects an authenticated visitor without a token to the index", async () => {
+    authMock.logged_in = true;
+    setPageState("/auth/signup");
+
+    render(Signup);
+
+    await waitFor(() => {
+      expect(gotoMock).toHaveBeenCalledWith("/");
+    });
+    expect(screen.queryByText("Registration is available by invitation only.")).toBeNull();
+  });
+
   it("signup redirects an existing profile to signin with the invite token", async () => {
     tokenApiMock.getTokenInfo.mockResolvedValue({
       data: {
