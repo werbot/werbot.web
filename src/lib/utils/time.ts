@@ -39,7 +39,7 @@ export function checkTimestampDifference(timestamp: number, lifeTimeSec: number)
   const currentTimestamp: number = new Date().getTime();
   const differenceInMilliseconds: number = currentTimestamp - timestamp;
 
-  if (differenceInMilliseconds > lifeTimeSec) {
+  if (differenceInMilliseconds > lifeTimeSec * 1000) {
     return false;
   }
   return true;

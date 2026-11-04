@@ -47,7 +47,7 @@
         }
       );
       if (res.data) {
-        showMessage(res.data.result.message);
+        showMessage(res.data.message);
         await goto(routePath("auth-signin"));
       }
       if (res.error) {
@@ -65,7 +65,7 @@
     try {
       const res = await api().GET(`/auth/password_reset/${value}`);
       if (res.error) {
-        if (["Not Found", "Token is invalid"].includes(res.error.message)) {
+        if (["Not Found", "Token is invalid"].includes(res.error.result)) {
           await goto(routePath("auth-signin"));
         }
       }

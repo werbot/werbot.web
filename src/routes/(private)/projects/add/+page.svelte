@@ -21,7 +21,7 @@
 
       const bodyParams = {
         title: pageData.base.title,
-        login: pageData.base.login?.trim()
+        alias: pageData.base.alias?.trim()
       } as unknown as AddProject_Request;
 
       const res = await api().POST(`/v1/projects`, {}, bodyParams);
@@ -65,7 +65,7 @@
     >
       <div class="flex flex-row">
         <Input bind:value={pageData.base.title} name="Title" error={pageData.error["title"]} class="mr-5 flex-grow" />
-        <Input bind:value={pageData.base.login} name="Login" error={pageData.error["login"]} class="flex-grow" />
+        <Input bind:value={pageData.base.alias} name="Login" error={pageData.error["alias"]} class="flex-grow" />
       </div>
 
       <Button class="mt-8" loading={pageData.loading} onclick={onSubmit}>Add project</Button>

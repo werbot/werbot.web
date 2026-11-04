@@ -9,7 +9,6 @@
   import SvgIcon from "$lib/components/SvgIcon.svelte";
   import { routePath } from "$lib/navigation/registry";
   import { usePageData } from "$lib/stores";
-  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError, toDate } from "$lib/utils";
 
   import { type Projects_Request as ListProjects_Request } from "@proto/project/message";
@@ -34,7 +33,6 @@
   const getData = async (routeQuery: { limit?: string | number; offset?: string | number } = {}): Promise<void> => {
     try {
       const queryParams = {
-        ...(authStore.hasUserRole === 3 && { member_id: authStore.hasUserID }),
         ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
         ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
       } as unknown as ListProjects_Request;
@@ -94,7 +92,7 @@
                 {item.title}
               </a>
             </td>
-            <td>{item.login}</td>
+            <td>{item.alias}</td>
             <td>{item.members_count}</td>
             <td>{item.servers_count}</td>
             <td>{toDate(item.created_at, "lite")}</td>

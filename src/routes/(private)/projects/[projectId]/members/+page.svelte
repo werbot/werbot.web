@@ -12,7 +12,6 @@
   import { membersTabs } from "$lib/menus/project-tabs";
   import { routePath } from "$lib/navigation/registry";
   import { usePageData } from "$lib/stores";
-  import { authStore } from "$lib/stores/auth.svelte";
   import { showApiError } from "$lib/utils";
 
   import { Role } from "@proto/profile/enum";
@@ -40,7 +39,6 @@
   const getData = async (routeQuery: { limit?: string | number; offset?: string | number } = {}): Promise<void> => {
     try {
       const queryParams = {
-        ...(authStore.hasUserRole === 3 && { member_id: authStore.hasUserID }),
         ...(routeQuery?.limit !== undefined && { limit: routeQuery.limit }),
         ...(routeQuery?.offset !== undefined && { offset: routeQuery.offset })
       };
@@ -127,7 +125,7 @@
               </div>
             </td>
             <td>{item.name}</td>
-            <td>{item.servers_count}</td>
+            <td>{item.schemes_count}</td>
             <td>999</td>
             <td>999</td>
             <td>999</td>

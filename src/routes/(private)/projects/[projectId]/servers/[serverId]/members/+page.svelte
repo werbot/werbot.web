@@ -155,7 +155,7 @@
             </td>
             <td>{item.name} {item.surname}</td>
             <td>{item.alias}</td>
-            <td>{item.updated_at?.seconds > 0 ? toDate(item.updated_at) : ""}</td>
+            <td>{item.updated_at ? toDate(item.updated_at) : ""}</td>
             <td>
               <div class="flex items-center">
                 <Toggle

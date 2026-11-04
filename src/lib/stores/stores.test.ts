@@ -110,19 +110,20 @@ describe("stores", () => {
     expect(get).toHaveBeenCalledWith("/v1/profiles", { profile_id: "profile-1" });
   });
 
-  it("projectInfo skips the request within the 3600 ms window and refreshes after it", async () => {
+  it("projectInfo loads the single project and skips the request within the cache window", async () => {
     const get = vi.fn().mockResolvedValue({ data: { result: { title: "Project One" } } });
     mockClient(get);
 
     await projectStore.projectInfo("p1");
 
     expect(projectStore.projects.p1.info).toEqual({ title: "Project One" });
+    expect(get).toHaveBeenCalledWith("/v1/projects/p1");
     expect(get).toHaveBeenCalledTimes(1);
 
     await projectStore.projectInfo("p1");
     expect(get).toHaveBeenCalledTimes(1);
 
-    projectStore.projects.p1.timestamp = Date.now() - 4000;
+    projectStore.projects.p1.timestamp = Date.now() - 3601 * 1000;
     await projectStore.projectInfo("p1");
     expect(get).toHaveBeenCalledTimes(2);
   });

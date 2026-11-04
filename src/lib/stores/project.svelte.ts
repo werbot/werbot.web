@@ -1,5 +1,3 @@
-import type { Project_Request } from "@proto/project/message";
-
 import { api } from "$lib/api";
 import { checkTimestampDifference } from "$lib/utils";
 
@@ -48,8 +46,7 @@ export const projectStore = {
     }
 
     try {
-      const queryParams: Project_Request = { project_id: project_id } as Project_Request;
-      const res = await api().GET(`/v1/projects`, queryParams);
+      const res = await api().GET(`/v1/projects/${project_id}`);
       if (res.data) {
         const project = state.projects?.[project_id];
 

@@ -18,9 +18,7 @@ export interface TokenInfo {
   project_id?: string;
   scheme_id?: string;
   profile?: Partial<TokenProfile>;
-  name?: string;
-  surname?: string;
-  email?: string;
+  scheme?: Partial<{ email: string; scheme_type: number }>;
   created_at?: string | { seconds: number; nanos?: number };
   updated_at?: string | { seconds: number; nanos?: number };
   expired_at?: string | { seconds: number; nanos?: number };
@@ -89,9 +87,9 @@ export function isTokenUsable(token?: TokenInfo | null): boolean {
 
 export function tokenProfile(token?: TokenInfo | null): TokenProfile {
   return {
-    name: token?.profile?.name ?? token?.name ?? "",
-    surname: token?.profile?.surname ?? token?.surname ?? "",
-    email: token?.profile?.email ?? token?.email ?? ""
+    name: token?.profile?.name ?? "",
+    surname: token?.profile?.surname ?? "",
+    email: token?.profile?.email ?? token?.scheme?.email ?? ""
   };
 }
 

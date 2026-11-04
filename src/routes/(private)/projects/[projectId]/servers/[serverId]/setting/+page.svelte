@@ -128,6 +128,27 @@
     };
   };
 
+  const mapFieldErrors = (result: Record<string, string> | undefined): Record<string, string | null> => {
+    const errors: Record<string, string | null> = {};
+    if (!result || typeof result !== "object") {
+      return errors;
+    }
+
+    for (const [key, message] of Object.entries(result)) {
+      const field = key.split(".").pop() ?? key;
+      const target =
+        field === "title"
+          ? "title"
+          : field === "password"
+            ? "password"
+            : field === "key_id"
+              ? "public_key"
+              : `info.${field}`;
+      errors[target] = message;
+    }
+    return errors;
+  };
+
   const onUpdate = async (typeData: string): Promise<void> => {
     const { title, description, active, audit } = pageData.base.host;
 
@@ -180,7 +201,7 @@
 
       if (failed) {
         if (typeData === "info") {
-          pageData.error = failed.error.result;
+          pageData.error = mapFieldErrors(failed.error.result);
         }
         await showApiError(failed.error);
         return;
@@ -218,7 +239,7 @@
         pageData.error.password = null;
       }
       if (res.error && pageData.base.access.auth === AuthMethod.password) {
-        pageData.error.password = res.error.result.password;
+        pageData.error = mapFieldErrors(res.error.result);
         await showApiError(res.error);
       }
     } catch (err) {
@@ -429,7 +450,7 @@
         </div>
       {/if}
 
-      {#if pageData.base.access.key_id || pageData.base.access.password > 3}
+      {#if pageData.base.access.key_id || (pageData.base.access.password?.length ?? 0) > 3}
         <Button
           class="mt-8"
           disabled={pageData.tmp.loading_key}

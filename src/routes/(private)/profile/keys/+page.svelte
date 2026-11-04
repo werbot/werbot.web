@@ -108,7 +108,7 @@
             </td>
             <td class="adaptive-md">
               <div><span class="font-bold">Added on:</span> {toDate(item.created_at)}</div>
-              {#if item.updated_at?.seconds > 0}
+              {#if item.updated_at}
                 <div>
                   <span class="font-bold">Last used:</span>
                   {toDate(item.updated_at)}

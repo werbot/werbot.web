@@ -79,7 +79,7 @@ describe("project members routes", () => {
       data: {
         result: {
           total: 1,
-          members: [{ member_id: "member-1", name: "Carla", online: true, servers_count: 2, role: 1, active: true }]
+          members: [{ member_id: "member-1", name: "Carla", online: true, schemes_count: 2, role: 1, active: true }]
         }
       }
     });
@@ -99,6 +99,7 @@ describe("project members routes", () => {
     await waitFor(() => {
       expect(screen.getByText("Carla")).toBeInTheDocument();
     });
+    expect(container.querySelector("tbody tr td:nth-child(3)")?.textContent).toBe("2");
 
     const hrefs = Array.from(container.querySelectorAll('[role="tab"] a')).map((link) => link.getAttribute("href"));
     expect(hrefs).toEqual([`/projects/${projectId}/members`, `/projects/${projectId}/members/invites`]);
@@ -106,24 +107,10 @@ describe("project members routes", () => {
     expect(container.querySelector(`td a[href="/projects/${projectId}/members"]`)).toHaveClass("current");
   });
 
-  it("members list filters by member_id for role-3 users", async () => {
+  it("members list does not send the legacy member_id filter for role-3 users", async () => {
     setPageState(`/projects/${projectId}/members`, { projectId });
     authMock.hasUserRole = 3;
     authMock.hasUserID = "member-7";
-    const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, members: [] } } });
-    apiMock.mockReturnValue(apiClient({ GET: getMock }));
-
-    render(Members);
-    await tick();
-
-    await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith(`/v1/members/project/${projectId}`, { member_id: "member-7" });
-    });
-  });
-
-  it("members list does not filter by member_id for role-1 users", async () => {
-    setPageState(`/projects/${projectId}/members`, { projectId });
-    authMock.hasUserRole = 1;
     const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, members: [] } } });
     apiMock.mockReturnValue(apiClient({ GET: getMock }));
 

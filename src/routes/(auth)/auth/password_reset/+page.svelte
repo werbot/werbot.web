@@ -23,7 +23,7 @@
         }
       );
       if (res.data) {
-        pageData.base = res.data.result;
+        pageData.base.message = res.data.message;
         authStore.resetError();
       }
       if (res.error) {
@@ -64,17 +64,10 @@
     </form>
   {/if}
 
-  {#if pageData.base.message === "Verification email has been sent"}
+  {#if pageData.base.message}
     <div>
-      <span class="message">Bad An email has been sent. It contains a link you must click to reset your password.</span>
+      <span class="message">An email has been sent. It contains a link you must click to reset your password.</span>
       <span class="message">Note: You can only request a new password once within 24 hours.</span>
-      <span class="message">If you don't get an email check your spam folder or try again.</span>
-    </div>
-  {/if}
-
-  {#if pageData.base.message === "Resend only after 24 hours"}
-    <div>
-      <span class="message">In the last 24 hours, you have already been sent a password reset email</span>
       <span class="message">If you don't get an email check your spam folder or try again.</span>
     </div>
   {/if}

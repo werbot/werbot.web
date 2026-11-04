@@ -4,16 +4,14 @@
   import { page } from "$app/state";
 
   import { routePath } from "$lib/navigation/registry";
-  import { projectStore, usePageData } from "$lib/stores";
-
-  const pageData = usePageData();
+  import { projectStore } from "$lib/stores";
 
   const params = $derived(page.params as { projectId?: string });
   const projectId = $derived(params.projectId ?? "");
 
   const infoItems = [
     { label: "Servers", routeName: "projects-projectId-servers", countKey: "servers_count" },
-    { label: "Databases", routeName: "projects-projectId-databases", countKey: "database_count" },
+    { label: "Databases", routeName: "projects-projectId-databases", countKey: "databases_count" },
     { label: "Applications", routeName: "projects-projectId-applications", countKey: "applications_count" },
     { label: "Desktops", routeName: "projects-projectId-desktops", countKey: "desktops_count" },
     { label: "Containers", routeName: "projects-projectId-containers", countKey: "containers_count" },
@@ -37,7 +35,7 @@
 
 <div class="artboard">
   <header>
-    <h1>{pageData.base.title}</h1>
+    <h1>{projectStore.projects[projectId]?.info?.title ?? ""}</h1>
   </header>
 
   <div class="desc">Project information</div>

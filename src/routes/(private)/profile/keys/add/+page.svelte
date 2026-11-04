@@ -31,7 +31,7 @@
       }
       if (res.error) {
         const errorResult = res.error.result;
-        if (errorResult === "The public key has a broken") {
+        if (errorResult === "the public key has a broken") {
           pageData.error.key = errorResult;
           return;
         } else {

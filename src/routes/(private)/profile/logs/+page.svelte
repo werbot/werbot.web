@@ -149,7 +149,7 @@
       </tr>
       <tr>
         <td>Created</td>
-        <td>{toDate(Object(pageData.tmp.created_at), "full")}</td>
+        <td>{toDate(pageData.tmp.created_at, "full")}</td>
       </tr>
       <tr>
         <td>Metadata</td>

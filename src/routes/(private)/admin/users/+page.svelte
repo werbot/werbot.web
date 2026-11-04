@@ -1,7 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { createProfileToken, listProfileTokens, registrationInviteLink, tokenStatusName } from "$lib/api/token";
+  import {
+    createProfileToken,
+    listProfileTokens,
+    registrationInviteLink,
+    tokenProfile,
+    tokenStatusName
+  } from "$lib/api/token";
   import Button from "$lib/components/form/Button.svelte";
   import Input from "$lib/components/form/Input.svelte";
   import { usePageData } from "$lib/stores";
@@ -97,8 +103,8 @@
           <tbody>
             {#each pageData.base.tokens as item, index (index)}
               <tr>
-                <td>{item.profile?.email ?? item.email}</td>
-                <td>{item.profile?.name ?? item.name} {item.profile?.surname ?? item.surname}</td>
+                <td>{tokenProfile(item).email}</td>
+                <td>{tokenProfile(item).name} {tokenProfile(item).surname}</td>
                 <td>{tokenStatusName(item.status)}</td>
                 <td>{toDate(item.created_at)}</td>
               </tr>

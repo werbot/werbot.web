@@ -11,13 +11,14 @@
   import { showApiError, showMessage } from "$lib/utils";
 
   const pageData = usePageData();
+  const canEditEmail = $derived(authStore.hasUserRole === 3);
 
   const onUpdateProfile = async (): Promise<void> => {
     try {
       pageData.loading = true;
 
       const fields = {
-        email: authStore.user.email?.trim(),
+        ...(canEditEmail && { email: authStore.user.email?.trim() }),
         name: authStore.user.name?.trim(),
         surname: authStore.user.surname?.trim()
       };
@@ -73,7 +74,7 @@
           bind:value={authStore.user.email}
           name="Email"
           error={pageData.error["info.email"]}
-          disabled={pageData.loading}
+          disabled={pageData.loading || !canEditEmail}
           class="flex-grow"
         />
       </div>

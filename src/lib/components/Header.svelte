@@ -70,7 +70,7 @@
         projectsTotal = res.data.result?.total ?? 0;
       }
       if (res.error) {
-        showApiError(res.error);
+        await showApiError(res.error, [404]);
       }
     } catch (err) {
       console.error("Unexpected error:", err);

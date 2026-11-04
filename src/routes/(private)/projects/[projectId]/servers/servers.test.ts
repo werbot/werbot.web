@@ -257,6 +257,8 @@ describe("servers routes", () => {
     const form = step2.container.querySelector(".artboard > form");
     expect(form).not.toBeNull();
     expect(form?.querySelectorAll(":scope > .divider")).toHaveLength(2);
+    expect(screen.getByText("Address*")).toBeInTheDocument();
+    expect(screen.getByText("Login*")).toBeInTheDocument();
     expect(form?.querySelector(".form-dropdown .label .text")).toHaveTextContent("Auth");
     expect(screen.getByRole("button", { name: "Add server" })).toBeInTheDocument();
     expect(document.title).toBe("Step 2: Fill in the fields to connect");
@@ -288,7 +290,8 @@ describe("servers routes", () => {
     });
 
     const body = postMock.mock.calls[0][2];
-    expect(body.scheme.server_ssh.access.password.password).toBe("s3cret");
+    expect(body.scheme.server_ssh.password.password).toBe("s3cret");
+    expect(body.scheme.server_ssh).not.toHaveProperty("access");
 
     await fireEvent.click(dropdown);
     await fireEvent.click(screen.getByText("Key"));
@@ -362,14 +365,14 @@ describe("servers routes", () => {
         data: {
           result: {
             country: {
-              wite_list: true,
+              white_list: true,
               list: [
                 { country_id: "1", country_code: "CN", country_name: "China" },
                 { country_id: "2", country_code: "RU", country_name: "Russian Federation" }
               ]
             },
             network: {
-              wite_list: false,
+              white_list: false,
               list: [
                 { network_id: "1", network: "192.168.1.0/24" },
                 { network_id: "2", network: "127.0.0.3" }
@@ -436,7 +439,7 @@ describe("servers routes", () => {
     const getMock = vi
       .fn()
       .mockImplementation((url: string) =>
-        url === "/country"
+        url === "/v1/system/countries"
           ? Promise.resolve({ data: { result: { countries: [] } } })
           : Promise.resolve({ data: { result: {} } })
       );
@@ -452,7 +455,7 @@ describe("servers routes", () => {
     await fireEvent.keyUp(country, { key: "a" });
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith("/country", { name: "China" });
+      expect(getMock).toHaveBeenCalledWith("/v1/system/countries", { name: "China" });
     });
   });
 
@@ -495,12 +498,7 @@ describe("servers routes", () => {
 
     const textInputs = Array.from(container.querySelectorAll('input[type="text"]')) as HTMLInputElement[];
     await waitFor(() => {
-      expect(textInputs.map((input) => input.value)).toEqual([
-        "Develop server #2",
-        "127.0.0.10",
-        "2211",
-        "ubuntu11"
-      ]);
+      expect(textInputs.map((input) => input.value)).toEqual(["Develop server #2", "127.0.0.10", "2211", "ubuntu11"]);
     });
 
     const updateKey = screen.getByRole("button", { name: "Update key" });

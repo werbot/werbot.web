@@ -148,11 +148,33 @@ describe("profile routes", () => {
     });
   });
 
-  it("setting submits trimmed profile fields", async () => {
+  it("setting submits trimmed name and surname without email for non-admin users", async () => {
     const updateMock = vi.fn().mockResolvedValue({ data: { result: {} } });
     apiMock.mockReturnValue(apiClient({ UPDATE: updateMock }));
 
     const { container } = render(Setting);
+
+    expect(inputAt(container, 0).disabled).toBe(true);
+
+    await fireEvent.input(inputAt(container, 1), { target: { value: "  Alice  " } });
+    await fireEvent.input(inputAt(container, 2), { target: { value: "  Smith  " } });
+    await fireEvent.click(screen.getByRole("button", { name: "Update profile" }));
+
+    await waitFor(() => {
+      expect(updateMock).toHaveBeenCalledTimes(2);
+    });
+    expect(updateMock).toHaveBeenNthCalledWith(1, "/v1/profiles", {}, { name: "Alice" });
+    expect(updateMock).toHaveBeenNthCalledWith(2, "/v1/profiles", {}, { surname: "Smith" });
+  });
+
+  it("setting lets admins update the email", async () => {
+    authMock.hasUserRole = 3;
+    const updateMock = vi.fn().mockResolvedValue({ data: { result: {} } });
+    apiMock.mockReturnValue(apiClient({ UPDATE: updateMock }));
+
+    const { container } = render(Setting);
+
+    expect(inputAt(container, 0).disabled).toBe(false);
 
     await fireEvent.input(inputAt(container, 0), { target: { value: "  alice@example.com  " } });
     await fireEvent.input(inputAt(container, 1), { target: { value: "  Alice  " } });

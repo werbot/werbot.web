@@ -77,14 +77,14 @@
         <Input
           bind:value={pageData.base.name}
           name="Name"
-          error={pageData.error["user_name"]}
+          error={pageData.error["create_new_profile.name"]}
           disabled={pageData.loading}
           class="mr-5 flex-grow"
         />
         <Input
           bind:value={pageData.base.surname}
           name="Surname"
-          error={pageData.error["user_surname"]}
+          error={pageData.error["create_new_profile.surname"]}
           disabled={pageData.loading}
           class="flex-grow"
         />
@@ -92,7 +92,7 @@
       <Input
         bind:value={pageData.base.email}
         name="Email"
-        error={pageData.error["email"]}
+        error={pageData.error["create_new_profile.email"]}
         disabled={pageData.loading}
         class="mt-5 flex-grow"
       />

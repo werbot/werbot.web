@@ -99,7 +99,7 @@
         name
       };
 
-      const res = await api(false).GET(`/country`, queryParams);
+      const res = await api(false).GET(`/v1/system/countries`, queryParams);
       if (res.data) {
         pageData.base.search = res.data.result;
         if (pageData.base.search.countries && pageData.base.search.countries.length > 0) {
@@ -213,12 +213,12 @@
 
       switch (rules) {
         case Rules.country:
-          pageData.tmp.country.wite_list = status;
+          pageData.tmp.country.white_list = status;
           bodyParams = { country: status };
           break;
 
         case Rules.ip:
-          pageData.tmp.network.wite_list = status;
+          pageData.tmp.network.white_list = status;
           bodyParams = { network: status };
           break;
 
@@ -293,11 +293,11 @@
     <div class="flex-none">
       <Toggle
         id="country"
-        bind:value={pageData.tmp.country.wite_list}
+        bind:value={pageData.tmp.country.white_list}
         name="Black-list"
         class="flex-grow"
         onchange={(): void => {
-          void update(pageData.tmp.country.wite_list, Rules.country);
+          void update(pageData.tmp.country.white_list, Rules.country);
         }}
       />
     </div>
@@ -305,7 +305,7 @@
     <div class="w-full pt-3">
       <Input
         bind:value={pageData.base.country}
-        error={pageData.error.country}
+        error={pageData.error.countries}
         class="flex-grow"
         placeholder="Search country ..."
         onkeyup={searchCountries}
@@ -350,11 +350,11 @@
     <div class="flex-none">
       <Toggle
         id="network"
-        bind:value={pageData.tmp.network.wite_list}
+        bind:value={pageData.tmp.network.white_list}
         name="Black-list"
         class="flex-grow"
         onchange={(): void => {
-          void update(pageData.tmp.network.wite_list, Rules.ip);
+          void update(pageData.tmp.network.white_list, Rules.ip);
         }}
       />
     </div>

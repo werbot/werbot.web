@@ -91,7 +91,7 @@ describe("projects routes", () => {
             {
               project_id: "p1",
               title: "project1",
-              login: "project1",
+              alias: "project1",
               members_count: 7,
               servers_count: 2,
               created_at: { seconds: 1_760_000_000 }
@@ -110,6 +110,7 @@ describe("projects routes", () => {
     });
 
     expect(await screen.findByRole("link", { name: "project1" })).toHaveAttribute("href", "/projects/p1");
+    expect(container.querySelector("tbody tr td:nth-child(2)")?.textContent).toBe("project1");
 
     const pages = Array.from(container.querySelectorAll(".pagination a")).map((link) => link.getAttribute("href"));
     expect(pages).toEqual(["/projects?limit=25&offset=0", "/projects?limit=25&offset=25"]);
@@ -128,22 +129,9 @@ describe("projects routes", () => {
     });
   });
 
-  it("projects list filters by member_id for role-3 users", async () => {
+  it("projects list does not send the legacy member_id filter for role-3 users", async () => {
     authMock.hasUserRole = 3;
     authMock.hasUserID = "member-7";
-    const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, projects: [] } } });
-    apiMock.mockReturnValue(apiClient({ GET: getMock }));
-
-    render(ProjectsList);
-    await tick();
-
-    await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith("/v1/projects", { member_id: "member-7" });
-    });
-  });
-
-  it("projects list does not filter by member_id for role-1 users", async () => {
-    authMock.hasUserRole = 1;
     const getMock = vi.fn().mockResolvedValue({ data: { result: { total: 0, projects: [] } } });
     apiMock.mockReturnValue(apiClient({ GET: getMock }));
 
@@ -163,11 +151,11 @@ describe("projects routes", () => {
     const { container } = render(AddProject);
 
     await fireEvent.input(inputAt(container, 0), { target: { value: "  My project  " } });
-    await fireEvent.input(inputAt(container, 1), { target: { value: "  my-project  " } });
+    await fireEvent.input(inputAt(container, 1), { target: { value: "  myproject  " } });
     await fireEvent.click(screen.getByRole("button", { name: "Add project" }));
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith("/v1/projects", {}, { title: "  My project  ", login: "my-project" });
+      expect(postMock).toHaveBeenCalledWith("/v1/projects", {}, { title: "  My project  ", alias: "myproject" });
     });
     expect(gotoMock).toHaveBeenCalledWith("/projects/p1");
   });
@@ -199,8 +187,9 @@ describe("projects routes", () => {
     projectMock.projects = {
       [projectId]: {
         info: {
+          title: "Project One",
           servers_count: 2,
-          database_count: 3,
+          databases_count: 3,
           applications_count: 4,
           desktops_count: 5,
           containers_count: 6,
@@ -218,9 +207,11 @@ describe("projects routes", () => {
       expect(projectMock.projectInfo).toHaveBeenCalledWith(projectId);
     });
 
+    expect(screen.getByRole("heading", { name: "Project One" })).toBeInTheDocument();
     expect(screen.getByText("Project information")).toBeInTheDocument();
     expect(container.querySelector('a[href="/projects/' + projectId + '/servers"]')).not.toBeNull();
     expect(screen.getByText("2")).toBeInTheDocument();
+    expect(screen.getByText("3")).toBeInTheDocument();
   });
 
   it("project settings tabs mark the active route", async () => {

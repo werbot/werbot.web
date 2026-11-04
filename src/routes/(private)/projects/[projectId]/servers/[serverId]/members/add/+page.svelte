@@ -4,7 +4,14 @@
   import { page } from "$app/state";
 
   import { api } from "$lib/api";
-  import { createSchemeToken, deleteToken, listSchemeTokens, tokenAcceptLink, tokenStatusName } from "$lib/api/token";
+  import {
+    createSchemeToken,
+    deleteToken,
+    listSchemeTokens,
+    tokenAcceptLink,
+    tokenProfile,
+    tokenStatusName
+  } from "$lib/api/token";
   import Badge from "$lib/components/Badge.svelte";
   import Pagination from "$lib/components/Pagination.svelte";
   import SvgIcon from "$lib/components/SvgIcon.svelte";
@@ -233,7 +240,7 @@
           <tbody>
             {#each pageData.base.schemeInvites as item, index (index)}
               <tr>
-                <td>{item.profile?.email ?? item.email}</td>
+                <td>{tokenProfile(item).email}</td>
                 <td>{tokenStatusName(item.status)}</td>
                 <td>{toDate(item.created_at)}</td>
                 <td>

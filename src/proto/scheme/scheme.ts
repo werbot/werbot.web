@@ -512,9 +512,9 @@ export interface SchemeFirewall_Response {
  */
 export interface SchemeFirewall_Countries {
     /**
-     * @generated from protobuf field: bool wite_list = 1
+     * @generated from protobuf field: bool white_list = 1
      */
-    wite_list: boolean;
+    white_list: boolean;
     /**
      * @generated from protobuf field: int32 total = 2
      */
@@ -529,9 +529,9 @@ export interface SchemeFirewall_Countries {
  */
 export interface SchemeFirewall_Networks {
     /**
-     * @generated from protobuf field: bool wite_list = 1
+     * @generated from protobuf field: bool white_list = 1
      */
-    wite_list: boolean;
+    white_list: boolean;
     /**
      * @generated from protobuf field: int32 total = 2
      */
@@ -1299,7 +1299,7 @@ export const SchemeFirewall_Response = new SchemeFirewall_Response$Type();
 class SchemeFirewall_Countries$Type extends MessageType<SchemeFirewall_Countries> {
     constructor() {
         super("scheme.SchemeFirewall.Countries", [
-            { no: 1, name: "wite_list", kind: "scalar", localName: "wite_list", T: 8 /*ScalarType.BOOL*/ },
+            { no: 1, name: "white_list", kind: "scalar", localName: "white_list", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "list", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Country }
         ]);
@@ -1313,7 +1313,7 @@ export const SchemeFirewall_Countries = new SchemeFirewall_Countries$Type();
 class SchemeFirewall_Networks$Type extends MessageType<SchemeFirewall_Networks> {
     constructor() {
         super("scheme.SchemeFirewall.Networks", [
-            { no: 1, name: "wite_list", kind: "scalar", localName: "wite_list", T: 8 /*ScalarType.BOOL*/ },
+            { no: 1, name: "white_list", kind: "scalar", localName: "white_list", T: 8 /*ScalarType.BOOL*/ },
             { no: 2, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 3, name: "list", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => Network }
         ]);
@@ -1340,7 +1340,7 @@ class AddSchemeFirewall_Request$Type extends MessageType<AddSchemeFirewall_Reque
             { no: 1, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 2, name: "project_id", kind: "scalar", localName: "project_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
             { no: 3, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { uuid: true } } } },
-            { no: 4, name: "network", kind: "scalar", oneof: "record", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { ip: true } } } },
+            { no: 4, name: "network", kind: "scalar", oneof: "record", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { cel: [{ id: "valid_network", message: "must be a valid IP address or CIDR", expression: "this == '' || this.isIp() || this.isIpPrefix()" }] } } },
             { no: 5, name: "country_code", kind: "scalar", localName: "country_code", oneof: "record", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { string: { len: "2" } } } }
         ]);
     }

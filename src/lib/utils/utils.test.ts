@@ -45,7 +45,7 @@ describe("checkTimestampDifference", () => {
   });
 
   it("rejects a timestamp older than the lifetime window", () => {
-    expect(checkTimestampDifference(Date.now() - 5000, 3600)).toBe(false);
+    expect(checkTimestampDifference(Date.now() - 3601 * 1000, 3600)).toBe(false);
   });
 });
 

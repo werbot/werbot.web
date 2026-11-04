@@ -33,10 +33,6 @@
 
   let copied = $state(false);
 
-  // Legacy compared the route value against `ServerScheme[3]`. The numeric enum has
-  // no key 3, so the SSH block never rendered; the baseline records that state.
-  const showSsh = $derived(scheme === (ServerScheme as unknown as Record<number, string>)[3]);
-
   const resolveSchemeKey = (value: string | null): string | null => {
     if (!value) {
       return null;
@@ -48,20 +44,33 @@
     return typeof schemeName === "string" && schemeName.startsWith("server_") ? schemeName : null;
   };
 
+  const showSsh = $derived(resolveSchemeKey(scheme) === "server_ssh");
+  const schemeKey = $derived(resolveSchemeKey(scheme) ?? "server_ssh");
+  const authKey = $derived(pageData.base.auth === AuthMethod.key ? "key" : "password");
+  const errorKeys = $derived({
+    address: `scheme.${schemeKey}.address`,
+    port: `scheme.${schemeKey}.port`,
+    login: `scheme.${schemeKey}.${authKey}.login`,
+    password: `scheme.${schemeKey}.${authKey}.password`,
+    key: `scheme.${schemeKey}.key.key_id`
+  });
+
   const buildAccessScheme = (): Record<string, any> => {
-    const schemeKey = resolveSchemeKey(scheme) ?? "server_ssh";
     const { base } = pageData;
     const address = base.address?.trim();
     const login = base.login?.trim();
+    const auth =
+      base.auth === AuthMethod.key
+        ? { key: { login, key_id: base.access.key_id } }
+        : { password: { login, password: base.access.password?.trim() } };
 
     return {
       [schemeKey]: {
         address,
         port: base.port === "" || base.port == null ? base.port : Number(base.port),
-        access:
-          base.auth === AuthMethod.key
-            ? { key: { login, key_id: base.access.key_id } }
-            : { password: { login, password: base.access.password?.trim() } }
+        // SSH keeps the auth method as a sibling of address/port; other server
+        // types nest it under `access`.
+        ...(schemeKey === "server_ssh" ? auth : { access: auth })
       }
     };
   };
@@ -192,21 +201,21 @@
             <Input
               bind:value={pageData.base.address}
               name="Address"
-              error={pageData.error["address"]}
+              error={pageData.error[errorKeys.address]}
               class="mr-5 flex-grow"
               required={true}
             />
             <Input
               bind:value={pageData.base.port}
               name="Port"
-              error={pageData.error["port"]}
+              error={pageData.error[errorKeys.port]}
               class="mr-5 flex-grow"
               required={true}
             />
             <Input
               bind:value={pageData.base.login}
               name="Login"
-              error={pageData.error["login"]}
+              error={pageData.error[errorKeys.login]}
               class="flex-grow"
               required={true}
             />
@@ -248,7 +257,7 @@
           <Input
             bind:value={pageData.base.access.password}
             name="Password"
-            error={pageData.error["password"]}
+            error={pageData.error[errorKeys.password]}
             type="password"
             autocomplete="current-password"
           />
@@ -261,7 +270,7 @@
             <Input
               bind:value={pageData.base.public_key}
               name="Public key"
-              error={pageData.error["public_key"]}
+              error={pageData.error[errorKeys.key]}
               disabled={true}
               class="grow"
             />
