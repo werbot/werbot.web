@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, untrack } from "svelte";
 
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
@@ -51,15 +51,17 @@
   const buildAccessScheme = (): Record<string, any> => {
     const schemeKey = resolveSchemeKey(scheme) ?? "server_ssh";
     const { base } = pageData;
+    const address = base.address?.trim();
+    const login = base.login?.trim();
 
     return {
       [schemeKey]: {
-        address: base.address,
+        address,
         port: base.port === "" || base.port == null ? base.port : Number(base.port),
         access:
           base.auth === AuthMethod.key
-            ? { key: { login: base.login, key_id: base.access.key_id } }
-            : { password: { login: base.login, password: base.access.password } }
+            ? { key: { login, key_id: base.access.key_id } }
+            : { password: { login, password: base.access.password?.trim() } }
       }
     };
   };
@@ -107,17 +109,19 @@
   $effect(() => {
     const auth = pageData.base.auth;
 
-    if (auth == AuthMethod.password) {
-      pageData.base.access.password = "";
-      delete pageData.base.public_key;
-      delete pageData.base.access.key;
-    } else if (auth == AuthMethod.key) {
-      void genNewKey();
-      if (pageData.base.access.password) {
-        delete pageData.base.access.password;
+    untrack(() => {
+      if (auth == AuthMethod.password) {
+        pageData.base.access.password = "";
+        delete pageData.base.public_key;
+        delete pageData.base.access.key;
+      } else if (auth == AuthMethod.key) {
+        void genNewKey();
+        if (pageData.base.access.password) {
+          delete pageData.base.access.password;
+        }
       }
-    }
-    pageData.error.auth = null;
+      pageData.error.auth = null;
+    });
   });
 
   const onSubmit = async (): Promise<void> => {

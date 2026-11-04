@@ -88,13 +88,15 @@
 
   // country
   const searchCountries = async (): Promise<void> => {
-    if ((pageData.base.country ?? "").length <= 2) {
+    const name = String(pageData.base.country ?? "").trim();
+
+    if (name.length <= 2) {
       return;
     }
     pageData.tmp.country.list = Array.isArray(pageData.tmp.country.list) ? pageData.tmp.country.list : [];
     try {
       const queryParams = <Countries_Request>{
-        name: pageData.base.country
+        name
       };
 
       const res = await api(false).GET(`/country`, queryParams);

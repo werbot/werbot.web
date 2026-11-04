@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/svelte";
+import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
 import { tick } from "svelte";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -262,6 +262,43 @@ describe("servers routes", () => {
     expect(gotoMock).not.toHaveBeenCalled();
   });
 
+  it("server add trims the access password and generates one key per auth switch", async () => {
+    setPageState(`/projects/${projectId}/servers/add/server_ssh`, { projectId, scheme: "server_ssh" });
+
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { public: "ssh-rsa AAAA", uuid: "key-1" } } });
+    const postMock = vi.fn().mockResolvedValue({ data: { message: "Server added" } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock, POST: postMock }));
+
+    const { container } = render(ServersAddScheme);
+    await tick();
+
+    const dropdown = container.querySelector(".form-dropdown button") as HTMLButtonElement;
+    await fireEvent.click(dropdown);
+    await fireEvent.click(screen.getByText("1"));
+    await tick();
+
+    const password = container.querySelector('input[type="password"]') as HTMLInputElement;
+    await fireEvent.input(password, { target: { value: "  s3cret  " } });
+    await fireEvent.click(screen.getByRole("button", { name: "Add server" }));
+
+    await waitFor(() => {
+      expect(postMock).toHaveBeenCalledTimes(1);
+    });
+
+    const body = postMock.mock.calls[0][2];
+    expect(body.scheme.server_ssh.access.password.password).toBe("s3cret");
+
+    await fireEvent.click(dropdown);
+    await fireEvent.click(screen.getByText("2"));
+    await tick();
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith(`/v1/keys/generate`);
+    });
+    await tick();
+    expect(getMock).toHaveBeenCalledTimes(1);
+  });
+
   it("server detail tabs resolve serverId from params", async () => {
     for (const page of SERVER_PAGES) {
       setPageState(page.path, page.params);
@@ -391,5 +428,29 @@ describe("servers routes", () => {
 
     expect(firewall.container.querySelectorAll("input[type=text]")).toHaveLength(2);
     expect(firewall.container.querySelectorAll(".toggle")).toHaveLength(2);
+  });
+
+  it("firewall country search sends the trimmed query", async () => {
+    const getMock = vi
+      .fn()
+      .mockImplementation((url: string) =>
+        url === "/country"
+          ? Promise.resolve({ data: { result: { countries: [] } } })
+          : Promise.resolve({ data: { result: {} } })
+      );
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    setPageState(`${serverBase}/firewall`, { projectId, serverId });
+
+    const { container } = render(ServerFirewall);
+    await tick();
+
+    const country = container.querySelector("input[type=text]") as HTMLInputElement;
+    await fireEvent.input(country, { target: { value: "  China  " } });
+    await fireEvent.keyUp(country, { key: "a" });
+
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith("/country", { name: "China" });
+    });
   });
 });
