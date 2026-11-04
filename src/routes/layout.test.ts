@@ -57,6 +57,7 @@ vi.mock("$lib/stores", () => ({
 
 import { setPageState } from "$lib/test/page.svelte";
 import PrivateLayout from "$lib/layouts/PrivateLayout.svelte";
+import GroupLayout from "@/routes/(private)/+layout.svelte";
 import { load } from "@/routes/(private)/+layout";
 import ErrorPage from "@/routes/+error.svelte";
 
@@ -178,6 +179,109 @@ describe("private layout branches", () => {
     expect(content?.querySelector(".left")).not.toBeNull();
     expect(content?.querySelector(".left .sidebar")).not.toBeNull();
     expect(content?.querySelector(".right #alert")).not.toBeNull();
+    expect(screen.getByText("child")).toBeInTheDocument();
+  });
+});
+
+describe("private layout websocket protocol", () => {
+  beforeEach(() => {
+    gotoMock.mockClear();
+    wsMock.open.mockClear();
+    wsMock.close.mockClear();
+    wsMock.send.mockClear();
+    wsMock.status = "CLOSED";
+    wsMock.data = null;
+    authMock.hasUserRole = 2;
+    authMock.hasUserID = "profile-1";
+    setPageState("/");
+    apiMock.mockReturnValue({
+      GET: vi.fn().mockResolvedValue({ data: { result: { projects: [], total: 0 } } })
+    });
+  });
+
+  it("opens the socket on mount and closes it on unmount", async () => {
+    const { unmount } = render(PrivateLayout, { props: { children: snippet("<span>child</span>") } });
+    await tick();
+
+    expect(wsMock.open).toHaveBeenCalledTimes(1);
+    expect(wsMock.close).not.toHaveBeenCalled();
+
+    unmount();
+
+    expect(wsMock.close).toHaveBeenCalledTimes(1);
+  });
+
+  it("sends the subscribe frame when the socket is open", async () => {
+    wsMock.status = "OPEN";
+
+    render(PrivateLayout, { props: { children: snippet("<span>child</span>") } });
+    await tick();
+
+    expect(wsMock.send).toHaveBeenCalledTimes(1);
+    expect(wsMock.send).toHaveBeenCalledWith(JSON.stringify({ action: "subscribe", user_id: "profile-1" }));
+  });
+
+  it("answers a 200 subscribe frame with an info request", async () => {
+    wsMock.data = '{"code":200,"action":"subscribe"}';
+
+    render(PrivateLayout, { props: { children: snippet("<span>child</span>") } });
+    await tick();
+
+    expect(wsMock.send).toHaveBeenCalledTimes(1);
+    expect(wsMock.send).toHaveBeenCalledWith(JSON.stringify({ action: "info" }));
+  });
+
+  it("closes and reopens the socket on a 401 frame", async () => {
+    wsMock.data = '{"code":401}';
+
+    render(PrivateLayout, { props: { children: snippet("<span>child</span>") } });
+    await tick();
+
+    expect(wsMock.close).toHaveBeenCalledTimes(1);
+    expect(wsMock.open).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("private group layout data wiring", () => {
+  beforeEach(() => {
+    gotoMock.mockClear();
+    wsMock.open.mockClear();
+    wsMock.close.mockClear();
+    wsMock.send.mockClear();
+    wsMock.status = "CLOSED";
+    wsMock.data = null;
+    authMock.hasUserRole = 3;
+    authMock.hasUserID = null;
+    setPageState("/");
+    apiMock.mockReturnValue({
+      GET: vi.fn().mockResolvedValue({ data: { result: { projects: [], total: 0 } } })
+    });
+  });
+
+  it("reads layoutStyle from page data and renders the blank branch", async () => {
+    setPageState("/", {}, { layoutStyle: "blank" });
+
+    const { container } = render(GroupLayout, {
+      props: { children: snippet('<div class="artboard">child</div>') }
+    });
+    await tick();
+
+    const content = container.querySelector(".px-6 > .content");
+    expect(content).not.toBeNull();
+    expect(content?.querySelector(".left")).toBeNull();
+    expect(content?.querySelector("#alert")).not.toBeNull();
+    expect(screen.getByText("child")).toBeInTheDocument();
+  });
+
+  it("renders the sidebar branch when page data has no layoutStyle", async () => {
+    setPageState("/profile/setting");
+
+    const { container } = render(GroupLayout, {
+      props: { children: snippet('<div class="artboard">child</div>') }
+    });
+    await tick();
+
+    expect(container.querySelector(".px-6 > .content .left")).not.toBeNull();
     expect(screen.getByText("child")).toBeInTheDocument();
   });
 });

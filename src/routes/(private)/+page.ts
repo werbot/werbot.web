@@ -1,3 +1,3 @@
-export function load(): { layoutStyle: string } {
+export function load(): { layoutStyle: "blank" } {
   return { layoutStyle: "blank" };
 }
