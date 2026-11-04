@@ -1,8 +1,14 @@
 import { ROUTES } from "../../src/lib/navigation/registry";
 import type { GeneratedRoute } from "./types";
 
+const CORE_PATTERNS = new Set(ROUTES.map((route) => route.pattern));
+const CORE_NAMES = new Set(ROUTES.map((route) => route.name));
+
 export function joinPath(parent: string, child: string): string {
-  return `/${[parent, child].join("/").split("/").filter(Boolean).join("/")}`;
+  // vue-router treats a nested absolute path as rooted, not as a child.
+  const base = child.startsWith("/") ? "" : parent;
+
+  return `/${[base, child].join("/").split("/").filter(Boolean).join("/")}`;
 }
 
 function convertSegment(segment: string): string {
@@ -58,14 +64,26 @@ export class RouteCollector {
   add(route: GeneratedRoute): void {
     const url = convertPath(route.pattern);
 
+    if (CORE_PATTERNS.has(url)) {
+      throw new Error(`Add-on route collides with core route: ${url}`);
+    }
+
     if (this.routes.has(url)) {
       throw new Error(`Duplicate add-on route: ${url}`);
+    }
+
+    if (route.name && CORE_NAMES.has(route.name)) {
+      throw new Error(`Add-on route name collides with core route: ${route.name}`);
     }
 
     route.pattern = url;
     this.routes.set(url, route);
 
     if (route.name) {
+      if (this.names.has(route.name)) {
+        console.warn(`[addons] Duplicate add-on route name "${route.name}"; last one wins`);
+      }
+
       this.names.set(route.name, url);
     }
   }

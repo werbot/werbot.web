@@ -5,6 +5,8 @@ import { convertPath, joinPath, RouteCollector, segmentsFromUrl } from "./paths"
 import { type AddonRouteNode, type GeneratedRoute, type Section, SECTION_LAYOUT } from "./types";
 import { exists } from "./fs-utils";
 
+const SUPPORTED_LAYOUTS = new Set(["private", "auth", "blank"]);
+
 function componentSpecifier(component: unknown): string | undefined {
   if (typeof component === "string") {
     return component;
@@ -71,7 +73,17 @@ export function collectNodes(
 ): void {
   for (const node of nodes) {
     const url = joinPath(parentUrl, node.path ?? "");
-    const group = node.meta?.layout ?? SECTION_LAYOUT[section];
+    const requestedLayout = node.meta?.layout;
+    let group = SECTION_LAYOUT[section];
+
+    if (requestedLayout !== undefined) {
+      if (SUPPORTED_LAYOUTS.has(requestedLayout)) {
+        group = requestedLayout;
+      } else {
+        console.warn(`[addons] Unknown layout "${requestedLayout}" on route ${url}; using "${group}"`);
+      }
+    }
+
     const segments = segmentsFromUrl(convertPath(url));
 
     if (node.component) {
@@ -146,23 +158,21 @@ export function resolveRedirects(routes: GeneratedRoute[], collector: RouteColle
   });
 }
 
-function pageSource(component: string): string {
-  return `<script lang="ts">
-  import { page } from "$app/state";
+function pageSource(component: string, props: boolean): string {
+  const passedProps = props ? " {...page.params}" : "";
+  const pageImport = props ? '  import { page } from "$app/state";\n\n' : "";
 
-  const component = import("${component}").then((module) => module.default);
+  return `<script lang="ts">
+${pageImport}  const component = import("${component}").then((module) => module.default);
 </script>
 
-{#await component then Component}
-  <Component {...page.params} />
+{#await component}
+  <p>Loading add-on page...</p>
+{:then Component}
+  <Component${passedProps} />
+{:catch error}
+  <p>Failed to load add-on page: {error instanceof Error ? error.message : String(error)}</p>
 {/await}
-`;
-}
-
-function propsLoadSource(): string {
-  return `export function load({ params }: { params: Record<string, string> }): Record<string, string> {
-  return params;
-}
 `;
 }
 
@@ -175,10 +185,19 @@ export function load(): never {
 `;
 }
 
+async function ensureWritable(file: string, previousFiles: Set<string>): Promise<void> {
+  if (previousFiles.has(file) || !(await exists(file))) {
+    return;
+  }
+
+  throw new Error(`Refusing to overwrite existing route file: ${file}`);
+}
+
 export async function writeRouteFiles(
   routesDir: string,
   routes: GeneratedRoute[],
-  collector: RouteCollector
+  collector: RouteCollector,
+  previousFiles: Set<string>
 ): Promise<string[]> {
   const files: string[] = [];
 
@@ -194,6 +213,7 @@ export async function writeRouteFiles(
       }
 
       const loadFile = path.join(dir, "+page.ts");
+      await ensureWritable(loadFile, previousFiles);
       await fs.mkdir(dir, { recursive: true });
       await fs.writeFile(loadFile, redirectLoadSource(target));
       files.push(loadFile);
@@ -204,17 +224,11 @@ export async function writeRouteFiles(
       continue;
     }
 
-    await fs.mkdir(dir, { recursive: true });
-
     const pageFile = path.join(dir, "+page.svelte");
-    await fs.writeFile(pageFile, pageSource(route.component));
+    await ensureWritable(pageFile, previousFiles);
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(pageFile, pageSource(route.component, route.props));
     files.push(pageFile);
-
-    if (route.props) {
-      const loadFile = path.join(dir, "+page.ts");
-      await fs.writeFile(loadFile, propsLoadSource());
-      files.push(loadFile);
-    }
   }
 
   return files;

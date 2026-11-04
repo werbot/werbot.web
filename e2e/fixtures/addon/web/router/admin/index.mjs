@@ -5,7 +5,7 @@ export const route = [
       {
         path: "fixture",
         name: "admin-fixture",
-        component: () => import("@addon/addon/web/pages/admin/fixture.vue"),
+        component: () => import("../../pages/admin/fixture.svelte"),
         props: true
       }
     ]
