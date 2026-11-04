@@ -177,6 +177,36 @@ describe("generateAddons", () => {
     expect(load).toContain("return params");
   });
 
+  it("writes a redirect load file for a named target", async () => {
+    const addon = nextName("demo");
+    await addAddon(
+      addon,
+      "admin",
+      `export const route = [
+        {
+          path: "/admin",
+          children: [
+            {
+              path: "redirect",
+              name: "admin-redirect",
+              redirect: { name: "admin-settings" }
+            }
+          ]
+        }
+      ];`
+    );
+
+    const out = await createOut();
+    const outDir = path.join(out, "src", "generated", "addons");
+    await generateAddons({ roots: [ADDON_ROOT], outDir });
+
+    const registry = await readFile(path.join(outDir, "index.ts"), "utf8");
+    expect(registry).toContain('"pattern": "/admin/redirect"');
+
+    const load = await readFile(path.join(out, "src", "routes", "(private)", "admin", "redirect", "+page.ts"), "utf8");
+    expect(load).toContain('redirect(307, "/admin/settings")');
+  });
+
   it("throws on duplicate URL", async () => {
     const first = nextName("demo");
     const second = nextName("demo");

@@ -24,10 +24,6 @@ export function segmentsFromUrl(url: string): string {
   return url.split("/").filter(Boolean).join("/");
 }
 
-function routeKey(name: string, params: Record<string, string> = {}): string {
-  return `${name}:${JSON.stringify(params)}`;
-}
-
 function fillPattern(pattern: string, params: Record<string, string>): string {
   let url = "";
 
@@ -70,7 +66,7 @@ export class RouteCollector {
     this.routes.set(url, route);
 
     if (route.name) {
-      this.names.set(routeKey(route.name), url);
+      this.names.set(route.name, url);
     }
   }
 
@@ -84,8 +80,7 @@ export class RouteCollector {
     }
 
     const params = redirect.params ?? {};
-    const key = routeKey(redirect.name, params);
-    const addonPattern = this.names.get(key);
+    const addonPattern = this.names.get(redirect.name);
     const corePattern = ROUTES.find((route) => route.name === redirect.name)?.pattern;
     const pattern = addonPattern ?? corePattern;
 
