@@ -3,6 +3,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   checkTimestampDifference,
   costFormat,
+  eventSectionLabel,
+  eventTypeLabel,
   getAddressType,
   getSetting,
   getStorage,
@@ -13,6 +15,9 @@ import {
   toDate,
   toInfinity
 } from "$lib/utils";
+
+import { Type } from "@proto/event/enum";
+import { Project_Section } from "@proto/event/message";
 
 describe("toDate", () => {
   it("formats a protobuf timestamp with the full locale format", () => {
@@ -25,6 +30,43 @@ describe("toDate", () => {
 
   it("uses the short locale format for the lite method", () => {
     expect(toDate({ seconds: 1700000000 }, "lite")).toBe(new Date(1700000000000).toLocaleDateString());
+  });
+});
+
+describe("event labels", () => {
+  it("maps every project section to a readable label", () => {
+    expect(eventSectionLabel(Project_Section.project)).toBe("Project");
+    expect(eventSectionLabel(Project_Section.setting)).toBe("Settings");
+    expect(eventSectionLabel(Project_Section.member)).toBe("Members");
+    expect(eventSectionLabel(Project_Section.team)).toBe("Teams");
+    expect(eventSectionLabel(Project_Section.server)).toBe("Servers");
+    expect(eventSectionLabel(Project_Section.database)).toBe("Databases");
+    expect(eventSectionLabel(Project_Section.application)).toBe("Applications");
+    expect(eventSectionLabel(Project_Section.desktop)).toBe("Desktops");
+    expect(eventSectionLabel(Project_Section.container)).toBe("Containers");
+    expect(eventSectionLabel(Project_Section.cloud)).toBe("Clouds");
+  });
+
+  it("maps every event type to a readable label", () => {
+    expect(eventTypeLabel(Type.onOnline)).toBe("Online");
+    expect(eventTypeLabel(Type.onOffline)).toBe("Offline");
+    expect(eventTypeLabel(Type.onCreate)).toBe("Created");
+    expect(eventTypeLabel(Type.onEdit)).toBe("Edited");
+    expect(eventTypeLabel(Type.onRemove)).toBe("Removed");
+    expect(eventTypeLabel(Type.onActive)).toBe("Activated");
+    expect(eventTypeLabel(Type.onInactive)).toBe("Deactivated");
+    expect(eventTypeLabel(Type.onChange)).toBe("Changed");
+    expect(eventTypeLabel(Type.onLogin)).toBe("Signed in");
+    expect(eventTypeLabel(Type.onLogoff)).toBe("Signed out");
+    expect(eventTypeLabel(Type.onReset)).toBe("Reset");
+    expect(eventTypeLabel(Type.onUpdate)).toBe("Updated");
+    expect(eventTypeLabel(Type.onRequest)).toBe("Requested");
+    expect(eventTypeLabel(Type.onMessage)).toBe("Message");
+  });
+
+  it("falls back to Unknown for an unmapped value", () => {
+    expect(eventSectionLabel(999)).toBe("Unknown");
+    expect(eventTypeLabel(999)).toBe("Unknown");
   });
 });
 

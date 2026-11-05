@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/svelte";
 import { tick } from "svelte";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -124,12 +124,33 @@ describe("project logs route", () => {
     await waitFor(() => {
       expect(getMock).toHaveBeenCalledWith(`/v1/event/project/${projectId}`, {});
     });
-    expect(await screen.findByText("member")).toBeInTheDocument();
-    expect(screen.getByText("onCreate")).toBeInTheDocument();
+    const tableBody = container.querySelector("tbody") as HTMLElement;
+    expect(await within(tableBody).findByText("Members")).toBeInTheDocument();
+    expect(within(tableBody).getByText("Created")).toBeInTheDocument();
 
     await fireEvent.click(container.querySelector("tbody tr") as HTMLTableRowElement);
     expect(await screen.findByText("session-1")).toBeInTheDocument();
     expect(screen.getByText(/"action": "add"/)).toBeInTheDocument();
+  });
+
+  it("shows a placeholder when the event has no metadata", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    const row = eventRow(session);
+    delete row.meta_data;
+
+    apiMock.mockReturnValue(
+      apiClient({
+        GET: vi.fn().mockResolvedValue({ data: { result: { total: 1, events: [row] } } })
+      })
+    );
+
+    const { container } = render(Logs);
+    await tick();
+
+    await fireEvent.click(await screen.findByRole("button", { name: "Open event details" }));
+
+    expect(await screen.findByText("No metadata")).toBeInTheDocument();
+    expect(container.querySelector(".drawer")).toHaveClass("is-open");
   });
 
   it("exposes the search field and row actions to keyboard and screen-reader users", async () => {
@@ -145,7 +166,8 @@ describe("project logs route", () => {
     const input = screen.getByRole("textbox", { name: "Search by IP or User-Agent" });
     expect(input).toHaveAttribute("placeholder", "Search by IP or User-Agent");
     expect(input).toHaveAttribute("maxlength", "128");
-    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Filter by section: All sections" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Filter by event type: All events" })).toBeInTheDocument();
 
     await fireEvent.click(await screen.findByRole("button", { name: "Open event details" }));
 
@@ -188,11 +210,52 @@ describe("project logs route", () => {
       render(Logs);
       await tick();
 
-      expect(await screen.findByText("No events")).toBeInTheDocument();
+      expect(await screen.findByText("No events match your filters")).toBeInTheDocument();
       expect(messages).toEqual([]);
     } finally {
       window.removeEventListener("connextError", capture);
     }
+  });
+
+  it("offers to clear filters when no events match", async () => {
+    setPageState(`/projects/${projectId}/logs?section=3`, { projectId });
+    apiMock.mockReturnValue(
+      apiClient({
+        GET: vi.fn().mockResolvedValue({ data: { result: { total: 0, events: [] } } })
+      })
+    );
+
+    render(Logs);
+    await tick();
+
+    expect(await screen.findByText("No events match your filters")).toBeInTheDocument();
+    expect(screen.getByText("Try a different search, section or event type.")).toBeInTheDocument();
+
+    await fireEvent.click(screen.getByRole("button", { name: "Clear filters" }));
+
+    expect(gotoMock).toHaveBeenCalledWith(
+      `/projects/${projectId}/logs?limit=25&offset=0`,
+      expect.objectContaining({ replaceState: true })
+    );
+  });
+
+  it("shows reset only when a filter or search is active", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    apiMock.mockReturnValue(
+      apiClient({
+        GET: vi.fn().mockResolvedValue({ data: { result: { total: 0, events: [] } } })
+      })
+    );
+
+    const { container } = render(Logs);
+    await tick();
+
+    expect(screen.queryByRole("button", { name: "Reset" })).toBeNull();
+
+    const input = container.querySelector("#logs-search") as HTMLInputElement;
+    await fireEvent.input(input, { target: { value: "10.0" } });
+
+    expect(screen.getByRole("button", { name: "Reset" })).toBeInTheDocument();
   });
 
   it("updates the URL when a filter is applied", async () => {
@@ -208,7 +271,7 @@ describe("project logs route", () => {
 
     const sectionButton = container.querySelector(".form-dropdown button") as HTMLButtonElement;
     await fireEvent.click(sectionButton);
-    await fireEvent.click(screen.getByText("member"));
+    await fireEvent.click(screen.getByText("Members"));
 
     await waitFor(() => {
       expect(gotoMock).toHaveBeenCalledWith(
@@ -339,10 +402,30 @@ describe("project logs route", () => {
       await waitFor(() => {
         expect(messages).toEqual(["Bad Request"]);
       });
-      expect(screen.queryByText("No events")).toBeNull();
+      expect(screen.getByText("Couldn't load activity")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Try again" })).toBeInTheDocument();
+      expect(screen.queryByText("No activity yet")).toBeNull();
+      expect(screen.queryByText("0 events")).toBeNull();
     } finally {
       window.removeEventListener("connextWarning", capture);
     }
+  });
+
+  it("retries the request from the error state", async () => {
+    setPageState(`/projects/${projectId}/logs`, { projectId });
+    const getMock = vi
+      .fn()
+      .mockResolvedValueOnce({ error: { code: 500, result: "Internal error" } })
+      .mockResolvedValueOnce({ data: { result: { total: 1, events: [eventRow(session)] } } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    render(Logs);
+    await tick();
+
+    await fireEvent.click(await screen.findByRole("button", { name: "Try again" }));
+
+    expect(await screen.findByText("192.168.0.1")).toBeInTheDocument();
+    expect(getMock).toHaveBeenCalledTimes(2);
   });
 
   it("shows the empty state only after the first response", async () => {
@@ -350,14 +433,19 @@ describe("project logs route", () => {
     const response = deferred<unknown>();
     apiMock.mockReturnValue(apiClient({ GET: vi.fn().mockReturnValue(response.promise) }));
 
-    render(Logs);
+    const { container } = render(Logs);
     await tick();
 
-    expect(screen.queryByText("No events")).toBeNull();
+    const table = container.querySelector("table") as HTMLTableElement;
+    expect(table).toHaveAttribute("aria-busy", "true");
+    expect(container.querySelector("tbody tr[aria-hidden='true']")).not.toBeNull();
+    expect(screen.queryByText("No activity yet")).toBeNull();
 
     response.resolve({ data: { result: { total: 0, events: [] } } });
 
-    expect(await screen.findByText("No events")).toBeInTheDocument();
+    expect(await screen.findByText("No activity yet")).toBeInTheDocument();
+    expect(table).toHaveAttribute("aria-busy", "false");
+    expect(container.querySelector("tbody tr[aria-hidden='true']")).toBeNull();
   });
 
   it("clears the previous project rows when the project changes", async () => {

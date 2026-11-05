@@ -1,4 +1,5 @@
 export * from "./color";
+export * from "./event";
 export * from "./format";
 export * from "./jwt";
 export * from "./message";

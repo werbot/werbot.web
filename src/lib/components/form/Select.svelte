@@ -13,6 +13,7 @@
     required?: boolean;
     options: SelectOption[];
     class?: string;
+    ariaLabel?: string;
     onchange?: (value: string | number) => void;
   }
 
@@ -23,6 +24,7 @@
     required,
     options,
     class: className = "",
+    ariaLabel,
     onchange,
     ...rest
   }: Props = $props();
@@ -39,6 +41,7 @@
   const selectedLabel = $derived(
     selectedOption !== undefined ? optionLabel(selectedOption) : (value ?? "Choose option")
   );
+  const accessibleLabel = $derived(ariaLabel ? `${ariaLabel}: ${selectedLabel}` : undefined);
 
   const toggle = (): void => {
     open = !open;
@@ -69,7 +72,7 @@
   </label>
 
   <div use:clickOutside={close}>
-    <button type="button" onclick={toggle}>
+    <button type="button" aria-label={accessibleLabel} onclick={toggle}>
       <span>{selectedLabel}</span>
       <SvgIcon name="chevron_down" />
     </button>

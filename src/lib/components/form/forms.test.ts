@@ -95,6 +95,14 @@ describe("form components", () => {
     expect(screen.getByTestId("bound").textContent).toBe("2");
   });
 
+  it("Select exposes an optional accessible name on the trigger", () => {
+    render(SelectHost, {
+      props: { name: "Section", initial: "project", options: ["project", "member"], ariaLabel: "Filter by section" }
+    });
+
+    expect(screen.getByRole("button", { name: "Filter by section: project" })).toBeInTheDocument();
+  });
+
   it("Select closes when clicking outside", async () => {
     render(SelectHost, { props: { name: "Region", initial: "eu", options: ["eu", "us"] } });
 
