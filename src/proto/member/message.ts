@@ -49,9 +49,58 @@ export interface ProjectMembers_Response {
      */
     total: number;
     /**
-     * @generated from protobuf field: repeated membermessage.ProjectMember.Response members = 2
+     * @generated from protobuf field: repeated membermessage.ProjectMembers.Item members = 2
      */
-    members: ProjectMember_Response[];
+    members: ProjectMembers_Item[];
+}
+/**
+ * @generated from protobuf message membermessage.ProjectMembers.Item
+ */
+export interface ProjectMembers_Item {
+    /**
+     * @generated from protobuf field: string member_id = 1
+     */
+    member_id: string;
+    /**
+     * @generated from protobuf field: string name = 2
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: profileenum.Role role = 3
+     */
+    role: Role;
+    /**
+     * @generated from protobuf field: bool active = 4
+     */
+    active: boolean;
+    /**
+     * @generated from protobuf field: bool online = 5
+     */
+    online: boolean;
+    /**
+     * @generated from protobuf field: int32 servers_count = 6
+     */
+    servers_count: number;
+    /**
+     * @generated from protobuf field: int32 databases_count = 7
+     */
+    databases_count: number;
+    /**
+     * @generated from protobuf field: int32 applications_count = 8
+     */
+    applications_count: number;
+    /**
+     * @generated from protobuf field: int32 desktops_count = 9
+     */
+    desktops_count: number;
+    /**
+     * @generated from protobuf field: int32 containers_count = 10
+     */
+    containers_count: number;
+    /**
+     * @generated from protobuf field: int32 clouds_count = 11
+     */
+    clouds_count: number;
 }
 /**
  * rpc ProjectMember
@@ -746,7 +795,7 @@ class ProjectMembers_Response$Type extends MessageType<ProjectMembers_Response> 
     constructor() {
         super("membermessage.ProjectMembers.Response", [
             { no: 1, name: "total", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 2, name: "members", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => ProjectMember_Response }
+            { no: 2, name: "members", kind: "message", repeat: 2 /*RepeatType.UNPACKED*/, T: () => ProjectMembers_Item }
         ]);
     }
 }
@@ -754,6 +803,28 @@ class ProjectMembers_Response$Type extends MessageType<ProjectMembers_Response> 
  * @generated MessageType for protobuf message membermessage.ProjectMembers.Response
  */
 export const ProjectMembers_Response = new ProjectMembers_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ProjectMembers_Item$Type extends MessageType<ProjectMembers_Item> {
+    constructor() {
+        super("membermessage.ProjectMembers.Item", [
+            { no: 1, name: "member_id", kind: "scalar", localName: "member_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "role", kind: "enum", T: () => ["profileenum.Role", Role] },
+            { no: 4, name: "active", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 5, name: "online", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 6, name: "servers_count", kind: "scalar", localName: "servers_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 7, name: "databases_count", kind: "scalar", localName: "databases_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 8, name: "applications_count", kind: "scalar", localName: "applications_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 9, name: "desktops_count", kind: "scalar", localName: "desktops_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 10, name: "containers_count", kind: "scalar", localName: "containers_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 11, name: "clouds_count", kind: "scalar", localName: "clouds_count", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message membermessage.ProjectMembers.Item
+ */
+export const ProjectMembers_Item = new ProjectMembers_Item$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ProjectMember$Type extends MessageType<ProjectMember> {
     constructor() {
