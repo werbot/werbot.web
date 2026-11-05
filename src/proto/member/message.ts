@@ -145,6 +145,30 @@ export interface ProjectMember_Response {
      * @generated from protobuf field: google.protobuf.Timestamp created_at = 15
      */
     created_at?: Timestamp;
+    /**
+     * @generated from protobuf field: int32 servers_count = 16
+     */
+    servers_count: number;
+    /**
+     * @generated from protobuf field: int32 databases_count = 17
+     */
+    databases_count: number;
+    /**
+     * @generated from protobuf field: int32 applications_count = 18
+     */
+    applications_count: number;
+    /**
+     * @generated from protobuf field: int32 desktops_count = 19
+     */
+    desktops_count: number;
+    /**
+     * @generated from protobuf field: int32 containers_count = 20
+     */
+    containers_count: number;
+    /**
+     * @generated from protobuf field: int32 clouds_count = 21
+     */
+    clouds_count: number;
 }
 /**
  * rpc AddProjectMember
@@ -773,7 +797,13 @@ class ProjectMember_Response$Type extends MessageType<ProjectMember_Response> {
             { no: 12, name: "locked_at", kind: "message", localName: "locked_at", T: () => Timestamp, options: { "ghoster.secret": true } },
             { no: 13, name: "archived_at", kind: "message", localName: "archived_at", T: () => Timestamp, options: { "ghoster.secret": true } },
             { no: 14, name: "updated_at", kind: "message", localName: "updated_at", T: () => Timestamp, options: { "ghoster.secret": true } },
-            { no: 15, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp }
+            { no: 15, name: "created_at", kind: "message", localName: "created_at", T: () => Timestamp },
+            { no: 16, name: "servers_count", kind: "scalar", localName: "servers_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 17, name: "databases_count", kind: "scalar", localName: "databases_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 18, name: "applications_count", kind: "scalar", localName: "applications_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 19, name: "desktops_count", kind: "scalar", localName: "desktops_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 20, name: "containers_count", kind: "scalar", localName: "containers_count", T: 5 /*ScalarType.INT32*/ },
+            { no: 21, name: "clouds_count", kind: "scalar", localName: "clouds_count", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }

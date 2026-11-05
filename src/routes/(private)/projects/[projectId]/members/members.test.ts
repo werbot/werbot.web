@@ -79,7 +79,22 @@ describe("project members routes", () => {
       data: {
         result: {
           total: 1,
-          members: [{ member_id: "member-1", name: "Carla", online: true, schemes_count: 2, role: 1, active: true }]
+          members: [
+            {
+              member_id: "member-1",
+              name: "Carla",
+              online: true,
+              role: 1,
+              active: true,
+              servers_count: 2,
+              databases_count: 3,
+              applications_count: 4,
+              desktops_count: 5,
+              containers_count: 6,
+              clouds_count: 7
+            },
+            { member_id: "member-2", name: "Dora", online: false, role: 1, active: false }
+          ]
         }
       }
     });
@@ -99,7 +114,13 @@ describe("project members routes", () => {
     await waitFor(() => {
       expect(screen.getByText("Carla")).toBeInTheDocument();
     });
-    expect(container.querySelector("tbody tr td:nth-child(3)")?.textContent).toBe("2");
+    const rows = container.querySelectorAll("tbody tr");
+    const rowCounts = (row: Element): (string | null)[] =>
+      Array.from(row.querySelectorAll("td"))
+        .slice(2, 8)
+        .map((cell) => cell.textContent);
+    expect(rowCounts(rows[0])).toEqual(["2", "3", "4", "5", "6", "7"]);
+    expect(rowCounts(rows[1])).toEqual(["0", "0", "0", "0", "0", "0"]);
 
     const hrefs = Array.from(container.querySelectorAll('[role="tab"] a')).map((link) => link.getAttribute("href"));
     expect(hrefs).toEqual([`/projects/${projectId}/members`, `/projects/${projectId}/members/invites`]);

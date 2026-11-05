@@ -125,12 +125,12 @@
               </div>
             </td>
             <td>{item.name}</td>
-            <td>{item.schemes_count}</td>
-            <td>999</td>
-            <td>999</td>
-            <td>999</td>
-            <td>999</td>
-            <td>999</td>
+            <td>{item.servers_count ?? 0}</td>
+            <td>{item.databases_count ?? 0}</td>
+            <td>{item.applications_count ?? 0}</td>
+            <td>{item.desktops_count ?? 0}</td>
+            <td>{item.containers_count ?? 0}</td>
+            <td>{item.clouds_count ?? 0}</td>
             <td class="flex items-center">
               <Badge name={Role[item.role]} />
             </td>
