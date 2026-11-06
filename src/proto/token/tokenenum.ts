@@ -69,7 +69,11 @@ export enum Action {
     /**
      * @generated from protobuf enum value: access = 8;
      */
-    access = 8
+    access = 8,
+    /**
+     * @generated from protobuf enum value: connect = 9;
+     */
+    connect = 9
 }
 /**
  * @generated from protobuf enum token.enum.Status

@@ -230,8 +230,11 @@ describe("servers routes", () => {
     expect(elements).toHaveLength(4);
     expect(elements[0].querySelector("a")).toHaveAttribute("href", `/projects/${projectId}/servers/add/server_ssh`);
     expect(elements[0].querySelector("div")).toHaveTextContent("SSH");
-    expect(elements.slice(1).map((item) => item.classList.contains("disable"))).toEqual([true, true, true]);
-    expect(elements.slice(1).map((item) => item.querySelector("div")?.textContent)).toEqual(["Telnet", "TCP", "UDP"]);
+    expect(elements[1].querySelector("a")).toHaveAttribute("href", `/projects/${projectId}/servers/add/server_telnet`);
+    expect(elements[1].querySelector("div")).toHaveTextContent("Telnet");
+    expect(elements[2].classList.contains("disable")).toBe(true);
+    expect(elements[3].classList.contains("disable")).toBe(true);
+    expect(elements.slice(2).map((item) => item.querySelector("div")?.textContent)).toEqual(["TCP", "UDP"]);
     expect(document.title).toBe("Step 1: Select the scheme you want to add");
 
     step1.unmount();
@@ -264,6 +267,297 @@ describe("servers routes", () => {
     expect(document.title).toBe("Step 2: Fill in the fields to connect");
 
     expect(gotoMock).not.toHaveBeenCalled();
+  });
+
+  it("server list renders telnet schemes", async () => {
+    const getMock = vi.fn().mockResolvedValue({
+      data: {
+        result: {
+          total: 1,
+          schemes: [
+            {
+              scheme_id: serverId,
+              title: "Telnet server",
+              online: false,
+              count_members: 0,
+              address: "10.0.0.1",
+              auth_method: 1,
+              scheme_type: 104,
+              active: true
+            }
+          ]
+        }
+      }
+    });
+    apiMock.mockReturnValue(apiClient({ GET: getMock }));
+
+    setPageState(`/projects/${projectId}/servers`, { projectId });
+    render(Servers);
+    await tick();
+
+    await waitFor(() => {
+      expect(screen.getByText("server_telnet")).toBeInTheDocument();
+    });
+  });
+
+  it("server delete removes the scheme through the generic endpoint", async () => {
+    setPageState(`${serverBase}/destroy`, { projectId, serverId });
+
+    const deleteMock = vi.fn().mockResolvedValue({ data: { message: "Scheme deleted" } });
+    apiMock.mockReturnValue(apiClient({ DELETE: deleteMock }));
+
+    render(ServerDestroy);
+    await tick();
+
+    await fireEvent.click(screen.getByRole("button", { name: "Delete this server" }));
+
+    await waitFor(() => {
+      expect(deleteMock).toHaveBeenCalledWith(`/v1/schemes/${projectId}/${serverId}`);
+      expect(gotoMock).toHaveBeenCalledWith(`/projects/${projectId}/servers`);
+    });
+  });
+
+  it("server add creates a telnet scheme with nested credentials", async () => {
+    setPageState(`/projects/${projectId}/servers/add/server_telnet`, { projectId, scheme: "server_telnet" });
+
+    const postMock = vi.fn().mockResolvedValue({ data: { message: "Server added" } });
+    apiMock.mockReturnValue(apiClient({ POST: postMock }));
+
+    const { container } = render(ServersAddScheme);
+    await tick();
+
+    expect(container.querySelector(".form-dropdown")).toBeNull();
+    const inputByLabel = (label: string): HTMLInputElement => {
+      const field = screen.getByText(label).closest(".form-control");
+      expect(field).not.toBeNull();
+      return field?.querySelector("input") as HTMLInputElement;
+    };
+
+    await fireEvent.input(inputByLabel("Address*"), { target: { value: " 10.0.0.1 " } });
+    await fireEvent.input(inputByLabel("Port*"), { target: { value: "23" } });
+    await fireEvent.input(inputByLabel("Login*"), { target: { value: " ubuntu " } });
+    await fireEvent.input(inputByLabel("Password"), { target: { value: " s3cret " } });
+    await fireEvent.click(screen.getByRole("button", { name: "Add server" }));
+
+    await waitFor(() => {
+      expect(postMock).toHaveBeenCalledTimes(1);
+    });
+
+    const body = postMock.mock.calls[0][2];
+    expect(body.scheme.server_telnet).toEqual({
+      address: "10.0.0.1",
+      port: 23,
+      access: { login: "ubuntu", password: "s3cret" }
+    });
+  });
+
+  it("server setting saves a telnet scheme with nested credentials", async () => {
+    setPageState(`${serverBase}/setting`, { projectId, serverId });
+
+    const getMock = vi.fn().mockImplementation((url: string) => {
+      if (url.endsWith("/access")) {
+        return Promise.resolve({
+          data: {
+            result: {
+              scheme: {
+                server_telnet: {
+                  address: "10.0.0.1",
+                  port: 23,
+                  access: { login: "ubuntu", password: "***" }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      return Promise.resolve({
+        data: {
+          result: {
+            title: "Telnet server",
+            description: "telnet target",
+            active: true,
+            audit: false,
+            scheme_type: 104,
+            auth_method: 1
+          }
+        }
+      });
+    });
+    const updateMock = vi.fn().mockResolvedValue({ data: { message: "Scheme updated" } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock, UPDATE: updateMock }));
+
+    const { container } = render(ServerSetting);
+    await tick();
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledWith(`/v1/schemes/${projectId}/${serverId}/access`);
+    });
+    await waitFor(() => {
+      expect(screen.getByDisplayValue("ubuntu")).toBeInTheDocument();
+    });
+    const password = container.querySelector('input[type="password"]') as HTMLInputElement;
+    await fireEvent.input(password, { target: { value: "newsecret" } });
+    await fireEvent.click(screen.getByRole("button", { name: "Update password" }));
+
+    await waitFor(() => {
+      expect(updateMock).toHaveBeenCalledTimes(1);
+    });
+
+    const body = updateMock.mock.calls[0][2];
+    expect(body.scheme.server_telnet.access).toEqual({ login: "ubuntu", password: "newsecret" });
+    expect(body.scheme.server_telnet).not.toHaveProperty("password");
+  });
+
+  it("server detail generates a connect token for telnet only", async () => {
+    setPageState(serverBase, { projectId, serverId });
+
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { scheme_type: 104 } } });
+    const postMock = vi.fn().mockResolvedValue({
+      data: {
+        message: "Connect token",
+        result: { token: "tok-1", expired_at: "2026-11-06T12:05:00Z" }
+      }
+    });
+    apiMock.mockReturnValue(apiClient({ GET: getMock, POST: postMock }));
+
+    const telnet = render(ServerDetail);
+    await tick();
+    await waitFor(() => {
+      expect(screen.getByText("Telnet connection")).toBeInTheDocument();
+    });
+
+    await fireEvent.click(screen.getByRole("button", { name: "Generate token" }));
+    await waitFor(() => {
+      expect(postMock).toHaveBeenCalledWith(`/v1/tokens/scheme/${serverId}/connect`);
+    });
+    expect(screen.getByDisplayValue("tok-1")).toBeInTheDocument();
+    expect(screen.getByText(/Expires:/)).toBeInTheDocument();
+    telnet.unmount();
+
+    getMock.mockResolvedValue({ data: { result: { scheme_type: 103 } } });
+    render(ServerDetail);
+    await tick();
+    await waitFor(() => {
+      expect(getMock).toHaveBeenCalledTimes(2);
+    });
+    expect(screen.queryByText("Telnet connection")).not.toBeInTheDocument();
+  });
+
+  it("server add requires a telnet password", async () => {
+    setPageState(`/projects/${projectId}/servers/add/server_telnet`, { projectId, scheme: "server_telnet" });
+
+    const postMock = vi.fn().mockResolvedValue({ data: { message: "Server added" } });
+    apiMock.mockReturnValue(apiClient({ POST: postMock }));
+
+    render(ServersAddScheme);
+    await tick();
+
+    const inputByLabel = (label: string): HTMLInputElement => {
+      const field = screen.getByText(label).closest(".form-control");
+      expect(field).not.toBeNull();
+      return field?.querySelector("input") as HTMLInputElement;
+    };
+
+    await fireEvent.input(inputByLabel("Address*"), { target: { value: "10.0.0.1" } });
+    await fireEvent.input(inputByLabel("Port*"), { target: { value: "23" } });
+    await fireEvent.input(inputByLabel("Login*"), { target: { value: "ubuntu" } });
+    await fireEvent.click(screen.getByRole("button", { name: "Add server" }));
+    await tick();
+
+    expect(postMock).not.toHaveBeenCalled();
+    expect(screen.getByText("password is required")).toBeInTheDocument();
+  });
+
+  it("server add redirects unsupported server schemes", async () => {
+    setPageState(`/projects/${projectId}/servers/add/server_tcp`, { projectId, scheme: "server_tcp" });
+
+    render(ServersAddScheme);
+    await tick();
+
+    await waitFor(() => {
+      expect(gotoMock).toHaveBeenCalledWith(`/projects/${projectId}/servers/add`);
+    });
+  });
+
+  it("server setting preserves the telnet password when the field is empty", async () => {
+    setPageState(`${serverBase}/setting`, { projectId, serverId });
+
+    const getMock = vi.fn().mockImplementation((url: string) => {
+      if (url.endsWith("/access")) {
+        return Promise.resolve({
+          data: {
+            result: {
+              scheme: {
+                server_telnet: {
+                  address: "10.0.0.1",
+                  port: 23,
+                  access: { login: "ubuntu", password: "***" }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      return Promise.resolve({
+        data: {
+          result: {
+            title: "Telnet server",
+            description: "telnet target",
+            active: true,
+            audit: false,
+            scheme_type: 104,
+            auth_method: 1
+          }
+        }
+      });
+    });
+    const updateMock = vi.fn().mockResolvedValue({ data: { message: "Scheme updated" } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock, UPDATE: updateMock }));
+
+    render(ServerSetting);
+    await tick();
+    await waitFor(() => {
+      expect(screen.getByDisplayValue("ubuntu")).toBeInTheDocument();
+    });
+
+    await fireEvent.click(screen.getByRole("button", { name: "Update" }));
+
+    await waitFor(() => {
+      expect(updateMock).toHaveBeenCalledTimes(3);
+    });
+
+    const schemeCall = updateMock.mock.calls.find((call) => call[2]?.scheme);
+    expect(schemeCall?.[2].scheme.server_telnet.access).toEqual({ login: "ubuntu", password: "" });
+  });
+
+  it("server detail shows token API errors without keeping a token", async () => {
+    setPageState(serverBase, { projectId, serverId });
+
+    const getMock = vi.fn().mockResolvedValue({ data: { result: { scheme_type: 104 } } });
+    const postMock = vi.fn().mockResolvedValue({ error: { code: 500, result: "Cannot create token" } });
+    apiMock.mockReturnValue(apiClient({ GET: getMock, POST: postMock }));
+
+    const warning = vi.fn();
+    window.addEventListener("connextWarning", warning);
+
+    render(ServerDetail);
+    await tick();
+    await waitFor(() => {
+      expect(screen.getByText("Telnet connection")).toBeInTheDocument();
+    });
+
+    await fireEvent.click(screen.getByRole("button", { name: "Generate token" }));
+
+    await waitFor(() => {
+      expect(warning).toHaveBeenCalled();
+    });
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "Generate token" })).toBeInTheDocument();
+    });
+    expect(screen.queryByDisplayValue("tok-1")).not.toBeInTheDocument();
+
+    window.removeEventListener("connextWarning", warning);
   });
 
   it("server add trims the access password and generates one key per auth switch", async () => {

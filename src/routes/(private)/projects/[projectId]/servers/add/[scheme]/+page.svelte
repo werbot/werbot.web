@@ -33,6 +33,8 @@
 
   let copied = $state(false);
 
+  const supportedServerSchemes = ["server_ssh", "server_telnet"];
+
   const resolveSchemeKey = (value: string | null): string | null => {
     if (!value) {
       return null;
@@ -41,17 +43,18 @@
     const numericValue = Number(value);
     const schemeName = Number.isNaN(numericValue) ? value : ServerScheme[numericValue];
 
-    return typeof schemeName === "string" && schemeName.startsWith("server_") ? schemeName : null;
+    return typeof schemeName === "string" && supportedServerSchemes.includes(schemeName) ? schemeName : null;
   };
 
-  const showSsh = $derived(resolveSchemeKey(scheme) === "server_ssh");
+  const showServerFields = $derived(["server_ssh", "server_telnet"].includes(resolveSchemeKey(scheme) ?? ""));
   const schemeKey = $derived(resolveSchemeKey(scheme) ?? "server_ssh");
+  const isTelnet = $derived(schemeKey === "server_telnet");
   const authKey = $derived(pageData.base.auth === AuthMethod.key ? "key" : "password");
   const errorKeys = $derived({
     address: `scheme.${schemeKey}.address`,
     port: `scheme.${schemeKey}.port`,
-    login: `scheme.${schemeKey}.${authKey}.login`,
-    password: `scheme.${schemeKey}.${authKey}.password`,
+    login: isTelnet ? `scheme.${schemeKey}.access.login` : `scheme.${schemeKey}.${authKey}.login`,
+    password: isTelnet ? `scheme.${schemeKey}.access.password` : `scheme.${schemeKey}.${authKey}.password`,
     key: `scheme.${schemeKey}.key.key_id`
   });
 
@@ -59,6 +62,21 @@
     const { base } = pageData;
     const address = base.address?.trim();
     const login = base.login?.trim();
+    const port = base.port === "" || base.port == null ? base.port : Number(base.port);
+
+    if (isTelnet) {
+      return {
+        [schemeKey]: {
+          address,
+          port,
+          access: {
+            login,
+            password: base.access.password?.trim()
+          }
+        }
+      };
+    }
+
     const auth =
       base.auth === AuthMethod.key
         ? { key: { login, key_id: base.access.key_id } }
@@ -67,7 +85,7 @@
     return {
       [schemeKey]: {
         address,
-        port: base.port === "" || base.port == null ? base.port : Number(base.port),
+        port,
         // SSH keeps the auth method as a sibling of address/port; other server
         // types nest it under `access`.
         ...(schemeKey === "server_ssh" ? auth : { access: auth })
@@ -134,6 +152,12 @@
   });
 
   const onSubmit = async (): Promise<void> => {
+    if (isTelnet && !pageData.base.access.password?.trim()) {
+      pageData.error[errorKeys.password] = "password is required";
+      showMessage("password is required", "connextWarning");
+      return;
+    }
+
     try {
       pageData.loading = true;
 
@@ -168,6 +192,10 @@
     pageData.base.access = {};
     pageData.tmp.new_key = false;
 
+    if (isTelnet) {
+      pageData.base.auth = AuthMethod.password;
+    }
+
     if (!scheme || !resolveSchemeKey(scheme)) {
       void goto(routePath("projects-projectId-servers-add", { projectId }));
     }
@@ -191,8 +219,8 @@
       event.preventDefault();
     }}
   >
-    <!-- SSH -->
-    {#if showSsh}
+    <!-- SSH / Telnet -->
+    {#if showServerFields}
       <div class="content">
         <Input bind:value={pageData.base.title} name="Title" error={pageData.error["title"]} class="flex-grow" />
 
@@ -241,18 +269,20 @@
 
     <div class="divider before:bg-gray-100 after:bg-gray-100"></div>
     <div class="content">
-      <Select
-        bind:value={pageData.base.auth}
-        name="Auth"
-        options={[
-          { value: AuthMethod.password, label: "Password" },
-          { value: AuthMethod.key, label: "Key" }
-        ]}
-        error={pageData.error["auth"]}
-        class="mr-5"
-      />
+      {#if !isTelnet}
+        <Select
+          bind:value={pageData.base.auth}
+          name="Auth"
+          options={[
+            { value: AuthMethod.password, label: "Password" },
+            { value: AuthMethod.key, label: "Key" }
+          ]}
+          error={pageData.error["auth"]}
+          class="mr-5"
+        />
+      {/if}
 
-      {#if pageData.base.auth == AuthMethod.password}
+      {#if isTelnet || pageData.base.auth == AuthMethod.password}
         <div>
           <Input
             bind:value={pageData.base.access.password}
@@ -264,7 +294,7 @@
         </div>
       {/if}
 
-      {#if pageData.base.auth == AuthMethod.key}
+      {#if !isTelnet && pageData.base.auth == AuthMethod.key}
         <div class="flex-grow">
           <div class="flex">
             <Input

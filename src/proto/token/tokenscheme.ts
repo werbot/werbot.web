@@ -171,6 +171,72 @@ export interface AddTokenSchemeAccess_Response {
     token: string;
 }
 /**
+ * rpc AddTokenSchemeConnect
+ *
+ * @generated from protobuf message token.scheme.AddTokenSchemeConnect
+ */
+export interface AddTokenSchemeConnect {
+}
+/**
+ * @generated from protobuf message token.scheme.AddTokenSchemeConnect.Request
+ */
+export interface AddTokenSchemeConnect_Request {
+    /**
+     * @generated from protobuf field: string profile_id = 1
+     */
+    profile_id: string;
+    /**
+     * @generated from protobuf field: string scheme_id = 2
+     */
+    scheme_id: string;
+}
+/**
+ * @generated from protobuf message token.scheme.AddTokenSchemeConnect.Response
+ */
+export interface AddTokenSchemeConnect_Response {
+    /**
+     * @generated from protobuf field: string token = 1
+     */
+    token: string;
+    /**
+     * @generated from protobuf field: google.protobuf.Timestamp expired_at = 2
+     */
+    expired_at?: Timestamp;
+}
+/**
+ * rpc UseTokenSchemeConnect
+ *
+ * @generated from protobuf message token.scheme.UseTokenSchemeConnect
+ */
+export interface UseTokenSchemeConnect {
+}
+/**
+ * @generated from protobuf message token.scheme.UseTokenSchemeConnect.Request
+ */
+export interface UseTokenSchemeConnect_Request {
+    /**
+     * @generated from protobuf field: string token = 1
+     */
+    token: string;
+}
+/**
+ * @generated from protobuf message token.scheme.UseTokenSchemeConnect.Response
+ */
+export interface UseTokenSchemeConnect_Response {
+    /**
+     * @generated from protobuf field: string profile_id = 1
+     */
+    profile_id: string;
+    /**
+     * @generated from protobuf field: string scheme_id = 2
+     */
+    scheme_id: string;
+    /**
+     * @generated from protobuf field: string scheme_member_id = 3
+     */
+    scheme_member_id: string;
+}
+/**
  * rpc UpdateSchemeToken
  *
  * @generated from protobuf message token.scheme.UpdateSchemeToken
@@ -222,7 +288,7 @@ class SchemeTokens_Request$Type extends MessageType<SchemeTokens_Request> {
     constructor() {
         super("token.scheme.SchemeTokens.Request", [
             { no: 1, name: "is_admin", kind: "scalar", localName: "is_admin", T: 8 /*ScalarType.BOOL*/ },
-            { no: 2, name: "action", kind: "enum", T: () => ["token.enum.Action", Action], options: { "buf.validate.field": { required: true, enum: { definedOnly: true, in: [3, 7, 8] } } } },
+            { no: 2, name: "action", kind: "enum", T: () => ["token.enum.Action", Action], options: { "buf.validate.field": { required: true, enum: { definedOnly: true, in: [3, 7, 8, 9] } } } },
             { no: 3, name: "status", kind: "enum", T: () => ["token.enum.Status", Status], options: { "buf.validate.field": { ignore: "IGNORE_IF_ZERO_VALUE", enum: { definedOnly: true, notIn: [0] } } } },
             { no: 4, name: "owner_id", kind: "scalar", localName: "owner_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
             { no: 5, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
@@ -326,6 +392,78 @@ class AddTokenSchemeAccess_Response$Type extends MessageType<AddTokenSchemeAcces
  * @generated MessageType for protobuf message token.scheme.AddTokenSchemeAccess.Response
  */
 export const AddTokenSchemeAccess_Response = new AddTokenSchemeAccess_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AddTokenSchemeConnect$Type extends MessageType<AddTokenSchemeConnect> {
+    constructor() {
+        super("token.scheme.AddTokenSchemeConnect", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message token.scheme.AddTokenSchemeConnect
+ */
+export const AddTokenSchemeConnect = new AddTokenSchemeConnect$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AddTokenSchemeConnect_Request$Type extends MessageType<AddTokenSchemeConnect_Request> {
+    constructor() {
+        super("token.scheme.AddTokenSchemeConnect.Request", [
+            { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } },
+            { no: 2, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message token.scheme.AddTokenSchemeConnect.Request
+ */
+export const AddTokenSchemeConnect_Request = new AddTokenSchemeConnect_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AddTokenSchemeConnect_Response$Type extends MessageType<AddTokenSchemeConnect_Response> {
+    constructor() {
+        super("token.scheme.AddTokenSchemeConnect.Response", [
+            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "expired_at", kind: "message", localName: "expired_at", T: () => Timestamp }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message token.scheme.AddTokenSchemeConnect.Response
+ */
+export const AddTokenSchemeConnect_Response = new AddTokenSchemeConnect_Response$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UseTokenSchemeConnect$Type extends MessageType<UseTokenSchemeConnect> {
+    constructor() {
+        super("token.scheme.UseTokenSchemeConnect", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message token.scheme.UseTokenSchemeConnect
+ */
+export const UseTokenSchemeConnect = new UseTokenSchemeConnect$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UseTokenSchemeConnect_Request$Type extends MessageType<UseTokenSchemeConnect_Request> {
+    constructor() {
+        super("token.scheme.UseTokenSchemeConnect.Request", [
+            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "buf.validate.field": { required: true, string: { uuid: true } } } }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message token.scheme.UseTokenSchemeConnect.Request
+ */
+export const UseTokenSchemeConnect_Request = new UseTokenSchemeConnect_Request$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UseTokenSchemeConnect_Response$Type extends MessageType<UseTokenSchemeConnect_Response> {
+    constructor() {
+        super("token.scheme.UseTokenSchemeConnect.Response", [
+            { no: 1, name: "profile_id", kind: "scalar", localName: "profile_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "scheme_id", kind: "scalar", localName: "scheme_id", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "scheme_member_id", kind: "scalar", localName: "scheme_member_id", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message token.scheme.UseTokenSchemeConnect.Response
+ */
+export const UseTokenSchemeConnect_Response = new UseTokenSchemeConnect_Response$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateSchemeToken$Type extends MessageType<UpdateSchemeToken> {
     constructor() {

@@ -143,6 +143,10 @@ export async function createSchemeToken(schemeId: string, data: { email?: string
   return api().POST(`/v1/tokens/scheme/${schemeId}`, {}, data);
 }
 
+export async function createSchemeConnectToken(schemeId: string): Promise<any> {
+  return api().POST(`/v1/tokens/scheme/${schemeId}/connect`);
+}
+
 export function tokenAcceptLink(token: string): string {
   return `${window.location.origin}/invite/token/${token}`;
 }
