@@ -35,9 +35,16 @@
           <div>SSH</div>
         </a>
       </li>
-      <li class="element disable">
-        <img src="/img/schemes/servers/telnet.svg" alt="" />
-        <div>Telnet</div>
+      <li class="element">
+        <a
+          href={routePath("projects-projectId-servers-add-scheme", {
+            projectId,
+            scheme: "server_telnet"
+          })}
+        >
+          <img src="/img/schemes/servers/telnet.svg" alt="" />
+          <div>Telnet</div>
+        </a>
       </li>
       <li class="element disable">
         <img src="/img/schemes/servers/tcp.svg" alt="" />

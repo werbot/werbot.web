@@ -3,6 +3,10 @@
 // @ts-nocheck
 import { UpdateSchemeToken_Response } from "./tokenscheme";
 import { UpdateSchemeToken_Request } from "./tokenscheme";
+import { UseTokenSchemeConnect_Response } from "./tokenscheme";
+import { UseTokenSchemeConnect_Request } from "./tokenscheme";
+import { AddTokenSchemeConnect_Response } from "./tokenscheme";
+import { AddTokenSchemeConnect_Request } from "./tokenscheme";
 import { AddTokenSchemeAccess_Response } from "./tokenscheme";
 import { AddTokenSchemeAccess_Request } from "./tokenscheme";
 import { AddTokenSchemeAdd_Response } from "./tokenscheme";
@@ -50,5 +54,7 @@ export const TokenHandlers = new ServiceType("token.TokenHandlers", [
     { name: "SchemeTokens", options: {}, I: SchemeTokens_Request, O: SchemeTokens_Response },
     { name: "AddTokenSchemeAdd", options: {}, I: AddTokenSchemeAdd_Request, O: AddTokenSchemeAdd_Response },
     { name: "AddTokenSchemeAccess", options: {}, I: AddTokenSchemeAccess_Request, O: AddTokenSchemeAccess_Response },
+    { name: "AddTokenSchemeConnect", options: {}, I: AddTokenSchemeConnect_Request, O: AddTokenSchemeConnect_Response },
+    { name: "UseTokenSchemeConnect", options: {}, I: UseTokenSchemeConnect_Request, O: UseTokenSchemeConnect_Response },
     { name: "UpdateSchemeToken", options: {}, I: UpdateSchemeToken_Request, O: UpdateSchemeToken_Response }
 ]);

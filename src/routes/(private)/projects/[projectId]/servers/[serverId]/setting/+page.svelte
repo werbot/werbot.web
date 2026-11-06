@@ -32,6 +32,7 @@
   const params = $derived(page.params as { projectId?: string; serverId?: string });
   const projectId = $derived(params.projectId ?? "");
   const serverId = $derived(params.serverId ?? "");
+  const isTelnet = $derived(pageData.tmp.schemeKey === "server_telnet");
 
   let copied = $state(false);
 
@@ -100,7 +101,10 @@
     switch (base.host.auth) {
       case AuthMethod.password:
         // The backend keeps the stored password when the field is left empty.
-        access = { password: { login, password: String(base.access.password ?? "").trim() } };
+        access =
+          schemeKey === "server_telnet"
+            ? { login, password: String(base.access.password ?? "").trim() }
+            : { password: { login, password: String(base.access.password ?? "").trim() } };
         break;
       case AuthMethod.key:
         if (base.access.key_id) {
@@ -457,7 +461,7 @@
           loading={pageData.tmp.loading_key}
           onclick={onUpdateAccess}
         >
-          Update key
+          {isTelnet ? "Update password" : "Update key"}
         </Button>
       {/if}
     </form>
